@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2019 Jalasoft.
  *
  * This software is the confidential and proprietary information of Jalasoft.
@@ -29,7 +29,7 @@ public class Main {
      * @param args receives String array
      */
     public static void main(String[] args) {
-        System.out.println("Wellcome to JFC");
+        System.out.println("Welcome to JFC");
         SpringApplication.run(Main.class, args);
     }
 }
