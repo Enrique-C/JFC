@@ -1,4 +1,3 @@
-
 /*******************************************************************************
  * Copyright (c) 2019. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
  * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
@@ -6,24 +5,18 @@
  * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
  * Vestibulum commodo. Ut rhoncus gravida arcu.
  ******************************************************************************/
-
-package com.jalasoft.jfc;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 /**
- * @author Luis
+ *
  */
-@SpringBootApplication
-public class Main {
+package com.jalasoft.jfc.controller;
 
-    /**
-     * Main method print a message
-     * @param args receives String array
-     */
-    public static void main(String[] args) {
-        System.out.println("Hello World");
-        SpringApplication.run(Main.class, args);
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class HelloControler {
+    @RequestMapping("/hello")
+    public String home() {
+        return "HolaMundo";
     }
 }
