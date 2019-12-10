@@ -1,4 +1,3 @@
-
 /**
  * Copyright (c) 2019 Jalasoft.
  *
@@ -8,7 +7,6 @@
  * accordance with the terms of the license agreement you entered into
  * with Jalasoft.
  */
-
 package com.jalasoft.jfc;
 
 import org.springframework.boot.SpringApplication;
