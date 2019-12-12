@@ -22,7 +22,7 @@ public class Main {
      * @param args receives String array
      */
     public static void main(String[] args){
-        System.out.println("Wellcome toJFC");
+        System.out.println("Wellcome to JFC");
         SpringApplication.run(Main.class, args);
     }
 }
