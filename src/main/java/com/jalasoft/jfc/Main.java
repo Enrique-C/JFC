@@ -13,7 +13,7 @@ package com.jalasoft.jfc;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-/***
+/**
  * Executes Sprint Boot to Web Application
  * @version 0.1
  * @author Enrique Carrizales
@@ -22,6 +22,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Main {
     /**
      * Main method executes SprintApplication
+     *
      * @param args receives String array
      */
     public static void main(String[] args) {
