@@ -35,35 +35,30 @@ public class ImageConverterController {
     /**
      * convertImage method receives a image to covert.
      * @param file contains the image file.
-     * @param param1 contains a image param.
-     * @param param2 contains a image param.
-     * @param param3 contains a image param.
-     * @param param4 contains a image param.
-     * @param param5 contains a image param.
-     * @param param6 contains a image param.
-     * @param param7 contains a image param.
-     * @param param8 contains a image param.
+     * @param inputPathFile contains the input path of the image.
+     * @param outputPathFile contains the output path of image converted.
+     * @param outputPathThumbnail contains the output path of thumbnail converted.
+     * @param widthOfFile number of image width.
+     * @param heightOfFile number of image height.
+     * @param whiteBlankPercentage percentage of whiteBlanck.
+     * @param degreesToRotate degrees of rotate.
      * @return get the path of the upload file.
      */
     @PostMapping()
     public String convertImage(
             @RequestParam("file") MultipartFile file,
-            @RequestParam String param1,
-            @RequestParam String param2,
-            @RequestParam String param3,
-            @RequestParam String param4,
-            @RequestParam String param5,
-            @RequestParam String param6,
-            @RequestParam String param7,
-            @RequestParam String param8) {
+            @RequestParam String inputPathFile,
+            @RequestParam String outputPathFile,
+            @RequestParam String outputPathThumbnail,
+            @RequestParam String widthOfFile,
+            @RequestParam String heightOfFile,
+            @RequestParam String whiteBlankPercentage,
+            @RequestParam String degreesToRotate) {
 
         try {
             byte[] bytes = file.getBytes();
-
             Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
-
             Files.write(path, bytes);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
