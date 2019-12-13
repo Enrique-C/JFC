@@ -24,7 +24,6 @@ public class Main {
 
     /**
      * Main method executes SprintApplication
-     *
      * @param args receives String array
      */
     public static void main(String[] args) {
