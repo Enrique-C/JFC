@@ -19,7 +19,6 @@ import org.apache.pdfbox.rendering.ImageType;
  * @author Alan Escalera
  */
 
-
 public class PdfParam {
     private String inputPathFile;
     private String outputPathFile;
