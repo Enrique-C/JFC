@@ -6,5 +6,4 @@ public class Param {
   private String InputPathFile;   //Input path file
   private String OutputPathFile;  //Output path file
   private String outputFileName;  //Name the file that will be converted
-
 }
