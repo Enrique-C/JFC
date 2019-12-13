@@ -11,7 +11,7 @@ package com.jalasoft.jfc;
 
 /**
 *
-*  This class content the attributes in common of Class PdfParam, VideoParam, ImageParam.
+*  This class contend the attributes in common of Class PdfParam, VideoParam, ImageParam.
 *
 * @version 1.0  Dic 2019
 *
