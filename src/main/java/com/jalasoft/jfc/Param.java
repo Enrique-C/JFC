@@ -1,13 +1,10 @@
 /*
+ * Copyright (c) 2019 Jalasoft.
  *
- *  Copyright (c) 2019 Jalasoft.
- *
- *  This software is the confidential and proprietary information of Jalasoft.
- *  ("Confidential Information"). You shall not
- *  disclose such Confidential Information and shall use it only in
- *  accordance with the terms of the license agreement you entered into
- *  with Jalasoft.
- * /
+ * This software is the confidential and proprietary information of Jalasoft.
+ *  ("Confidential Information"). You shall not disclose such Confidential
+ *  Information and shall use it only in accordance with the terms of the
+ *  license agreement you entered into with Jalasoft.
  */
 
 package com.jalasoft.jfc;
@@ -22,7 +19,7 @@ package com.jalasoft.jfc;
 */
 public class Param {
 
-  private String InputPathFile;   //Input path file.
-  private String OutputPathFile;  //Output path file.
+  private String InputPathFile;   //It is the input of the file that wil be converted.
+  private String OutputPathFile;  //It is the output of the file that wil be converted.
   private String outputFileName;  //Name the file that will be converted.
 }
