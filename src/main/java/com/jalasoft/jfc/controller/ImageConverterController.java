@@ -29,7 +29,8 @@ import java.io.IOException;
 @RequestMapping(path = "/convertImage")
 public class ImageConverterController {
 
-    private static final String UPLOADED_FOLDER = "src/main/java/com/jalasoft/jfc/resources/";  //Constant that contains the upload file path
+    private static final String UPLOADED_FOLDER =
+            "src/main/java/com/jalasoft/jfc/resources/";  //Constant upload file
 
     /**
      * convertImage method receives a image to covert.
@@ -44,7 +45,7 @@ public class ImageConverterController {
      * @param param8 contains a image param.
      * @return get the path of the upload file.
      */
-    @PostMapping("/addFile")
+    @PostMapping()
     public String convertImage(
             @RequestParam("file") MultipartFile file,
             @RequestParam String param1,
@@ -55,12 +56,13 @@ public class ImageConverterController {
             @RequestParam String param6,
             @RequestParam String param7,
             @RequestParam String param8) {
+
         try {
-            byte[] bytes = file.getBytes(); //receives a file like bytes
+            byte[] bytes = file.getBytes();
 
-            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());    //path to save the image file
+            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
 
-            Files.write(path, bytes);   //save image file in a path
+            Files.write(path, bytes);
 
         } catch (IOException e) {
             e.printStackTrace();
