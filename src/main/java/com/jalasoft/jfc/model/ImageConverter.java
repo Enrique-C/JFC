@@ -21,9 +21,11 @@ import org.im4java.process.ProcessStarter;
  * @version 0.1 11 Dec 2019.
  * @author Oscar Lopez.
  * */
-public class Convert {
-    protected String myPath = "C:\\Program Files (x86)\\ImageMagick-6.3.9-Q8\\"; //path where ImageMagick is installed.
-    private final int THUMBNAILVALUE = 128; //default value for creating thumbnail.
+public class ImageConverter {
+    //path where ImageMagick is installed.
+    protected String myPath = "C:\\Program Files (x86)\\ImageMagick-6.3.9-Q8\\";
+    //default value for creating thumbnail.
+    private final int THUMBNAILVALUE = 128;
 
     /**
      * convertImage Method por change a Image format, resize,
@@ -36,20 +38,21 @@ public class Convert {
         verifyDataValues(image);
         boolean returnTrueOrFalse = false;
         try {
-            ConvertCmd cmd = new ConvertCmd(); //Create variable command cmd.
+            ConvertCmd cmd = new ConvertCmd();
+            IMOperation op = new IMOperation();
 
-            IMOperation op = new IMOperation();                //Create the operation, add images and operators/options.
-            op.addImage(image.getInputPathFile());             //Add the original Image.
-            op.resize(image.getWidthOfFile(), image.getHeightOfFile()); //Resize a Image.
-            op.rotate(image.getDegreesToRotate());             //Rotate a Image.
-            op.threshold(image.getWhiteBlankPercentage());     //threshold is for change the Image to White and Black.
-            op.addImage(image.getOutputPathFile());            // Saves the image.
-            cmd.run(op);                                       // Execute the operation.
+            op.addImage(image.getInputPathFile());
+            op.resize(image.getWidthOfFile(), image.getHeightOfFile());
+            op.rotate(image.getDegreesToRotate());
+            op.threshold(image.getWhiteBlankPercentage());
+            op.addImage(image.getOutputPathFile());
+
+            cmd.run(op);
 
             op = new IMOperation();
             op.size(THUMBNAILVALUE);
             op.addImage(image.getInputPathFile());
-            op.thumbnail(THUMBNAILVALUE);                      //thumbnail to create the thumbnail of the image.
+            op.thumbnail(THUMBNAILVALUE);
             op.addImage(image.getOutputPathFile());
             cmd.run(op);
             returnTrueOrFalse = true;
@@ -71,22 +74,11 @@ public class Convert {
      * @param image variable of type Image.
      */
     public void verifyDataValues(ImageParam image) {
-        /**
-         * filename variable obtain input path of file.
-         */
+        //filename variable obtain input path of file.
         String filename = image.getInputPathFile();
-        /**
-         * Info is class to obtain information about of File
-         * imageInfo is variable to save the path of File.
-         */
+        //Info is class to obtain information about of File
         Info imageInfo = null;
         try {
-            /**
-             * Get data of file Image Width, Height.
-             * Give new values to getWidthOfFile, setWidthOfFile,
-             * getWhiteBlankPercentage, getDegreesToRotate to control
-             * values that are not within the permitted range.
-             */
             imageInfo = new Info(filename,true);
             if (image.getWidthOfFile() == 0) {
                 image.setWidthOfFile(imageInfo.getImageWidth());
