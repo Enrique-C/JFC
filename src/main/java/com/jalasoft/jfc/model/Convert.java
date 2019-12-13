@@ -22,14 +22,8 @@ import org.im4java.process.ProcessStarter;
  * @author Oscar Lopez.
  * */
 public class Convert {
-    /**
-     *  myPath = path where ImageMagick is installed.
-     */
-    protected String myPath = "C:\\Program Files (x86)\\ImageMagick-6.3.9-Q8\\";
-    /**
-     *  thumbnailValue = default value for creating thumbnail.
-     */
-    private final int THUMBNAILVALUE = 128;
+    protected String myPath = "C:\\Program Files (x86)\\ImageMagick-6.3.9-Q8\\"; //path where ImageMagick is installed.
+    private final int THUMBNAILVALUE = 128; //default value for creating thumbnail.
 
     /**
      * convertImage Method por change a Image format, resize,
@@ -40,35 +34,30 @@ public class Convert {
     protected boolean convertImage(ImageParam image) {
         ProcessStarter.setGlobalSearchPath(myPath);
         verifyDataValues(image);
+        boolean returnTrueOrFalse = false;
         try {
-            /**
-             *Create varialbe command cmd.
-            */
-            ConvertCmd cmd = new ConvertCmd();
-            /**
-            *Create the operation, add images and operators/options
-             *resize, rotate, threshold is for change the Image to
-             *White and Black, and thumbnail to create the thumbnail
-             *of the image.
-             */
-            IMOperation op = new IMOperation();
-            op.addImage(image.getInputPathFile());
-            op.resize(image.getWidthOfFile(), image.getHeightOfFile());
-            op.rotate(image.getDegreesToRotate());
-            op.threshold(image.getWhiteBlankPercentage());
-            op.addImage(image.getOutputPathFile());
-            // execute the operation
-            cmd.run(op);
+            ConvertCmd cmd = new ConvertCmd(); //Create variable command cmd.
+
+            IMOperation op = new IMOperation();                //Create the operation, add images and operators/options.
+            op.addImage(image.getInputPathFile());             //Add the original Image.
+            op.resize(image.getWidthOfFile(), image.getHeightOfFile()); //Resize a Image.
+            op.rotate(image.getDegreesToRotate());             //Rotate a Image.
+            op.threshold(image.getWhiteBlankPercentage());     //threshold is for change the Image to White and Black.
+            op.addImage(image.getOutputPathFile());            // Saves the image.
+            cmd.run(op);                                       // Execute the operation.
+
             op = new IMOperation();
             op.size(THUMBNAILVALUE);
             op.addImage(image.getInputPathFile());
-            op.thumbnail(THUMBNAILVALUE);
+            op.thumbnail(THUMBNAILVALUE);                      //thumbnail to create the thumbnail of the image.
             op.addImage(image.getOutputPathFile());
             cmd.run(op);
+            returnTrueOrFalse = true;
         }catch(Exception e) {
-            return false;
+            System.out.println(e.getMessage());
+        }finally {
+            return returnTrueOrFalse;
         }
-        return true;
     }
 
     /**
