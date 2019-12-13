@@ -7,7 +7,7 @@
  *  license agreement you entered into with Jalasoft.
  */
 
-package com.jalasoft.jfc;
+package com.jalasoft.jfc.model;
 
 /**
 *
@@ -19,7 +19,7 @@ package com.jalasoft.jfc;
 */
 public class Param {
 
-  private String InputPathFile;   //It is the input of the file that wil be converted.
-  private String OutputPathFile;  //It is the output of the file that wil be converted.
+  private String inputPathFile;   //It is the input of the file that wil be converted.
+  private String outputPathFile;  //It is the output of the file that wil be converted.
   private String outputFileName;  //Name the file that will be converted.
 }
