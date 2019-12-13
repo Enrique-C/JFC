@@ -15,10 +15,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  *
-        Run Sprint Boot to Web Application
+ *  Run Sprint Boot to Web Application
  *
- * @version
-        0.1    * @author Enrique Carrizales */
+ * @version 0.1 13 Dic 2019
+ *
+ * @author Enrique Carrizales
+ */
 @SpringBootApplication
 public class Main {
 
