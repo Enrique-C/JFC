@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2019 Jalasoft.
  *
  * This software is the confidential and proprietary information of Jalasoft.
@@ -11,7 +11,7 @@ package com.jalasoft.jfc;
 
 /**
 *
-*  Param Class.
+*  This class content the attributes in common of Class PdfParam, VideoParam, ImageParam.
 *
 * @version 1.0  Dic 2019
 *
