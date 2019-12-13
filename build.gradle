@@ -19,4 +19,7 @@ dependencies {
     //Sprint Boot and Swagger
     compile("io.springfox:springfox-swagger2:2.9.2")
     compile("io.springfox:springfox-swagger-ui:2.9.2")
+
+    //PdfBox
+    compile group: 'org.apache.pdfbox', name: 'pdfbox', version: '2.0.17'
 }
