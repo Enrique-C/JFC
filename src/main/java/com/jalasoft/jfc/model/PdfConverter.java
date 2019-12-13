@@ -23,7 +23,7 @@ import java.io.IOException;
  *
  * @author Alan Escalera
  */
-public class PdfConvert {
+public class PdfConverter {
 
     /**
      * This method convert a PDF to Image JPEG, PNG, GIF, BMP and WBMP.
