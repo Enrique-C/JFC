@@ -40,7 +40,7 @@ public class PdfConverterController {
      * @param file contains the image file.
      * @param inputPathFile contains the input path of the PDF.
      * @param outputPathFile contains the output path of file converted.
-     * @param outputFileName contains name of file image.
+     * @param outputFileName contains name of output file.
      * @param rotate degrees of rotation.
      * @param scale contains input Scale 1-10.
      * @param dpi contains level of Scale 1-10.
