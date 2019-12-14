@@ -44,7 +44,7 @@ public class ImageConverterController {
      * @return get the path of the upload file.
      */
     @PostMapping()
-    public String convertImage(
+    public String imageConvert(
             @RequestParam("file") MultipartFile file,
             @RequestParam String inputPathFile,
             @RequestParam String outputPathFile,
