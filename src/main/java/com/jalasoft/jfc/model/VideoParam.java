@@ -142,7 +142,7 @@ public class VideoParam {
 
     /**
      * getQuality gets quality value.
-     * @return quality byte value.
+     * @return quality value in bytes.
      */
     public byte getQuality() {
         return quality;
@@ -150,7 +150,7 @@ public class VideoParam {
 
     /**
      * getChannelsNumber gets channelsNumber value.
-     * @return channelsNumber byte value.
+     * @return channelsNumber value in bytes.
      */
     public byte getChannelsNumber() {
         return channelsNumber;
@@ -158,7 +158,7 @@ public class VideoParam {
 
     /**
      * getVolume gets volume value.
-     * @return volume String value.
+     * @return volume value.
      */
     public String getVolume() {
         return volume;
@@ -166,7 +166,7 @@ public class VideoParam {
 
     /**
      * getRotate gets rotate value.
-     * @return rotate String value.
+     * @return degrees of rotation.
      */
     public String getRotate() {
         return rotate;

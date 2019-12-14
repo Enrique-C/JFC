@@ -23,10 +23,12 @@ import java.io.InputStreamReader;
  * @author Juan Martinez
  */
 public class VideoConverter {
+
     /**
      * This method convert a video format to another format.
      * @param videoParam is an object of videoParam class.
-     * @return int cor confirm the video conversion.
+     * @return boolean resultFlag confirm the video's conversion
+     * if everything was correct.
      * @throws IOException is throws when occurs some problem with
      * the file.
      * @throws InterruptedException is throws when occurs some
@@ -36,8 +38,6 @@ public class VideoConverter {
         String space = " ";             //space between commands.
         boolean resultFlag = false;     //flag for return value.
         try {
-            /**
-             * It concat commands. */
             StringBuilder command = new StringBuilder();
 
             /**
@@ -49,9 +49,6 @@ public class VideoConverter {
             /**
              * This statement adds fFmpeg value to command string. */
             command.append(videoParam.getfFmpeg());
-
-            /**
-             * The "if" condition verify if InputPathFile value is null. */
             if (videoParam.getInputPathFile().equals(null)) {
                 throw new IOException("JFC_IOException");
             }
