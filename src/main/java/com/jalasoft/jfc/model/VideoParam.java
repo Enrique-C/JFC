@@ -22,7 +22,7 @@ public class VideoParam {
     private String fFmpeg;          //binary variable of FFmpeg.
     private String inputPathFile;   //Content path io input file.
     private String outputPathFile;  //Content path of output file.
-    private String outputFileName;  //Content path of output file name.
+    private String outputFileName;  //Content name of output file.
     private double aspectRatio;     //Content aspect ratio value.
     private String frameRate;       //Content frameRate value.
     private int wight;              //Content video's wight.

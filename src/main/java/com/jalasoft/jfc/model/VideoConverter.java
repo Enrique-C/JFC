@@ -42,7 +42,7 @@ public class VideoConverter {
             if (videoParam.getfFmpeg().equals(null)) {
                 throw new IOException("JFC_IOException");
             }
-            
+
             command.append(videoParam.getfFmpeg());
             if (videoParam.getInputPathFile().equals(null)) {
                 throw new IOException("JFC_IOException");
