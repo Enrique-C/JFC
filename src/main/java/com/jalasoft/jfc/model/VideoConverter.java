@@ -39,15 +39,10 @@ public class VideoConverter {
         boolean resultFlag = false;     //flag for return value.
         try {
             StringBuilder command = new StringBuilder();
-
-            /**
-             * the "if" condition verify if fFmpeg value is null. */
             if (videoParam.getfFmpeg().equals(null)) {
                 throw new IOException("JFC_IOException");
             }
-
-            /**
-             * This statement adds fFmpeg value to command string. */
+            
             command.append(videoParam.getfFmpeg());
             if (videoParam.getInputPathFile().equals(null)) {
                 throw new IOException("JFC_IOException");
@@ -69,9 +64,6 @@ public class VideoConverter {
              * This statement adds InputPathFile value to command string. */
             command.append(videoParam.getInputPathFile());
 
-            /**
-             * The "if" condition verify if AspectRatio value is
-             * not equal to 0.0.. */
             if (videoParam.getAspectRatio() != 0.0) {
                 command.append(space);
                 command.append(VideoCommand.ASPECT_RATIO.getCommand());
@@ -79,8 +71,6 @@ public class VideoConverter {
                 command.append(videoParam.getAspectRatio());
             }
 
-            /**
-             * The "if" condition verify if FrameRate value is not null. */
             if (!videoParam.getFrameRate().equals(null)) {
                 command.append(space);
                 command.append(VideoCommand.FRAME_RATE.getCommand());
@@ -88,9 +78,6 @@ public class VideoConverter {
                 command.append(videoParam.getFrameRate());
             }
 
-            /**
-             * The "if" condition verify if Wight and Height values are
-             * grater than 0. */
             if (videoParam.getWight() > 0 && videoParam.getHeight() > 0) {
                 command.append(space);
                 command.append(VideoCommand.FRAME_SIZE.getCommand());
@@ -100,8 +87,6 @@ public class VideoConverter {
                 command.append(videoParam.getHeight());
             }
 
-            /**
-             * The "if" condition verify if videoParamCodec value is not null.*/
             if (videoParam.getVideoCodec() != null) {
                 command.append(space);
                 command.append(VideoCommand.AUDIO_CODEC.getCommand());
@@ -109,8 +94,6 @@ public class VideoConverter {
                 command.append(videoParam.getVideoCodec());
             }
 
-            /**
-             * The "if" condition verify if AudioCodec value is not null.*/
             if (videoParam.getAudioCodec() != null) {
                 command.append(space);
                 command.append(VideoCommand.AUDIO_CODEC.getCommand());
@@ -118,8 +101,6 @@ public class VideoConverter {
                 command.append(videoParam.getAudioCodec());
             }
 
-            /**
-             * The "if" condition verify if videoParamBitRate value is not null.*/
             if (videoParam.getVideoBitRate() != null) {
                 command.append(space);
                 command.append(VideoCommand.VIDEO_BITRATE.getCommand());
@@ -127,8 +108,6 @@ public class VideoConverter {
                 command.append(videoParam.getVideoBitRate());
             }
 
-            /**
-             * The "if" condition verify if AudioBitRate value is not null.*/
             if (videoParam.getAudioBitRate() != null) {
                 command.append(space);
                 command.append(VideoCommand.AUDIO_BITRATE.getCommand());
@@ -136,9 +115,6 @@ public class VideoConverter {
                 command.append(videoParam.getAudioBitRate());
             }
 
-            /**
-             * The "if" condition verify if Quality value is greater than
-             * -1.*/
             if (videoParam.getQuality() > -1) {
                 command.append(space);
                 command.append(VideoCommand.SCALE.getCommand());
@@ -147,9 +123,6 @@ public class VideoConverter {
                 command.append(VideoCommand.EMPTY.getCommand());
             }
 
-            /**
-             * The "if" condition verify if ChannelsNumber value is
-             * greater than 0.*/
             if (videoParam.getChannelsNumber() > 0) {
                 command.append(space);
                 command.append(VideoCommand.CHANNELS.getCommand());
@@ -158,8 +131,6 @@ public class VideoConverter {
                 command.append(VideoCommand.EMPTY.getCommand());
             }
 
-            /**
-             * The "if" condition verify if Volume value is not null. */
             if (videoParam.getVolume() != null) {
                 command.append(space);
                 command.append(VideoCommand.VOLUME.getCommand());
@@ -167,8 +138,6 @@ public class VideoConverter {
                 command.append(videoParam.getVolume());
             }
 
-            /**
-             * The "if" condition verify if Rotate value is not null. */
             if (videoParam.getRotate() != null) {
                 command.append(space);
                 command.append(VideoCommand.ROTATE.getCommand());
@@ -176,9 +145,6 @@ public class VideoConverter {
                 command.append(videoParam.getRotate());
             }
 
-            /**
-             * The "if" condition verify if OutputPathFile and OutputFileName
-             * values are not null. */
             if (videoParam.getOutputPathFile().equals(null) &&
                     videoParam.getOutputFileName().equals(null)) {
                 throw new NullPointerException("JFCNullPointerException");
@@ -231,9 +197,6 @@ public class VideoConverter {
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
             String line;        //line variable
 
-            /**
-             * The "while" loop adds bufferedReader.readLine() to line
-             * if is not null. */
             while ((line = bufferedReader.readLine()) != null) {
                 System.out.println(line);       //prints lines
             }
