@@ -18,21 +18,21 @@ import java.io.IOException;
 
 /**
  *
- *  Manage ImageConvert Requests.
+ *  Manage ImageConverter Requests.
  *
- * @version 0.1.
+ * @version 0.1
  *
  * @author Enrique Carrizales.
  */
 @RestController
-@RequestMapping(path = "/convertImage")
+@RequestMapping(path = "/imageConverter")
 public class ImageConverterController {
 
     private static final String UPLOADED_FOLDER =
             "src/main/java/com/jalasoft/jfc/resources/";  //Constant upload file
 
     /**
-     * convertImage method receives a image to covert.
+     * convertImage method receives an image to covert.
      * @param file contains the image file.
      * @param inputPathFile contains the input path of the image.
      * @param outputPathFile contains the output path of image converted.
@@ -44,7 +44,7 @@ public class ImageConverterController {
      * @return get the path of the upload file.
      */
     @PostMapping()
-    public String imageConvert(
+    public String imageConverter(
             @RequestParam("file") MultipartFile file,
             @RequestParam String inputPathFile,
             @RequestParam String outputPathFile,
