@@ -32,7 +32,7 @@ public class ImageConverterController {
             "src/main/java/com/jalasoft/jfc/resources/";  //Constant upload file
 
     /**
-     * convertImage method receives an image to covert.
+     * imageConverter method receives an image to convert.
      * @param file contains the image file.
      * @param inputPathFile contains the input path of the image.
      * @param outputPathFile contains the output path of image converted.
