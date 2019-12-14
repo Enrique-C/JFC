@@ -35,12 +35,12 @@ public class VideoConverterController {
             "src/main/java/com/jalasoft/jfc/resources/"; //Constant upload file.
 
     /**
-     * videoConverter method receives an image to convert
-     * @param file contains the image file.
+     * videoConverter method receives an video to convert
+     * @param file contains the video file.
      * @param fFmpeg binary variable of FFmpeg.
      * @param inputPathFile contains the input path of the image.
-     * @param outputPathFile contains the output path of image converted.
-     * @param outputFileName contains name of converted image.
+     * @param outputPathFile contains the output path of file converted.
+     * @param outputFileName contains name of converted file.
      * @param aspectRatio contains aspect ratio value.
      * @param frameRate contains the number of images per second.
      * @param wight contains video's wight.
