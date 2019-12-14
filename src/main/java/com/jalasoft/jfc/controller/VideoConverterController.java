@@ -38,7 +38,7 @@ public class VideoConverterController {
      * videoConverter method receives an video to convert
      * @param file contains the video file.
      * @param fFmpeg binary variable of FFmpeg.
-     * @param inputPathFile contains the input path of the image.
+     * @param inputPathFile contains the input path of the file.
      * @param outputPathFile contains the output path of file converted.
      * @param outputFileName contains name of converted file.
      * @param aspectRatio contains aspect ratio value.
