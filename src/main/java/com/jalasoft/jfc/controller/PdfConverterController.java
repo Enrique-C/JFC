@@ -23,7 +23,7 @@ import java.nio.file.Paths;
  *
  *  Manage PdfConverter Requests.
  *
- * @version 0.1
+ * @version 0.1 Dic 2019.
  *
  * @author Enrique Carrizales
  */
@@ -32,7 +32,7 @@ import java.nio.file.Paths;
 public class PdfConverterController {
 
     private static final String UPLOADED_FOLDER =
-            "src/main/java/com/jalasoft/jfc/resources/";  //Constant upload file
+            "src/main/java/com/jalasoft/jfc/resources/";  //Constant upload file.
 
     /**
      * pdfConverter method receives a PDF to convert.
