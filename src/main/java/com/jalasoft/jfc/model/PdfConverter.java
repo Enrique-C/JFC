@@ -35,7 +35,7 @@ public class PdfConverter {
     public Boolean convert(PdfParam pdf){
 
         final int DPI_BY_DEFECT = 100;
-        final int INT_VALUE = 0;
+        final int INIT_VALUE = 0;
         Boolean isConverted = false;
 
         try {
@@ -53,8 +53,8 @@ public class PdfConverter {
             int totalPages = documentToImage.getNumberOfPages();
 
             // Just rotate 90, 180, 270 degrees.
-            if (pdf.getRotate() > INT_VALUE) {
-                for (int page = INT_VALUE; page < totalPages; page++) {
+            if (pdf.getRotate() > INIT_VALUE) {
+                for (int page = INIT_VALUE; page < totalPages; page++) {
                     PDPage pageToRotate = documentToImage.getPage(page);
                     pageToRotate.setRotation(pdf.getRotate());
                     documentRotated.addPage(pageToRotate);
@@ -64,7 +64,7 @@ public class PdfConverter {
             } else {
                 renderer = new PDFRenderer(documentToImage);
             }
-            for (int page = INT_VALUE; page < totalPages; page++) {
+            for (int page = INIT_VALUE; page < totalPages; page++) {
                 pathName = pdf.getOutputPathFile() + pdf.getOutputFileName() +
                         page + "." + pdf.getPdfFormatImage().toString();
                 if (pdf.getDpi() != DPI_BY_DEFECT) {
