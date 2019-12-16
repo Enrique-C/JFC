@@ -32,7 +32,7 @@ public class ImageConverter {
 
     /**
      * convertImage Method for changing an Image format to
-     * another one, resize it rotate, blank and white, 
+     * another one, resize it rotate, blank and white,
      * and create thumbnail.
      * @param image variable of type Image.
      * @return true if conversion is successful, false if fail.
