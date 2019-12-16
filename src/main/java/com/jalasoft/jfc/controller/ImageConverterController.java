@@ -17,8 +17,7 @@ import java.nio.file.Paths;
 import java.io.IOException;
 
 /**
- *
- *  Manage ImageConverter Requests.
+ * Manage ImageConverter Requests.
  *
  * @version 0.1 13 Dic 2019.
  *
@@ -27,7 +26,7 @@ import java.io.IOException;
 @RestController
 @RequestMapping(path = "/imageConverter")
 public class ImageConverterController {
-
+    // Constant upload file
     private static final String UPLOADED_FOLDER =
             "src/main/java/com/jalasoft/jfc/resources/";  //Constant upload file
 
@@ -41,18 +40,14 @@ public class ImageConverterController {
      * @param heightOfFile number of image height.
      * @param whiteBlankPercentage percentage of whiteBlanck.
      * @param degreesToRotate degrees of rotate.
-     * @return get the path of the upload file.
+     * @return the path of the upload file.
      */
     @PostMapping()
     public String imageConverter(
-            @RequestParam("file") MultipartFile file,
-            @RequestParam String inputPathFile,
-            @RequestParam String outputPathFile,
-            @RequestParam String outputPathThumbnail,
-            @RequestParam String widthOfFile,
-            @RequestParam String heightOfFile,
-            @RequestParam String whiteBlankPercentage,
-            @RequestParam String degreesToRotate) {
+            @RequestParam("file") MultipartFile file, @RequestParam String inputPathFile,
+            @RequestParam String outputPathFile, @RequestParam String outputPathThumbnail,
+            @RequestParam String widthOfFile, @RequestParam String heightOfFile,
+            @RequestParam String whiteBlankPercentage, @RequestParam String degreesToRotate) {
 
         try {
             byte[] bytes = file.getBytes();
