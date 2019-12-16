@@ -13,7 +13,7 @@ package com.jalasoft.jfc.model;
  *
  * @version 0.1 16 Dic 2019
  *
- * @author Juan Martinez
+ * @author Alan Escalera
  */
 public enum PdfFormatImage {
     JPEG,
