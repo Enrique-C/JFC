@@ -61,7 +61,8 @@ public class PdfConverter {
                 renderer = new PDFRenderer(documenttoimage);
             }
             for (int i = 0; i < pages; i++) {
-                pathName = pdf.getPathOuput().toString() + pdf.getNameFile() + i + "." + pdf.getFormatImage().toString();
+                pathName = pdf.getPathOuput().toString() + pdf.getNameFile() +
+                        i + "." + pdf.getFormatImage().toString();
                 if (pdf.getDpi() != 100) {
                     image = renderer.renderImageWithDPI(i, pdf.getDpi(), pdf.getImageType());
                 } else {
