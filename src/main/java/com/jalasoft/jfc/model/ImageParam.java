@@ -13,6 +13,7 @@ package com.jalasoft.jfc.model;
  * image.
  *
  * @version 0.1 11 Dec 2019.
+ *
  * @author Oscar Lopez.
  * */
 public class ImageParam {

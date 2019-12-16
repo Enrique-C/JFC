@@ -20,6 +20,7 @@ import org.im4java.process.ProcessStarter;
  * ImageMagick.
  *
  * @version 0.1 11 Dec 2019.
+ *
  * @author Oscar Lopez.
  * */
 public class ImageConverter {
