@@ -32,7 +32,7 @@ public class Param {
   }
 
   /**
-   * getInputPathFile gets inputPathFile value.
+   * getOutputPathFile gets outputPathFile value.
    * @return inputPathFile String value.
    */
   public String getOutputPathFile() {
