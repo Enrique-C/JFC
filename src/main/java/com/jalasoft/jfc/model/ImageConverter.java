@@ -15,28 +15,31 @@ import org.im4java.core.InfoException;
 import org.im4java.process.ProcessStarter;
 
 /**
- * This class has attribute, mypath that has a path for program
- * ImageMggick.
+ * This class has attribute, fileNamePath that has a path for program
+ * and variable THUMBNAILVALUE constant for Thumbnail size;
+ * ImageMagick.
  *
  * @version 0.1 11 Dec 2019.
  * @author Oscar Lopez.
  * */
 public class ImageConverter {
+
     //path where ImageMagick is installed.
-    protected String myPath = "C:\\Program Files (x86)\\ImageMagick-6.3.9-Q8\\";
+    private String fileNamePath = "C:\\Program Files (x86)\\ImageMagick-6.3.9-Q8\\";
+
     //default value for creating thumbnail.
     private final int THUMBNAILVALUE = 128;
 
     /**
-     * convertImage Method por change a Image format, resize,
-     * rotate, blank and white, and create thumbnail.
+     * convertImage Method for changing an Image format to
+     * another one, resize it rotate, blank and white, and create thumbnail.
      * @param image variable of type Image.
      * @return true if conversion is successful, false if fail.
      */
     protected boolean convertImage(ImageParam image) {
-        ProcessStarter.setGlobalSearchPath(myPath);
+        ProcessStarter.setGlobalSearchPath(fileNamePath);
         verifyDataValues(image);
-        boolean returnTrueOrFalse = false;
+        boolean resultAccion = false;
         try {
             ConvertCmd cmd = new ConvertCmd();
             IMOperation op = new IMOperation();
@@ -55,11 +58,11 @@ public class ImageConverter {
             op.thumbnail(THUMBNAILVALUE);
             op.addImage(image.getOutputPathFile());
             cmd.run(op);
-            returnTrueOrFalse = true;
+            resultAccion = true;
         }catch(Exception e) {
             System.out.println(e.getMessage());
         }finally {
-            return returnTrueOrFalse;
+            return resultAccion;
         }
     }
 
@@ -74,12 +77,13 @@ public class ImageConverter {
      * @param image variable of type Image.
      */
     public void verifyDataValues(ImageParam image) {
+
         //filename variable obtain input path of file.
-        String filename = image.getInputPathFile();
+        String fileName = image.getInputPathFile();
         //Info is class to obtain information about of File
         Info imageInfo = null;
         try {
-            imageInfo = new Info(filename,true);
+            imageInfo = new Info(fileName, true);
             if (image.getWidthOfFile() == 0) {
                 image.setWidthOfFile(imageInfo.getImageWidth());
             }

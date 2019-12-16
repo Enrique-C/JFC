@@ -16,18 +16,26 @@ package com.jalasoft.jfc.model;
  * @author Oscar Lopez.
  * */
 public class ImageParam {
+
     //Variable for obtain input path of Image.
     private String inputPathFile;
+
     //Variable of output path of Image.
     private String outputPathFile;
+
     //Variable of output path of Thumbnail of a Image.
     private String outputPathThumbnail;
+
     //Variable for change the width of Image.
     private int widthOfFile;
+
     //Variable for change the height of Image.
     private int heightOfFile;
-    //Variable for change the percentage of white and black of a Image.
+
+    //This is for changing the percentage
+    //of white and black of a Image.
     private int whiteBlankPercentage;
+
     //Variable for rotate a Image.
     private double degreesToRotate;
 
