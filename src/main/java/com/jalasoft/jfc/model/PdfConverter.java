@@ -36,48 +36,49 @@ public class PdfConverter {
 
         Boolean isConverted = false;
         try {
-            if (pdf.getPathInput() == null || pdf.getPathOuput() == null) {
-                throw new IllegalArgumentException();
+            if (pdf.getInputPathFile() == null || pdf.getOutputPathFile() == null) {
+                throw new IOException();
             }
-            PDDocument documenttoimage = PDDocument.load(
-                    new File(pdf.getPathInput()));
+            PDDocument documentToImage = PDDocument.load(
+                    new File(pdf.getInputPathFile()));
             PDDocument documentRotated = new PDDocument();
             PDFRenderer renderer;
             BufferedImage image;
             String pathName;
+            int dpiByDefect = 100;
 
             boolean rotated = false;
-            int pages = documenttoimage.getNumberOfPages();
+            int totalPages = documentToImage.getNumberOfPages();
             // Just rotate 90, 180, 270 degrees
             if (pdf.getRotate() > 0) {
-                for (int i = 0; i < pages; i++) {
-                    PDPage pageToRotate = documenttoimage.getPage(i);
+                for (int page = 0; page < totalPages; page++) {
+                    PDPage pageToRotate = documentToImage.getPage(page);
                     pageToRotate.setRotation(pdf.getRotate());
                     documentRotated.addPage(pageToRotate);
                 }
                 renderer = new PDFRenderer(documentRotated);
                 rotated = true;
             } else {
-                renderer = new PDFRenderer(documenttoimage);
+                renderer = new PDFRenderer(documentToImage);
             }
-            for (int i = 0; i < pages; i++) {
-                pathName = pdf.getPathOuput().toString() + pdf.getNameFile() +
-                        i + "." + pdf.getPdfFormatImage().toString();
-                if (pdf.getDpi() != 100) {
-                    image = renderer.renderImageWithDPI(i, pdf.getDpi(), pdf.getImageType());
+            for (int page = 0; page < totalPages; page++) {
+                pathName = pdf.getOutputPathFile() + pdf.getOutputFileName() +
+                        page + "." + pdf.getPdfFormatImage().toString();
+                if (pdf.getDpi() != dpiByDefect) {
+                    image = renderer.renderImageWithDPI(page, pdf.getDpi(), pdf.getImageType());
                 } else {
-                    image = renderer.renderImage(i, pdf.getScale(), pdf.getImageType());
+                    image = renderer.renderImage(page, pdf.getScale(), pdf.getImageType());
                 }
                 ImageIO.write(image, pdf.getPdfFormatImage().toString(), new File(pathName));
             }
             if(rotated)
                 documentRotated.close();
-            documenttoimage.close();
+            documentToImage.close();
             isConverted = true;
         }
-        catch (IllegalArgumentException e)
+        catch (IOException e)
         {
-            throw new IllegalArgumentException();
+            throw new IOException();
         }
         finally {
             return isConverted;
