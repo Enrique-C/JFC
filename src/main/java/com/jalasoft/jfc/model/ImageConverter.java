@@ -20,6 +20,7 @@ import org.im4java.process.ProcessStarter;
  * ImageMagick.
  *
  * @version 0.1 11 Dec 2019.
+ *
  * @author Oscar Lopez.
  * */
 public class ImageConverter {
@@ -32,7 +33,7 @@ public class ImageConverter {
 
     /**
      * convertImage Method for changing an Image format to
-     * another one, resize it rotate, blank and white, 
+     * another one, resize it rotate, blank and white,
      * and create thumbnail.
      * @param image variable of type Image.
      * @return true if conversion is successful, false if fail.
