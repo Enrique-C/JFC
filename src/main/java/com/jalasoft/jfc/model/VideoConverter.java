@@ -13,30 +13,33 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
- *
- *  VideoConverter Class is used for convert videos.
- *
- * @version 1.0 13 Dic 2019
+ * VideoConverter Class is used for convert videos.
  *
  * @author Juan Martinez
+ * @version 1.0 13 Dic 2019
  */
 public class VideoConverter {
+    private final static Logger LOGGER = Logger.getLogger(VideoConverter.class.getName());
 
     /**
      * This method convert a video format to another format.
+     *
      * @param videoParam is an object of videoParam class.
      * @return boolean resultFlag confirm the video's conversion
      * if everything was correct.
-     * @throws IOException is throws when occurs some problem with
-     * the file.
+     * @throws IOException          is throws when occurs some problem with
+     *                              the file.
      * @throws InterruptedException is throws when occurs some
-     * interruption at the moment of conversion.
+     *                              interruption at the moment of conversion.
      */
     public boolean convert(VideoParam videoParam) throws IOException, InterruptedException {
         String space = " ";             //space between commands.
         boolean resultFlag = false;     //flag for return value.
+
         try {
             StringBuilder command = new StringBuilder();
             if (videoParam.getfFmpeg().equals(null)) {
@@ -71,7 +74,7 @@ public class VideoConverter {
                 command.append(videoParam.getAspectRatio());
             }
 
-            if (!videoParam.getFrameRate().equals(null)) {
+            if (videoParam.getFrameRate() != null) {
                 command.append(space);
                 command.append(VideoCommand.FRAME_RATE.getCommand());
                 command.append(space);
@@ -145,7 +148,21 @@ public class VideoConverter {
                 command.append(videoParam.getRotate());
             }
 
-            if (videoParam.getOutputPathFile().equals(null) &&
+            if (videoParam.getThumbnail() != null) {
+                command.append(space);
+                command.append(VideoCommand.THUMBNAIL.getCommand());
+                command.append(space);
+                command.append(videoParam.getThumbnail());
+            }
+
+            if (videoParam.getVideoFrame() > 0) {
+                command.append(space);
+                command.append(VideoCommand.V_FRAMES.getCommand());
+                command.append(space);
+                command.append(videoParam.getVideoFrame());
+            }
+
+            if (videoParam.getOutputPathFile().equals(null) ||
                     videoParam.getOutputFileName().equals(null)) {
                 throw new NullPointerException("JFCNullPointerException");
             }
@@ -163,53 +180,33 @@ public class VideoConverter {
             command.append(videoParam.getOutputFileName());
 
             /**
-             * This is an declaration of ProcessBuilder variable. */
-            ProcessBuilder processBuilder = new ProcessBuilder();
-
-            /**
              * This is an declaration of stringCommand variable. */
             String stringCommand = command.toString();
 
             /**
-             * This is an array for splitting stringCommand into commands
-             * by " ". */
-            String[] newCommand = stringCommand.split(" ");
-
-            /**
-             * Here processBuilder adds array of commands. */
-            processBuilder.command(newCommand);
-
-            /**
-             * Here Process start processBuilder commands and
-             * starts the conversion process. */
-            Process process = processBuilder.start();
-
-            /**
-             * Here InputStream gets Process error stream. */
-            InputStream inputStream = process.getErrorStream();
-
-            /**
-             * InputStreamReader read inputStream. */
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-
-            /**
              * BufferedReader gets inputStreamReader. */
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            //BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            Process process = Runtime.getRuntime().exec(stringCommand);
+            BufferedReader bufferedReader = new BufferedReader(
+                    new InputStreamReader(process.getErrorStream()));
+
             String line;        //line variable
 
             while ((line = bufferedReader.readLine()) != null) {
                 System.out.println(line);       //prints lines
+                LOGGER.log(Level.FINE, line);
             }
             process.waitFor();       //return the successful result
+            bufferedReader.close();
             resultFlag = true;
-        }
-        catch (IOException ex){
-            System.out.println("JFCIOException");
-        }
-        catch (NullPointerException e){
-            System.out.println("JFCNullPointerException");
-        }
-        finally {
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, ex.toString(), "JFCIOException");
+            ex.printStackTrace();
+
+        } catch (NullPointerException e) {
+            LOGGER.log(Level.SEVERE, e.toString());
+            e.printStackTrace();
+        } finally {
             return resultFlag;
         }
     }
