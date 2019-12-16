@@ -16,7 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * VideoConverter Class is used for convert videos.
+ * This Class is used for convert videos.
  *
  * @author Juan Martinez
  *

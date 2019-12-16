@@ -10,7 +10,7 @@
 package com.jalasoft.jfc.model;
 
 /**
- * Class is used for specifying attributes of video VideoParam.
+ * Class is used for specifying attributes of VideoParam.
  *
  * @version 0.1 13 Dic 2019
  *

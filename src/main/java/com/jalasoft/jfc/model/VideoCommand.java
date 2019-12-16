@@ -10,7 +10,7 @@
 package com.jalasoft.jfc.model;
 
 /**
- * Enum is used for specifying FFmpeg commands.
+ * This enum is used for specifying FFmpeg commands.
  *
  * @version 0.1 13 Dic 2019
  *
