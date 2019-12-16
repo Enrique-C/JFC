@@ -35,6 +35,8 @@ public class VideoParam {
     private byte channelsNumber;    //Content number of audio channels
     private String volume;          //Content audio volume value.
     private String rotate;          //Content rotate value
+    private String thumbnail;       //Content a specific time.
+    private byte videoFrame;        //Number of video frames to output
 
     /**
      * Constructor of VideoParam class.
@@ -173,6 +175,22 @@ public class VideoParam {
     }
 
     /**
+     * getThumbnail gets thumbnail value.
+     * @return value of thumbnail.
+     */
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    /**
+     * getVideoFrame method gets videoFrame value.
+     * @return videoFrame value.
+     */
+    public byte getVideoFrame() {
+        return videoFrame;
+    }
+
+    /**
      * setInputPathFile sets inputPathFile value.
      * @param inputPathFile for setting in this.inputPathFile.
      */
@@ -290,5 +308,21 @@ public class VideoParam {
      */
     public void setRotate(String rotate) {
         this.rotate = rotate;
+    }
+
+    /**
+     * setThumbnail for adding thumbnail value.
+     * @param thumbnail time String value.
+     */
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+    }
+
+    /**
+     * setVideoFrame sets videoFrame value.
+     * @param videoFrame value.
+     */
+    public void setVideoFrame(byte videoFrame) {
+        this.videoFrame = videoFrame;
     }
 }

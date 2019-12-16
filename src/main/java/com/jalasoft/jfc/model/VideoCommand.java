@@ -31,7 +31,9 @@ public enum VideoCommand {
     CHANNELS("-ac"),
     VOLUME("-vol"),
     EMPTY(""),
-    ASTERISK("*");
+    ASTERISK("*"),
+    THUMBNAIL("-ss"),
+    V_FRAMES("-vframes");
 
     private String command;     //command variable
 
