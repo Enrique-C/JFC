@@ -27,13 +27,13 @@ public class PdfParam {
     private float scale;                // Input Scale 1-10.
     private int dpi;                    // Input DPI 0-500.
     private ImageType imageType;        // Input Type of image  JPEG, PNG, GIF, BMP and WBMP.
-    private FormatImage formatImage;    // Input Format Image.
+    private PdfFormatImage pdfFormatImage;    // Input Format Image.
 
     public PdfParam(){
         rotate = 0;
         scale = 1;
         dpi = 100;
-        formatImage = FormatImage.JPEG;
+        pdfFormatImage = PdfFormatImage.JPEG;
     }
 
     /**
@@ -136,16 +136,16 @@ public class PdfParam {
      * This method get the Format Image to be converted.
      * @return formatImage
      */
-    public FormatImage getFormatImage() {
-        return formatImage;
+    public PdfFormatImage getPdfFormatImage() {
+        return pdfFormatImage;
     }
 
     /**
      * This method set the Format image to be converted.
      * @param formatimage
      */
-    public void setFormatImage(FormatImage formatimage) {
-        this.formatImage = formatimage;
+    public void setPdfFormatImage(PdfFormatImage formatimage) {
+        this.pdfFormatImage = formatimage;
     }
 
     /**

@@ -62,13 +62,13 @@ public class PdfConverter {
             }
             for (int i = 0; i < pages; i++) {
                 pathName = pdf.getPathOuput().toString() + pdf.getNameFile() +
-                        i + "." + pdf.getFormatImage().toString();
+                        i + "." + pdf.getPdfFormatImage().toString();
                 if (pdf.getDpi() != 100) {
                     image = renderer.renderImageWithDPI(i, pdf.getDpi(), pdf.getImageType());
                 } else {
                     image = renderer.renderImage(i, pdf.getScale(), pdf.getImageType());
                 }
-                ImageIO.write(image, pdf.getFormatImage().toString(), new File(pathName));
+                ImageIO.write(image, pdf.getPdfFormatImage().toString(), new File(pathName));
             }
             if(rotated)
                 documentRotated.close();
