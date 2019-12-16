@@ -7,6 +7,6 @@
  *  license agreement you entered into with Jalasoft.
  */
 package com.jalasoft.jfc.model;
-public enum FormatImage {
+public enum PdfFormatImage {
     JPEG, PNG, GIF, BMP, WBMP
 }
