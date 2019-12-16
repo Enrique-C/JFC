@@ -10,8 +10,7 @@
 package com.jalasoft.jfc.model;
 
 /**
- *
- *  VideoCommand enum is used for specify FFmpeg commands.
+ * VideoCommand enum is used for specify FFmpeg commands.
  *
  * @version 0.1 13 Dic 2019
  *
@@ -35,10 +34,11 @@ public enum VideoCommand {
     THUMBNAIL("-ss"),
     V_FRAMES("-vframes");
 
-    private String command;     //command variable
+    //command variable
+    private String command;
 
     /**
-     * VideoCommand for setting command value.
+     * Sets command value.
      * @param command String value
      */
     VideoCommand(String command) {
@@ -46,7 +46,7 @@ public enum VideoCommand {
     }
 
     /**
-     * getCommand method for getting command value.
+     * Gets command value.
      * @return String value.
      */
     public String getCommand(){

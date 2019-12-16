@@ -10,30 +10,59 @@
 package com.jalasoft.jfc.model;
 
 /**
- *
- *  VideoParam Class is used for specify attributes of video.
+ * VideoParam Class is used for specify attributes of video.
  *
  * @version 0.1 13 Dic 2019
  *
  * @author Juan Martinez
  */
-public class VideoParam extends Param {
+public class
+VideoParam extends Param {
 
-    private String fFmpeg;          //binary variable of FFmpeg.
-    private double aspectRatio;     //Content aspect ratio value.
-    private String frameRate;       //Content frameRate value.
-    private int wight;              //Content video's wight.
-    private int height;             //Content video's height.
-    private String videoCodec;      //Content videoCodec value.
-    private String audioCodec;      //Content audioCodec value.
-    private String videoBitRate;    //Content videoBitRate value.
-    private String audioBitRate;    //Content audioBitRate value.
-    private byte quality;           //Content quality of video.
-    private byte channelsNumber;    //Content number of audio channels
-    private String volume;          //Content audio volume value.
-    private String rotate;          //Content rotate value
-    private String thumbnail;       //Content a specific time.
-    private byte videoFrame;        //Number of video frames to output
+    //Binary variable of FFmpeg.
+    private String fFmpeg;
+
+    //Content aspect ratio value.
+    private double aspectRatio;
+
+    //Content frameRate value.
+    private String frameRate;
+
+    //Content video's wight.
+    private int wight;
+
+    //Content video's height.
+    private int height;
+
+    //Content videoCodec value.
+    private String videoCodec;
+
+    //Content audioCodec value.
+    private String audioCodec;
+
+    //Content videoBitRate value.
+    private String videoBitRate;
+
+    //Content audioBitRate value.
+    private String audioBitRate;
+
+    //Content quality of video.
+    private byte quality;
+
+    //Content number of audio channels
+    private byte channelsNumber;
+
+    //Content audio volume value.
+    private String volume;
+
+    //Content rotate value
+    private String rotate;
+
+    //Content a specific time.
+    private String thumbnail;
+
+    //Number of video frames to output
+    private byte videoFrame;
 
     /**
      * Constructor of VideoParam class.
@@ -44,7 +73,7 @@ public class VideoParam extends Param {
     }
 
     /**
-     * getfFmpeg gets fFmpeg value.
+     * Gets fFmpeg value.
      * @return fFmpeg String value.
      */
     public String getfFmpeg() {
@@ -52,7 +81,7 @@ public class VideoParam extends Param {
     }
 
     /**
-     * getAspectRatio gets aspectRatio value.
+     * Gets aspectRatio value.
      * @return aspectRatio double value.
      */
     public double getAspectRatio() {
@@ -60,7 +89,7 @@ public class VideoParam extends Param {
     }
 
     /**
-     * getFrameRate gets frameRate value.
+     * Gets frameRate value.
      * @return frameRate String value.
      */
     public String getFrameRate() {
@@ -68,7 +97,7 @@ public class VideoParam extends Param {
     }
 
     /**
-     * getWight gets wight value.
+     * Gets wight value.
      * @return wight int value.
      */
     public int getWight() {
@@ -76,7 +105,7 @@ public class VideoParam extends Param {
     }
 
     /**
-     * getHeight gets height value.
+     * Gets height value.
      * @return height int value.
      */
     public int getHeight() {
@@ -84,7 +113,7 @@ public class VideoParam extends Param {
     }
 
     /**
-     * getVideoCodec gets videoCodec value.
+     * Gets videoCodec value.
      * @return videoCodec String value.
      */
     public String getVideoCodec() {
@@ -92,7 +121,7 @@ public class VideoParam extends Param {
     }
 
     /**
-     * getAudioCodec gets audioCodec value.
+     * Gets audioCodec value.
      * @return audioCodec String value.
      */
     public String getAudioCodec() {
@@ -100,7 +129,7 @@ public class VideoParam extends Param {
     }
 
     /**
-     * getVideoBitRate gets videoBitRate value.
+     * Gets videoBitRate value.
      * @return videoBitRate String value.
      */
     public String getVideoBitRate() {
@@ -108,7 +137,7 @@ public class VideoParam extends Param {
     }
 
     /**
-     * getAudioBitRate gets audioBitRate value.
+     * Gets audioBitRate value.
      * @return audioBitRate String value.
      */
     public String getAudioBitRate() {
@@ -116,7 +145,7 @@ public class VideoParam extends Param {
     }
 
     /**
-     * getQuality gets quality value.
+     * Gets quality value.
      * @return quality value in bytes.
      */
     public byte getQuality() {
@@ -124,7 +153,7 @@ public class VideoParam extends Param {
     }
 
     /**
-     * getChannelsNumber gets channelsNumber value.
+     * Gets channelsNumber value.
      * @return channelsNumber value in bytes.
      */
     public byte getChannelsNumber() {
@@ -132,7 +161,7 @@ public class VideoParam extends Param {
     }
 
     /**
-     * getVolume gets volume value.
+     * Gets volume value.
      * @return volume value.
      */
     public String getVolume() {
@@ -140,7 +169,7 @@ public class VideoParam extends Param {
     }
 
     /**
-     * getRotate gets rotate value.
+     * Gets rotate value.
      * @return degrees of rotation.
      */
     public String getRotate() {
@@ -148,7 +177,7 @@ public class VideoParam extends Param {
     }
 
     /**
-     * getThumbnail gets thumbnail value.
+     * Gets thumbnail value.
      * @return value of thumbnail.
      */
     public String getThumbnail() {
@@ -156,7 +185,7 @@ public class VideoParam extends Param {
     }
 
     /**
-     * getVideoFrame method gets videoFrame value.
+     * Gets videoFrame value.
      * @return videoFrame value.
      */
     public byte getVideoFrame() {
@@ -164,7 +193,7 @@ public class VideoParam extends Param {
     }
 
     /**
-     * setAspectRatio sets aspectRatio value.
+     * Sets aspectRatio value.
      * @param aspectRatio for setting this.aspectRatio.
      */
     public void setAspectRatio(double aspectRatio) {
@@ -172,7 +201,7 @@ public class VideoParam extends Param {
     }
 
     /**
-     * setFrameRate sets frameRate value.
+     * Sets frameRate value.
      * @param frameRate for setting this.frameRate.
      */
     public void setFrameRate(String frameRate) {
@@ -180,7 +209,7 @@ public class VideoParam extends Param {
     }
 
     /**
-     * setWight sets wight value.
+     * Sets wight value.
      * @param wight for setting this.wight.
      */
     public void setWight(int wight) {
@@ -188,7 +217,7 @@ public class VideoParam extends Param {
     }
 
     /**
-     * setHeight sets height value.
+     * Sets height value.
      * @param height for setting this.height.
      */
     public void setHeight(int height) {
@@ -196,7 +225,7 @@ public class VideoParam extends Param {
     }
 
     /**
-     * setVideoCodec sets videoCodec value.
+     * Sets videoCodec value.
      * @param videoCodec for setting this.videoCodec.
      */
     public void setVideoCodec(String videoCodec) {
@@ -204,7 +233,7 @@ public class VideoParam extends Param {
     }
 
     /**
-     * setAudioCodec sets audioCodec value.
+     * Sets audioCodec value.
      * @param audioCodec for setting this.audioCodec.
      */
     public void setAudioCodec(String audioCodec) {
@@ -212,7 +241,7 @@ public class VideoParam extends Param {
     }
 
     /**
-     * setVideoBitRate sets videoBitRate value.
+     * Sets videoBitRate value.
      * @param videoBitRate for setting this.videoBitRate.
      */
     public void setVideoBitRate(String videoBitRate) {
@@ -220,7 +249,7 @@ public class VideoParam extends Param {
     }
 
     /**
-     * setAudioBitRate sets audioBitRate value.
+     * Sets audioBitRate value.
      * @param audioBitRate for setting this.audioBitRate.
      */
     public void setAudioBitRate(String audioBitRate) {
@@ -228,7 +257,7 @@ public class VideoParam extends Param {
     }
 
     /**
-     * setQuality sets quality value.
+     * Sets quality value.
      * @param quality for setting this.quality.
      */
     public void setQuality(byte quality) {
@@ -236,7 +265,7 @@ public class VideoParam extends Param {
     }
 
     /**
-     * setChannelsNumber sets channelsNumber value.
+     * Sets channelsNumber value.
      * @param channelsNumber for setting this.channelsNumber.
      */
     public void setChannelsNumber(byte channelsNumber) {
@@ -244,7 +273,7 @@ public class VideoParam extends Param {
     }
 
     /**
-     * setVolume sets volume value.
+     * Sets volume value.
      * @param volume for setting this.volume.
      */
     public void setVolume(String volume) {
@@ -252,7 +281,7 @@ public class VideoParam extends Param {
     }
 
     /**
-     * setRotate sets rotate value.
+     * Sets rotate value.
      * @param rotate for setting this.rotate.
      */
     public void setRotate(String rotate) {
@@ -260,7 +289,7 @@ public class VideoParam extends Param {
     }
 
     /**
-     * setThumbnail for adding thumbnail value.
+     * Sets adding thumbnail value.
      * @param thumbnail time String value.
      */
     public void setThumbnail(String thumbnail) {
@@ -268,7 +297,7 @@ public class VideoParam extends Param {
     }
 
     /**
-     * setVideoFrame sets videoFrame value.
+     * Sets videoFrame value.
      * @param videoFrame value.
      */
     public void setVideoFrame(byte videoFrame) {
