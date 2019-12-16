@@ -36,7 +36,6 @@ public class PdfConverter {
 
         Boolean isConverted = false;
         try {
-
             if (pdf.getPathInput() == null || pdf.getPathOuput() == null) {
                 throw new IllegalArgumentException();
             }
