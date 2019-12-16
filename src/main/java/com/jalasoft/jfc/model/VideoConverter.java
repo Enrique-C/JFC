@@ -20,7 +20,8 @@ import java.util.logging.Logger;
  * VideoConverter Class is used for convert videos.
  *
  * @author Juan Martinez
- * @version 1.0 13 Dic 2019
+ *
+ * @version 0.1 13 Dic 2019
  */
 public class VideoConverter {
     private final static Logger LOGGER = Logger.getLogger(VideoConverter.class.getName());
