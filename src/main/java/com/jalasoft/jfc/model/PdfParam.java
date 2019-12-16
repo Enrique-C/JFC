@@ -14,7 +14,7 @@ import org.apache.pdfbox.rendering.ImageType;
  *
  *  This class contend attributes more relevant of a PDF.
  *
- * @version 1.0 13 Dic 2019
+ * @version 0.1 13 Dic 2019
  *
  * @author Alan Escalera
  */
