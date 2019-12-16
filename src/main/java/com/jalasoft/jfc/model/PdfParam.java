@@ -1,4 +1,3 @@
-
 /*
  * Copyright (c) 2019 Jalasoft.
  *
@@ -8,22 +7,32 @@
  *  license agreement you entered into with Jalasoft.
  */
 package com.jalasoft.jfc.model;
+
 import org.apache.pdfbox.rendering.ImageType;
 
 /**
- *
- *  This class contend attributes more relevant of a PDF.
+ * This class content attributes more relevant of a PDF.
  *
  * @version 0.1 13 Dic 2019
  *
  * @author Alan Escalera
  */
 public class PdfParam extends Param{
-    private int rotate;                 // Input Rotate in Degrees 90, 180, 270.
-    private float scale;                // Input Scale 1-10.
-    private int dpi;                    // Input DPI 0-500.
-    private ImageType imageType;        // Input Type of image  JPEG, PNG, GIF, BMP and WBMP.
-    private PdfFormatImage pdfFormatImage;    // Input Format Image.
+
+    // Input Rotate in Degrees 90, 180, 270.
+    private int rotate;
+
+    // Input Scale 1-10.
+    private float scale;
+
+    // Input DPI 0-500.
+    private int dpi;
+
+    // Input Type of image  JPEG, PNG, GIF, BMP and WBMP.
+    private ImageType imageType;
+
+    // Input Format Image.
+    private PdfFormatImage pdfFormatImage;
 
     public PdfParam(){
         rotate = 0;
@@ -33,15 +42,15 @@ public class PdfParam extends Param{
     }
 
     /**
-     * this method get the degrees to rotate.
-     * @return rotate
+     * this method gets the degrees of rotate value.
+     * @return degrees of rotation.
      */
     public int getRotate() {
         return rotate;
     }
 
     /**
-     * this method set the degrees to rotate.
+     * this method sets degrees to rotate.
      * @param rotate
      */
     public void setRotate(int rotate) {
@@ -49,15 +58,15 @@ public class PdfParam extends Param{
     }
 
     /**
-     * This method get the scale set.
-     * @return
+     * This method gets the scale value.
+     * @return scale
      */
     public float getScale() {
         return scale;
     }
 
     /**
-     * This method set the Scale that will be converted JPEG, PNG, GIF, BMP and WBMP.
+     * This method sets the Scale that will be converted into JPEG, PNG, GIF, BMP and WBMP.
      * @param scale
      */
     public void setScale(float scale) {
@@ -65,7 +74,7 @@ public class PdfParam extends Param{
     }
 
     /**
-     * This method get the the DPI set.
+     * This method gets the DPI value.
      * @return dpi
      */
     public int getDpi() {
@@ -73,7 +82,7 @@ public class PdfParam extends Param{
     }
 
     /**
-     * This method set the DPI that will be converted.
+     * This method sets the DPI that will be converted.
      * @param dpi
      */
     public void setDpi(int dpi) {
@@ -81,7 +90,7 @@ public class PdfParam extends Param{
     }
 
     /**
-     * This method get the image type that will be converted.
+     * This method gets the image type that will be converted.
      * @return imageType
      */
     public ImageType getImageType() {
@@ -89,7 +98,7 @@ public class PdfParam extends Param{
     }
 
     /**
-     * This method set the image type that will be converted.
+     * This method sets the image type that will be converted.
      * @param imageType
      */
     public void setImageType(ImageType imageType) {
@@ -97,7 +106,7 @@ public class PdfParam extends Param{
     }
 
     /**
-     * This method get the Format Image to be converted.
+     * This method gets the Format Image to be converted.
      * @return formatImage
      */
     public PdfFormatImage getPdfFormatImage() {
@@ -105,7 +114,7 @@ public class PdfParam extends Param{
     }
 
     /**
-     * This method set the Format image to be converted.
+     * This method sets the Format image to be converted.
      * @param formatImage
      */
     public void setPdfFormatImage(PdfFormatImage formatImage) {

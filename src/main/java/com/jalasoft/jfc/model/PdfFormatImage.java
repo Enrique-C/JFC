@@ -7,6 +7,18 @@
  *  license agreement you entered into with Jalasoft.
  */
 package com.jalasoft.jfc.model;
+
+/**
+ * This enum is used for specify types of image formats.
+ *
+ * @version 0.1 16 Dic 2019
+ *
+ * @author Alan Escalera
+ */
 public enum PdfFormatImage {
-    JPEG, PNG, GIF, BMP, WBMP
+    JPEG,
+    PNG,
+    GIF,
+    BMP,
+    WBMP
 }

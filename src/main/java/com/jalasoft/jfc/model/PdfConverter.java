@@ -7,6 +7,7 @@
  *  license agreement you entered into with Jalasoft.
  */
 package com.jalasoft.jfc.model;
+
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.rendering.PDFRenderer;
@@ -17,7 +18,6 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- *
  * This class is used to convert PDF to Image
  *
  * @version 0.1 13 Dic 2019
@@ -29,29 +29,32 @@ public class PdfConverter {
     /**
      * This method convert a PDF to Image JPEG, PNG, GIF, BMP and WBMP.
      * @param pdf
-     * @return boolean
+     * @return boolean value.
      * @throws IOException
      */
     public Boolean convert(PdfParam pdf){
 
+        final int DPI_BY_DEFECT = 100;
+        final int INIT_VALUE = 0;
         Boolean isConverted = false;
+
         try {
             if (pdf.getInputPathFile() == null || pdf.getOutputPathFile() == null) {
                 throw new IOException();
             }
-            PDDocument documentToImage = PDDocument.load(
-                    new File(pdf.getInputPathFile()));
+            PDDocument documentToImage = PDDocument.load(new File(pdf.getInputPathFile()));
             PDDocument documentRotated = new PDDocument();
             PDFRenderer renderer;
             BufferedImage image;
             String pathName;
-            int dpiByDefect = 100;
+
 
             boolean rotated = false;
             int totalPages = documentToImage.getNumberOfPages();
-            // Just rotate 90, 180, 270 degrees
-            if (pdf.getRotate() > 0) {
-                for (int page = 0; page < totalPages; page++) {
+
+            // Just rotate 90, 180, 270 degrees.
+            if (pdf.getRotate() > INIT_VALUE) {
+                for (int page = INIT_VALUE; page < totalPages; page++) {
                     PDPage pageToRotate = documentToImage.getPage(page);
                     pageToRotate.setRotation(pdf.getRotate());
                     documentRotated.addPage(pageToRotate);
@@ -61,10 +64,10 @@ public class PdfConverter {
             } else {
                 renderer = new PDFRenderer(documentToImage);
             }
-            for (int page = 0; page < totalPages; page++) {
+            for (int page = INIT_VALUE; page < totalPages; page++) {
                 pathName = pdf.getOutputPathFile() + pdf.getOutputFileName() +
                         page + "." + pdf.getPdfFormatImage().toString();
-                if (pdf.getDpi() != dpiByDefect) {
+                if (pdf.getDpi() != DPI_BY_DEFECT) {
                     image = renderer.renderImageWithDPI(page, pdf.getDpi(), pdf.getImageType());
                 } else {
                     image = renderer.renderImage(page, pdf.getScale(), pdf.getImageType());
@@ -85,4 +88,3 @@ public class PdfConverter {
         }
     }
 }
-
