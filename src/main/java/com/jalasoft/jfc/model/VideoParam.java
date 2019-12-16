@@ -17,7 +17,7 @@ package com.jalasoft.jfc.model;
  *
  * @author Juan Martinez
  */
-public class VideoParam {
+public class VideoParam extends Param {
 
     private String fFmpeg;          //binary variable of FFmpeg.
     private String inputPathFile;   //Content path io input file.
