@@ -164,7 +164,7 @@ public class VideoConverter {
             Process process = Runtime.getRuntime().exec(stringCommand);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 
-            //line variable
+            //Line variable.
             String line;
 
             while ((line = bufferedReader.readLine()) != null) {

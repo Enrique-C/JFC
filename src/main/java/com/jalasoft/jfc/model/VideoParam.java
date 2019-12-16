@@ -10,14 +10,13 @@
 package com.jalasoft.jfc.model;
 
 /**
- * VideoParam Class is used for specify attributes of video.
+ * Class is used for specifying attributes of video VideoParam.
  *
  * @version 0.1 13 Dic 2019
  *
  * @author Juan Martinez
  */
-public class
-VideoParam extends Param {
+public class VideoParam extends Param {
 
     //Binary variable of FFmpeg.
     private String fFmpeg;
@@ -289,7 +288,7 @@ VideoParam extends Param {
     }
 
     /**
-     * Sets adding thumbnail value.
+     * Sets thumbnail value.
      * @param thumbnail time String value.
      */
     public void setThumbnail(String thumbnail) {
