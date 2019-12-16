@@ -39,7 +39,7 @@ public enum VideoCommand {
 
     /**
      * Sets command value.
-     * @param command String value
+     * @param command String value.
      */
     VideoCommand(String command) {
         this.command = command;

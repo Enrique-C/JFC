@@ -49,19 +49,19 @@ VideoParam extends Param {
     //Content quality of video.
     private byte quality;
 
-    //Content number of audio channels
+    //Content number of audio channels.
     private byte channelsNumber;
 
     //Content audio volume value.
     private String volume;
 
-    //Content rotate value
+    //Content rotate value.
     private String rotate;
 
     //Content a specific time.
     private String thumbnail;
 
-    //Number of video frames to output
+    //Number of video frames to output.
     private byte videoFrame;
 
     /**

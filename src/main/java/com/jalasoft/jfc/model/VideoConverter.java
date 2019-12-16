@@ -30,8 +30,7 @@ public class VideoConverter {
      * This method convert a video format to another format.
      *
      * @param videoParam is an object of videoParam class.
-     * @return boolean resultFlag confirm the video's conversion
-     * if everything was correct.
+     * @return boolean resultFlag confirm the video's conversion if everything was correct.
      * @throws IOException is throws when occurs some problem with the file.
      * @throws InterruptedException is throws when occurs some interruption at the moment of conversion.
      */
