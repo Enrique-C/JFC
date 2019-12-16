@@ -19,7 +19,7 @@ import java.io.IOException;
 /**
  * This class is used to convert PDF to Image
  *
- * @version 1.0  Dic 2019
+ * @version 1.0 13 Dic 2019
  *
  * @author Alan Escalera
  */
