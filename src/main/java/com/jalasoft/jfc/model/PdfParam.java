@@ -18,7 +18,6 @@ import org.apache.pdfbox.rendering.ImageType;
  *
  * @author Alan Escalera
  */
-
 public class PdfParam extends Param{
     private int rotate;                 // Input Rotate in Degrees 90, 180, 270.
     private float scale;                // Input Scale 1-10.
