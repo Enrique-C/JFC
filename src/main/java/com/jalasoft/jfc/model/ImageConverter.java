@@ -24,18 +24,15 @@ import org.im4java.process.ProcessStarter;
  * */
 public class ImageConverter {
 
-    //path where ImageMagick is installed.
-    private String IMAGE_MAGIC_PATH = "C:\\Program Files (x86)\\ImageMagick-6.3.9-Q8\\";
-
-    //default value for creating thumbnail.
-    private final int THUMBNAIL_VALUE = 128;
-
     /**
      * Changes an Image format to another one.
      * @param imageParam Image parameters.
-     * @return conversion status.
+     * @return Conversion status.
      */
     protected boolean convertImage(ImageParam imageParam) {
+        String IMAGE_MAGIC_PATH = "C:\\Program Files (x86)\\ImageMagick-6.3.9-Q8\\";
+        final int THUMBNAIL_VALUE = 128;
+
         ProcessStarter.setGlobalSearchPath(IMAGE_MAGIC_PATH);
         verifyDataValues(imageParam);
         boolean convertResult = false;
@@ -72,20 +69,21 @@ public class ImageConverter {
      */
     public void verifyDataValues(ImageParam imageParam) {
         String fileName = imageParam.getInputPathFile();
+        final int NO_SET = 0;
+        Info imageInfo;
 
-        Info imageInfo = null;
         try {
             imageInfo = new Info(fileName, true);
-            if (imageParam.getWidthOfFile() == 0) {
+            if (imageParam.getWidthOfFile() == NO_SET) {
                 imageParam.setWidthOfFile(imageInfo.getImageWidth());
             }
-            if (imageParam.getHeightOfFile() == 0) {
+            if (imageParam.getHeightOfFile() == NO_SET) {
                 imageParam.setHeightOfFile(imageInfo.getImageHeight());
             }
-            if (imageParam.getWhiteBlankPercentage() < 0 || imageParam.getWhiteBlankPercentage() > 100) {
+            if (imageParam.getWhiteBlankPercentage() < NO_SET || imageParam.getWhiteBlankPercentage() > 100) {
                 imageParam.setWhiteBlankPercentage(0);
             }
-            if (imageParam.getDegreesToRotate() < 0 || imageParam.getDegreesToRotate() > 360) {
+            if (imageParam.getDegreesToRotate() < NO_SET || imageParam.getDegreesToRotate() > 360) {
                 imageParam.setDegreesToRotate(0);
             }
         } catch (InfoException e) {
