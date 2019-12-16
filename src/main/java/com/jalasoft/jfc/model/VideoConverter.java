@@ -194,17 +194,17 @@ public class VideoConverter {
 
             while ((line = bufferedReader.readLine()) != null) {
                 System.out.println(line);       //prints lines
-                LOGGER.log(Level.FINE, line);
+                LOGGER.log(Level.FINE, line, line);
             }
             process.waitFor();       //return the successful result
             bufferedReader.close();
             resultFlag = true;
         } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, ex.toString(), "JFCIOException");
+            LOGGER.log(Level.SEVERE, ex.toString(), ex);
             ex.printStackTrace();
 
         } catch (NullPointerException e) {
-            LOGGER.log(Level.SEVERE, e.toString());
+            LOGGER.log(Level.SEVERE, e.toString(), e);
             e.printStackTrace();
         } finally {
             return resultFlag;
