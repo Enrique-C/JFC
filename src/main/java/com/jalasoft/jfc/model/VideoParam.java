@@ -20,9 +20,6 @@ package com.jalasoft.jfc.model;
 public class VideoParam extends Param {
 
     private String fFmpeg;          //binary variable of FFmpeg.
-    private String inputPathFile;   //Content path io input file.
-    private String outputPathFile;  //Content path of output file.
-    private String outputFileName;  //Content name of output file.
     private double aspectRatio;     //Content aspect ratio value.
     private String frameRate;       //Content frameRate value.
     private int wight;              //Content video's wight.
@@ -52,30 +49,6 @@ public class VideoParam extends Param {
      */
     public String getfFmpeg() {
         return fFmpeg;
-    }
-
-    /**
-     * getInputPathFile gets inputPathFile value.
-     * @return inputPathFile String value.
-     */
-    public String getInputPathFile() {
-        return inputPathFile;
-    }
-
-    /**
-     * getInputPathFile gets inputPathFile value.
-     * @return inputPathFile String value.
-     */
-    public String getOutputPathFile() {
-        return outputPathFile;
-    }
-
-    /**
-     * getOutputFileName gets outputFileName value.
-     * @return outputFileName String value.
-     */
-    public String getOutputFileName() {
-        return outputFileName;
     }
 
     /**
@@ -188,30 +161,6 @@ public class VideoParam extends Param {
      */
     public byte getVideoFrame() {
         return videoFrame;
-    }
-
-    /**
-     * setInputPathFile sets inputPathFile value.
-     * @param inputPathFile for setting in this.inputPathFile.
-     */
-    public void setInputPathFile(String inputPathFile) {
-        this.inputPathFile = inputPathFile;
-    }
-
-    /**
-     * setOutputPathFile sets outputPathFile value.
-     * @param outputPathFile for setting in this.outputPathFile.
-     */
-    public void setOutputPathFile(String outputPathFile) {
-        this.outputPathFile = outputPathFile;
-    }
-
-    /**
-     * setOutputFileName sets outputFileName value.
-     * @param outputFileName for setting this.outputFileName.
-     */
-    public void setOutputFileName(String outputFileName) {
-        this.outputFileName = outputFileName;
     }
 
     /**
