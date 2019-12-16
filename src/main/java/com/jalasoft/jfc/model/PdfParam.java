@@ -19,10 +19,7 @@ import org.apache.pdfbox.rendering.ImageType;
  * @author Alan Escalera
  */
 
-public class PdfParam {
-    private String inputPathFile;
-    private String outputPathFile;
-    private String outputFileName;
+public class PdfParam extends  Param{
     private int rotate;                 // Input Rotate in Degrees 90, 180, 270.
     private float scale;                // Input Scale 1-10.
     private int dpi;                    // Input DPI 0-500.
@@ -34,38 +31,6 @@ public class PdfParam {
         scale = 1;
         dpi = 100;
         pdfFormatImage = PdfFormatImage.JPEG;
-    }
-
-    /**
-     * this method get the path input.
-     * @return inputPathFile
-     */
-    public String getPathInput() {
-        return inputPathFile;
-    }
-
-    /**
-     * this method set the path input.
-     * @param filePathIn
-     */
-    public void setPathInput(String filePathIn) {
-        this.inputPathFile = filePathIn;
-    }
-
-    /**
-     * this method get the path output.
-     * @return outputPathFile
-     */
-    public String getPathOuput() {
-        return outputPathFile;
-    }
-
-    /**
-     * this method set the path output.
-     * @param filePathOut
-     */
-    public void setPathOuput(String filePathOut) {
-        this.outputPathFile = filePathOut;
     }
 
     /**
@@ -146,21 +111,5 @@ public class PdfParam {
      */
     public void setPdfFormatImage(PdfFormatImage formatimage) {
         this.pdfFormatImage = formatimage;
-    }
-
-    /**
-     * This method get the name file given to be converted.
-     * @return outputFileName
-     */
-    public String getNameFile() {
-        return outputFileName;
-    }
-
-    /**
-     * This method set the name file given to be converted.
-     * @param nameFile
-     */
-    public void setOutputFileName(String nameFile) {
-        this.outputFileName = "/"+ nameFile;
     }
 }

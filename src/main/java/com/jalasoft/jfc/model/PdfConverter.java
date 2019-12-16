@@ -36,11 +36,11 @@ public class PdfConverter {
 
         Boolean isConverted = false;
         try {
-            if (pdf.getPathInput() == null || pdf.getPathOuput() == null) {
+            if (pdf.getInputPathFile() == null || pdf.getOutputPathFile() == null) {
                 throw new IllegalArgumentException();
             }
             PDDocument documenttoimage = PDDocument.load(
-                    new File(pdf.getPathInput()));
+                    new File(pdf.getInputPathFile()));
             PDDocument documentRotated = new PDDocument();
             PDFRenderer renderer;
             BufferedImage image;
@@ -61,7 +61,7 @@ public class PdfConverter {
                 renderer = new PDFRenderer(documenttoimage);
             }
             for (int i = 0; i < pages; i++) {
-                pathName = pdf.getPathOuput().toString() + pdf.getNameFile() +
+                pathName = pdf.getOutputPathFile() + pdf.getOutputFileName() +
                         i + "." + pdf.getPdfFormatImage().toString();
                 if (pdf.getDpi() != 100) {
                     image = renderer.renderImageWithDPI(i, pdf.getDpi(), pdf.getImageType());
