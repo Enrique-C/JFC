@@ -106,9 +106,9 @@ public class PdfParam extends Param{
 
     /**
      * This method set the Format image to be converted.
-     * @param formatimage
+     * @param formatImage
      */
-    public void setPdfFormatImage(PdfFormatImage formatimage) {
-        this.pdfFormatImage = formatimage;
+    public void setPdfFormatImage(PdfFormatImage formatImage) {
+        this.pdfFormatImage = formatImage;
     }
 }

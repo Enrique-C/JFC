@@ -45,6 +45,7 @@ public class PdfConverter {
             PDFRenderer renderer;
             BufferedImage image;
             String pathName;
+            int dpiByDefect = 100;
 
             boolean rotated = false;
             int totalPages = documentToImage.getNumberOfPages();
@@ -63,7 +64,7 @@ public class PdfConverter {
             for (int page = 0; page < totalPages; page++) {
                 pathName = pdf.getOutputPathFile() + pdf.getOutputFileName() +
                         page + "." + pdf.getPdfFormatImage().toString();
-                if (pdf.getDpi() != 100) {
+                if (pdf.getDpi() != dpiByDefect) {
                     image = renderer.renderImageWithDPI(page, pdf.getDpi(), pdf.getImageType());
                 } else {
                     image = renderer.renderImage(page, pdf.getScale(), pdf.getImageType());
@@ -75,7 +76,7 @@ public class PdfConverter {
             documentToImage.close();
             isConverted = true;
         }
-        catch (IllegalArgumentException e)
+        catch (IOException e)
         {
             throw new IOException();
         }
