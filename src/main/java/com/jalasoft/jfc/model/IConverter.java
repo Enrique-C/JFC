@@ -9,6 +9,8 @@
 
 package com.jalasoft.jfc.model;
 
+import java.io.IOException;
+
 /**
  *
  *  IConverter interface defines behavior to Converters.
@@ -24,5 +26,5 @@ public interface IConverter {
      * @param param it receives file params.
      * @return state of conversion.
      */
-    boolean convert(Param param);
+    public FileResult convert(Param param);
 }
