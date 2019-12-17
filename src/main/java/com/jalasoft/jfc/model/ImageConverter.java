@@ -69,7 +69,9 @@ public class ImageConverter {
      */
     public void verifyDataValues(ImageParam imageParam) {
         String fileName = imageParam.getInputPathFile();
-        final int NO_SET = 0;
+        final byte NO_SET = 0;
+        final byte MAX_WITHE_BLACK_PERCENTAGE = 100;
+        final int MAX_ROTATE_DEGREE = 360;
         Info imageInfo;
 
         try {
@@ -80,11 +82,12 @@ public class ImageConverter {
             if (imageParam.getHeightOfFile() == NO_SET) {
                 imageParam.setHeightOfFile(imageInfo.getImageHeight());
             }
-            if (imageParam.getWhiteBlankPercentage() < NO_SET || imageParam.getWhiteBlankPercentage() > 100) {
-                imageParam.setWhiteBlankPercentage(0);
+            if (imageParam.getWhiteBlankPercentage() < NO_SET || imageParam.getWhiteBlankPercentage()
+                    > MAX_WITHE_BLACK_PERCENTAGE) {
+                imageParam.setWhiteBlankPercentage(NO_SET);
             }
-            if (imageParam.getDegreesToRotate() < NO_SET || imageParam.getDegreesToRotate() > 360) {
-                imageParam.setDegreesToRotate(0);
+            if (imageParam.getDegreesToRotate() < NO_SET || imageParam.getDegreesToRotate() > MAX_ROTATE_DEGREE) {
+                imageParam.setDegreesToRotate(NO_SET);
             }
         } catch (InfoException e) {
             e.printStackTrace();
