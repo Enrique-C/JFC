@@ -38,12 +38,11 @@ public class PdfConverterController {
     private static final String UPLOADED_FOLDER = "src/main/java/com/jalasoft/jfc/resources/";
     // Constant path converted file.
     private static final String CONVERTED_FILE = "src/main/java/com/jalasoft/jfc/resources/";
-    /* @param inputPathFile contains the input path of the PDF.
-     * @param outputPathFile contains the output path of file converted. * @param file contains the image file.*/
 
     /**
      * pdfConverter method receives a PDF to convert.
-
+     * @param outputPathFile contains the output path of file converted.
+     * @param file contains the image file
      * @param outputFileName contains name of output file.
      * @param rotate degrees of rotation.
      * @param scale contains input Scale 1-10.
@@ -54,17 +53,17 @@ public class PdfConverterController {
      */
     @PostMapping
     public String pdfConverter(
-            /*@RequestParam("file") MultipartFile file,*/ @RequestParam MultipartFile inputPathFile,
-            @RequestParam (defaultValue = CONVERTED_FILE) String outputPathFile, @RequestParam String outputFileName,
-            @RequestParam(defaultValue = "0") int rotate, @RequestParam (defaultValue = "1") float scale, @RequestParam (defaultValue = "100") int dpi,
+            @RequestParam("file") MultipartFile file, @RequestParam (defaultValue = CONVERTED_FILE)
+            String outputPathFile, @RequestParam String outputFileName, @RequestParam(defaultValue = "0") int rotate,
+            @RequestParam (defaultValue = "1") float scale, @RequestParam (defaultValue = "100") int dpi,
             @RequestParam String imageType, @RequestParam String formatImage) {
 
         PdfParam param = new PdfParam();
         PdfConverter pdf = new PdfConverter();
-        String pdfconver = "";
+        String convertionState = "Failed Conversion";
         try {
-            byte[] bytes = inputPathFile.getBytes();
-            Path path = Paths.get(UPLOADED_FOLDER + inputPathFile.getOriginalFilename());
+            byte[] bytes = file.getBytes();
+            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
             Files.write(path, bytes);
 
             param.setInputPathFile(path.toString());
@@ -75,12 +74,14 @@ public class PdfConverterController {
             param.setScale(scale);
             param.setImageType(selectImageType(imageType));
             param.setPdfFormatImage(selectFormatImage(formatImage));
-            //param.set
-            pdfconver = pdf.convert(param).toString();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return pdfconver + "   "+ param.getOutputPathFile() +"   "+ param.getInputPathFile();
+        if(pdf.convert(param))
+        {
+            convertionState = "Successful Conversion";
+        }
+        return convertionState;
     }
 
     private PdfFormatImage selectFormatImage(String formatImage) {
