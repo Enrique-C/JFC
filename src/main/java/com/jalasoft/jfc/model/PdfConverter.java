@@ -48,7 +48,6 @@ public class PdfConverter {
             BufferedImage image;
             String pathName;
 
-
             boolean rotated = false;
             int totalPages = documentToImage.getNumberOfPages();
 
