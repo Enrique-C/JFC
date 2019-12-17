@@ -11,35 +11,36 @@ package com.jalasoft.jfc.model;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * VideoConverter Class is used for convert videos.
+ * This Class is used for convert videos.
  *
  * @author Juan Martinez
  *
  * @version 0.1 13 Dic 2019
  */
 public class VideoConverter {
+
     private final static Logger LOGGER = Logger.getLogger(VideoConverter.class.getName());
 
     /**
      * This method convert a video format to another format.
      *
      * @param videoParam is an object of videoParam class.
-     * @return boolean resultFlag confirm the video's conversion
-     * if everything was correct.
-     * @throws IOException          is throws when occurs some problem with
-     *                              the file.
-     * @throws InterruptedException is throws when occurs some
-     *                              interruption at the moment of conversion.
+     * @return boolean resultFlag confirm the video's conversion if everything was correct.
+     * @throws IOException is throws when occurs some problem with the file.
+     * @throws InterruptedException is throws when occurs some interruption at the moment of conversion.
      */
     public boolean convert(VideoParam videoParam) throws IOException, InterruptedException {
-        String space = " ";             //space between commands.
-        boolean resultFlag = false;     //flag for return value.
+
+        // Space between commands.
+        String space = " ";
+
+        // Flag for return value.
+        boolean resultFlag = false;
 
         try {
             StringBuilder command = new StringBuilder();
@@ -52,20 +53,9 @@ public class VideoConverter {
                 throw new IOException("JFC_IOException");
             }
 
-            /**
-             * This statement adds space to command string. */
             command.append(space);
-
-            /**
-             * This statement adds INFILE VideoCommand to command string. */
             command.append(VideoCommand.INFILE.getCommand());
-
-            /**
-             * This statement adds space to command string. */
             command.append(space);
-
-            /**
-             * This statement adds InputPathFile value to command string. */
             command.append(videoParam.getInputPathFile());
 
             if (videoParam.getAspectRatio() != 0.0) {
@@ -163,50 +153,31 @@ public class VideoConverter {
                 command.append(videoParam.getVideoFrame());
             }
 
-            if (videoParam.getOutputPathFile().equals(null) ||
-                    videoParam.getOutputFileName().equals(null)) {
+            if (videoParam.getOutputPathFile().equals(null) || videoParam.getOutputFileName().equals(null)) {
                 throw new NullPointerException("JFCNullPointerException");
             }
 
-            /**
-             * This statement adds space to command string. */
             command.append(space);
-
-            /**
-             * This statement adds OutputPathFile value to command string. */
             command.append(videoParam.getOutputPathFile());
-
-            /**
-             * This statement adds OutputFileName value to command string. */
             command.append(videoParam.getOutputFileName());
-
-            /**
-             * This is an declaration of stringCommand variable. */
             String stringCommand = command.toString();
-
-            /**
-             * BufferedReader gets inputStreamReader. */
-            //BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
             Process process = Runtime.getRuntime().exec(stringCommand);
-            BufferedReader bufferedReader = new BufferedReader(
-                    new InputStreamReader(process.getErrorStream()));
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 
-            String line;        //line variable
+            // Line variable.
+            String line;
 
             while ((line = bufferedReader.readLine()) != null) {
-                System.out.println(line);       //prints lines
+                System.out.println(line);
                 LOGGER.log(Level.FINE, line, line);
             }
-            process.waitFor();       //return the successful result
+            process.waitFor();
             bufferedReader.close();
             resultFlag = true;
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, ex.toString(), ex);
-            ex.printStackTrace();
-
         } catch (NullPointerException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
-            e.printStackTrace();
         } finally {
             return resultFlag;
         }
