@@ -9,6 +9,9 @@
  */
 package com.jalasoft.jfc.model.pdf;
 
+import com.jalasoft.jfc.model.FileResult;
+import com.jalasoft.jfc.model.IConverter;
+import com.jalasoft.jfc.model.Param;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.rendering.PDFRenderer;
@@ -25,25 +28,26 @@ import java.io.IOException;
  *
  * @author Alan Escalera
  */
-public class PdfConverter {
+public class PdfConverter implements IConverter {
 
     /**
      * This method convert a PDF to Image JPEG, PNG, GIF, BMP and WBMP.
-     * @param pdf
+     * @param param
      * @return boolean value.
      * @throws IOException
      */
-    public Boolean convert(PdfParam pdf){
+    public FileResult convert(Param param){
 
+        PdfParam pdfParam = (PdfParam)param;
         final int DPI_BY_DEFECT = 100;
         final int INIT_VALUE = 0;
-        Boolean isConverted = false;
+        FileResult fileResult = new FileResult();
 
         try {
-            if (pdf.getInputPathFile() == null || pdf.getOutputPathFile() == null) {
+            if (pdfParam.getInputPathFile() == null || pdfParam.getOutputPathFile() == null) {
                 throw new IOException();
             }
-            PDDocument documentToImage = PDDocument.load(new File(pdf.getInputPathFile()));
+            PDDocument documentToImage = PDDocument.load(new File(pdfParam.getInputPathFile()));
             PDDocument documentRotated = new PDDocument();
             PDFRenderer renderer;
             BufferedImage image;
@@ -53,10 +57,10 @@ public class PdfConverter {
             int totalPages = documentToImage.getNumberOfPages();
 
             // Just rotate 90, 180, 270 degrees.
-            if (pdf.getRotate() > INIT_VALUE) {
+            if (pdfParam.getRotate() > INIT_VALUE) {
                 for (int page = INIT_VALUE; page < totalPages; page++) {
                     PDPage pageToRotate = documentToImage.getPage(page);
-                    pageToRotate.setRotation(pdf.getRotate());
+                    pageToRotate.setRotation(pdfParam.getRotate());
                     documentRotated.addPage(pageToRotate);
                 }
                 renderer = new PDFRenderer(documentRotated);
@@ -65,26 +69,26 @@ public class PdfConverter {
                 renderer = new PDFRenderer(documentToImage);
             }
             for (int page = INIT_VALUE; page < totalPages; page++) {
-                pathName = pdf.getOutputPathFile() + pdf.getOutputFileName() +
-                        page + "." + pdf.getPdfFormatImage().toString();
-                if (pdf.getDpi() != DPI_BY_DEFECT) {
-                    image = renderer.renderImageWithDPI(page, pdf.getDpi(), pdf.getImageType());
+                pathName = pdfParam.getOutputPathFile() + pdfParam.getOutputFileName() +
+                        page + "." + pdfParam.getPdfFormatImage().toString();
+                if (pdfParam.getDpi() != DPI_BY_DEFECT) {
+                    image = renderer.renderImageWithDPI(page, pdfParam.getDpi(), pdfParam.getImageType());
                 } else {
-                    image = renderer.renderImage(page, pdf.getScale(), pdf.getImageType());
+                    image = renderer.renderImage(page, pdfParam.getScale(), pdfParam.getImageType());
                 }
-                ImageIO.write(image, pdf.getPdfFormatImage().toString(), new File(pathName));
+                ImageIO.write(image, pdfParam.getPdfFormatImage().toString(), new File(pathName));
             }
             if(rotated)
                 documentRotated.close();
             documentToImage.close();
-            isConverted = true;
+            return fileResult;
         }
         catch (IOException e)
         {
             throw new IOException();
         }
         finally {
-            return isConverted;
+            return null;
         }
     }
 }

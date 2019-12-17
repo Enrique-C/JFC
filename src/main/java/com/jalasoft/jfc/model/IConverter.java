@@ -26,5 +26,5 @@ public interface IConverter {
      * @param param it receives file params.
      * @return state of conversion.
      */
-    public FileResult convert(Param param) throws IOException, InterruptedException;
+    public FileResult convert(Param param);
 }

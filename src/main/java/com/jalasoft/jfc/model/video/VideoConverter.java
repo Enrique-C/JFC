@@ -36,10 +36,8 @@ public class VideoConverter implements IConverter {
      *
      * @param param is an object of videoParam class.
      * @return boolean resultFlag confirm the video's conversion if everything was correct.
-     * @throws IOException is throws when occurs some problem with the file.
-     * @throws InterruptedException is throws when occurs some interruption at the moment of conversion.
      */
-    public FileResult convert(Param param) throws IOException, InterruptedException {
+    public FileResult convert(Param param) {
         VideoParam videoParam = (VideoParam)param;
         // Space between commands.
         String space = " ";
@@ -178,6 +176,7 @@ public class VideoConverter implements IConverter {
             }
             process.waitFor();
             bufferedReader.close();
+            return fileResult;
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, ex.toString(), ex);
         } catch (NullPointerException e) {
