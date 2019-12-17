@@ -21,7 +21,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- *  Manage VideoConverter Requests.
+ * Manage VideoConverter Requests.
  *
  * @version 0.1 13 Dic 2019.
  *
@@ -31,8 +31,8 @@ import java.nio.file.Paths;
 @RequestMapping(path = "/videoConverter")
 public class VideoConverterController {
 
-    private static final String UPLOADED_FOLDER =
-            "src/main/java/com/jalasoft/jfc/resources/"; //Constant upload file.
+    // Constant upload file.
+    private static final String UPLOADED_FOLDER = "src/main/java/com/jalasoft/jfc/resources/";
 
     /**
      * videoConverter method receives an video to convert
@@ -53,27 +53,16 @@ public class VideoConverterController {
      * @param channelsNumber contains number of output channels.
      * @param volume contains the level of sound.
      * @param rotate degrees of rotation.
-     * @return get the path of the upload file.
+     * @return the path of the upload file.
      */
     @PostMapping
     public String videoConverter(
-            @RequestParam("file") MultipartFile file,
-            @RequestParam String fFmpeg,
-            @RequestParam String inputPathFile,
-            @RequestParam String outputPathFile,
-            @RequestParam String outputFileName,
-            @RequestParam double aspectRatio,
-            @RequestParam String frameRate,
-            @RequestParam int wight,
-            @RequestParam int height,
-            @RequestParam String videoCodec,
-            @RequestParam String audioCodec,
-            @RequestParam String videoBitRate,
-            @RequestParam String audioBitRate,
-            @RequestParam byte quality,
-            @RequestParam byte channelsNumber,
-            @RequestParam String volume,
-            @RequestParam String rotate) {
+            @RequestParam("file") MultipartFile file, @RequestParam String fFmpeg, @RequestParam String inputPathFile,
+            @RequestParam String outputPathFile, @RequestParam String outputFileName, @RequestParam double aspectRatio,
+            @RequestParam String frameRate, @RequestParam int wight, @RequestParam int height,
+            @RequestParam String videoCodec, @RequestParam String audioCodec, @RequestParam String videoBitRate,
+            @RequestParam String audioBitRate, @RequestParam byte quality, @RequestParam byte channelsNumber,
+            @RequestParam String volume, @RequestParam String rotate) {
 
         try {
             byte[] bytes = file.getBytes();

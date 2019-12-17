@@ -9,6 +9,10 @@
 
 package com.jalasoft.jfc.controller;
 
+import com.jalasoft.jfc.model.PdfConverter;
+import com.jalasoft.jfc.model.PdfFormatImage;
+import com.jalasoft.jfc.model.PdfParam;
+import org.apache.pdfbox.rendering.ImageType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,8 +24,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- *
- *  Manage PdfConverter Requests.
+ * Manage PdfConverter Requests.
  *
  * @version 0.1 14 Dic 2019.
  *
@@ -31,8 +34,8 @@ import java.nio.file.Paths;
 @RequestMapping(path = "/pdfConverter")
 public class PdfConverterController {
 
-    private static final String UPLOADED_FOLDER =
-            "src/main/java/com/jalasoft/jfc/resources/";  //Constant upload file.
+    // Constant upload file.
+    private static final String UPLOADED_FOLDER = "src/main/java/com/jalasoft/jfc/resources/";
 
     /**
      * pdfConverter method receives a PDF to convert.
@@ -45,19 +48,14 @@ public class PdfConverterController {
      * @param dpi contains level of Scale 1-10.
      * @param imageType type of a image.
      * @param formatImage format of a image.
-     * @return get the path of the upload file.
+     * @return the path of the upload file.
      */
     @PostMapping
     public String pdfConverter(
-            @RequestParam("file") MultipartFile file,
-            @RequestParam String inputPathFile,
-            @RequestParam String outputPathFile,
-            @RequestParam String outputFileName,
-            @RequestParam int rotate,
-            @RequestParam float scale,
-            @RequestParam int dpi,
-            @RequestParam String imageType,
-            @RequestParam String formatImage) {
+            @RequestParam("file") MultipartFile file, @RequestParam String inputPathFile,
+            @RequestParam String outputPathFile, @RequestParam String outputFileName,
+            @RequestParam(defaultValue = "0") int rotate, @RequestParam float scale, @RequestParam int dpi,
+            @RequestParam String imageType, @RequestParam String formatImage) {
 
         try {
             byte[] bytes = file.getBytes();
