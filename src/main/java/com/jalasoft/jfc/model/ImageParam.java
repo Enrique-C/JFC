@@ -18,25 +18,25 @@ package com.jalasoft.jfc.model;
  * */
 public class ImageParam {
 
-    //Contains input path of Image.
+    // Contains input path of Image.
     private String inputPathFile;
 
-    //Contains output path of Image.
+    // Contains output path of Image.
     private String outputPathFile;
 
-    //Contains output path of Thumbnail of a Image.
+    // Contains output path of Thumbnail of a Image.
     private String outputPathThumbnail;
 
-    //Contains width of Image.
+    // Contains width of Image.
     private int widthOfFile;
 
-    //Contains height of Image.
+    // Contains height of Image.
     private int heightOfFile;
 
-    //Contains the percentage white and black of a Image.
+    // Contains the percentage white and black of a Image.
     private int whiteBlankPercentage;
 
-    //Contains the degrees to rotate a Image.
+    // Contains the degrees to rotate a Image.
     private double degreesToRotate;
 
     /**
