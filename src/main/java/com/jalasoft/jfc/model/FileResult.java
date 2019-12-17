@@ -17,5 +17,23 @@ package com.jalasoft.jfc.model;
  * @author Juan Martinez
  */
 public class FileResult {
-    
+
+    // Content path of result file.
+    private String path;
+
+    /**
+     * Gets path value.
+     * @return path.
+     */
+    public String getPath() {
+        return path;
+    }
+
+    /**
+     * Sets path String value.
+     * @param path
+     */
+    public void setPath(String path) {
+        this.path = path;
+    }
 }
