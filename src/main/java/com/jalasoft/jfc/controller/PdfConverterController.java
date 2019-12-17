@@ -9,9 +9,9 @@
 
 package com.jalasoft.jfc.controller;
 
-import com.jalasoft.jfc.model.PdfConverter;
-import com.jalasoft.jfc.model.PdfFormatImage;
-import com.jalasoft.jfc.model.PdfParam;
+import com.jalasoft.jfc.model.pdf.PdfConverter;
+import com.jalasoft.jfc.model.pdf.PdfFormatImage;
+import com.jalasoft.jfc.model.pdf.PdfParam;
 import org.apache.pdfbox.rendering.ImageType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

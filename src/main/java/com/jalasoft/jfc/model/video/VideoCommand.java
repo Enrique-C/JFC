@@ -5,13 +5,13 @@
  *  ("Confidential Information"). You shall not disclose such Confidential
  *  Information and shall use it only in accordance with the terms of the
  *  license agreement you entered into with Jalasoft.
+ *
  */
 
-package com.jalasoft.jfc.model;
+package com.jalasoft.jfc.model.video;
 
 /**
- *
- *  VideoCommand enum is used for specify FFmpeg commands.
+ * This enum is used for specifying FFmpeg commands.
  *
  * @version 0.1 13 Dic 2019
  *
@@ -35,18 +35,19 @@ public enum VideoCommand {
     THUMBNAIL("-ss"),
     V_FRAMES("-vframes");
 
-    private String command;     //command variable
+    // Command variable.
+    private String command;
 
     /**
-     * VideoCommand for setting command value.
-     * @param command String value
+     * Sets command value.
+     * @param command String value.
      */
     VideoCommand(String command) {
         this.command = command;
     }
 
     /**
-     * getCommand method for getting command value.
+     * Gets command value.
      * @return String value.
      */
     public String getCommand(){
