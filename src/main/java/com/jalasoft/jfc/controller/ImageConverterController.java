@@ -26,6 +26,7 @@ import java.io.IOException;
 @RestController
 @RequestMapping(path = "/imageConverter")
 public class ImageConverterController {
+
     // Constant upload file
     private static final String UPLOADED_FOLDER = "src/main/java/com/jalasoft/jfc/resources/";
 

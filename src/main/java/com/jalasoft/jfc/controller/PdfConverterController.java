@@ -33,6 +33,7 @@ import java.nio.file.Paths;
 @RestController
 @RequestMapping(path = "/pdfConverter")
 public class PdfConverterController {
+
     // Constant upload file.
     private static final String UPLOADED_FOLDER = "src/main/java/com/jalasoft/jfc/resources/";
 
@@ -65,6 +66,4 @@ public class PdfConverterController {
         }
         return UPLOADED_FOLDER;
     }
-
-
 }
