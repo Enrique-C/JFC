@@ -38,6 +38,7 @@ public class PdfConverter implements IConverter {
      */
     public FileResult convert(Param param){
 
+        // Instance of pdfParam for casting param.
         PdfParam pdfParam = (PdfParam)param;
         final int DPI_BY_DEFECT = 100;
         final int INIT_VALUE = 0;

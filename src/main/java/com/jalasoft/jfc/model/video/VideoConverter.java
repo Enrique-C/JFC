@@ -38,7 +38,10 @@ public class VideoConverter implements IConverter {
      * @return boolean resultFlag confirm the video's conversion if everything was correct.
      */
     public FileResult convert(Param param) {
+
+        // Instance of videoParam for casting param.
         VideoParam videoParam = (VideoParam)param;
+
         // Space between commands.
         String space = " ";
 
