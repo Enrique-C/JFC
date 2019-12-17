@@ -65,18 +65,18 @@ public class PdfConverterController {
             byte[] bytes = file.getBytes();
             Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
             Files.write(path, bytes);
-
             param.setInputPathFile(path.toString());
-            param.setOutputPathFile(outputPathFile);
-            param.setOutputFileName(outputFileName);
-            param.setRotate(rotate);
-            param.setDpi(dpi);
-            param.setScale(scale);
-            param.setImageType(selectImageType(imageType));
-            param.setPdfFormatImage(selectFormatImage(formatImage));
         } catch (IOException e) {
             e.printStackTrace();
         }
+        param.setOutputPathFile(outputPathFile);
+        param.setOutputFileName(outputFileName);
+        param.setRotate(rotate);
+        param.setDpi(dpi);
+        param.setScale(scale);
+        param.setImageType(selectImageType(imageType));
+        param.setPdfFormatImage(selectFormatImage(formatImage));
+
         if(pdf.convert(param))
         {
             convertionState = "Successful Conversion";
