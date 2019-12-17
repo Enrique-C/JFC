@@ -10,6 +10,10 @@
 
 package com.jalasoft.jfc.model.video;
 
+import com.jalasoft.jfc.model.FileResult;
+import com.jalasoft.jfc.model.IConverter;
+import com.jalasoft.jfc.model.Param;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -23,25 +27,25 @@ import java.util.logging.Logger;
  *
  * @version 0.1 13 Dic 2019
  */
-public class VideoConverter {
+public class VideoConverter implements IConverter {
 
     private final static Logger LOGGER = Logger.getLogger(VideoConverter.class.getName());
 
     /**
      * This method convert a video format to another format.
      *
-     * @param videoParam is an object of videoParam class.
+     * @param param is an object of videoParam class.
      * @return boolean resultFlag confirm the video's conversion if everything was correct.
      * @throws IOException is throws when occurs some problem with the file.
      * @throws InterruptedException is throws when occurs some interruption at the moment of conversion.
      */
-    public boolean convert(VideoParam videoParam) throws IOException, InterruptedException {
-
+    public FileResult convert(Param param) throws IOException, InterruptedException {
+        VideoParam videoParam = (VideoParam)param;
         // Space between commands.
         String space = " ";
 
         // Flag for return value.
-        boolean resultFlag = false;
+        FileResult fileResult = new FileResult();
 
         try {
             StringBuilder command = new StringBuilder();
@@ -174,13 +178,12 @@ public class VideoConverter {
             }
             process.waitFor();
             bufferedReader.close();
-            resultFlag = true;
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, ex.toString(), ex);
         } catch (NullPointerException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
         } finally {
-            return resultFlag;
+            return null;
         }
     }
 }
