@@ -69,9 +69,9 @@ public class ImageConverter {
      */
     public void verifyDataValues(ImageParam imageParam) {
         String fileName = imageParam.getInputPathFile();
-        final byte NO_SET = 0;
         final byte MAX_WITHE_BLACK_PERCENTAGE = 100;
         final int MAX_ROTATE_DEGREE = 360;
+        final int NO_SET = 0;
         Info imageInfo;
 
         try {
