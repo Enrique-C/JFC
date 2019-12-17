@@ -5,8 +5,9 @@
  *  ("Confidential Information"). You shall not disclose such Confidential
  *  Information and shall use it only in accordance with the terms of the
  *  license agreement you entered into with Jalasoft.
+ *
  */
-package com.jalasoft.jfc.model;
+package com.jalasoft.jfc.model.pdf;
 
 /**
  * This enum is used for specify types of image formats.

@@ -5,9 +5,10 @@
  *  ("Confidential Information"). You shall not disclose such Confidential
  *  Information and shall use it only in accordance with the terms of the
  *  license agreement you entered into with Jalasoft.
+ *
  */
 
-package com.jalasoft.jfc.model;
+package com.jalasoft.jfc.model.image;
 
 import org.im4java.core.ConvertCmd;
 import org.im4java.core.IMOperation;
@@ -30,6 +31,7 @@ public class ImageConverter {
      * @return Conversion status.
      */
     protected boolean convertImage(ImageParam imageParam) {
+
         String IMAGE_MAGIC_PATH = "C:\\Program Files (x86)\\ImageMagick-6.3.9-Q8\\";
         final int THUMBNAIL_VALUE = 128;
 
@@ -39,22 +41,22 @@ public class ImageConverter {
 
         try {
             ConvertCmd cmd = new ConvertCmd();
-            IMOperation op = new IMOperation();
+            IMOperation imOperation = new IMOperation();
 
-            op.addImage(imageParam.getInputPathFile());
-            op.resize(imageParam.getWidthOfFile(), imageParam.getHeightOfFile());
-            op.rotate(imageParam.getDegreesToRotate());
-            op.threshold(imageParam.getWhiteBlankPercentage());
-            op.addImage(imageParam.getOutputPathFile());
+            imOperation.addImage(imageParam.getInputPathFile());
+            imOperation.resize(imageParam.getWidthOfFile(), imageParam.getHeightOfFile());
+            imOperation.rotate(imageParam.getDegreesToRotate());
+            imOperation.threshold(imageParam.getWhiteBlankPercentage());
+            imOperation.addImage(imageParam.getOutputPathFile());
 
-            cmd.run(op);
+            cmd.run(imOperation);
 
-            op = new IMOperation();
-            op.size(THUMBNAIL_VALUE);
-            op.addImage(imageParam.getInputPathFile());
-            op.thumbnail(THUMBNAIL_VALUE);
-            op.addImage(imageParam.getOutputPathFile());
-            cmd.run(op);
+            imOperation = new IMOperation();
+            imOperation.size(THUMBNAIL_VALUE);
+            imOperation.addImage(imageParam.getInputPathFile());
+            imOperation.thumbnail(THUMBNAIL_VALUE);
+            imOperation.addImage(imageParam.getOutputPathFile());
+            cmd.run(imOperation);
             convertResult = true;
         }catch(Exception e) {
             System.out.println(e.getMessage());

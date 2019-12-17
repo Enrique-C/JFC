@@ -5,9 +5,12 @@
  *  ("Confidential Information"). You shall not disclose such Confidential
  *  Information and shall use it only in accordance with the terms of the
  *  license agreement you entered into with Jalasoft.
+ *
  */
-package com.jalasoft.jfc.model;
+package com.jalasoft.jfc.model.pdf;
 
+import com.jalasoft.jfc.model.Param;
+import com.jalasoft.jfc.model.pdf.PdfFormatImage;
 import org.apache.pdfbox.rendering.ImageType;
 
 /**
@@ -17,7 +20,7 @@ import org.apache.pdfbox.rendering.ImageType;
  *
  * @author Alan Escalera
  */
-public class PdfParam extends Param{
+public class PdfParam extends Param {
 
     // Input Rotate in Degrees 90, 180, 270.
     private int rotate;

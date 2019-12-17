@@ -5,9 +5,12 @@
  *  ("Confidential Information"). You shall not disclose such Confidential
  *  Information and shall use it only in accordance with the terms of the
  *  license agreement you entered into with Jalasoft.
+ *
  */
 
-package com.jalasoft.jfc.model;
+package com.jalasoft.jfc.model.video;
+
+import com.jalasoft.jfc.model.Param;
 
 /**
  * Class is used for specifying attributes of VideoParam.
