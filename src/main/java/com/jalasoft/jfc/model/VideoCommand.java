@@ -34,7 +34,7 @@ public enum VideoCommand {
     THUMBNAIL("-ss"),
     V_FRAMES("-vframes");
 
-    //Command variable.
+    // Command variable.
     private String command;
 
     /**

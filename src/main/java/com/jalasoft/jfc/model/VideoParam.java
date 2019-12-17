@@ -18,49 +18,49 @@ package com.jalasoft.jfc.model;
  */
 public class VideoParam extends Param {
 
-    //Binary variable of FFmpeg.
+    // Binary variable of FFmpeg.
     private String fFmpeg;
 
-    //Content aspect ratio value.
+    // Content aspect ratio value.
     private double aspectRatio;
 
-    //Content frameRate value.
+    // Content frameRate value.
     private String frameRate;
 
-    //Content video's wight.
+    // Content video's wight.
     private int wight;
 
-    //Content video's height.
+    // Content video's height.
     private int height;
 
-    //Content videoCodec value.
+    // Content videoCodec value.
     private String videoCodec;
 
-    //Content audioCodec value.
+    // Content audioCodec value.
     private String audioCodec;
 
-    //Content videoBitRate value.
+    // Content videoBitRate value.
     private String videoBitRate;
 
-    //Content audioBitRate value.
+    // Content audioBitRate value.
     private String audioBitRate;
 
-    //Content quality of video.
+    // Content quality of video.
     private byte quality;
 
-    //Content number of audio channels.
+    // Content number of audio channels.
     private byte channelsNumber;
 
-    //Content audio volume value.
+    // Content audio volume value.
     private String volume;
 
-    //Content rotate value.
+    // Content rotate value.
     private String rotate;
 
-    //Content a specific time.
+    // Content a specific time.
     private String thumbnail;
 
-    //Number of video frames to output.
+    // Number of video frames to output.
     private byte videoFrame;
 
     /**

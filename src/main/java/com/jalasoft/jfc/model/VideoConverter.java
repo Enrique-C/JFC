@@ -36,10 +36,10 @@ public class VideoConverter {
      */
     public boolean convert(VideoParam videoParam) throws IOException, InterruptedException {
 
-        //Space between commands.
+        // Space between commands.
         String space = " ";
 
-        //Flag for return value.
+        // Flag for return value.
         boolean resultFlag = false;
 
         try {
@@ -164,7 +164,7 @@ public class VideoConverter {
             Process process = Runtime.getRuntime().exec(stringCommand);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 
-            //Line variable.
+            // Line variable.
             String line;
 
             while ((line = bufferedReader.readLine()) != null) {
