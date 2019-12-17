@@ -6,6 +6,7 @@
  *  Information and shall use it only in accordance with the terms of the
  *  license agreement you entered into with Jalasoft.
  */
+
 package com.jalasoft.jfc.model;
 
 import org.im4java.core.ConvertCmd;
@@ -15,9 +16,7 @@ import org.im4java.core.InfoException;
 import org.im4java.process.ProcessStarter;
 
 /**
- * This class has attribute, fileNamePath that has a path for program
- * and variable THUMBNAILVALUE constant for Thumbnail size;
- * ImageMagick.
+ * Converts a image type to another.
  *
  * @version 0.1 11 Dec 2019.
  *
@@ -25,78 +24,70 @@ import org.im4java.process.ProcessStarter;
  * */
 public class ImageConverter {
 
-    //path where ImageMagick is installed.
-    private String fileNamePath = "C:\\Program Files (x86)\\ImageMagick-6.3.9-Q8\\";
-
-    //default value for creating thumbnail.
-    private final int THUMBNAILVALUE = 128;
-
     /**
-     * convertImage Method for changing an Image format to
-     * another one, resize it rotate, blank and white,
-     * and create thumbnail.
-     * @param image variable of type Image.
-     * @return true if conversion is successful, false if fail.
+     * Changes an Image format to another one.
+     * @param imageParam Image parameters.
+     * @return Conversion status.
      */
-    protected boolean convertImage(ImageParam image) {
-        ProcessStarter.setGlobalSearchPath(fileNamePath);
-        verifyDataValues(image);
-        boolean resultAccion = false;
+    protected boolean convertImage(ImageParam imageParam) {
+        String IMAGE_MAGIC_PATH = "C:\\Program Files (x86)\\ImageMagick-6.3.9-Q8\\";
+        final int THUMBNAIL_VALUE = 128;
+
+        ProcessStarter.setGlobalSearchPath(IMAGE_MAGIC_PATH);
+        verifyDataValues(imageParam);
+        boolean convertResult = false;
+
         try {
             ConvertCmd cmd = new ConvertCmd();
             IMOperation op = new IMOperation();
 
-            op.addImage(image.getInputPathFile());
-            op.resize(image.getWidthOfFile(), image.getHeightOfFile());
-            op.rotate(image.getDegreesToRotate());
-            op.threshold(image.getWhiteBlankPercentage());
-            op.addImage(image.getOutputPathFile());
+            op.addImage(imageParam.getInputPathFile());
+            op.resize(imageParam.getWidthOfFile(), imageParam.getHeightOfFile());
+            op.rotate(imageParam.getDegreesToRotate());
+            op.threshold(imageParam.getWhiteBlankPercentage());
+            op.addImage(imageParam.getOutputPathFile());
 
             cmd.run(op);
 
             op = new IMOperation();
-            op.size(THUMBNAILVALUE);
-            op.addImage(image.getInputPathFile());
-            op.thumbnail(THUMBNAILVALUE);
-            op.addImage(image.getOutputPathFile());
+            op.size(THUMBNAIL_VALUE);
+            op.addImage(imageParam.getInputPathFile());
+            op.thumbnail(THUMBNAIL_VALUE);
+            op.addImage(imageParam.getOutputPathFile());
             cmd.run(op);
-            resultAccion = true;
+            convertResult = true;
         }catch(Exception e) {
             System.out.println(e.getMessage());
         }finally {
-            return resultAccion;
+            return convertResult;
         }
     }
 
     /**
-     * verifyDataValues are the method that validates data of file,
-     * if getWidthOfFile is equals 0 change this value for the width
-     * of file, if getHeightOfFile is equals 0 change this value for
-     * the height of file, getWhiteBlankPercentage must be a number
-     * between 0 and 100 if not setWhiteBlankPercentage takes the
-     * value of 0, DegreesToRotate must be a number between 0 and
-     * 360, if DegreesToRotate takes the value of 0.
-     * @param image variable of type Image.
+     * Validates parameters of a file.
+     * @param imageParam Image parameters.
      */
-    public void verifyDataValues(ImageParam image) {
+    public void verifyDataValues(ImageParam imageParam) {
+        String fileName = imageParam.getInputPathFile();
+        final byte MAX_WITHE_BLACK_PERCENTAGE = 100;
+        final int MAX_ROTATE_DEGREE = 360;
+        final int NO_SET = 0;
+        Info imageInfo;
 
-        //filename variable obtain input path of file.
-        String fileName = image.getInputPathFile();
-        //Info is class to obtain information about of File
-        Info imageInfo = null;
         try {
             imageInfo = new Info(fileName, true);
-            if (image.getWidthOfFile() == 0) {
-                image.setWidthOfFile(imageInfo.getImageWidth());
+            if (imageParam.getWidthOfFile() == NO_SET) {
+                imageParam.setWidthOfFile(imageInfo.getImageWidth());
             }
-            if (image.getHeightOfFile() == 0) {
-                image.setHeightOfFile(imageInfo.getImageHeight());
+            if (imageParam.getHeightOfFile() == NO_SET) {
+                imageParam.setHeightOfFile(imageInfo.getImageHeight());
             }
-            if (image.getWhiteBlankPercentage() < 0 || image.getWhiteBlankPercentage() > 100) {
-                image.setWhiteBlankPercentage(0);
+            if (imageParam.getWhiteBlankPercentage() < NO_SET || imageParam.getWhiteBlankPercentage()
+                    > MAX_WITHE_BLACK_PERCENTAGE) {
+                imageParam.setWhiteBlankPercentage(NO_SET);
             }
-            if (image.getDegreesToRotate() < 0 || image.getDegreesToRotate() > 360) {
-                image.setDegreesToRotate(0);
+            if (imageParam.getDegreesToRotate() < NO_SET || imageParam.getDegreesToRotate() > MAX_ROTATE_DEGREE) {
+                imageParam.setDegreesToRotate(NO_SET);
             }
         } catch (InfoException e) {
             e.printStackTrace();

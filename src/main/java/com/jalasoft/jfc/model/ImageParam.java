@@ -6,11 +6,11 @@
  *  Information and shall use it only in accordance with the terms of the
  *  license agreement you entered into with Jalasoft.
  */
+
 package com.jalasoft.jfc.model;
 
 /**
- * This class has the common attributes, Setters, and Getters of an
- * image.
+ * Manages params of an image.
  *
  * @version 0.1 11 Dec 2019.
  *
@@ -18,30 +18,29 @@ package com.jalasoft.jfc.model;
  * */
 public class ImageParam {
 
-    //Variable for obtain input path of Image.
+    // Contains input path of Image.
     private String inputPathFile;
 
-    //Variable of output path of Image.
+    // Contains output path of Image.
     private String outputPathFile;
 
-    //Variable of output path of Thumbnail of a Image.
+    // Contains output path of Thumbnail of a Image.
     private String outputPathThumbnail;
 
-    //Variable for change the width of Image.
+    // Contains width of Image.
     private int widthOfFile;
 
-    //Variable for change the height of Image.
+    // Contains height of Image.
     private int heightOfFile;
 
-    //This is for changing the percentage
-    //of white and black of a Image.
+    // Contains the percentage white and black of a Image.
     private int whiteBlankPercentage;
 
-    //Variable for rotate a Image.
+    // Contains the degrees to rotate a Image.
     private double degreesToRotate;
 
     /**
-     * Setter of inputPathFile.
+     * Sets inputPathFile.
      * @return inputPathFile.
      */
     public String getInputPathFile() {
@@ -49,7 +48,7 @@ public class ImageParam {
     }
 
     /**
-     * Setter of outputPathFile.
+     * Sets outputPathFile.
      * @return outputPathFile.
      */
     public String getOutputPathFile() {
@@ -57,7 +56,7 @@ public class ImageParam {
     }
 
     /**
-     * Setter of getOutputPathThumbnail.
+     * Sets getOutputPathThumbnail.
      * @return getOutputPathThumbnail.
      */
     public String getOutputPathThumbnail() {
@@ -65,7 +64,7 @@ public class ImageParam {
     }
 
     /**
-     * Setter of widthOfFile.
+     * Sets widthOfFile.
      * @return widthOfFile.
      */
     public int getWidthOfFile() {
@@ -73,7 +72,7 @@ public class ImageParam {
     }
 
     /**
-     * Setter of heightOfFile.
+     * Sets heightOfFile.
      * @return heightOfFile.
      */
     public int getHeightOfFile() {
@@ -81,7 +80,7 @@ public class ImageParam {
     }
 
     /**
-     * Setter of whiteBlankPercentage.
+     * Sets whiteBlankPercentage.
      * @return whiteBlankPercentage.
      */
     public int getWhiteBlankPercentage() {
@@ -89,7 +88,7 @@ public class ImageParam {
     }
 
     /**
-     * Setter of degreesToRotate.
+     * Sets degreesToRotate.
      * @return degreesToRotate.
      */
     public double getDegreesToRotate() {
@@ -97,15 +96,15 @@ public class ImageParam {
     }
 
     /**
-     * Getter of inputPathFile.
-     * @param inputPathFile .
+     * Gets inputPathFile.
+     * @param inputPathFile
      */
     public void setInputPathFile(String inputPathFile) {
         this.inputPathFile = inputPathFile;
     }
 
     /**
-     * Getter of outputPathFile.
+     * Gets outputPathFile.
      * @param outputPathFile
      */
     public void setOutputPathFile(String outputPathFile) {
@@ -113,7 +112,7 @@ public class ImageParam {
     }
 
     /**
-     * Getter of outputPathThumbnail.
+     * Gets outputPathThumbnail.
      * @param outputPathThumbnail
      */
     public void setOutputPathThumbnail(String outputPathThumbnail) {
@@ -121,7 +120,7 @@ public class ImageParam {
     }
 
     /**
-     * Getter of widthOfFile.
+     * Gets widthOfFile.
      * @param widthOfFile
      */
     public void setWidthOfFile(int widthOfFile) {
@@ -129,7 +128,7 @@ public class ImageParam {
     }
 
     /**
-     * Getter of heightOfFile.
+     * Gets heightOfFile.
      * @param heightOfFile
      */
     public void setHeightOfFile(int heightOfFile) {
@@ -137,7 +136,7 @@ public class ImageParam {
     }
 
     /**
-     * Getter of whiteBlankPercentage.
+     * Gets whiteBlankPercentage.
      * @param whiteBlankPercentage
      */
     public void setWhiteBlankPercentage(int whiteBlankPercentage) {
@@ -145,7 +144,7 @@ public class ImageParam {
     }
 
     /**
-     * Getter of degreesToRotate.
+     * Gets degreesToRotate.
      * @param degreesToRotate
      */
     public void setDegreesToRotate(double degreesToRotate) {
