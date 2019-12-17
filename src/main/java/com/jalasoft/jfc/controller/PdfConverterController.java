@@ -35,12 +35,14 @@ import java.nio.file.Paths;
 public class PdfConverterController {
     // Constant upload file.
     private static final String UPLOADED_FOLDER = "src/main/java/com/jalasoft/jfc/resources/";
+    // Constant path converted file.
+    private static final String CONVERTED_FILE = "src/main/java/com/jalasoft/jfc/resources/";
+    /* @param inputPathFile contains the input path of the PDF.
+     * @param outputPathFile contains the output path of file converted. * @param file contains the image file.*/
 
     /**
      * pdfConverter method receives a PDF to convert.
-     * @param file contains the image file.
-     * @param inputPathFile contains the input path of the PDF.
-     * @param outputPathFile contains the output path of file converted.
+
      * @param outputFileName contains name of output file.
      * @param rotate degrees of rotation.
      * @param scale contains input Scale 1-10.
@@ -51,20 +53,86 @@ public class PdfConverterController {
      */
     @PostMapping
     public String pdfConverter(
-            @RequestParam("file") MultipartFile file, @RequestParam String inputPathFile,
-            @RequestParam String outputPathFile, @RequestParam String outputFileName,
-            @RequestParam(defaultValue = "0") int rotate, @RequestParam float scale, @RequestParam int dpi,
+            /*@RequestParam("file") MultipartFile file,*/ @RequestParam MultipartFile inputPathFile,
+            @RequestParam (defaultValue = CONVERTED_FILE) String outputPathFile, @RequestParam String outputFileName,
+            @RequestParam(defaultValue = "0") int rotate, @RequestParam (defaultValue = "1") float scale, @RequestParam (defaultValue = "100") int dpi,
             @RequestParam String imageType, @RequestParam String formatImage) {
 
+        PdfParam param = new PdfParam();
+        PdfConverter pdf = new PdfConverter();
+        String pdfconver = "";
         try {
-            byte[] bytes = file.getBytes();
-            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
+            byte[] bytes = inputPathFile.getBytes();
+            Path path = Paths.get(UPLOADED_FOLDER + inputPathFile.getOriginalFilename());
             Files.write(path, bytes);
+
+            param.setInputPathFile(path.toString());
+            param.setOutputPathFile(outputPathFile);
+            param.setOutputFileName(outputFileName);
+            param.setRotate(rotate);
+            param.setDpi(dpi);
+            param.setScale(scale);
+            param.setImageType(selectImageType(imageType));
+            param.setPdfFormatImage(selectFormatImage(formatImage));
+            //param.set
+            pdfconver = pdf.convert(param).toString();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return UPLOADED_FOLDER;
+        return pdfconver + "   "+ param.getOutputPathFile() +"   "+ param.getInputPathFile();
     }
 
+    private PdfFormatImage selectFormatImage(String formatImage) {
+        PdfFormatImage formatImageSelected = null;
+        try{
+            if (formatImage == null){
+                throw new NullPointerException();
+            }else {
+                if (formatImage.equals("bmp"))
+                {
+                    formatImageSelected = PdfFormatImage.BMP;
+                }
+                if (formatImage.equals("gif"))
+                {
+                    formatImageSelected = PdfFormatImage.GIF;
+                }
+                if (formatImage.equals("png"))
+                {
+                    formatImageSelected = PdfFormatImage.PNG;
+                }
+                if (formatImage.equals("jpg") || formatImage.equals("jpeg") )
+                {
+                    formatImageSelected = PdfFormatImage.JPEG ;
+                }
+            }
+        }catch (NullPointerException e){
+            throw new NullPointerException();
+        }
+        return formatImageSelected;
+    }
 
+    private ImageType selectImageType(String imageType) {
+
+        ImageType imageTypeSelected = null;
+        try{
+            if (imageType == null ){
+                throw new IllegalArgumentException();
+            }else {
+                if (imageType.equals("gray"))
+                {
+                    imageTypeSelected = ImageType.GRAY;
+                }
+                if (imageType.equals("binary"))
+                {
+                    imageTypeSelected = ImageType.BINARY;
+                }
+                if (imageType.equals("rgb") ) {
+                    imageTypeSelected = ImageType.RGB;
+                }
+            }
+        }catch (IllegalArgumentException e){
+            throw new IllegalArgumentException();
+        }
+        return imageTypeSelected;
+    }
 }
