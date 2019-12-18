@@ -11,7 +11,7 @@ package com.jalasoft.jfc.model.strategy;
 
 /**
  *
- * ICommandStrategy interface defines behavior to Commands classes.
+ * Defines behavior to Commands classes.
  *
  * @version 0.1 18 Dic 2019.
  *
