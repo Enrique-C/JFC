@@ -25,6 +25,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+
 /**
  * Manage PdfConverter Requests.
  *
@@ -80,7 +81,7 @@ public class PdfConverterController {
         pdfParam.setImageType(selectImageType(imageType));
         pdfParam.setPdfFormatImage(selectFormatImage(formatImage));
 
-        return pdfConverter.convert(param).toString();
+        return pdfConverter.convert(pdfParam).toString();
     }
 
     private PdfFormatImage selectFormatImage(String formatImage) {
