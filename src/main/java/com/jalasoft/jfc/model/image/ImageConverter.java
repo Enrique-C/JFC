@@ -35,6 +35,7 @@ public class ImageConverter implements IConverter {
 
         final String IMAGE_MAGIC_PATH = "C:\\Users\\Admin\\Downloads\\ImageMagick-7.0.9-9-portable-Q16-x64\\magick.exe";
         final String STRING_SPACE = " ";
+        final String PERIOD = ".";
 
         StringBuilder command = new StringBuilder();
         String commandString;
@@ -46,9 +47,11 @@ public class ImageConverter implements IConverter {
             command.append(imageParam.getInputPathFile());
             command.append(STRING_SPACE);
             command.append(imageParam.getOutputPathFile());
+            command.append(imageParam.getOutputFileName());
 
-            imageFormater(imageParam);
+            imageFormatter(imageParam);
 
+            command.append(PERIOD);
             command.append(imageParam.getImageFormat());
 
             commandString = command.toString();
@@ -65,7 +68,7 @@ public class ImageConverter implements IConverter {
         return fileResult;
     }
 
-    private void imageFormater(ImageParam imageParam) {
+    private void imageFormatter(ImageParam imageParam) {
         if (imageParam.getImageFormat() == null) {
             imageParam.setImageFormat(ImageFormat.JPG);
         }
