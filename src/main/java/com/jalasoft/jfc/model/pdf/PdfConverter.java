@@ -17,8 +17,10 @@ import org.apache.pdfbox.rendering.PDFRenderer;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * This class is used to convert PDF to Image
@@ -30,65 +32,61 @@ import java.io.IOException;
 public class PdfConverter implements IConverter {
 
     /**
-     * This method convert a PDF to Image JPEG, PNG, GIF, BMP and WBMP.
+     * This method convert a PDF to Image.
      * @param param
-     * @return boolean value.
+     * @return FileResult object or null value.
      * @throws IOException
      */
     public FileResult convert(Param param){
 
-        // Instance of pdfParam for casting param.
         PdfParam pdfParam = (PdfParam)param;
-        final int DPI_BY_DEFECT = 100;
-        final int INIT_VALUE = 0;
         FileResult fileResult = new FileResult();
+        String space = " ";
 
         try {
-            if (pdfParam.getInputPathFile() == null || pdfParam.getOutputPathFile() == null) {
-                throw new IOException();
-            }
-            PDDocument documentToImage = PDDocument.load(new File(pdfParam.getInputPathFile()));
-            PDDocument documentRotated = new PDDocument();
-            PDFRenderer renderer;
-            BufferedImage image;
-            String pathName;
+            StringBuilder command = new StringBuilder();
 
-            boolean rotated = false;
-            int totalPages = documentToImage.getNumberOfPages();
+            if (pdfParam.getMagick().equals(null)){
+                throw new NullPointerException();
+            }
 
-            // Just rotate 90, 180, 270 degrees.
-            if (pdfParam.getRotate() > INIT_VALUE) {
-                for (int page = INIT_VALUE; page < totalPages; page++) {
-                    PDPage pageToRotate = documentToImage.getPage(page);
-                    pageToRotate.setRotation(pdfParam.getRotate());
-                    documentRotated.addPage(pageToRotate);
-                }
-                renderer = new PDFRenderer(documentRotated);
-                rotated = true;
-            } else {
-                renderer = new PDFRenderer(documentToImage);
+            command.append(pdfParam.getMagick());
+
+            if (pdfParam.getInputPathFile() == null || pdfParam.getOutputPathFile()
+                    == null || pdfParam.getImageFormat() == null) {
+                throw new NullPointerException();
             }
-            for (int page = INIT_VALUE; page < totalPages; page++) {
-                pathName = pdfParam.getOutputPathFile() + pdfParam.getOutputFileName() +
-                        page + "." + pdfParam.getPdfFormatImage().toString();
-                if (pdfParam.getDpi() != DPI_BY_DEFECT) {
-                    image = renderer.renderImageWithDPI(page, pdfParam.getDpi(), pdfParam.getImageType());
-                } else {
-                    image = renderer.renderImage(page, pdfParam.getScale(), pdfParam.getImageType());
-                }
-                ImageIO.write(image, pdfParam.getPdfFormatImage().toString(), new File(pathName));
+
+            command.append(space);
+            command.append(PdfCommand.CONVERT.getCommand());
+            command.append(space);
+            command.append(pdfParam.getInputPathFile());
+
+            if (pdfParam.getPagesToConvert() != null){
+                command.append(pdfParam.getPagesToConvert());
             }
-            if(rotated)
-                documentRotated.close();
-            documentToImage.close();
-            return fileResult;
+            command.append(space);
+            command.append(pdfParam.getOutputPathFile());
+            command.append(pdfParam.getOutputFileName());
+            command.append(pdfParam.getImageFormat());
+
+            String stringCommand = command.toString();
+            Process process = Runtime.getRuntime().exec(stringCommand);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+
+            // Line variable.
+            String line;
+            while ((line = bufferedReader.readLine()) != null){
+
+            }
+            process.waitFor();
         }
-        catch (IOException e)
+        catch (NullPointerException e)
         {
-            throw new IOException();
+            throw new NullPointerException();
         }
         finally {
-            return null;
+            return fileResult;
         }
     }
 }
