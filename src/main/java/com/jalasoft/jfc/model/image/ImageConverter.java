@@ -54,12 +54,10 @@ public class ImageConverter implements IConverter {
             command.append(imageParam.getImageFormat());
 
             commandString = command.toString();
-
             try {
                 Runtime.getRuntime().exec(commandString);
                 fileResult = new FileResult();
                 fileResult.setPath(imageParam.getOutputPathFile());
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
