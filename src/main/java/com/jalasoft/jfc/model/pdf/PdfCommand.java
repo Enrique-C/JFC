@@ -17,7 +17,6 @@ package com.jalasoft.jfc.model.pdf;
  * @author Juan Martinez
  */
 public enum PdfCommand {
-
     CONVERT("convert"),
     DENSITY("-density"),
     SCALE("-scale"),
@@ -30,11 +29,11 @@ public enum PdfCommand {
     EN_DASH("-"),
     CLOSE_BRACKET("]");
 
-    //command variable
+    //command variable.
     private String command;
 
     /**
-     * PdfCommand for setting command value.
+     * This method sets command value.
      * @param command String value
      */
     PdfCommand(String command) {
@@ -42,7 +41,7 @@ public enum PdfCommand {
     }
 
     /**
-     * getCommand method for getting command value.
+     * This method gets command value.
      * @return String value.
      */
     public String getCommand(){

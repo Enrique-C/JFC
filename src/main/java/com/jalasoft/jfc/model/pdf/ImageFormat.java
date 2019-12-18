@@ -21,11 +21,11 @@ public enum ImageFormat {
     GIF(".gif"),
     TIFF(".tif");
 
-    //command variable
+    // Command variable
     private String format;
 
     /**
-     * ImageFormat for setting command value.
+     * This method is for setting command value.
      * @param format String value
      */
     ImageFormat(String format) {
@@ -33,7 +33,7 @@ public enum ImageFormat {
     }
 
     /**
-     * This method is used for getting command value.
+     * This method gets command value.
      * @return String value.
      */
     public String getImageFormat(){

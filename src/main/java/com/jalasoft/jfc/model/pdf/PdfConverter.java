@@ -74,7 +74,6 @@ public class PdfConverter implements IConverter {
             Process process = Runtime.getRuntime().exec(stringCommand);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 
-            // Line variable.
             String line;
             while ((line = bufferedReader.readLine()) != null){
 

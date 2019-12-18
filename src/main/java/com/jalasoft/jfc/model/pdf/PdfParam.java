@@ -69,7 +69,7 @@ public class PdfParam extends Param {
 
     /**
      * It gets wight value.
-     * @return
+     * @return wight.
      */
     public int getWight() {
         return wight;
@@ -100,7 +100,7 @@ public class PdfParam extends Param {
     }
 
     /**
-     * this method gets the degrees of rotate value.
+     * This method gets the degrees of rotate value.
      * @return degrees of rotation.
      */
     public int getRotate() {
@@ -164,7 +164,7 @@ public class PdfParam extends Param {
     }
 
     /**
-     * this method sets degrees to rotate image.
+     * This method sets degrees to rotate image.
      * @param rotate
      */
     public void setRotate(int rotate) {
