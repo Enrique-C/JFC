@@ -30,17 +30,44 @@ public class ImageConverter implements IConverter {
      * @return Conversion status.
      */
     public FileResult convert(Param param) {
+        ImageParam imageParam = (ImageParam) param;
+        FileResult fileResult = null;
+
         final String IMAGE_MAGIC_PATH = "C:\\Users\\Admin\\Downloads\\ImageMagick-7.0.9-9-portable-Q16-x64\\magick.exe";
-        final  String STRING_SPACE = " ";
+        final String STRING_SPACE = " ";
 
-        ProcessBuilder process = new ProcessBuilder(IMAGE_MAGIC_PATH, param.getInputPathFile(), param.getOutputFileName());
+        StringBuilder command = new StringBuilder();
+        String commandString;
 
-        try {
-            process.start();
-        } catch (IOException e) {
-            e.printStackTrace();
+        command.append(IMAGE_MAGIC_PATH);
+        command.append(STRING_SPACE);
+
+        if (!(imageParam.getInputPathFile() == null)) {
+            command.append(imageParam.getInputPathFile());
+            command.append(STRING_SPACE);
+            command.append(imageParam.getOutputPathFile());
+
+            imageFormater(imageParam);
+
+            command.append(imageParam.getImageFormat());
+
+            commandString = command.toString();
+
+            try {
+                Runtime.getRuntime().exec(commandString);
+                fileResult = new FileResult();
+                fileResult.setPath(imageParam.getOutputPathFile());
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+        return fileResult;
+    }
 
-        return null;
+    private void imageFormater(ImageParam imageParam) {
+        if (imageParam.getImageFormat() == null) {
+            imageParam.setImageFormat(ImageFormat.JPG);
+        }
     }
 }
