@@ -9,8 +9,6 @@
 package com.jalasoft.jfc.model.pdf;
 
 import com.jalasoft.jfc.model.Param;
-import com.jalasoft.jfc.model.pdf.PdfFormatImage;
-import org.apache.pdfbox.rendering.ImageType;
 
 /**
  * This class content attributes more relevant of a PDF.
