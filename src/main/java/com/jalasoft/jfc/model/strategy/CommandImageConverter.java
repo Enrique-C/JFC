@@ -26,6 +26,7 @@ public class CommandImageConverter implements ICommandStrategy{
      */
     @Override
     public String command(String value) {
+
         return null;
     }
 }

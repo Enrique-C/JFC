@@ -18,9 +18,28 @@ package com.jalasoft.jfc.model.image;
  * @author Enrique Carrizales
  */
 public enum ImageFormat {
-    JPG,
-    PNG,
-    GIF,
-    BMP,
-    WBMP
+    JPG(".jpg"),
+    PNG(".png"),
+    GIF(".gif"),
+    BMP(".bmp"),
+    WBMP ("wbmp");
+
+    // Command variable.
+    private String command;
+
+    /**
+     * Sets command value.
+     * @param command String value.
+     */
+    ImageFormat(String command) {
+        this.command = command;
+    }
+
+    /**
+     * Gets command value.
+     * @return String value.
+     */
+    public String getCommand(){
+        return command;
+    }
 }
