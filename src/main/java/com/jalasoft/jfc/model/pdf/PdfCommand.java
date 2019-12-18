@@ -29,7 +29,7 @@ public enum PdfCommand {
     EN_DASH("-"),
     CLOSE_BRACKET("]");
 
-    //command variable.
+    // Command variable.
     private String command;
 
     /**
