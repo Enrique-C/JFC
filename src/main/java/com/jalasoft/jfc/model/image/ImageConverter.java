@@ -12,7 +12,6 @@ package com.jalasoft.jfc.model.image;
 import com.jalasoft.jfc.model.FileResult;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
-
 import java.io.IOException;
 
 /**
