@@ -12,11 +12,7 @@ package com.jalasoft.jfc.model.image;
 import com.jalasoft.jfc.model.FileResult;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
-import org.im4java.core.ConvertCmd;
-import org.im4java.core.IMOperation;
-import org.im4java.core.Info;
-import org.im4java.core.InfoException;
-import org.im4java.process.ProcessStarter;
+import java.io.IOException;
 
 /**
  * Converts a image type to another.
@@ -33,68 +29,45 @@ public class ImageConverter implements IConverter {
      * @return Conversion status.
      */
     public FileResult convert(Param param) {
+        ImageParam imageParam = (ImageParam) param;
+        FileResult fileResult = null;
 
-        // Instance of imageParam for casting param.
-        ImageParam imageParam = (ImageParam)param;
-        String IMAGE_MAGIC_PATH = "C:\\Program Files (x86)\\ImageMagick-6.3.9-Q8\\";
-        final int THUMBNAIL_VALUE = 128;
+        final String IMAGE_MAGIC_PATH = "C:\\Users\\Admin\\Downloads\\ImageMagick-7.0.9-9-portable-Q16-x64\\magick.exe";
+        final String STRING_SPACE = " ";
+        final String PERIOD = ".";
 
-        ProcessStarter.setGlobalSearchPath(IMAGE_MAGIC_PATH);
-        verifyDataValues(imageParam);
-        FileResult fileResult = new FileResult();
+        StringBuilder command = new StringBuilder();
+        String commandString;
 
-        try {
-            ConvertCmd cmd = new ConvertCmd();
-            IMOperation imOperation = new IMOperation();
+        command.append(IMAGE_MAGIC_PATH);
+        command.append(STRING_SPACE);
 
-            imOperation.addImage(imageParam.getInputPathFile());
-            imOperation.resize(imageParam.getWidthOfFile(), imageParam.getHeightOfFile());
-            imOperation.rotate(imageParam.getDegreesToRotate());
-            imOperation.threshold(imageParam.getWhiteBlankPercentage());
-            imOperation.addImage(imageParam.getOutputPathFile());
+        if (!(imageParam.getInputPathFile() == null)) {
+            command.append(imageParam.getInputPathFile());
+            command.append(STRING_SPACE);
+            command.append(imageParam.getOutputPathFile());
+            command.append(imageParam.getOutputFileName());
 
-            cmd.run(imOperation);
+            imageFormatter(imageParam);
 
-            imOperation = new IMOperation();
-            imOperation.size(THUMBNAIL_VALUE);
-            imOperation.addImage(imageParam.getInputPathFile());
-            imOperation.thumbnail(THUMBNAIL_VALUE);
-            imOperation.addImage(imageParam.getOutputPathFile());
-            cmd.run(imOperation);
-            return fileResult;
-        }catch(Exception e) {
-        }finally {
-            return null;
+            command.append(PERIOD);
+            command.append(imageParam.getImageFormat());
+
+            commandString = command.toString();
+            try {
+                Runtime.getRuntime().exec(commandString);
+                fileResult = new FileResult();
+                fileResult.setPath(imageParam.getOutputPathFile());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+        return fileResult;
     }
 
-    /**
-     * Validates parameters of a file.
-     * @param imageParam Image parameters.
-     */
-    public void verifyDataValues(ImageParam imageParam) {
-        String fileName = imageParam.getInputPathFile();
-        final byte MAX_WITHE_BLACK_PERCENTAGE = 100;
-        final int MAX_ROTATE_DEGREE = 360;
-        final int NO_SET = 0;
-        Info imageInfo;
-
-        try {
-            imageInfo = new Info(fileName, true);
-            if (imageParam.getWidthOfFile() == NO_SET) {
-                imageParam.setWidthOfFile(imageInfo.getImageWidth());
-            }
-            if (imageParam.getHeightOfFile() == NO_SET) {
-                imageParam.setHeightOfFile(imageInfo.getImageHeight());
-            }
-            if (imageParam.getWhiteBlankPercentage() < NO_SET || imageParam.getWhiteBlankPercentage()
-                    > MAX_WITHE_BLACK_PERCENTAGE) {
-                imageParam.setWhiteBlankPercentage(NO_SET);
-            }
-            if (imageParam.getDegreesToRotate() < NO_SET || imageParam.getDegreesToRotate() > MAX_ROTATE_DEGREE) {
-                imageParam.setDegreesToRotate(NO_SET);
-            }
-        } catch (InfoException e) {
+    private void imageFormatter(ImageParam imageParam) {
+        if (imageParam.getImageFormat() == null) {
+            imageParam.setImageFormat(ImageFormat.JPG);
         }
     }
 }

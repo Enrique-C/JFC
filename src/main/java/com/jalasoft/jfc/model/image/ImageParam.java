@@ -20,7 +20,10 @@ import com.jalasoft.jfc.model.Param;
  * */
 public class ImageParam extends Param {
 
-    // Contains output path of Thumbnail of a Image.
+    //Contains format of an image.
+    private  ImageFormat imageFormat;
+
+    // Contains output path of Thumbnail of an Image.
     private String outputPathThumbnail;
 
     // Contains width of Image.
@@ -29,30 +32,22 @@ public class ImageParam extends Param {
     // Contains height of Image.
     private int heightOfFile;
 
-    // Contains the percentage white and black of a Image.
+    // Contains the percentage white and black of an Image.
     private int whiteBlankPercentage;
 
-    // Contains the degrees to rotate a Image.
+    // Contains the degrees to rotate an Image.
     private double degreesToRotate;
 
     /**
-     * Sets inputPathFile.
-     * @return inputPathFile.
+     * Gets format of an image.
+     * @return image format.
      */
-    public String getInputPathFile() {
-        return this.getInputPathFile();
+    public ImageFormat getImageFormat() {
+        return imageFormat;
     }
 
     /**
-     * Sets outputPathFile.
-     * @return outputPathFile.
-     */
-    public String getOutputPathFile() {
-        return this.getOutputPathFile();
-    }
-
-    /**
-     * Sets getOutputPathThumbnail.
+     * Gets getOutputPathThumbnail.
      * @return getOutputPathThumbnail.
      */
     public String getOutputPathThumbnail() {
@@ -60,7 +55,7 @@ public class ImageParam extends Param {
     }
 
     /**
-     * Sets widthOfFile.
+     * Gets widthOfFile.
      * @return widthOfFile.
      */
     public int getWidthOfFile() {
@@ -68,7 +63,7 @@ public class ImageParam extends Param {
     }
 
     /**
-     * Sets heightOfFile.
+     * Gets heightOfFile.
      * @return heightOfFile.
      */
     public int getHeightOfFile() {
@@ -76,7 +71,7 @@ public class ImageParam extends Param {
     }
 
     /**
-     * Sets whiteBlankPercentage.
+     * Gets whiteBlankPercentage.
      * @return whiteBlankPercentage.
      */
     public int getWhiteBlankPercentage() {
@@ -84,7 +79,7 @@ public class ImageParam extends Param {
     }
 
     /**
-     * Sets degreesToRotate.
+     * Gets degreesToRotate.
      * @return degreesToRotate.
      */
     public double getDegreesToRotate() {
@@ -92,56 +87,48 @@ public class ImageParam extends Param {
     }
 
     /**
-     * Gets inputPathFile.
-     * @param inputPathFile
+     * Sets image format.
+     * @param imageFormat contains a image format.
      */
-    public void setInputPathFile(String inputPathFile) {
-        this.setInputPathFile(inputPathFile);
+    public void setImageFormat(ImageFormat imageFormat) {
+        this.imageFormat = imageFormat;
     }
 
     /**
-     * Gets outputPathFile.
-     * @param outputPathFile
-     */
-    public void setOutputPathFile(String outputPathFile) {
-        this.setOutputFileName(outputPathFile);
-    }
-
-    /**
-     * Gets outputPathThumbnail.
-     * @param outputPathThumbnail
+     * Sets outputPathThumbnail.
+     * @param outputPathThumbnail receives path.
      */
     public void setOutputPathThumbnail(String outputPathThumbnail) {
         this.outputPathThumbnail = outputPathThumbnail;
     }
 
     /**
-     * Gets widthOfFile.
-     * @param widthOfFile
+     * Sets widthOfFile.
+     * @param widthOfFile receives width.
      */
     public void setWidthOfFile(int widthOfFile) {
         this.widthOfFile = widthOfFile;
     }
 
     /**
-     * Gets heightOfFile.
-     * @param heightOfFile
+     * Sets heightOfFile.
+     * @param heightOfFile receives height.
      */
     public void setHeightOfFile(int heightOfFile) {
         this.heightOfFile = heightOfFile;
     }
 
     /**
-     * Gets whiteBlankPercentage.
-     * @param whiteBlankPercentage
+     * Sets whiteBlankPercentage.
+     * @param whiteBlankPercentage receives percentage.
      */
     public void setWhiteBlankPercentage(int whiteBlankPercentage) {
         this.whiteBlankPercentage = whiteBlankPercentage;
     }
 
     /**
-     * Gets degreesToRotate.
-     * @param degreesToRotate
+     * Sets degreesToRotate.
+     * @param degreesToRotate receives degrees.
      */
     public void setDegreesToRotate(double degreesToRotate) {
         this.degreesToRotate = degreesToRotate;
