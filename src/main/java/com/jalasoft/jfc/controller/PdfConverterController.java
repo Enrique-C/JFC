@@ -2,16 +2,18 @@
  * Copyright (c) 2019 Jalasoft.
  *
  * This software is the confidential and proprietary information of Jalasoft.
- *  ("Confidential Information"). You shall not disclose such Confidential
- *  Information and shall use it only in accordance with the terms of the
- *  license agreement you entered into with Jalasoft.
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * license agreement you entered into with Jalasoft.
  */
 
 package com.jalasoft.jfc.controller;
 
-import com.jalasoft.jfc.model.PdfConverter;
-import com.jalasoft.jfc.model.PdfFormatImage;
-import com.jalasoft.jfc.model.PdfParam;
+import com.jalasoft.jfc.model.IConverter;
+import com.jalasoft.jfc.model.Param;
+import com.jalasoft.jfc.model.pdf.PdfConverter;
+import com.jalasoft.jfc.model.pdf.PdfFormatImage;
+import com.jalasoft.jfc.model.pdf.PdfParam;
 import org.apache.pdfbox.rendering.ImageType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,11 +39,13 @@ public class PdfConverterController {
     // Constant upload file.
     private static final String UPLOADED_FOLDER = "src/main/java/com/jalasoft/jfc/resources/";
 
+    // Constant path converted file.
+    private static final String CONVERTED_FILE = "src/main/java/com/jalasoft/jfc/resources/";
+
     /**
      * pdfConverter method receives a PDF to convert.
-     * @param file contains the image file.
-     * @param inputPathFile contains the input path of the PDF.
      * @param outputPathFile contains the output path of file converted.
+     * @param file contains the image file
      * @param outputFileName contains name of output file.
      * @param rotate degrees of rotation.
      * @param scale contains input Scale 1-10.
@@ -52,18 +56,83 @@ public class PdfConverterController {
      */
     @PostMapping
     public String pdfConverter(
-            @RequestParam("file") MultipartFile file, @RequestParam String inputPathFile,
-            @RequestParam String outputPathFile, @RequestParam String outputFileName,
-            @RequestParam(defaultValue = "0") int rotate, @RequestParam float scale, @RequestParam int dpi,
+            @RequestParam("file") MultipartFile file, @RequestParam (defaultValue = CONVERTED_FILE)
+            String outputPathFile, @RequestParam String outputFileName, @RequestParam(defaultValue = "0") int rotate,
+            @RequestParam (defaultValue = "1") float scale, @RequestParam (defaultValue = "100") int dpi,
             @RequestParam String imageType, @RequestParam String formatImage) {
 
+        Param param = new PdfParam();
+        PdfParam pdfParam = (PdfParam) param;
+        IConverter pdfConverter = new PdfConverter();
         try {
             byte[] bytes = file.getBytes();
             Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
             Files.write(path, bytes);
+            pdfParam.setInputPathFile(path.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return UPLOADED_FOLDER;
+        pdfParam.setOutputPathFile(outputPathFile);
+        pdfParam.setOutputFileName(outputFileName);
+        pdfParam.setRotate(rotate);
+        pdfParam.setDpi(dpi);
+        pdfParam.setScale(scale);
+        pdfParam.setImageType(selectImageType(imageType));
+        pdfParam.setPdfFormatImage(selectFormatImage(formatImage));
+
+        return pdfConverter.convert(param).toString();
+    }
+
+    private PdfFormatImage selectFormatImage(String formatImage) {
+        PdfFormatImage formatImageSelected = null;
+        try{
+            if (formatImage == null){
+                throw new NullPointerException();
+            }else {
+                if (formatImage.equals("bmp"))
+                {
+                    formatImageSelected = PdfFormatImage.BMP;
+                }
+                if (formatImage.equals("gif"))
+                {
+                    formatImageSelected = PdfFormatImage.GIF;
+                }
+                if (formatImage.equals("png"))
+                {
+                    formatImageSelected = PdfFormatImage.PNG;
+                }
+                if (formatImage.equals("jpg") || formatImage.equals("jpeg") )
+                {
+                    formatImageSelected = PdfFormatImage.JPEG ;
+                }
+            }
+        }catch (NullPointerException e){
+            throw new NullPointerException();
+        }
+        return formatImageSelected;
+    }
+
+    private ImageType selectImageType(String imageType) {
+        ImageType imageTypeSelected = null;
+        try{
+            if (imageType == null ){
+                throw new IllegalArgumentException();
+            }else {
+                if (imageType.equals("gray"))
+                {
+                    imageTypeSelected = ImageType.GRAY;
+                }
+                if (imageType.equals("binary"))
+                {
+                    imageTypeSelected = ImageType.BINARY;
+                }
+                if (imageType.equals("rgb") ) {
+                    imageTypeSelected = ImageType.RGB;
+                }
+            }
+        }catch (IllegalArgumentException e){
+            throw new IllegalArgumentException();
+        }
+        return imageTypeSelected;
     }
 }
