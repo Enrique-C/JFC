@@ -9,6 +9,8 @@
 
 package com.jalasoft.jfc.model.image;
 
+import com.jalasoft.jfc.model.Param;
+
 /**
  * Manages params of an image.
  *
@@ -16,13 +18,7 @@ package com.jalasoft.jfc.model.image;
  *
  * @author Oscar Lopez.
  * */
-public class ImageParam {
-
-    // Contains input path of Image.
-    private String inputPathFile;
-
-    // Contains output path of Image.
-    private String outputPathFile;
+public class ImageParam extends Param {
 
     // Contains output path of Thumbnail of a Image.
     private String outputPathThumbnail;
@@ -44,7 +40,7 @@ public class ImageParam {
      * @return inputPathFile.
      */
     public String getInputPathFile() {
-        return inputPathFile;
+        return this.getInputPathFile();
     }
 
     /**
@@ -52,7 +48,7 @@ public class ImageParam {
      * @return outputPathFile.
      */
     public String getOutputPathFile() {
-        return outputPathFile;
+        return this.getOutputPathFile();
     }
 
     /**
@@ -100,7 +96,7 @@ public class ImageParam {
      * @param inputPathFile
      */
     public void setInputPathFile(String inputPathFile) {
-        this.inputPathFile = inputPathFile;
+        this.setInputPathFile(inputPathFile);
     }
 
     /**
@@ -108,7 +104,7 @@ public class ImageParam {
      * @param outputPathFile
      */
     public void setOutputPathFile(String outputPathFile) {
-        this.outputPathFile = outputPathFile;
+        this.setOutputFileName(outputPathFile);
     }
 
     /**

@@ -9,6 +9,9 @@
 
 package com.jalasoft.jfc.model.image;
 
+import com.jalasoft.jfc.model.FileResult;
+import com.jalasoft.jfc.model.IConverter;
+import com.jalasoft.jfc.model.Param;
 import org.im4java.core.ConvertCmd;
 import org.im4java.core.IMOperation;
 import org.im4java.core.Info;
@@ -22,21 +25,23 @@ import org.im4java.process.ProcessStarter;
  *
  * @author Oscar Lopez.
  * */
-public class ImageConverter {
+public class ImageConverter implements IConverter {
 
     /**
      * Changes an Image format to another one.
-     * @param imageParam Image parameters.
+     * @param param Image parameters.
      * @return Conversion status.
      */
-    protected boolean convertImage(ImageParam imageParam) {
+    public FileResult convert(Param param) {
 
+        // Instance of imageParam for casting param.
+        ImageParam imageParam = (ImageParam)param;
         String IMAGE_MAGIC_PATH = "C:\\Program Files (x86)\\ImageMagick-6.3.9-Q8\\";
         final int THUMBNAIL_VALUE = 128;
 
         ProcessStarter.setGlobalSearchPath(IMAGE_MAGIC_PATH);
         verifyDataValues(imageParam);
-        boolean convertResult = false;
+        FileResult fileResult = new FileResult();
 
         try {
             ConvertCmd cmd = new ConvertCmd();
@@ -56,11 +61,10 @@ public class ImageConverter {
             imOperation.thumbnail(THUMBNAIL_VALUE);
             imOperation.addImage(imageParam.getOutputPathFile());
             cmd.run(imOperation);
-            convertResult = true;
+            return fileResult;
         }catch(Exception e) {
-            System.out.println(e.getMessage());
         }finally {
-            return convertResult;
+            return null;
         }
     }
 
@@ -91,7 +95,6 @@ public class ImageConverter {
                 imageParam.setDegreesToRotate(NO_SET);
             }
         } catch (InfoException e) {
-            e.printStackTrace();
         }
     }
 }
