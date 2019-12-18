@@ -9,6 +9,8 @@
 
 package com.jalasoft.jfc.controller;
 
+import com.jalasoft.jfc.model.IConverter;
+import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.pdf.PdfConverter;
 import com.jalasoft.jfc.model.pdf.PdfFormatImage;
 import com.jalasoft.jfc.model.pdf.PdfParam;
@@ -36,6 +38,7 @@ public class PdfConverterController {
 
     // Constant upload file.
     private static final String UPLOADED_FOLDER = "src/main/java/com/jalasoft/jfc/resources/";
+
     // Constant path converted file.
     private static final String CONVERTED_FILE = "src/main/java/com/jalasoft/jfc/resources/";
 
@@ -58,30 +61,26 @@ public class PdfConverterController {
             @RequestParam (defaultValue = "1") float scale, @RequestParam (defaultValue = "100") int dpi,
             @RequestParam String imageType, @RequestParam String formatImage) {
 
-        PdfParam param = new PdfParam();
-        PdfConverter pdf = new PdfConverter();
-        String convertionState = "Failed Conversion";
+        Param param = new PdfParam();
+        PdfParam pdfParam = (PdfParam) param;
+        IConverter pdfConverter = new PdfConverter();
         try {
             byte[] bytes = file.getBytes();
             Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
             Files.write(path, bytes);
-            param.setInputPathFile(path.toString());
+            pdfParam.setInputPathFile(path.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        param.setOutputPathFile(outputPathFile);
-        param.setOutputFileName(outputFileName);
-        param.setRotate(rotate);
-        param.setDpi(dpi);
-        param.setScale(scale);
-        param.setImageType(selectImageType(imageType));
-        param.setPdfFormatImage(selectFormatImage(formatImage));
+        pdfParam.setOutputPathFile(outputPathFile);
+        pdfParam.setOutputFileName(outputFileName);
+        pdfParam.setRotate(rotate);
+        pdfParam.setDpi(dpi);
+        pdfParam.setScale(scale);
+        pdfParam.setImageType(selectImageType(imageType));
+        pdfParam.setPdfFormatImage(selectFormatImage(formatImage));
 
-        if(pdf.convert(param))
-        {
-            convertionState = "Successful Conversion";
-        }
-        return convertionState;
+        return pdfConverter.convert(param).toString();
     }
 
     private PdfFormatImage selectFormatImage(String formatImage) {
@@ -114,7 +113,6 @@ public class PdfConverterController {
     }
 
     private ImageType selectImageType(String imageType) {
-
         ImageType imageTypeSelected = null;
         try{
             if (imageType == null ){
