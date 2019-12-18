@@ -30,23 +30,17 @@ public class ImageConverter implements IConverter {
      * @return Conversion status.
      */
     public FileResult convert(Param param) {
+        final String IMAGE_MAGIC_PATH = "C:\\Users\\Admin\\Downloads\\ImageMagick-7.0.9-9-portable-Q16-x64\\magick.exe";
+        final  String STRING_SPACE = " ";
 
-        imageConverter(param);
-
-        return null;
-    }
-
-    private void imageConverter(Param param) {
-
-        String IMAGE_MAGIC_PATH = "C:\\Users\\Luis\\Downloads\\ImageMagick-7.0.9-9-portable-Q16-x64\\magick.exe";
-        String convertCommand = " magick ";
+        ProcessBuilder process = new ProcessBuilder(IMAGE_MAGIC_PATH, param.getInputPathFile(), param.getOutputFileName());
 
         try {
-            ProcessBuilder process = new ProcessBuilder(IMAGE_MAGIC_PATH, convertCommand, param.getInputPathFile(), param.getOutputFileName());
-            String prueba = process.toString();
-            Process p = process.start();
+            process.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return null;
     }
 }
