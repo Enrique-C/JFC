@@ -18,6 +18,7 @@ package com.jalasoft.jfc.model.strategy;
  * @author Enrique Carrizales.
  */
 public interface ICommandStrategy {
+    
     String SPACE = " ";
 
     /**
