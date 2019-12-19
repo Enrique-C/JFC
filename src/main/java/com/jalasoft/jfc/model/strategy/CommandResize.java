@@ -33,7 +33,7 @@ public class CommandResize implements ICommandStrategy {
 
     /**
      * This method builds a command.
-     * @param wight, height receive a value.
+     * @param width, height receive a value.
      * @return command concatenated.
      */
     public String command(int width, int height) {

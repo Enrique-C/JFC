@@ -43,7 +43,7 @@ public class VideoConverterController {
      * @param outputFileName contains name of converted file.
      * @param aspectRatio contains aspect ratio value.
      * @param frameRate contains the number of images per second.
-     * @param wight contains video's wight.
+     * @param width contains video's width.
      * @param height contains video's height.
      * @param videoCodec contains videoCodec value.
      * @param audioCodec contains audioCodec value.
@@ -59,7 +59,7 @@ public class VideoConverterController {
     public String videoConverter(
             @RequestParam("file") MultipartFile file, @RequestParam String fFmpeg, @RequestParam String inputPathFile,
             @RequestParam String outputPathFile, @RequestParam String outputFileName, @RequestParam double aspectRatio,
-            @RequestParam String frameRate, @RequestParam int wight, @RequestParam int height,
+            @RequestParam String frameRate, @RequestParam int width, @RequestParam int height,
             @RequestParam String videoCodec, @RequestParam String audioCodec, @RequestParam String videoBitRate,
             @RequestParam String audioBitRate, @RequestParam byte quality, @RequestParam byte channelsNumber,
             @RequestParam String volume, @RequestParam String rotate) {

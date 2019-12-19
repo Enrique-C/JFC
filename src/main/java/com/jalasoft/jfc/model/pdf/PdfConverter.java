@@ -73,11 +73,11 @@ public class PdfConverter implements IConverter {
                 command.append(PdfCommand.CLOSE_BRACKET.getCommand());
             }
 
-            if (pdfParam.getWight() > 0 && pdfParam.getHeight() > 0){
+            if (pdfParam.getWidth() > 0 && pdfParam.getHeight() > 0){
                 command.append(space);
                 command.append(PdfCommand.RESIZE.getCommand());
                 command.append(space);
-                command.append(pdfParam.getWight());
+                command.append(pdfParam.getWidth());
                 command.append(PdfCommand.ASTERISK.getCommand());
                 command.append(pdfParam.getHeight());
             }

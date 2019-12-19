@@ -29,8 +29,8 @@ public class VideoParam extends Param {
     // Content frameRate value.
     private String frameRate;
 
-    // Content video's wight.
-    private int wight;
+    // Content video's width.
+    private int width;
 
     // Content video's height.
     private int height;
@@ -101,8 +101,8 @@ public class VideoParam extends Param {
      * Gets wight value.
      * @return wight int value.
      */
-    public int getWight() {
-        return wight;
+    public int getWidth() {
+        return width;
     }
 
     /**
@@ -210,11 +210,11 @@ public class VideoParam extends Param {
     }
 
     /**
-     * Sets wight value.
-     * @param wight for setting this.wight.
+     * Sets width value.
+     * @param width for setting this.width.
      */
-    public void setWight(int wight) {
-        this.wight = wight;
+    public void setWidth(int width) {
+        this.width = width;
     }
 
     /**
