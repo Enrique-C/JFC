@@ -16,7 +16,7 @@ import com.jalasoft.jfc.model.pdf.PdfCommand;
  *
  * @version 0.1 19 Dic 2019
  *
- * @author Juan Martinez
+ * @author Enrique Carrizales
  */
 public class CommandImageRotate implements ICommandStrategy{
 
