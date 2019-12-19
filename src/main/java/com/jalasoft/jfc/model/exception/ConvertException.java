@@ -9,12 +9,14 @@
 package com.jalasoft.jfc.model.exception;
 
 public class ConvertException extends Exception {
+
     // Returns a message error
     String message;
 
     /**
-     * @param param parameter of file
-     * @param message of error
+     * Manages Exceptions.
+     * @param param parameter of file.
+     * @param message of error.
      */
     public ConvertException(String message, String param) {
         this.message = message;

@@ -18,7 +18,7 @@ import java.io.File;
  *
  * @author Enrique Carrizales.
  */
-public class CommandOutputFilePath implements ICommandStrategy{
+public class CommandOutputFilePath implements ICommandStrategy {
 
     /**
      * Generates a command.
