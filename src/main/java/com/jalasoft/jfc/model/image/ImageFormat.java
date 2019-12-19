@@ -5,41 +5,38 @@
  * ("Confidential Information"). You shall not disclose such Confidential
  * Information and shall use it only in accordance with the terms of the
  * license agreement you entered into with Jalasoft.
- *
  */
-
 package com.jalasoft.jfc.model.image;
 
 /**
- * Specifies types of image formats.
+ * This enum is used for specify types of image formats.
  *
- * @version 0.1 18 Dic 2019
+ * @version 0.1 16 Dic 2019
  *
- * @author Enrique Carrizales
+ * @author Alan Escalera
  */
 public enum ImageFormat {
-    JPG(".jpg"),
+    JPEG(".jpg"),
     PNG(".png"),
     GIF(".gif"),
-    BMP(".bmp"),
-    WBMP ("wbmp");
+    TIFF(".tif");
 
-    // Command variable.
-    private String command;
+    // Command variable
+    private String format;
 
     /**
-     * Sets command value.
-     * @param command String value.
+     * This method is for setting command value.
+     * @param format String value
      */
-    ImageFormat(String command) {
-        this.command = command;
+    ImageFormat(String format) {
+        this.format = format;
     }
 
     /**
-     * Gets command value.
+     * This method gets command value.
      * @return String value.
      */
-    public String getCommand(){
-        return command;
+    public String getImageFormat(){
+        return format;
     }
 }

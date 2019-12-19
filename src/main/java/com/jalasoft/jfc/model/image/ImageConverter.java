@@ -52,7 +52,7 @@ public class ImageConverter implements IConverter {
 
             imageFormatter(imageParam);
 
-            command.append(imageParam.getImageFormat().getCommand());
+            command.append(imageParam.getImageFormat().getImageFormat());
 
             commandString = command.toString();
             try {
@@ -68,7 +68,7 @@ public class ImageConverter implements IConverter {
 
     private void imageFormatter(ImageParam imageParam) {
         if (imageParam.getImageFormat() == null) {
-            imageParam.setImageFormat(ImageFormat.JPG);
+            imageParam.setImageFormat(ImageFormat.JPEG);
         }
     }
 }
