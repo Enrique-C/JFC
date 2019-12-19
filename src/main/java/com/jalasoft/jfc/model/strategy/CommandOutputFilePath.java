@@ -10,22 +10,21 @@
 package com.jalasoft.jfc.model.strategy;
 
 /**
+ * Validates a output file path.
  *
- * Builds a command to convert an image.
- *
- * @version 0.1 18 Dic 2019.
+ * @version 0.1 19 Dec 2019.
  *
  * @author Enrique Carrizales.
  */
-public class CommandConverter implements ICommandStrategy{
+public class CommandOutputFilePath implements ICommandStrategy{
 
     /**
-     * Builds a convert command.
+     * Generates a command.
      * @param value receives a param.
-     * @return command convert.
+     * @return output path.
      */
     @Override
     public String command(String value) {
-        return "convert";
+        return null;
     }
 }
