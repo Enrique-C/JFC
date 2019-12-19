@@ -25,7 +25,7 @@ public enum VideoCommand {
     FRAME_SIZE("-s"),
     VIDEO_BITRATE("-b:v"),
     AUDIO_BITRATE("-b:a"),
-    SCALE("-qscale"),
+    SCALE("-q:v"),
     ROTATE("-filter:v"),
     CHANNELS("-ac"),
     VOLUME("-vol"),

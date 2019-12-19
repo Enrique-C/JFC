@@ -168,15 +168,6 @@ public class VideoConverter implements IConverter {
             String stringCommand = command.toString();
             Process process = Runtime.getRuntime().exec(stringCommand);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-
-            // Line variable.
-            String line;
-
-            while ((line = bufferedReader.readLine()) != null) {
-                System.out.println(line);
-                LOGGER.log(Level.FINE, line, line);
-            }
-            process.waitFor();
             bufferedReader.close();
             return fileResult;
         } catch (IOException ex) {
