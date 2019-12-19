@@ -27,7 +27,9 @@ public enum PdfCommand {
     THUMBNAIL("-thumbnail"),
     OPEN_BRACKET("["),
     EN_DASH("-"),
-    CLOSE_BRACKET("]");
+    CLOSE_BRACKET("]"),
+    ASTERISK("x"),
+    ROTATE("-rotate");
 
     // Command variable.
     private String command;
