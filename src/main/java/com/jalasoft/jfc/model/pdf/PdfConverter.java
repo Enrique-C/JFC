@@ -24,7 +24,7 @@ import java.io.InputStreamReader;
 import java.util.regex.Pattern;
 
 /**
- * This class is used to convert PDF to Image
+ * This class converts PDF to Image
  *
  * @version 0.1 13 Dic 2019
  *
