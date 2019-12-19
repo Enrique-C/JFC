@@ -17,11 +17,14 @@ import org.apache.pdfbox.rendering.PDFRenderer;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.regex.Pattern;
 
 /**
- * This class is used to convert PDF to Image
+ * This class converts PDF to Image
  *
  * @version 0.1 13 Dic 2019
  *
@@ -30,65 +33,97 @@ import java.io.IOException;
 public class PdfConverter implements IConverter {
 
     /**
-     * This method convert a PDF to Image JPEG, PNG, GIF, BMP and WBMP.
+     * This method convert a PDF to Image.
      * @param param
-     * @return boolean value.
+     * @return FileResult object or null value.
      * @throws IOException
      */
     public FileResult convert(Param param){
 
-        // Instance of pdfParam for casting param.
         PdfParam pdfParam = (PdfParam)param;
-        final int DPI_BY_DEFECT = 100;
-        final int INIT_VALUE = 0;
         FileResult fileResult = new FileResult();
+        String space = " ";
 
         try {
-            if (pdfParam.getInputPathFile() == null || pdfParam.getOutputPathFile() == null) {
-                throw new IOException();
-            }
-            PDDocument documentToImage = PDDocument.load(new File(pdfParam.getInputPathFile()));
-            PDDocument documentRotated = new PDDocument();
-            PDFRenderer renderer;
-            BufferedImage image;
-            String pathName;
+            StringBuilder command = new StringBuilder();
 
-            boolean rotated = false;
-            int totalPages = documentToImage.getNumberOfPages();
+            if (pdfParam.getMagick().equals(null)){
+                throw new NullPointerException();
+            }
 
-            // Just rotate 90, 180, 270 degrees.
-            if (pdfParam.getRotate() > INIT_VALUE) {
-                for (int page = INIT_VALUE; page < totalPages; page++) {
-                    PDPage pageToRotate = documentToImage.getPage(page);
-                    pageToRotate.setRotation(pdfParam.getRotate());
-                    documentRotated.addPage(pageToRotate);
-                }
-                renderer = new PDFRenderer(documentRotated);
-                rotated = true;
-            } else {
-                renderer = new PDFRenderer(documentToImage);
+            command.append(pdfParam.getMagick());
+
+            if (pdfParam.getInputPathFile() == null || pdfParam.getOutputPathFile()
+                    == null || pdfParam.getImageFormat() == null) {
+                throw new NullPointerException();
             }
-            for (int page = INIT_VALUE; page < totalPages; page++) {
-                pathName = pdfParam.getOutputPathFile() + pdfParam.getOutputFileName() +
-                        page + "." + pdfParam.getPdfFormatImage().toString();
-                if (pdfParam.getDpi() != DPI_BY_DEFECT) {
-                    image = renderer.renderImageWithDPI(page, pdfParam.getDpi(), pdfParam.getImageType());
-                } else {
-                    image = renderer.renderImage(page, pdfParam.getScale(), pdfParam.getImageType());
+
+            command.append(space);
+            command.append(PdfCommand.CONVERT.getCommand());
+            command.append(space);
+            command.append(pdfParam.getInputPathFile());
+
+            if (pdfParam.getPagesToConvert() != null){
+                final Pattern pattern = Pattern.compile("[0-9][-][0-9]\\d*$");
+                if (!pattern.matcher(pdfParam.getPagesToConvert()).matches()){
+                    throw new IllegalArgumentException("Invalid value");
                 }
-                ImageIO.write(image, pdfParam.getPdfFormatImage().toString(), new File(pathName));
+                command.append(PdfCommand.OPEN_BRACKET.getCommand());
+                command.append(pdfParam.getPagesToConvert());
+                command.append(PdfCommand.CLOSE_BRACKET.getCommand());
             }
-            if(rotated)
-                documentRotated.close();
-            documentToImage.close();
-            return fileResult;
+
+            if (pdfParam.getWight() > 0 && pdfParam.getHeight() > 0){
+                command.append(space);
+                command.append(PdfCommand.RESIZE.getCommand());
+                command.append(space);
+                command.append(pdfParam.getWight());
+                command.append(PdfCommand.ASTERISK.getCommand());
+                command.append(pdfParam.getHeight());
+            }
+
+            if (pdfParam.getScale() != null){
+                command.append(space);
+                command.append(PdfCommand.SCALE.getCommand());
+                command.append(space);
+                command.append(pdfParam.getScale());
+            }
+
+            if (pdfParam.getThumbnail() != null){
+                command.append(space);
+                command.append(PdfCommand.THUMBNAIL.getCommand());
+                command.append(space);
+                command.append(pdfParam.getThumbnail());
+            }
+
+            if (pdfParam.getRotate() > 0){
+                command.append(space);
+                command.append(PdfCommand.ROTATE.getCommand());
+                command.append(space);
+                command.append(pdfParam.getRotate());
+            }
+
+            command.append(space);
+            command.append(pdfParam.getOutputPathFile());
+            command.append(pdfParam.getOutputFileName());
+            command.append(pdfParam.getImageFormat());
+
+            String stringCommand = command.toString();
+            Process process = Runtime.getRuntime().exec(stringCommand);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+
+            String line;
+            while ((line = bufferedReader.readLine()) != null){
+
+            }
+            process.waitFor();
         }
-        catch (IOException e)
+        catch (NullPointerException e)
         {
-            throw new IOException();
+            throw new NullPointerException();
         }
         finally {
-            return null;
+            return fileResult;
         }
     }
 }

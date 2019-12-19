@@ -11,8 +11,8 @@ package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
+import com.jalasoft.jfc.model.image.ImageFormat;
 import com.jalasoft.jfc.model.pdf.PdfConverter;
-import com.jalasoft.jfc.model.pdf.PdfFormatImage;
 import com.jalasoft.jfc.model.pdf.PdfParam;
 import org.apache.pdfbox.rendering.ImageType;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -76,35 +76,25 @@ public class PdfConverterController {
         pdfParam.setOutputPathFile(outputPathFile);
         pdfParam.setOutputFileName(outputFileName);
         pdfParam.setRotate(rotate);
-        pdfParam.setDpi(dpi);
         pdfParam.setScale(scale);
-        pdfParam.setImageType(selectImageType(imageType));
-        pdfParam.setPdfFormatImage(selectFormatImage(formatImage));
 
         return pdfConverter.convert(pdfParam).toString();
     }
 
-    private PdfFormatImage selectFormatImage(String formatImage) {
-        PdfFormatImage formatImageSelected = null;
+    private ImageFormat selectFormatImage(String formatImage) {
+        ImageFormat formatImageSelected = null;
         try{
             if (formatImage == null){
                 throw new NullPointerException();
             }else {
-                if (formatImage.equals("bmp"))
-                {
-                    formatImageSelected = PdfFormatImage.BMP;
+                if (formatImage.equals("gif")) {
+                    formatImageSelected = ImageFormat.GIF;
                 }
-                if (formatImage.equals("gif"))
-                {
-                    formatImageSelected = PdfFormatImage.GIF;
+                if (formatImage.equals("png")) {
+                    formatImageSelected = ImageFormat.PNG;
                 }
-                if (formatImage.equals("png"))
-                {
-                    formatImageSelected = PdfFormatImage.PNG;
-                }
-                if (formatImage.equals("jpg") || formatImage.equals("jpeg") )
-                {
-                    formatImageSelected = PdfFormatImage.JPEG ;
+                if (formatImage.equals("jpg") || formatImage.equals("jpeg") ) {
+                    formatImageSelected = ImageFormat.JPEG ;
                 }
             }
         }catch (NullPointerException e){
@@ -119,12 +109,10 @@ public class PdfConverterController {
             if (imageType == null ){
                 throw new IllegalArgumentException();
             }else {
-                if (imageType.equals("gray"))
-                {
+                if (imageType.equals("gray")) {
                     imageTypeSelected = ImageType.GRAY;
                 }
-                if (imageType.equals("binary"))
-                {
+                if (imageType.equals("binary")) {
                     imageTypeSelected = ImageType.BINARY;
                 }
                 if (imageType.equals("rgb") ) {
