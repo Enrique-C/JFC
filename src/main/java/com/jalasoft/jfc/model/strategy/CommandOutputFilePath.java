@@ -9,6 +9,8 @@
 
 package com.jalasoft.jfc.model.strategy;
 
+import java.io.File;
+
 /**
  * Validates a output file path.
  *
@@ -25,6 +27,10 @@ public class CommandOutputFilePath implements ICommandStrategy{
      */
     @Override
     public String command(String value) {
+        File file = new File(value);
+        if (file.exists()) {
+            return value;
+        }
         return null;
     }
 }
