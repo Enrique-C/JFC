@@ -78,7 +78,7 @@ public class PdfConverterController {
         pdfParam.setRotate(rotate);
         pdfParam.setScale(scale);
 
-        return pdfConverter.convert(pdfParam).toString();
+        return "convert" + pdfConverter.convert(pdfParam);
     }
 
     private ImageFormat selectFormatImage(String formatImage) {

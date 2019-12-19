@@ -11,8 +11,6 @@ package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
-import com.jalasoft.jfc.model.pdf.PdfConverter;
-import com.jalasoft.jfc.model.pdf.PdfParam;
 import com.jalasoft.jfc.model.video.VideoConverter;
 import com.jalasoft.jfc.model.video.VideoParam;
 import org.springframework.web.bind.annotation.PostMapping;
