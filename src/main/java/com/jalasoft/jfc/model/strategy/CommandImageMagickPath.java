@@ -30,7 +30,7 @@ public class CommandImageMagickPath implements ICommandStrategy {
         final String IMAGE_MAGIC_PATH = "thirdparty/ImageMagick/magick.exe";
         File file = new File(IMAGE_MAGIC_PATH);
         if (file.exists()) {
-            return IMAGE_MAGIC_PATH;
+            return IMAGE_MAGIC_PATH + this.SPACE;
         }
         return null;
     }
