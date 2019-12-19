@@ -9,6 +9,7 @@
 
 package com.jalasoft.jfc.controller;
 
+import com.jalasoft.jfc.model.exception.ConvertException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -62,14 +63,14 @@ public class VideoConverterController {
             @RequestParam String frameRate, @RequestParam int width, @RequestParam int height,
             @RequestParam String videoCodec, @RequestParam String audioCodec, @RequestParam String videoBitRate,
             @RequestParam String audioBitRate, @RequestParam byte quality, @RequestParam byte channelsNumber,
-            @RequestParam String volume, @RequestParam String rotate) {
+            @RequestParam String volume, @RequestParam String rotate) throws ConvertException {
 
         try {
             byte[] bytes = file.getBytes();
             Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
             Files.write(path, bytes);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new ConvertException("To Do Message","To Do Method where it was generated");
         }
         return UPLOADED_FOLDER;
     }
