@@ -9,8 +9,6 @@
 package com.jalasoft.jfc.model.pdf;
 
 import com.jalasoft.jfc.model.Param;
-import com.jalasoft.jfc.model.pdf.PdfFormatImage;
-import org.apache.pdfbox.rendering.ImageType;
 
 /**
  * This class content attributes more relevant of a PDF.
@@ -21,42 +19,68 @@ import org.apache.pdfbox.rendering.ImageType;
  */
 public class PdfParam extends Param {
 
-    // Input Rotate in Degrees 90, 180, 270.
-    private int rotate;
+    // Content magick path.
+    private String magick;
+
+    // Content image format value.
+    private String imageFormat;
+
+    // Content number of pages to convert
+    private String pagesToConvert;
+
+    // Content image's wight.
+    private int wight;
+
+    // Content image's height.
+    private int height;
 
     // Input Scale 1-10.
     private float scale;
 
-    // Input DPI 0-500.
-    private int dpi;
+    // Input Rotate in Degrees 90, 180, 270.
+    private int rotate;
 
-    // Input Type of image  JPEG, PNG, GIF, BMP and WBMP.
-    private ImageType imageType;
+    // Content thumbnail value.
+    private String thumbnail;
 
-    // Input Format Image.
-    private PdfFormatImage pdfFormatImage;
-
-    public PdfParam(){
-        rotate = 0;
-        scale = 1;
-        dpi = 100;
-        pdfFormatImage = PdfFormatImage.JPEG;
+    /**
+     * It gets magick value.
+     * @return magick.
+     */
+    public String getMagick() {
+        return magick;
     }
 
     /**
-     * this method gets the degrees of rotate value.
-     * @return degrees of rotation.
+     * It gets imageFormat value.
+     * @return imageFormat.
      */
-    public int getRotate() {
-        return rotate;
+    public String getImageFormat() {
+        return imageFormat;
     }
 
     /**
-     * this method sets degrees to rotate.
-     * @param rotate
+     * It gets number of pages to convert them.
+     * @return pagesToConvert.
      */
-    public void setRotate(int rotate) {
-        this.rotate = rotate;
+    public String getPagesToConvert() {
+        return pagesToConvert;
+    }
+
+    /**
+     * It gets wight value.
+     * @return wight.
+     */
+    public int getWight() {
+        return wight;
+    }
+
+    /**
+     * It gets height value.
+     * @return height.
+     */
+    public int getHeight() {
+        return height;
     }
 
     /**
@@ -68,6 +92,62 @@ public class PdfParam extends Param {
     }
 
     /**
+     * It gets thumbnail value.
+     * @return thumbnail.
+     */
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    /**
+     * This method gets the degrees of rotate value.
+     * @return degrees of rotation.
+     */
+    public int getRotate() {
+        return rotate;
+    }
+
+    /**
+     * It sets magick value.
+     * @param magick
+     */
+    public void setMagick(String magick) {
+        this.magick = magick;
+    }
+
+    /**
+     * It sets imageMagick value.
+     * @param imageFormat
+     */
+    public void setImageFormat(String imageFormat) {
+        this.imageFormat = imageFormat;
+    }
+
+    /**
+     * It sets number of pages to be converted.
+     * @param pagesToConvert
+     */
+    public void setPagesToConvert(String pagesToConvert) {
+        this.pagesToConvert = pagesToConvert;
+    }
+
+    /**
+     * It sets wight value.
+     * @param wight
+     */
+    public void setWight(int wight) {
+        this.wight = wight;
+    }
+
+    /**
+     * It sets height value.
+     * @param height
+     */
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    /**
      * This method sets the Scale that will be converted into JPEG, PNG, GIF, BMP and WBMP.
      * @param scale
      */
@@ -76,50 +156,18 @@ public class PdfParam extends Param {
     }
 
     /**
-     * This method gets the DPI value.
-     * @return dpi
+     * It sets thumbnail value.
+     * @param thumbnail
      */
-    public int getDpi() {
-        return dpi;
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
     /**
-     * This method sets the DPI that will be converted.
-     * @param dpi
+     * This method sets degrees to rotate image.
+     * @param rotate
      */
-    public void setDpi(int dpi) {
-        this.dpi = dpi;
-    }
-
-    /**
-     * This method gets the image type that will be converted.
-     * @return imageType
-     */
-    public ImageType getImageType() {
-        return imageType;
-    }
-
-    /**
-     * This method sets the image type that will be converted.
-     * @param imageType
-     */
-    public void setImageType(ImageType imageType) {
-        this.imageType = imageType;
-    }
-
-    /**
-     * This method gets the Format Image to be converted.
-     * @return formatImage
-     */
-    public PdfFormatImage getPdfFormatImage() {
-        return pdfFormatImage;
-    }
-
-    /**
-     * This method sets the Format image to be converted.
-     * @param formatImage
-     */
-    public void setPdfFormatImage(PdfFormatImage formatImage) {
-        this.pdfFormatImage = formatImage;
+    public void setRotate(int rotate) {
+        this.rotate = rotate;
     }
 }
