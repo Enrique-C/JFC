@@ -72,7 +72,7 @@ public class PdfConverterController {
             Files.write(path, bytes);
             pdfParam.setInputPathFile(path.toString());
         }catch (IOException ex) {
-             ex.getMessage();
+            throw new ConvertException("To Do Message","To Do Method where it was generated");
         }
         pdfParam.setOutputPathFile(outputPathFile);
         pdfParam.setOutputFileName(outputFileName);
@@ -86,7 +86,7 @@ public class PdfConverterController {
         ImageFormat formatImageSelected = null;
         try{
             if (formatImage == null){
-                throw new ConvertException("Aqui el nuevo mensaje","Aqui dondeen que lugar se genera");
+                throw new ConvertException("To Do Message","To Do Method where it was generated");
             }else {
                 if (formatImage.equals("gif")) {
                     formatImageSelected = ImageFormat.GIF;
