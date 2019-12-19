@@ -21,8 +21,8 @@ import com.jalasoft.jfc.model.pdf.PdfCommand;
 public class CommandImageRotate implements ICommandStrategy{
 
     /**
-     * Builds a command.
-     * @param value receives a param.
+     * It Builds a command.
+     * @param value receives a value.
      * @return String of a command.
      */
     @Override
