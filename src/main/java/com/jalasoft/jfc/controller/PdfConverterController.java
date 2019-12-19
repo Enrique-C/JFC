@@ -11,6 +11,7 @@ package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
+import com.jalasoft.jfc.model.exception.ConvertException;
 import com.jalasoft.jfc.model.image.ImageFormat;
 import com.jalasoft.jfc.model.pdf.PdfConverter;
 import com.jalasoft.jfc.model.pdf.PdfParam;
@@ -60,7 +61,7 @@ public class PdfConverterController {
             @RequestParam("file") MultipartFile file, @RequestParam (defaultValue = CONVERTED_FILE)
             String outputPathFile, @RequestParam String outputFileName, @RequestParam(defaultValue = "0") int rotate,
             @RequestParam (defaultValue = "1") String scale, @RequestParam (defaultValue = "100") int dpi,
-            @RequestParam String imageType, @RequestParam String formatImage) {
+            @RequestParam String imageType, @RequestParam String formatImage) throws ConvertException {
 
         Param param = new PdfParam();
         PdfParam pdfParam = (PdfParam) param;
