@@ -43,7 +43,7 @@ public class VideoConverterController {
      * @param outputFileName contains name of converted file.
      * @param aspectRatio contains aspect ratio value.
      * @param frameRate contains the number of images per second.
-     * @param width contains video's wight.
+     * @param width contains video's width.
      * @param height contains video's height.
      * @param videoCodec contains videoCodec value.
      * @param audioCodec contains audioCodec value.

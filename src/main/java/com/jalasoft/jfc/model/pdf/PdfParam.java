@@ -68,8 +68,8 @@ public class PdfParam extends Param {
     }
 
     /**
-     * It gets wight value.
-     * @return wight.
+     * It gets width value.
+     * @return width.
      */
     public int getWidth() {
         return width;
