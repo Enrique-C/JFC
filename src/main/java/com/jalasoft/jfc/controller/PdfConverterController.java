@@ -72,7 +72,7 @@ public class PdfConverterController {
             Files.write(path, bytes);
             pdfParam.setInputPathFile(path.toString());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new ConvertException("Aqui el nuevo mensaje","Aqui dondeen que lugar se genera");
         }
         pdfParam.setOutputPathFile(outputPathFile);
         pdfParam.setOutputFileName(outputFileName);
@@ -82,11 +82,11 @@ public class PdfConverterController {
         return pdfConverter.convert(pdfParam).toString();
     }
 
-    private ImageFormat selectFormatImage(String formatImage) {
+    private ImageFormat selectFormatImage(String formatImage) throws ConvertException {
         ImageFormat formatImageSelected = null;
         try{
             if (formatImage == null){
-                throw new NullPointerException();
+                throw new ConvertException("Aqui el nuevo mensaje","Aqui dondeen que lugar se genera");
             }else {
                 if (formatImage.equals("gif")) {
                     formatImageSelected = ImageFormat.GIF;
@@ -99,16 +99,16 @@ public class PdfConverterController {
                 }
             }
         }catch (NullPointerException e){
-            throw new NullPointerException();
+            throw new ConvertException("Aqui el nuevo mensa","Aqui dondeen que lugar se genera");
         }
         return formatImageSelected;
     }
 
-    private ImageType selectImageType(String imageType) {
+    private ImageType selectImageType(String imageType) throws ConvertException {
         ImageType imageTypeSelected = null;
         try{
             if (imageType == null ){
-                throw new IllegalArgumentException();
+                throw new ConvertException("Aqui el nuevo mensaje","Aqui dondeen que lugar se genera");
             }else {
                 if (imageType.equals("gray")) {
                     imageTypeSelected = ImageType.GRAY;
@@ -121,7 +121,7 @@ public class PdfConverterController {
                 }
             }
         }catch (IllegalArgumentException e){
-            throw new IllegalArgumentException();
+            throw new ConvertException("Aqui el nuevo mensaje","Aqui dondeen que lugar se genera");
         }
         return imageTypeSelected;
     }

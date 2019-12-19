@@ -12,6 +12,8 @@ package com.jalasoft.jfc.model.image;
 import com.jalasoft.jfc.model.FileResult;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
+import com.jalasoft.jfc.model.exception.ConvertException;
+
 import java.io.IOException;
 
 /**
@@ -28,7 +30,7 @@ public class ImageConverter implements IConverter {
      * @param param Image parameters.
      * @return Conversion status.
      */
-    public FileResult convert(Param param) {
+    public FileResult convert(Param param) throws ConvertException {
         ImageParam imageParam = (ImageParam) param;
         FileResult fileResult = null;
 
@@ -60,7 +62,7 @@ public class ImageConverter implements IConverter {
                 fileResult = new FileResult();
                 fileResult.setPath(imageParam.getOutputPathFile());
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new ConvertException("Aqui el nuevo mensaje","Aqui dondeen que lugar se genera");
             }
         }
         return fileResult;

@@ -9,6 +9,7 @@
 
 package com.jalasoft.jfc.controller;
 
+import com.jalasoft.jfc.model.exception.ConvertException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.Files;
@@ -47,14 +48,14 @@ public class ImageConverterController {
             @RequestParam("file") MultipartFile file, @RequestParam String inputPathFile,
             @RequestParam String outputPathFile, @RequestParam String outputPathThumbnail,
             @RequestParam String widthOfFile, @RequestParam String heightOfFile,
-            @RequestParam String whiteBlankPercentage, @RequestParam String degreesToRotate) {
+            @RequestParam String whiteBlankPercentage, @RequestParam String degreesToRotate) throws ConvertException {
 
         try {
             byte[] bytes = file.getBytes();
             Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
             Files.write(path, bytes);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new ConvertException("Aqui el nuevo mensa","Aqui dondeen que lugar se genera");
         }
         return UPLOADED_FOLDER;
     }
