@@ -13,11 +13,18 @@ import com.jalasoft.jfc.model.pdf.PdfCommand;
 
 import java.util.regex.Pattern;
 
+/**
+ * This class verify the scale value.
+ *
+ * @version 0.1 19 Dic 2019
+ *
+ * @author Juan Martinez
+ */
 public class CommandScale implements ICommandStrategy {
 
     /**
      * This method builds a command.
-     * @param value receives a param.
+     * @param value receives a value.
      * @return command concatenated.
      */
     public String command(String value) {
