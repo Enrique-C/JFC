@@ -15,10 +15,28 @@ package com.jalasoft.jfc.model.pdf;
  *
  * @author Alan Escalera
  */
-public enum PdfFormatImage {
-    JPEG,
-    PNG,
-    GIF,
-    BMP,
-    WBMP
+public enum ImageFormat {
+    JPEG(".jpg"),
+    PNG(".png"),
+    GIF(".gif"),
+    TIFF(".tif");
+
+    // Command variable
+    private String format;
+
+    /**
+     * This method is for setting command value.
+     * @param format String value
+     */
+    ImageFormat(String format) {
+        this.format = format;
+    }
+
+    /**
+     * This method gets command value.
+     * @return String value.
+     */
+    public String getImageFormat(){
+        return format;
+    }
 }
