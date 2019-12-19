@@ -59,7 +59,7 @@ public class PdfConverterController {
     public String pdfConverter(
             @RequestParam("file") MultipartFile file, @RequestParam (defaultValue = CONVERTED_FILE)
             String outputPathFile, @RequestParam String outputFileName, @RequestParam(defaultValue = "0") int rotate,
-            @RequestParam (defaultValue = "1") float scale, @RequestParam (defaultValue = "100") int dpi,
+            @RequestParam (defaultValue = "1") String scale, @RequestParam (defaultValue = "100") int dpi,
             @RequestParam String imageType, @RequestParam String formatImage) {
 
         Param param = new PdfParam();

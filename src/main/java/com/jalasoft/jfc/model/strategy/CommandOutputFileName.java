@@ -17,6 +17,7 @@ package com.jalasoft.jfc.model.strategy;
  * @author Juan Martinez
  */
 public class CommandOutputFileName implements ICommandStrategy {
+
     /**
      * Builds command.
      * @param outputFileName receives a param.

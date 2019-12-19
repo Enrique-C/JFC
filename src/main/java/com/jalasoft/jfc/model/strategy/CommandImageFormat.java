@@ -10,7 +10,6 @@
 package com.jalasoft.jfc.model.strategy;
 
 import com.jalasoft.jfc.model.image.ImageFormat;
-import jdk.nashorn.internal.ir.IfNode;
 
 /**
  * This class verify a valid image format.
