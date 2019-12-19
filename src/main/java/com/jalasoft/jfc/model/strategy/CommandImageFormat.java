@@ -9,25 +9,28 @@
 
 package com.jalasoft.jfc.model.strategy;
 
+import com.jalasoft.jfc.model.image.ImageFormat;
+import jdk.nashorn.internal.ir.IfNode;
+
 /**
- * This class verify if outputFileName value.
+ * This class verify a valid image format.
  *
  * @version 0.1 19 Dic 2019
  *
  * @author Juan Martinez
  */
-public class CommandOutputFileName implements ICommandStrategy {
+public class CommandImageFormat implements ICommandStrategy {
+
     /**
-     * Builds command.
-     * @param outputFileName receives a param.
+     * Builds a command.
+     * @param imageFormat receives a param.
      * @return String of a command.
      */
-    public String command(String outputFileName){
-        String regexRule = "[^a-zA-Z0-9]";
-        String replaceValue = "";
-        if (outputFileName != null){
-            outputFileName = outputFileName.replaceAll(regexRule, replaceValue);
-            return outputFileName;
+    public String command(String imageFormat){
+        for (ImageFormat image : ImageFormat.values()) {
+            if (image.getImageFormat().equals(imageFormat)){
+                return imageFormat;
+            }
         }
         return null;
     }
