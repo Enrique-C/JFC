@@ -35,7 +35,7 @@ public class PdfParam extends Param {
     private int height;
 
     // Input Scale 1-10.
-    private float scale;
+    private String scale;
 
     // Input Rotate in Degrees 90, 180, 270.
     private int rotate;
@@ -87,7 +87,7 @@ public class PdfParam extends Param {
      * This method gets the scale value.
      * @return scale
      */
-    public float getScale() {
+    public String getScale() {
         return scale;
     }
 
@@ -151,7 +151,7 @@ public class PdfParam extends Param {
      * This method sets the Scale that will be converted into JPEG, PNG, GIF, BMP and WBMP.
      * @param scale
      */
-    public void setScale(float scale) {
+    public void setScale(String scale) {
         this.scale = scale;
     }
 
