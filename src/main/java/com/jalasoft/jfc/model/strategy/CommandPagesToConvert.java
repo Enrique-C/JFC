@@ -9,7 +9,6 @@
 
 package com.jalasoft.jfc.model.strategy;
 
-import com.jalasoft.jfc.model.image.ImageFormat;
 import com.jalasoft.jfc.model.pdf.PdfCommand;
 
 import java.util.regex.Pattern;
@@ -22,6 +21,7 @@ import java.util.regex.Pattern;
  * @author Juan Martinez
  */
 public class CommandPagesToConvert implements ICommandStrategy {
+
     /**
      * Builds a command.
      * @param numberOfPage receives a param.
