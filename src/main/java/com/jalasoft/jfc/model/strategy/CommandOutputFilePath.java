@@ -29,7 +29,7 @@ public class CommandOutputFilePath implements ICommandStrategy{
     public String command(String value) {
         File file = new File(value);
         if (file.exists()) {
-            return value;
+            return this.SPACE + value;
         }
         return null;
     }

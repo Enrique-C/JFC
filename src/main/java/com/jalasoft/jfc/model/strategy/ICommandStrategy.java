@@ -18,11 +18,12 @@ package com.jalasoft.jfc.model.strategy;
  * @author Enrique Carrizales.
  */
 public interface ICommandStrategy {
+    String SPACE = " ";
 
     /**
      * Builds a command.
      * @param value receives a param.
      * @return String of a command.
      */
-    public String command(String value);
+    String command(String value);
 }

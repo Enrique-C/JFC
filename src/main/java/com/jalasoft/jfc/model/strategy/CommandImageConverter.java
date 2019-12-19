@@ -18,6 +18,7 @@ package com.jalasoft.jfc.model.strategy;
  * @author Enrique Carrizales.
  */
 public class CommandImageConverter implements ICommandStrategy{
+    final String command = "convert";
 
     /**
      * Builds a convert command.
@@ -26,6 +27,6 @@ public class CommandImageConverter implements ICommandStrategy{
      */
     @Override
     public String command(String value) {
-        return "convert";
+        return this.SPACE + command;
     }
 }
