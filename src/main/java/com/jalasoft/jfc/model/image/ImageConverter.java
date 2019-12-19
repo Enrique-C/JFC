@@ -32,7 +32,7 @@ public class ImageConverter implements IConverter {
         ImageParam imageParam = (ImageParam) param;
         FileResult fileResult = null;
 
-        final String IMAGE_MAGIC_PATH = "C:\\Users\\Admin\\Downloads\\ImageMagick-7.0.9-9-portable-Q16-x64\\magick.exe";
+        final String IMAGE_MAGIC_PATH = "thirdparty/ImageMagick/magick.exe";
         final String STRING_SPACE = " ";
         final String CONVERT = "convert";
 
