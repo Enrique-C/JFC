@@ -21,6 +21,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.regex.Pattern;
 
 /**
  * This class is used to convert PDF to Image
@@ -63,8 +64,45 @@ public class PdfConverter implements IConverter {
             command.append(pdfParam.getInputPathFile());
 
             if (pdfParam.getPagesToConvert() != null){
+                final Pattern pattern = Pattern.compile("[0-9][-][0-9]\\d*$");
+                if (!pattern.matcher(pdfParam.getPagesToConvert()).matches()){
+                    throw new IllegalArgumentException("Invalid value");
+                }
+                command.append(PdfCommand.OPEN_BRACKET.getCommand());
                 command.append(pdfParam.getPagesToConvert());
+                command.append(PdfCommand.CLOSE_BRACKET.getCommand());
             }
+
+            if (pdfParam.getWight() > 0 && pdfParam.getHeight() > 0){
+                command.append(space);
+                command.append(PdfCommand.RESIZE.getCommand());
+                command.append(space);
+                command.append(pdfParam.getWight());
+                command.append(PdfCommand.ASTERISK.getCommand());
+                command.append(pdfParam.getHeight());
+            }
+
+            if (pdfParam.getScale() != null){
+                command.append(space);
+                command.append(PdfCommand.SCALE.getCommand());
+                command.append(space);
+                command.append(pdfParam.getScale());
+            }
+
+            if (pdfParam.getThumbnail() != null){
+                command.append(space);
+                command.append(PdfCommand.THUMBNAIL.getCommand());
+                command.append(space);
+                command.append(pdfParam.getThumbnail());
+            }
+
+            if (pdfParam.getRotate() > 0){
+                command.append(space);
+                command.append(PdfCommand.ROTATE.getCommand());
+                command.append(space);
+                command.append(pdfParam.getRotate());
+            }
+
             command.append(space);
             command.append(pdfParam.getOutputPathFile());
             command.append(pdfParam.getOutputFileName());
