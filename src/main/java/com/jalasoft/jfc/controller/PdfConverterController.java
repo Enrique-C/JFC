@@ -121,7 +121,7 @@ public class PdfConverterController {
                 }
             }
         }catch (IllegalArgumentException e){
-            
+            throw new ConvertException("To Do Message","To Do Method where it was generated");
         }
         return imageTypeSelected;
     }
