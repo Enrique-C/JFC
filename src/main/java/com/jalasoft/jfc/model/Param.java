@@ -92,6 +92,6 @@ public class Param {
    * @param md5 for settint this.md5.
    */
   public void setMd5(String md5) {
-    md5 = this.md5;
+    this.md5 = md5;
   }
 }

@@ -56,11 +56,11 @@ public class PdfConverterController {
      */
     @PostMapping
     public String pdfConverter(
-            @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ")
-            String md5, @RequestParam (defaultValue = CONVERTED_FILE)
-            String outputPathFile, @RequestParam String outputFileName, @RequestParam(defaultValue = "90") int rotate,
-            @RequestParam(defaultValue = "300%") String scale, @RequestParam(defaultValue = "x128") String thumbnail,
-            @RequestParam(defaultValue = ".png") String imageFormat, @RequestParam(defaultValue = "1024") int wight,
+            @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ") String md5,
+            @RequestParam (defaultValue = CONVERTED_FILE) String outputPathFile, @RequestParam String outputFileName,
+            @RequestParam(defaultValue = "90") int rotate, @RequestParam(defaultValue = "300%") String scale,
+            @RequestParam(defaultValue = "x128") String thumbnail, @RequestParam(defaultValue = ".png")
+                    String imageFormat, @RequestParam(defaultValue = "1024") int wight,
             @RequestParam(defaultValue = "720") int height, @RequestParam String pagesToConvert)
             throws ConvertException {
 
@@ -87,6 +87,7 @@ public class PdfConverterController {
             pdfParam.setOutputPathFile(outputPathFile);
             pdfParam.setOutputFileName(outputFileName);
             pdfParam.setImageFormat(imageFormat);
+
             sameMd5 = "convert " + pdfConverter.convert(pdfParam).toString();
         }
         return  sameMd5;
