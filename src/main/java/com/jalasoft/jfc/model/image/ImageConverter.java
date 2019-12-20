@@ -13,8 +13,11 @@ import com.jalasoft.jfc.model.FileResult;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.ConvertException;
+import com.jalasoft.jfc.model.strategy.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Converts a image type to another.
@@ -32,45 +35,31 @@ public class ImageConverter implements IConverter {
      */
     public FileResult convert(Param param) throws ConvertException {
         ImageParam imageParam = (ImageParam) param;
-        FileResult fileResult = null;
 
-        final String IMAGE_MAGIC_PATH = "thirdparty/ImageMagick/magick.exe";
-        final String STRING_SPACE = " ";
-        final String CONVERT = "convert";
+        FileResult fileResult;
 
-        StringBuilder command = new StringBuilder();
         String commandString;
 
-        command.append(IMAGE_MAGIC_PATH);
-        command.append(STRING_SPACE);
-        command.append(CONVERT);
-        command.append(STRING_SPACE);
+        List<ICommandStrategy> commandStrategyList = new ArrayList<>();
+        commandStrategyList.add(new CommandImageMagickPath());
+        commandStrategyList.add(new CommandImageConverter());
+        commandStrategyList.add(new CommandInputFilePath(imageParam.getInputPathFile()));
+        commandStrategyList.add(new CommandOutputFilePath(imageParam.getOutputPathFile()));
+        commandStrategyList.add(new CommandOutputFileName(imageParam.getOutputFileName()));
+        commandStrategyList.add(new CommandImageFormat(imageParam.getImageFormat().getImageFormat()));
 
-        if (!(imageParam.getInputPathFile() == null)) {
-            command.append(imageParam.getInputPathFile());
-            command.append(STRING_SPACE);
-            command.append(imageParam.getOutputPathFile());
-            command.append(imageParam.getOutputFileName());
+        Context comContext = new Context(commandStrategyList);
 
-            imageFormatter(imageParam);
+        commandString = comContext.buildCommand();
 
-            command.append(imageParam.getImageFormat().getImageFormat());
-
-            commandString = command.toString();
-            try {
-                Runtime.getRuntime().exec(commandString);
-                fileResult = new FileResult();
-                fileResult.setPath(imageParam.getOutputPathFile());
-            } catch (IOException e) {
-                throw new ConvertException("To Do Message","To Do Method where it was generated");
-            }
+        try {
+            Runtime.getRuntime().exec(commandString);
+            fileResult = new FileResult();
+            fileResult.setPath(imageParam.getOutputPathFile());
+        } catch (IOException e) {
+            throw new ConvertException("The conversion Image failed", "Error");
         }
+
         return fileResult;
-    }
-
-    private void imageFormatter(ImageParam imageParam) {
-        if (imageParam.getImageFormat() == null) {
-            imageParam.setImageFormat(ImageFormat.JPEG);
-        }
     }
 }
