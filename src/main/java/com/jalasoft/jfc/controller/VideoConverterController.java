@@ -10,6 +10,7 @@
 package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.IConverter;
+import com.jalasoft.jfc.model.Md5Checksum;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.video.VideoConverter;
 import com.jalasoft.jfc.model.video.VideoParam;
@@ -64,43 +65,54 @@ public class VideoConverterController {
      */
     @PostMapping
     public String videoConverter(
-            @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = CONVERTED_FILE)
-            String outputPathFile, @RequestParam String outputFileName, @RequestParam(defaultValue = "4:3")
-                    double aspectRatio, @RequestParam(defaultValue = "30") String frameRate,
-            @RequestParam(defaultValue = "800") int width, @RequestParam(defaultValue = "600") int height,
-            @RequestParam(defaultValue = "") String videoCodec, @RequestParam(defaultValue = "") String audioCodec,
-            @RequestParam(defaultValue = "") String videoBitRate, @RequestParam(defaultValue = "")
-                    String audioBitRate, @RequestParam(defaultValue = "-1") int quality,
-            @RequestParam(defaultValue = "0") int channelsNumber,
-            @RequestParam(defaultValue = "") String volume,
-            @RequestParam(defaultValue = "") String rotate) throws ConvertException {
+            @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ") String md5,
+            @RequestParam (defaultValue = CONVERTED_FILE) String outputPathFile, @RequestParam String outputFileName,
+            @RequestParam (defaultValue = "0.0") double aspectRatio, @RequestParam (defaultValue = "")
+                    String frameRate, @RequestParam (defaultValue = "0") int width,
+            @RequestParam (defaultValue = "0")int height, @RequestParam (defaultValue = "") String videoCodec,
+            @RequestParam (defaultValue = "") String audioCodec,
+            @RequestParam (defaultValue = "") String videoBitRate, @RequestParam (defaultValue = "")
+                    String audioBitRate, @RequestParam (defaultValue = "-1") int quality,
+            @RequestParam (defaultValue = "0") int channelsNumber, @RequestParam (defaultValue = "") String volume,
+            @RequestParam (defaultValue = "") String rotate)  throws ConvertException {
 
+        Md5Checksum md5Checksum = new Md5Checksum();
         Param param = new VideoParam("thirdparty\\FFmpeg\\bin\\ffmpeg.exe");
         VideoParam videoParam = (VideoParam) param;
+        String md5FileUploaded;
+        String md5FileFromClient;
+        String sameMd5 = "This file is not the same";
         IConverter videoConverter = new VideoConverter();
+
         try {
             byte[] bytes = file.getBytes();
             Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
             Files.write(path, bytes);
             videoParam.setInputPathFile(path.toString());
+            md5FileUploaded = md5Checksum.getMd5(path.toString());
+            videoParam.setMd5(md5);
+            md5FileFromClient = videoParam.getMd5();
         } catch (IOException e) {
             throw new ConvertException("The there is not a file to upload", "VideoConverterController");
         }
-        videoParam.setOutputPathFile(outputPathFile);
-        videoParam.setOutputFileName(outputFileName);
-        videoParam.setAspectRatio(aspectRatio);
-        videoParam.setFrameRate(frameRate);
-        videoParam.setWidth(width);
-        videoParam.setHeight(height);
-        videoParam.setQuality(quality);
-        videoParam.setChannelsNumber(channelsNumber);
-        videoParam.setVolume(volume);
-        videoParam.setRotate(rotate);
-        videoParam.setVideoCodec(videoCodec);
-        videoParam.setAudioCodec(audioCodec);
-        videoParam.setVideoBitRate(videoBitRate);
-        videoParam.setAudioBitRate(audioBitRate);
+        if (md5FileUploaded.equals(md5FileFromClient)) {
+            videoParam.setOutputPathFile(outputPathFile);
+            videoParam.setOutputFileName(outputFileName);
+            videoParam.setAspectRatio(aspectRatio);
+            videoParam.setFrameRate(frameRate);
+            videoParam.setWidth(width);
+            videoParam.setHeight(height);
+            videoParam.setQuality(quality);
+            videoParam.setChannelsNumber(channelsNumber);
+            videoParam.setVolume(volume);
+            videoParam.setRotate(rotate);
+            videoParam.setVideoCodec(videoCodec);
+            videoParam.setAudioCodec(audioCodec);
+            videoParam.setVideoBitRate(videoBitRate);
+            videoParam.setAudioBitRate(audioBitRate);
 
-        return "converted " + videoConverter.convert(videoParam);
+            sameMd5 = "converted " + videoConverter.convert(videoParam).toString();
+        }
+        return sameMd5;
     }
 }
