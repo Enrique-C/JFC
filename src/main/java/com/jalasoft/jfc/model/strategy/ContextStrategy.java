@@ -11,7 +11,6 @@ package com.jalasoft.jfc.model.strategy;
 
 import com.jalasoft.jfc.model.exception.CommandValueException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,7 +20,7 @@ import java.util.List;
  *
  * @author Juan Martinez
  */
-public class Context {
+public class ContextStrategy {
 
     // Content a list of commands.
     private List<ICommandStrategy> commands;
@@ -30,7 +29,7 @@ public class Context {
      * Allows to instantiate Context.
      * @param commands
      */
-    public Context(ArrayList<ICommandStrategy> commands){
+    public ContextStrategy(List<ICommandStrategy> commands){
         this.commands = commands;
     }
 

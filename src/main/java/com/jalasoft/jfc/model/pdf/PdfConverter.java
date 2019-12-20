@@ -11,11 +11,17 @@ package com.jalasoft.jfc.model.pdf;
 import com.jalasoft.jfc.model.FileResult;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
+import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ConvertException;
+import com.jalasoft.jfc.model.strategy.ContextStrategy;
+import com.jalasoft.jfc.model.strategy.ICommandStrategy;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -28,7 +34,7 @@ import java.util.regex.Pattern;
 public class PdfConverter implements IConverter {
 
     /**
-     * This method convert a PDF to Image.
+     * This method converts a PDF to Image.
      * @param param
      * @return FileResult object or null value.
      * @throws IOException
@@ -41,16 +47,17 @@ public class PdfConverter implements IConverter {
 
         try {
             StringBuilder command = new StringBuilder();
+            List<ICommandStrategy> list = new ArrayList<>();
 
             if (pdfParam.getMagick().equals(null)){
-                throw new ConvertException("Aqui el nuevo mensaje","Aqui dondeen que lugar se genera");
+                throw new ConvertException("This message will be deleted","This message will be deleted");
             }
 
             command.append(pdfParam.getMagick());
 
             if (pdfParam.getInputPathFile() == null || pdfParam.getOutputPathFile()
                     == null || pdfParam.getImageFormat() == null) {
-                throw new ConvertException("Aqui el nuevo mensaje","Aqui dondeen que lugar se genera");
+                throw new ConvertException("This message will be deleted","This message will be deleted");
             }
 
             command.append(space);
@@ -61,7 +68,7 @@ public class PdfConverter implements IConverter {
             if (pdfParam.getPagesToConvert() != null){
                 final Pattern pattern = Pattern.compile("[0-9][-][0-9]\\d*$");
                 if (!pattern.matcher(pdfParam.getPagesToConvert()).matches()){
-                    throw new ConvertException("Aqui el nuevo mensaje","Aqui dondeen que lugar se genera");
+                    throw new ConvertException("This message will be deleted","This message will be deleted");
                 }
                 command.append(ImageMagickCommand.OPEN_BRACKET.getCommand());
                 command.append(pdfParam.getPagesToConvert());
@@ -120,5 +127,17 @@ public class PdfConverter implements IConverter {
         finally {
             return fileResult;
         }
+    }
+
+    /**
+     * This method is for getting the string command.
+     * @param commandList
+     * @return command concatenated.
+     * @throws CommandValueException
+     */
+    public String getCommand(List<ICommandStrategy> commandList) throws CommandValueException {
+        ContextStrategy contextStrategy = new ContextStrategy(commandList);
+        String result = contextStrategy.buildCommand();
+        return result;
     }
 }
