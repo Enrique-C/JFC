@@ -20,16 +20,26 @@ import java.io.File;
  */
 public class CommandInputFilePath implements ICommandStrategy {
 
+    // Content command value
+    private String commandValue;
+
+    /**
+     * It builds the class.
+     * @param commandValue contains a value.
+     */
+    public CommandInputFilePath(String commandValue) {
+        this.commandValue = commandValue;
+    }
+
     /**
      * Generates a command.
-     * @param value receives a param.
      * @return input path.
      */
     @Override
-    public String command(String value) {
-        File file = new File(value);
+    public String command() {
+        File file = new File(commandValue);
         if (file.exists()) {
-            return this.SPACE + value;
+            return this.SPACE + commandValue;
         }
         return null;
     }

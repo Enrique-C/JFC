@@ -20,15 +20,25 @@ import com.jalasoft.jfc.model.image.ImageFormat;
  */
 public class CommandImageFormat implements ICommandStrategy {
 
+    // Content command value
+    private String commandValue;
+
+    /**
+     * It builds the class.
+     * @param commandValue contains a value.
+     */
+    public CommandImageFormat(String commandValue) {
+        this.commandValue = commandValue;
+    }
+
     /**
      * Builds a command.
-     * @param imageFormat receives a param.
      * @return String of a command.
      */
-    public String command(String imageFormat){
+    public String command() {
         for (ImageFormat image : ImageFormat.values()) {
-            if (image.getImageFormat().equals(imageFormat)){
-                return imageFormat;
+            if (image.getImageFormat().equals(commandValue)) {
+                return commandValue;
             }
         }
         return null;

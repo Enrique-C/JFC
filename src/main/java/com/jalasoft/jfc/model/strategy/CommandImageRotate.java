@@ -18,18 +18,28 @@ import com.jalasoft.jfc.model.pdf.PdfCommand;
  *
  * @author Enrique Carrizales
  */
-public class CommandImageRotate implements ICommandStrategy{
+public class CommandImageRotate implements ICommandStrategy {
+
+    // Content command value
+    private String commandValue;
+
+    /**
+     * It builds the class.
+     * @param commandValue contains a value.
+     */
+    public CommandImageRotate(String commandValue) {
+        this.commandValue = commandValue;
+    }
 
     /**
      * It Builds a command.
-     * @param value receives a value.
      * @return String of a command.
      */
     @Override
-    public String command(String value) {
-        int intValue = Integer.parseInt(value);
+    public String command() {
+        int intValue = Integer.parseInt(commandValue);
         if (intValue > 0) {
-            return this.SPACE + PdfCommand.ROTATE.getCommand() + this.SPACE + value;
+            return this.SPACE + PdfCommand.ROTATE.getCommand() + this.SPACE + commandValue;
         }
         return null;
     }

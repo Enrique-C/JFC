@@ -11,8 +11,6 @@ package com.jalasoft.jfc.model.strategy;
 
 import com.jalasoft.jfc.model.pdf.PdfCommand;
 
-import java.util.regex.Pattern;
-
 /**
  * This class validates width and height.
  *
@@ -22,12 +20,22 @@ import java.util.regex.Pattern;
  */
 public class CommandResize implements ICommandStrategy {
 
+    // Content command value
+    private String commandValue;
+
+    /**
+     * It builds the class.
+     * @param commandValue contains a value.
+     */
+    public CommandResize(String commandValue) {
+        this.commandValue = commandValue;
+    }
+
     /**
      * This method builds a command.
-     * @param widthAndHeight receives a param.
      * @return command concatenated.
      */
-    public String command(String widthAndHeight) {
+    public String command() {
         return SPACE;
     }
 
