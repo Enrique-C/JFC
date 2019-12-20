@@ -18,7 +18,7 @@ import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
  *
  * @version 0.1 19 Dic 2019
  */
-public class CommandResize implements ICommandStrategy {
+public class CommandImageResize implements ICommandStrategy {
 
     // Content width value.
     private int width;
@@ -31,7 +31,7 @@ public class CommandResize implements ICommandStrategy {
      * @param width, height receive a value.
      * @return command concatenated.
      */
-    public CommandResize(int width, int height) {
+    public CommandImageResize(int width, int height) {
         this.width = width;
         this.height = height;
     }
