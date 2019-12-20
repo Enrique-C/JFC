@@ -28,6 +28,17 @@ public class Param {
   //Name the file that will be converted.
   private String outputFileName;
 
+  //It is a Md5 code of a file
+  private String md5;
+
+  /**
+   * getMd5 gets the checksum value.
+   * @return md5 String value.
+   */
+  public String getMd5() {
+    return md5;
+  }
+
   /**
    * getInputPathFile gets inputPathFile value.
    * @return inputPathFile String value.
@@ -74,5 +85,13 @@ public class Param {
    */
   public void setOutputFileName(String outputFileName) {
     this.outputFileName = outputFileName;
+  }
+
+  /**
+   * setMd5 sets md5 value.
+   * @param md5 for settint this.md5.
+   */
+  public void setMd5(String md5) {
+    md5 = this.md5;
   }
 }
