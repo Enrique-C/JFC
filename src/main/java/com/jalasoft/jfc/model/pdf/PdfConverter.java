@@ -12,10 +12,14 @@ import com.jalasoft.jfc.model.FileResult;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.ConvertException;
+import com.jalasoft.jfc.model.strategy.ContextStrategy;
+import com.jalasoft.jfc.model.strategy.ICommandStrategy;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -41,6 +45,8 @@ public class PdfConverter implements IConverter {
 
         try {
             StringBuilder command = new StringBuilder();
+            List<ICommandStrategy> list = new ArrayList<>();
+
 
             if (pdfParam.getMagick().equals(null)){
                 throw new ConvertException("Aqui el nuevo mensaje","Aqui dondeen que lugar se genera");
@@ -120,5 +126,11 @@ public class PdfConverter implements IConverter {
         finally {
             return fileResult;
         }
+    }
+
+    public String getCommand(List<ICommandStrategy> commandList){
+        ContextStrategy contextStrategy = new ContextStrategy(commandList);
+        String result = contextStrategy.buildCommand();
+        return result;
     }
 }
