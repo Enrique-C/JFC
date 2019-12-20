@@ -71,7 +71,7 @@ public class PdfConverterController {
             Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
             Files.write(path, bytes);
             pdfParam.setInputPathFile(path.toString());
-        }catch (IOException ex) {
+        } catch (IOException ex) {
             throw new ConvertException("To Do Message","To Do Error in method that was generated");
         }
         pdfParam.setOutputPathFile(outputPathFile);
@@ -84,10 +84,10 @@ public class PdfConverterController {
 
     private ImageFormat selectFormatImage(String formatImage) throws ConvertException {
         ImageFormat formatImageSelected = null;
-        try{
-            if (formatImage == null){
+        try {
+            if (formatImage == null) {
                 throw new ConvertException("To Do Message","To Do Error in method that was generated");
-            }else {
+            } else {
                 if (formatImage.equals("gif")) {
                     formatImageSelected = ImageFormat.GIF;
                 }
@@ -98,7 +98,7 @@ public class PdfConverterController {
                     formatImageSelected = ImageFormat.JPEG ;
                 }
             }
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             throw new ConvertException("To Do Message","To Do Error in method that was generated");
         }
         return formatImageSelected;
@@ -106,10 +106,10 @@ public class PdfConverterController {
 
     private ImageType selectImageType(String imageType) throws ConvertException {
         ImageType imageTypeSelected = null;
-        try{
-            if (imageType == null ){
+        try {
+            if (imageType == null ) {
                 throw new ConvertException("To Do Message","To Do Error in method that was generated");
-            }else {
+            } else {
                 if (imageType.equals("gray")) {
                     imageTypeSelected = ImageType.GRAY;
                 }
@@ -120,7 +120,7 @@ public class PdfConverterController {
                     imageTypeSelected = ImageType.RGB;
                 }
             }
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             throw new ConvertException("To Do Message","To Do Error in method that was generated");
         }
         return imageTypeSelected;

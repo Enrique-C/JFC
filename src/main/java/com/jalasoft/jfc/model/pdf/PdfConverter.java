@@ -60,6 +60,7 @@ public class PdfConverter implements IConverter {
 
             if (pdfParam.getPagesToConvert() != null){
                 final Pattern pattern = Pattern.compile("[0-9][-][0-9]\\d*$");
+
                 if (!pattern.matcher(pdfParam.getPagesToConvert()).matches()){
                     throw new ConvertException("To Do Message","To Do Error in method that was generated");
                 }
