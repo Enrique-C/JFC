@@ -54,7 +54,6 @@ public class ImageConverterController {
      */
     @PostMapping()
     public String imageConverter(
-
             @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = CONVERTED_FILE)
             String outputPathFile, @RequestParam String outputFileName, @RequestParam(defaultValue = "png")
                     String imageFormat, @RequestParam(defaultValue = CONVERTED_FILE) String outputPathThumbnail,
