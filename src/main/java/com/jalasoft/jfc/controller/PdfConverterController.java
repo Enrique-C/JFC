@@ -12,15 +12,15 @@ package com.jalasoft.jfc.controller;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.ConvertException;
-import com.jalasoft.jfc.model.image.ImageFormat;
 import com.jalasoft.jfc.model.pdf.PdfConverter;
 import com.jalasoft.jfc.model.pdf.PdfParam;
-import org.apache.pdfbox.rendering.ImageType;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -58,7 +58,7 @@ public class PdfConverterController {
     public String pdfConverter(
             @RequestParam("file") MultipartFile file, @RequestParam (defaultValue = CONVERTED_FILE)
             String outputPathFile, @RequestParam String outputFileName, @RequestParam(defaultValue = "90") int rotate,
-            @RequestParam (defaultValue = "300%") String scale, @RequestParam String thumbnail,
+            @RequestParam (defaultValue = "300%") String scale, @RequestParam (defaultValue = "x128")String thumbnail,
             @RequestParam (defaultValue = ".png")String imageFormat, @RequestParam (defaultValue = "1024") int wight,
             @RequestParam (defaultValue = "720") int height, @RequestParam String pagesToConvert) throws ConvertException {
 
@@ -76,58 +76,9 @@ public class PdfConverterController {
         }
         pdfParam.setOutputPathFile(outputPathFile);
         pdfParam.setOutputFileName(outputFileName);
-        //pdfParam.setThumbnail(thumbnail);
         pdfParam.setImageFormat(imageFormat);
-        //pdfParam.setWight(wight);
-        //pdfParam.setHeight(height);
-        //pdfParam.setPagesToConvert(pagesToConvert);
-        //pdfParam.setRotate(rotate);
-        //pdfParam.setScale(scale);
 
-        return "convert" + pdfConverter.convert(pdfParam);
-    }
-
-    private ImageFormat selectFormatImage(String formatImage) throws ConvertException {
-        ImageFormat formatImageSelected = null;
-        try{
-            if (formatImage == null){
-                throw new ConvertException("To Do Message","To Do Method where it was generated");
-            }else {
-                if (formatImage.equals("gif")) {
-                    formatImageSelected = ImageFormat.GIF;
-                }
-                if (formatImage.equals("png")) {
-                    formatImageSelected = ImageFormat.PNG;
-                }
-                if (formatImage.equals("jpg") || formatImage.equals("jpeg") ) {
-                    formatImageSelected = ImageFormat.JPEG ;
-                }
-            }
-        }catch (NullPointerException e){
-            throw new ConvertException("To Do Message","To Do Method where it was generated");
-        }
-        return formatImageSelected;
-    }
-
-    private ImageType selectImageType(String imageType) throws ConvertException {
-        ImageType imageTypeSelected = null;
-        try{
-            if (imageType == null ){
-                throw new ConvertException("To Do Message","To Do Method where it was generated");
-            }else {
-                if (imageType.equals("gray")) {
-                    imageTypeSelected = ImageType.GRAY;
-                }
-                if (imageType.equals("binary")) {
-                    imageTypeSelected = ImageType.BINARY;
-                }
-                if (imageType.equals("rgb") ) {
-                    imageTypeSelected = ImageType.RGB;
-                }
-            }
-        }catch (IllegalArgumentException e){
-            throw new ConvertException("To Do Message","To Do Method where it was generated");
-        }
-        return imageTypeSelected;
+        return "convert " + pdfConverter.convert(pdfParam);
     }
 }
+

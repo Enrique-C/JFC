@@ -48,10 +48,10 @@ public class VideoParam extends Param {
     private String audioBitRate;
 
     // Content quality of video.
-    private byte quality;
+    private int quality;
 
     // Content number of audio channels.
-    private byte channelsNumber;
+    private int channelsNumber;
 
     // Content audio volume value.
     private String volume;
@@ -149,7 +149,7 @@ public class VideoParam extends Param {
      * Gets quality value.
      * @return quality value in bytes.
      */
-    public byte getQuality() {
+    public int getQuality() {
         return quality;
     }
 
@@ -157,7 +157,7 @@ public class VideoParam extends Param {
      * Gets channelsNumber value.
      * @return channelsNumber value in bytes.
      */
-    public byte getChannelsNumber() {
+    public int getChannelsNumber() {
         return channelsNumber;
     }
 
@@ -261,7 +261,7 @@ public class VideoParam extends Param {
      * Sets quality value.
      * @param quality for setting this.quality.
      */
-    public void setQuality(byte quality) {
+    public void setQuality(int quality) {
         this.quality = quality;
     }
 
@@ -269,7 +269,7 @@ public class VideoParam extends Param {
      * Sets channelsNumber value.
      * @param channelsNumber for setting this.channelsNumber.
      */
-    public void setChannelsNumber(byte channelsNumber) {
+    public void setChannelsNumber(int channelsNumber) {
         this.channelsNumber = channelsNumber;
     }
 

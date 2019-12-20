@@ -9,7 +9,6 @@
 
 package com.jalasoft.jfc.controller;
 
-
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.video.VideoConverter;
@@ -44,16 +43,6 @@ public class VideoConverterController {
     // Constant path converted file.
     private static final String CONVERTED_FILE = "src/main/java/com/jalasoft/jfc/resource/";
 
-     /* @param videoCodec contains videoCodec value.
-            * @param audioCodec contains audioCodec value.
-            * @param videoBitRate contains videoBitRate value.
-            * @param audioBitRate contains audioBitRate value.
-            * @param quality contains quality of video.
-     * @param channelsNumber contains number of output channels.
-            * @param volume contains the level of sound.
-            * @param rotate degrees of rotation.*/
-
-
     /**
      * videoConverter method receives an video to convert
      * @param file contains the video file.
@@ -63,7 +52,14 @@ public class VideoConverterController {
      * @param frameRate contains the number of images per second.
      * @param width contains video's width.
      * @param height contains video's height.
-
+     * @param videoCodec contains videoCodec value.
+     * @param audioCodec contains audioCodec value.
+     * @param videoBitRate contains videoBitRate value.
+     * @param audioBitRate contains audioBitRate value.
+     * @param quality contains quality of video.
+     * @param channelsNumber contains number of output channels.
+     * @param volume contains the level of sound.
+     * @param rotate degrees of rotation.
      * @return the path of the upload file.
      */
     @PostMapping
@@ -72,11 +68,13 @@ public class VideoConverterController {
             @RequestParam("file") MultipartFile file, @RequestParam (defaultValue = CONVERTED_FILE)
             String outputPathFile, @RequestParam String outputFileName, @RequestParam (defaultValue = "4:3")
             double aspectRatio, @RequestParam (defaultValue = "30") String frameRate,
-            @RequestParam (defaultValue = "800") int width, @RequestParam (defaultValue = "640")int height /*,
+            @RequestParam (defaultValue = "800") int width, @RequestParam (defaultValue = "600")int height ,
             @RequestParam (defaultValue = "") String videoCodec, @RequestParam (defaultValue = "") String audioCodec,
             @RequestParam (defaultValue = "") String videoBitRate, @RequestParam (defaultValue = "")
-                    String audioBitRate, @RequestParam byte quality, @RequestParam (defaultValue = "") byte channelsNumber,
-            @RequestParam (defaultValue = "") String volume, @RequestParam (defaultValue = "") String rotate*/)  throws ConvertException {
+                    String audioBitRate, @RequestParam (defaultValue = "-1") int quality,
+            @RequestParam (defaultValue = "0") int channelsNumber,
+            @RequestParam (defaultValue = "") String volume,
+            @RequestParam (defaultValue = "") String rotate)  throws ConvertException {
 
 
         Param param = new VideoParam("thirdparty\\FFmpeg\\bin\\ffmpeg.exe");
@@ -97,11 +95,15 @@ public class VideoConverterController {
         videoParam.setFrameRate(frameRate);
         videoParam.setWidth(width);
         videoParam.setHeight(height);
-        //videoParam.setQuality((byte) 5);
-        //videoParam.setRotate("transpose=2,transpose=2");
+        videoParam.setQuality(quality);
+        videoParam.setChannelsNumber(channelsNumber);
+        videoParam.setVolume(volume);
+        videoParam.setRotate(rotate);
+        videoParam.setVideoCodec(videoCodec);
+        videoParam.setAudioCodec(audioCodec);
+        videoParam.setVideoBitRate(videoBitRate);
+        videoParam.setAudioBitRate(audioBitRate);
 
-        videoConverter.convert(videoParam);
-
-        return "converted " +videoConverter.convert(videoParam);
+        return "converted " + videoConverter.convert(videoParam);
     }
 }

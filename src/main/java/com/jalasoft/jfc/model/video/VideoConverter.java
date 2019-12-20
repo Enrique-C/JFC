@@ -70,7 +70,7 @@ public class VideoConverter implements IConverter {
                 command.append(videoParam.getAspectRatio());
             }
 
-            if (videoParam.getFrameRate() != null) {
+            if (!videoParam.getFrameRate().equals("")) {
                 command.append(space);
                 command.append(VideoCommand.FRAME_RATE.getCommand());
                 command.append(space);
@@ -86,28 +86,28 @@ public class VideoConverter implements IConverter {
                 command.append(videoParam.getHeight());
             }
 
-            if (videoParam.getVideoCodec() != null) {
+            if (!videoParam.getVideoCodec().equals("")) {
                 command.append(space);
                 command.append(VideoCommand.AUDIO_CODEC.getCommand());
                 command.append(space);
                 command.append(videoParam.getVideoCodec());
             }
 
-            if (videoParam.getAudioCodec() != null) {
+            if (!videoParam.getAudioCodec().equals("")) {
                 command.append(space);
                 command.append(VideoCommand.AUDIO_CODEC.getCommand());
                 command.append(space);
                 command.append(videoParam.getAudioCodec());
             }
 
-            if (videoParam.getVideoBitRate() != null) {
+            if (!videoParam.getVideoCodec().equals("")) {
                 command.append(space);
                 command.append(VideoCommand.VIDEO_BITRATE.getCommand());
                 command.append(space);
                 command.append(videoParam.getVideoBitRate());
             }
 
-            if (videoParam.getAudioBitRate() != null) {
+            if (!videoParam.getAudioBitRate().equals("")) {
                 command.append(space);
                 command.append(VideoCommand.AUDIO_BITRATE.getCommand());
                 command.append(space);
@@ -130,14 +130,14 @@ public class VideoConverter implements IConverter {
                 command.append(VideoCommand.EMPTY.getCommand());
             }
 
-            if (videoParam.getVolume() != null) {
+            if (!videoParam.getVolume().equals("")) {
                 command.append(space);
                 command.append(VideoCommand.VOLUME.getCommand());
                 command.append(space);
                 command.append(videoParam.getVolume());
             }
 
-            if (videoParam.getRotate() != null) {
+            if (!videoParam.getRotate().equals("")) {
                 command.append(space);
                 command.append(VideoCommand.ROTATE.getCommand());
                 command.append(space);
