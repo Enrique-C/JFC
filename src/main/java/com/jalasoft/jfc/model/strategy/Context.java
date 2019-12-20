@@ -29,18 +29,21 @@ public class Context {
      * @param commands
      */
     public Context(ArrayList<ICommandStrategy> commands){
-        this.commands = new ArrayList<>(commands);
+        this.commands = commands;
     }
 
     /**
      * This method builds a command.
-     * @return
+     * @return commandString concatenated.
      */
     public String buildCommand(){
         StringBuilder commandString = new StringBuilder();
 
-        for (ICommandStrategy command : commands) {
-            commandString.append(command);
+        for (ICommandStrategy itemCmd : commands) {
+            String itemCmdValue = itemCmd.command();
+            if (itemCmdValue != null) {
+                commandString.append(itemCmdValue);
+            }
         }
         return commandString.toString();
     }
