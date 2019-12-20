@@ -76,7 +76,6 @@ public class VideoConverterController {
             @RequestParam(defaultValue = "") String volume,
             @RequestParam(defaultValue = "") String rotate) throws ConvertException {
 
-
         Param param = new VideoParam("thirdparty\\FFmpeg\\bin\\ffmpeg.exe");
         VideoParam videoParam = (VideoParam) param;
         IConverter videoConverter = new VideoConverter();
