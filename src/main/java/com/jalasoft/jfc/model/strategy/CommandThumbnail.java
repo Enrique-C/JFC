@@ -25,9 +25,9 @@ public class CommandThumbnail implements ICommandStrategy {
     public CommandThumbnail(String commandValue){
         this.commandValue = commandValue;
     }
+
     /**
      * This method builds a command.
-     // * @param value receives a param.
      * @return command concatenated.
      */
     public String command() {
