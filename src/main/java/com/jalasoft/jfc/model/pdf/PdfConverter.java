@@ -12,14 +12,8 @@ import com.jalasoft.jfc.model.FileResult;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.ConvertException;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.rendering.PDFRenderer;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.regex.Pattern;
@@ -60,7 +54,7 @@ public class PdfConverter implements IConverter {
             }
 
             command.append(space);
-            command.append(PdfCommand.CONVERT.getCommand());
+            command.append(ImageMagickCommand.CONVERT.getCommand());
             command.append(space);
             command.append(pdfParam.getInputPathFile());
 
@@ -69,37 +63,37 @@ public class PdfConverter implements IConverter {
                 if (!pattern.matcher(pdfParam.getPagesToConvert()).matches()){
                     throw new ConvertException("Aqui el nuevo mensaje","Aqui dondeen que lugar se genera");
                 }
-                command.append(PdfCommand.OPEN_BRACKET.getCommand());
+                command.append(ImageMagickCommand.OPEN_BRACKET.getCommand());
                 command.append(pdfParam.getPagesToConvert());
-                command.append(PdfCommand.CLOSE_BRACKET.getCommand());
+                command.append(ImageMagickCommand.CLOSE_BRACKET.getCommand());
             }
 
             if (pdfParam.getWidth() > 0 && pdfParam.getHeight() > 0){
                 command.append(space);
-                command.append(PdfCommand.RESIZE.getCommand());
+                command.append(ImageMagickCommand.RESIZE.getCommand());
                 command.append(space);
                 command.append(pdfParam.getWidth());
-                command.append(PdfCommand.ASTERISK.getCommand());
+                command.append(ImageMagickCommand.ASTERISK.getCommand());
                 command.append(pdfParam.getHeight());
             }
 
             if (pdfParam.getScale() != null){
                 command.append(space);
-                command.append(PdfCommand.SCALE.getCommand());
+                command.append(ImageMagickCommand.SCALE.getCommand());
                 command.append(space);
                 command.append(pdfParam.getScale());
             }
 
             if (pdfParam.getThumbnail() != null){
                 command.append(space);
-                command.append(PdfCommand.THUMBNAIL.getCommand());
+                command.append(ImageMagickCommand.THUMBNAIL.getCommand());
                 command.append(space);
                 command.append(pdfParam.getThumbnail());
             }
 
             if (pdfParam.getRotate() > 0){
                 command.append(space);
-                command.append(PdfCommand.ROTATE.getCommand());
+                command.append(ImageMagickCommand.ROTATE.getCommand());
                 command.append(space);
                 command.append(pdfParam.getRotate());
             }

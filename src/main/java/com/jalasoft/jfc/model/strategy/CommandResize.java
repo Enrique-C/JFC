@@ -9,9 +9,7 @@
 
 package com.jalasoft.jfc.model.strategy;
 
-import com.jalasoft.jfc.model.pdf.PdfCommand;
-
-import java.util.regex.Pattern;
+import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
 
 /**
  * This class validates width and height.
@@ -38,8 +36,8 @@ public class CommandResize implements ICommandStrategy {
      */
     public String command(int width, int height) {
         if (width > 0 && height > 0){
-            return SPACE + PdfCommand.RESIZE.getCommand() +
-                   SPACE + width + PdfCommand.ASTERISK + height;
+            return SPACE + ImageMagickCommand.RESIZE.getCommand() +
+                   SPACE + width + ImageMagickCommand.ASTERISK + height;
         }
         return null;
     }
