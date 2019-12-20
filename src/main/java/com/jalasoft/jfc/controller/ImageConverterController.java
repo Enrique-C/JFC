@@ -28,6 +28,7 @@ import java.io.IOException;
  * Manage ImageConverter Requests.
  *
  * @author Enrique Carrizales.
+ *
  * @version 0.1 13 Dic 2019.
  */
 @RestController

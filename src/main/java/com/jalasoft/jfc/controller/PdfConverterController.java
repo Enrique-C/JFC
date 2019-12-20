@@ -30,7 +30,8 @@ import java.nio.file.Paths;
 /**
  * Manage PdfConverter Requests.
  *
- * @author Enrique Carrizales
+ * @author Enrique Carrizales.
+ *
  * @version 0.1 14 Dic 2019.
  */
 @RestController
