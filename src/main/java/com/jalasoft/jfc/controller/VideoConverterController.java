@@ -70,7 +70,7 @@ public class VideoConverterController {
             Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
             Files.write(path, bytes);
         } catch (IOException e) {
-            throw new ConvertException("To Do Message","To Do Method where it was generated");
+            throw new ConvertException("To Do Message","To Do Error in method that was generated");
         }
         return UPLOADED_FOLDER;
     }

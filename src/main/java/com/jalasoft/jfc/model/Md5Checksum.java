@@ -39,7 +39,7 @@ public class Md5Checksum {
             checksum = DigestUtils.md5Hex(new FileInputStream(file));
         } catch (IOException ex) {
             logger.log(Level.SEVERE, null, ex);
-            throw new ConvertException("To Do Message","To Do Method where it was generated");
+            throw new ConvertException("To Do Message","To Do Error in method that was generated");
         }
         return checksum;
     }

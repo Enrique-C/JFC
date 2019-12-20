@@ -72,7 +72,7 @@ public class PdfConverterController {
             Files.write(path, bytes);
             pdfParam.setInputPathFile(path.toString());
         }catch (IOException ex) {
-            throw new ConvertException("To Do Message","To Do Method where it was generated");
+            throw new ConvertException("To Do Message","To Do Error in method that was generated");
         }
         pdfParam.setOutputPathFile(outputPathFile);
         pdfParam.setOutputFileName(outputFileName);
@@ -86,7 +86,7 @@ public class PdfConverterController {
         ImageFormat formatImageSelected = null;
         try{
             if (formatImage == null){
-                throw new ConvertException("To Do Message","To Do Method where it was generated");
+                throw new ConvertException("To Do Message","To Do Error in method that was generated");
             }else {
                 if (formatImage.equals("gif")) {
                     formatImageSelected = ImageFormat.GIF;
@@ -99,7 +99,7 @@ public class PdfConverterController {
                 }
             }
         }catch (NullPointerException e){
-            throw new ConvertException("To Do Message","To Do Method where it was generated");
+            throw new ConvertException("To Do Message","To Do Error in method that was generated");
         }
         return formatImageSelected;
     }
@@ -108,7 +108,7 @@ public class PdfConverterController {
         ImageType imageTypeSelected = null;
         try{
             if (imageType == null ){
-                throw new ConvertException("To Do Message","To Do Method where it was generated");
+                throw new ConvertException("To Do Message","To Do Error in method that was generated");
             }else {
                 if (imageType.equals("gray")) {
                     imageTypeSelected = ImageType.GRAY;
@@ -121,7 +121,7 @@ public class PdfConverterController {
                 }
             }
         }catch (IllegalArgumentException e){
-            throw new ConvertException("To Do Message","To Do Method where it was generated");
+            throw new ConvertException("To Do Message","To Do Error in method that was generated");
         }
         return imageTypeSelected;
     }

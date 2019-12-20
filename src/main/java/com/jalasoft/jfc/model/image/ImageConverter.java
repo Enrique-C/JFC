@@ -62,7 +62,7 @@ public class ImageConverter implements IConverter {
                 fileResult = new FileResult();
                 fileResult.setPath(imageParam.getOutputPathFile());
             } catch (IOException e) {
-                throw new ConvertException("To Do Message","To Do Method where it was generated");
+                throw new ConvertException("To Do Message","To Do Error in method that was generated");
             }
         }
         return fileResult;

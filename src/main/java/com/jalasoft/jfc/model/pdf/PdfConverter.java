@@ -43,14 +43,14 @@ public class PdfConverter implements IConverter {
             StringBuilder command = new StringBuilder();
 
             if (pdfParam.getMagick().equals(null)){
-                throw new ConvertException("To Do Message","To Do Method where it was generated.");
+                throw new ConvertException("To Do Message","To Do Error in method that was generated");
             }
 
             command.append(pdfParam.getMagick());
 
             if (pdfParam.getInputPathFile() == null || pdfParam.getOutputPathFile()
                     == null || pdfParam.getImageFormat() == null) {
-                throw new ConvertException("To Do Message","To Do Method where it was generated.");
+                throw new ConvertException("To Do Message","To Do Error in method that was generated");
             }
 
             command.append(space);
@@ -61,7 +61,7 @@ public class PdfConverter implements IConverter {
             if (pdfParam.getPagesToConvert() != null){
                 final Pattern pattern = Pattern.compile("[0-9][-][0-9]\\d*$");
                 if (!pattern.matcher(pdfParam.getPagesToConvert()).matches()){
-                    throw new ConvertException("To Do Message","To Do Method where it was generated");
+                    throw new ConvertException("To Do Message","To Do Error in method that was generated");
                 }
                 command.append(ImageMagickCommand.OPEN_BRACKET.getCommand());
                 command.append(pdfParam.getPagesToConvert());
