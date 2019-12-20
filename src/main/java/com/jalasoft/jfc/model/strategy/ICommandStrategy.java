@@ -24,7 +24,7 @@ public interface ICommandStrategy {
     String SPACE = " ";
 
     /**
-     * Builds a command.
+     * Builds a command..
      * @return String of a command.
      */
     String command() throws CommandValueException;

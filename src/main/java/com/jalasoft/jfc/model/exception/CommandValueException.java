@@ -14,7 +14,7 @@ public class CommandValueException extends Exception {
     String message;
 
     /**
-     * Manages Exceptions.
+     * Manages Value Exceptions.
      * @param param parameter of file.
      * @param message of error.
      */
