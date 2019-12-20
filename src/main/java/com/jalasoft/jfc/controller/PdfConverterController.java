@@ -10,6 +10,7 @@
 package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.IConverter;
+import com.jalasoft.jfc.model.Md5Checksum;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.ConvertException;
 import com.jalasoft.jfc.model.pdf.PdfConverter;
@@ -56,29 +57,42 @@ public class PdfConverterController {
      */
     @PostMapping
     public String pdfConverter(
-            @RequestParam("file") MultipartFile file, @RequestParam (defaultValue = CONVERTED_FILE)
+            @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ")
+            String md5, @RequestParam (defaultValue = CONVERTED_FILE)
             String outputPathFile, @RequestParam String outputFileName, @RequestParam(defaultValue = "90") int rotate,
             @RequestParam (defaultValue = "300%") String scale, @RequestParam (defaultValue = "x128")String thumbnail,
             @RequestParam (defaultValue = ".png")String imageFormat, @RequestParam (defaultValue = "1024") int wight,
             @RequestParam (defaultValue = "720") int height, @RequestParam String pagesToConvert) throws ConvertException {
 
+        Md5Checksum md5Checksum = new Md5Checksum();
         Param param = new PdfParam();
         PdfParam pdfParam = (PdfParam) param;
         pdfParam.setMagick("thirdparty/ImageMagick/magick.exe");
+        String md5FileUploaded;
+        String md5FileFromClient;
+        String sameMd5 = "This file is not the same";
         IConverter pdfConverter = new PdfConverter();
         try {
             byte[] bytes = file.getBytes();
             Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
             Files.write(path, bytes);
             pdfParam.setInputPathFile(path.toString());
+            md5FileUploaded = md5Checksum.getMd5(path.toString());
+            pdfParam.setMd5(md5);
+            md5FileFromClient = pdfParam.getMd5();
+
         }catch (IOException ex) {
             throw new ConvertException("To Do Message","To Do Method where it was generated");
         }
-        pdfParam.setOutputPathFile(outputPathFile);
-        pdfParam.setOutputFileName(outputFileName);
-        pdfParam.setImageFormat(imageFormat);
+        if (md5FileUploaded.equals(md5FileFromClient)){
+            pdfParam.setOutputPathFile(outputPathFile);
+            pdfParam.setOutputFileName(outputFileName);
+            pdfParam.setImageFormat(imageFormat);
+            sameMd5 = "convert " + pdfConverter.convert(pdfParam).toString();
 
-        return "convert " + pdfConverter.convert(pdfParam);
+        }
+
+        return  sameMd5;
     }
 }
 
