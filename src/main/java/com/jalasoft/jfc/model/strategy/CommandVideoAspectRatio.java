@@ -10,6 +10,13 @@ package com.jalasoft.jfc.model.strategy;
 
 import com.jalasoft.jfc.model.video.VideoCommand;
 
+/**
+ * Class changes Aspect Ratio.
+ *
+ * @version 0.1 20 Dic 2019.
+ *
+ * @author Oscar Lopez.
+ */
 public class CommandVideoAspectRatio implements ICommandStrategy{
 
     // Content command value.
