@@ -18,17 +18,27 @@ package com.jalasoft.jfc.model.strategy;
  */
 public class CommandOutputFileName implements ICommandStrategy {
 
+    // Content command value.
+    private String commandValue;
+
+    /**
+     * It Creates a new CommandOutputFileName object.
+     * @param commandValue contains a value.
+     */
+    public CommandOutputFileName(String commandValue) {
+        this.commandValue = commandValue;
+    }
+
     /**
      * Builds command.
-     * @param outputFileName receives a param.
      * @return String of a command.
      */
-    public String command(String outputFileName){
+    public String command(){
         String regexRule = "[^a-zA-Z0-9]";
         String replaceValue = "";
-        if (outputFileName != null){
-            outputFileName = outputFileName.replaceAll(regexRule, replaceValue);
-            return outputFileName;
+        if (commandValue != null){
+            commandValue = commandValue.replaceAll(regexRule, replaceValue);
+            return commandValue;
         }
         return null;
     }

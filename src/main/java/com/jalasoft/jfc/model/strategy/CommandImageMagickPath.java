@@ -20,14 +20,15 @@ import java.io.File;
  */
 public class CommandImageMagickPath implements ICommandStrategy {
 
+    // Content command value.
+    private final String IMAGE_MAGIC_PATH = "thirdparty/ImageMagick/magick.exe";
+
     /**
      * Generates a command.
-     * @param value receives a param.
      * @return exe of ImageMagick path.
      */
     @Override
-    public String command(String value) {
-        final String IMAGE_MAGIC_PATH = "thirdparty/ImageMagick/magick.exe";
+    public String command() {
         File file = new File(IMAGE_MAGIC_PATH);
         if (file.exists()) {
             return IMAGE_MAGIC_PATH + this.SPACE;

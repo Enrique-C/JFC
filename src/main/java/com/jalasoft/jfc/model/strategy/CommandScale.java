@@ -10,7 +10,6 @@
 package com.jalasoft.jfc.model.strategy;
 
 import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
-
 import java.util.regex.Pattern;
 
 /**
@@ -22,16 +21,26 @@ import java.util.regex.Pattern;
  */
 public class CommandScale implements ICommandStrategy {
 
+    // Content command value.
+    private String commandValue;
+
+    /**
+     * It Creates a new CommandScale object.
+     * @param commandValue contains a value.
+     */
+    public CommandScale(String commandValue) {
+        this.commandValue = commandValue;
+    }
+
     /**
      * This method builds a command.
-     * @param value receives a value.
      * @return command concatenated.
      */
-    public String command(String value) {
+    public String command() {
         final Pattern pattern = Pattern.compile("[0-9]\\d*[%]");
-        if (!pattern.matcher(value).matches()){
+        if (!pattern.matcher(commandValue).matches()) {
             return null;
         }
-        return SPACE + ImageMagickCommand.SCALE.getCommand() + SPACE + value;
+        return SPACE + ImageMagickCommand.SCALE.getCommand() + SPACE + commandValue;
     }
 }

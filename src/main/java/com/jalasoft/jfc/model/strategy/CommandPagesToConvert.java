@@ -22,17 +22,27 @@ import java.util.regex.Pattern;
  */
 public class CommandPagesToConvert implements ICommandStrategy {
 
+    // Content command value.
+    private String commandValue;
+
+    /**
+     * It Creates a new CommandPagesToConvert object.
+     * @param commandValue contains a value.
+     */
+    public CommandPagesToConvert(String commandValue) {
+        this.commandValue = commandValue;
+    }
+
     /**
      * Builds a command.
-     * @param numberOfPage receives a param.
      * @return String of a command.
      */
-    public String command(String numberOfPage){
+    public String command(){
         final Pattern pattern = Pattern.compile("[0-9]\\d*||[0-9][-][0-9]\\d*$");
-        if (!pattern.matcher(numberOfPage).matches()){
+        if (!pattern.matcher(commandValue).matches()){
             return null;
         }
-        return SPACE + ImageMagickCommand.OPEN_BRACKET.getCommand() + numberOfPage +
+        return SPACE + ImageMagickCommand.OPEN_BRACKET.getCommand() + commandValue +
         ImageMagickCommand.CLOSE_BRACKET.getCommand();
     }
 }
