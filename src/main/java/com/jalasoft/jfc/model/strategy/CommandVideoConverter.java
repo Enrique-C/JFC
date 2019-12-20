@@ -11,7 +11,7 @@ package com.jalasoft.jfc.model.strategy;
 import com.jalasoft.jfc.model.video.VideoCommand;
 
 /**
- * This Class convert video.
+ * This Class converts a video.
  *
  * @version 0.1 20 Dic 2019.
  *
@@ -23,7 +23,7 @@ public class CommandVideoConverter implements ICommandStrategy {
     private String commandValue;
 
     /**
-     * Creates a new convert object.
+     * Creates a new CommandVideoConverter object.
      * @param commandValue, receive a value.
      * @return command concatenated.
      */

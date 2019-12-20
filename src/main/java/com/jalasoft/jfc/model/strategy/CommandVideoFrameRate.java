@@ -9,7 +9,7 @@
 package com.jalasoft.jfc.model.strategy;
 
 /**
- * This Class change the Frame Rate of a video.
+ * This Class changes the Frame Rate of a video.
  *
  * @version 0.1 20 Dic 2019.
  *
@@ -21,7 +21,7 @@ public class CommandVideoFrameRate implements ICommandStrategy {
     private String commandValue;
 
     /**
-     * Creates a new convert object.
+     * Creates a new CommandVideoFrameRate object.
      * @param commandValue, receive a value.
      * @return command concatenated.
      */
