@@ -18,14 +18,17 @@ import com.jalasoft.jfc.model.video.VideoCommand;
  */
 public class CommandVideoAspectRatio implements ICommandStrategy {
 
+    // Content command value.
+    private String commandValue;
+
     /**
-     * This method builds a command.
+     * This is the constructor of class.
      *
-     * @param value, receive a value.
+     * @param commandValue, receive a value.
      * @return command concatenated.
      */
-    public String command(String value) {
-        return this.SPACE + VideoCommand.INFILE + this.SPACE + value + this.SPACE;
+    public CommandVideoAspectRatio(String commandValue) {
+        this.commandValue = commandValue;
     }
 
     /**
@@ -35,6 +38,6 @@ public class CommandVideoAspectRatio implements ICommandStrategy {
      */
     @Override
     public String command() {
-        return this.SPACE;
+        return this.SPACE + VideoCommand.INFILE + this.SPACE + commandValue + this.SPACE;
     }
 }
