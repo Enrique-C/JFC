@@ -11,6 +11,7 @@ package com.jalasoft.jfc.model.pdf;
 import com.jalasoft.jfc.model.FileResult;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
+import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ConvertException;
 import com.jalasoft.jfc.model.strategy.ContextStrategy;
 import com.jalasoft.jfc.model.strategy.ICommandStrategy;
@@ -128,7 +129,13 @@ public class PdfConverter implements IConverter {
         }
     }
 
-    public String getCommand(List<ICommandStrategy> commandList){
+    /**
+     * This method is for getting the string command.
+     * @param commandList
+     * @return command concatenated.
+     * @throws CommandValueException
+     */
+    public String getCommand(List<ICommandStrategy> commandList) throws CommandValueException {
         ContextStrategy contextStrategy = new ContextStrategy(commandList);
         String result = contextStrategy.buildCommand();
         return result;

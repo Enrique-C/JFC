@@ -11,7 +11,6 @@ package com.jalasoft.jfc.model.strategy;
 
 import com.jalasoft.jfc.model.exception.CommandValueException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
