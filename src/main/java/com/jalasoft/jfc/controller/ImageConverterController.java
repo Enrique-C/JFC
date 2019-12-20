@@ -10,6 +10,7 @@
 package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.IConverter;
+import com.jalasoft.jfc.model.Md5Checksum;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.image.ImageConverter;
 import com.jalasoft.jfc.model.image.ImageFormat;
@@ -54,36 +55,45 @@ public class ImageConverterController {
      */
     @PostMapping()
     public String imageConverter(
-            @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = CONVERTED_FILE)
-            String outputPathFile, @RequestParam String outputFileName, @RequestParam(defaultValue = "png")
-                    String imageFormat, @RequestParam(defaultValue = CONVERTED_FILE) String outputPathThumbnail,
-            @RequestParam(defaultValue = "640") int widthOfFile, @RequestParam(defaultValue = "800")
-                    int heightOfFile, @RequestParam(defaultValue = "0") int whiteBlankPercentage,
-            @RequestParam(defaultValue = "0") double degreesToRotate) throws ConvertException {
+            @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ")
+            String md5, @RequestParam (defaultValue = CONVERTED_FILE)
+            String outputPathFile, @RequestParam String outputFileName, @RequestParam (defaultValue = "png")
+            String imageFormat, @RequestParam (defaultValue = CONVERTED_FILE) String outputPathThumbnail,
+            @RequestParam (defaultValue = "640") int widthOfFile, @RequestParam (defaultValue = "800")
+                    int heightOfFile, @RequestParam (defaultValue = "0") int whiteBlankPercentage,
+            @RequestParam (defaultValue = "0") double degreesToRotate)  throws ConvertException {
 
+        Md5Checksum md5Checksum = new Md5Checksum();
         Param param = new ImageParam();
         ImageParam imageParam = (ImageParam) param;
+        String md5FileUploaded;
+        String md5FileFromClient;
+        String sameMd5 = "This file is not the same";
         IConverter imageConverter = new ImageConverter();
         try {
             byte[] bytes = file.getBytes();
             Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
             Files.write(path, bytes);
             imageParam.setInputPathFile(path.toString());
+            md5FileUploaded = md5Checksum.getMd5(path.toString());
+            imageParam.setMd5(md5);
+            md5FileFromClient = imageParam.getMd5();
         } catch (IOException e) {
             throw new ConvertException("The there is not a file to upload", "ImageConverterController");
         }
-        imageParam.setOutputPathFile(outputPathFile);
-        imageParam.setImageFormat(selectFormatImage(imageFormat));
-        imageParam.setOutputFileName(outputFileName);
-        imageParam.setOutputPathThumbnail(outputPathThumbnail);
-        imageParam.setWidthOfFile(widthOfFile);
-        imageParam.setHeightOfFile(heightOfFile);
-        imageParam.setWhiteBlankPercentage(whiteBlankPercentage);
-        imageParam.setDegreesToRotate(degreesToRotate);
+        if (md5FileUploaded.equals(md5FileFromClient)) {
+            imageParam.setOutputPathFile(outputPathFile);
+            imageParam.setImageFormat(selectFormatImage(imageFormat));
+            imageParam.setOutputFileName(outputFileName);
+            imageParam.setOutputPathThumbnail(outputPathThumbnail);
+            imageParam.setWidthOfFile(widthOfFile);
+            imageParam.setHeightOfFile(heightOfFile);
+            imageParam.setWhiteBlankPercentage(whiteBlankPercentage);
+            imageParam.setDegreesToRotate(degreesToRotate);
 
-        imageConverter.convert(imageParam);
-
-        return "convert" + imageConverter.convert(imageParam);
+            sameMd5 = "convert" + imageConverter.convert(imageParam).toString();
+        }
+        return sameMd5;
     }
 
     private ImageFormat selectFormatImage(String formatImage) {
