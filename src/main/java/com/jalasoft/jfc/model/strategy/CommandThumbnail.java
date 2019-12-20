@@ -37,9 +37,4 @@ public class CommandThumbnail implements ICommandStrategy {
         }
         return SPACE + ImageMagickCommand.THUMBNAIL.getCommand() + SPACE + commandValue;
     }
-
-    @Override
-    public String command(String value) {
-        return null;
-    }
 }
