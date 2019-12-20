@@ -18,11 +18,11 @@ package com.jalasoft.jfc.model.strategy;
  */
 public class CommandOutputFileName implements ICommandStrategy {
 
-    // Content command value
+    // Content command value.
     private String commandValue;
 
     /**
-     * It builds the class.
+     * It Creates a new CommandOutputFileName object.
      * @param commandValue contains a value.
      */
     public CommandOutputFileName(String commandValue) {

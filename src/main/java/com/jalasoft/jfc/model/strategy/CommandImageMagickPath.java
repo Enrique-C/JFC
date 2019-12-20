@@ -20,7 +20,7 @@ import java.io.File;
  */
 public class CommandImageMagickPath implements ICommandStrategy {
 
-    // Content command value
+    // Content command value.
     private final String IMAGE_MAGIC_PATH = "thirdparty/ImageMagick/magick.exe";
 
     /**

@@ -9,7 +9,7 @@
 
 package com.jalasoft.jfc.model.strategy;
 
-import com.jalasoft.jfc.model.pdf.PdfCommand;
+import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
 
 /**
  * Rotates an image.
@@ -20,11 +20,11 @@ import com.jalasoft.jfc.model.pdf.PdfCommand;
  */
 public class CommandImageRotate implements ICommandStrategy {
 
-    // Content command value
+    // Content command value.
     private String commandValue;
 
     /**
-     * It builds the class.
+     * It Creates a new CommandImageRotate object.
      * @param commandValue contains a value.
      */
     public CommandImageRotate(String commandValue) {
@@ -39,7 +39,7 @@ public class CommandImageRotate implements ICommandStrategy {
     public String command() {
         int intValue = Integer.parseInt(commandValue);
         if (intValue > 0) {
-            return this.SPACE + PdfCommand.ROTATE.getCommand() + this.SPACE + commandValue;
+            return this.SPACE + ImageMagickCommand.ROTATE.getCommand() + this.SPACE + commandValue;
         }
         return null;
     }

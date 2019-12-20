@@ -20,11 +20,11 @@ import com.jalasoft.jfc.model.image.ImageFormat;
  */
 public class CommandImageFormat implements ICommandStrategy {
 
-    // Content command value
+    // Content command value.
     private String commandValue;
 
     /**
-     * It builds the class.
+     * It Creates a new CommandImageFormat object.
      * @param commandValue contains a value.
      */
     public CommandImageFormat(String commandValue) {

@@ -9,7 +9,7 @@
 
 package com.jalasoft.jfc.model.strategy;
 
-import com.jalasoft.jfc.model.pdf.PdfCommand;
+import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
 
 import java.util.regex.Pattern;
 
@@ -22,11 +22,11 @@ import java.util.regex.Pattern;
  */
 public class CommandPagesToConvert implements ICommandStrategy {
 
-    // Content command value
+    // Content command value.
     private String commandValue;
 
     /**
-     * It builds the class.
+     * It Creates a new CommandPagesToConvert object.
      * @param commandValue contains a value.
      */
     public CommandPagesToConvert(String commandValue) {
@@ -42,7 +42,7 @@ public class CommandPagesToConvert implements ICommandStrategy {
         if (!pattern.matcher(commandValue).matches()){
             return null;
         }
-        return SPACE + PdfCommand.OPEN_BRACKET.getCommand() + commandValue +
-        PdfCommand.CLOSE_BRACKET.getCommand();
+        return SPACE + ImageMagickCommand.OPEN_BRACKET.getCommand() + commandValue +
+        ImageMagickCommand.CLOSE_BRACKET.getCommand();
     }
 }

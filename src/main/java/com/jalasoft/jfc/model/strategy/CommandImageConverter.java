@@ -9,6 +9,8 @@
 
 package com.jalasoft.jfc.model.strategy;
 
+import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
+
 /**
  *
  * Builds a command to convert an image.
@@ -19,18 +21,6 @@ package com.jalasoft.jfc.model.strategy;
  */
 public class CommandImageConverter implements ICommandStrategy{
 
-    // Content command value
-    private String commandValue;
-
-    final String command = "convert";
-
-    /**
-     * It builds the class.
-     * @param commandValue contains a value.
-     */
-    public CommandImageConverter(String commandValue) {
-        this.commandValue = commandValue;
-    }
 
     /**
      * Builds a convert command.
@@ -38,6 +28,6 @@ public class CommandImageConverter implements ICommandStrategy{
      */
     @Override
     public String command() {
-        return this.SPACE + command;
+        return this.SPACE + ImageMagickCommand.CONVERT;
     }
 }

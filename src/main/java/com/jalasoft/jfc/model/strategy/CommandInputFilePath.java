@@ -20,11 +20,11 @@ import java.io.File;
  */
 public class CommandInputFilePath implements ICommandStrategy {
 
-    // Content command value
+    // Content command value.
     private String commandValue;
 
     /**
-     * It builds the class.
+     * It Creates a new CommandInputFilePath object.
      * @param commandValue contains a value.
      */
     public CommandInputFilePath(String commandValue) {
