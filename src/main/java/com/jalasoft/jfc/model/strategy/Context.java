@@ -34,14 +34,14 @@ public class Context {
 
     /**
      * This method builds a command.
-     * @return
+     * @return commandString concatenated.
      */
     public String buildCommand(){
         StringBuilder commandString = new StringBuilder();
 
         for (ICommandStrategy itemCmd : commands) {
             String itemCmdValue = itemCmd.command();
-            if (itemCmdValue != null){
+            if (itemCmdValue != null) {
                 commandString.append(itemCmdValue);
             }
         }
