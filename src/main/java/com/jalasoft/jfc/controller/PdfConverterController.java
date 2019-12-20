@@ -72,6 +72,7 @@ public class PdfConverterController {
         String md5FileFromClient;
         String sameMd5 = "This file is not the same";
         IConverter pdfConverter = new PdfConverter();
+
         try {
             byte[] bytes = file.getBytes();
             Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());

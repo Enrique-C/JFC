@@ -70,6 +70,7 @@ public class ImageConverterController {
         String md5FileFromClient;
         String sameMd5 = "This file is not the same";
         IConverter imageConverter = new ImageConverter();
+
         try {
             byte[] bytes = file.getBytes();
             Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());

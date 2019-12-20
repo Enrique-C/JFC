@@ -83,6 +83,7 @@ public class VideoConverterController {
         String md5FileFromClient;
         String sameMd5 = "This file is not the same";
         IConverter videoConverter = new VideoConverter();
+
         try {
             byte[] bytes = file.getBytes();
             Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());

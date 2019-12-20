@@ -19,16 +19,16 @@ package com.jalasoft.jfc.model;
 */
 public class Param {
 
-  //It is the input of the file that wil be converted.
+  // It is the input of the file that wil be converted.
   private String inputPathFile;
 
-  //It is the output of the file that wil be converted.
+  // It is the output of the file that wil be converted.
   private String outputPathFile;
 
-  //Name the file that will be converted.
+  // Name the file that will be converted.
   private String outputFileName;
 
-  //It is a Md5 code of a file
+  // It is a Md5 code of a file.
   private String md5;
 
   /**
