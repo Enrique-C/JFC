@@ -18,6 +18,7 @@ import com.jalasoft.jfc.model.strategy.ICommandStrategy;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -32,7 +33,7 @@ import java.util.regex.Pattern;
 public class PdfConverter implements IConverter {
 
     /**
-     * This method convert a PDF to Image.
+     * This method converts a PDF to Image.
      * @param param
      * @return FileResult object or null value.
      * @throws IOException
@@ -46,7 +47,6 @@ public class PdfConverter implements IConverter {
         try {
             StringBuilder command = new StringBuilder();
             List<ICommandStrategy> list = new ArrayList<>();
-
 
             if (pdfParam.getMagick().equals(null)){
                 throw new ConvertException("Aqui el nuevo mensaje","Aqui dondeen que lugar se genera");
