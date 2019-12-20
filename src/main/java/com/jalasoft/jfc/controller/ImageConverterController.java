@@ -43,7 +43,6 @@ public class ImageConverterController {
 
     /**
      * This method receives an image to convert.
-     *
      * @param file contains the image file.
      * @param outputPathFile contains the output path of image converted.
      * @param outputPathThumbnail contains the output path of thumbnail converted.

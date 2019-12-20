@@ -46,7 +46,6 @@ public class PdfConverterController {
 
     /**
      * This method receives a PDF to convert.
-     *
      * @param outputPathFile contains the output path of file converted.
      * @param file contains the image file
      * @param outputFileName contains name of output file.

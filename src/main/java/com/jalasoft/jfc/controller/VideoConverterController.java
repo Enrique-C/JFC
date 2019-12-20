@@ -30,7 +30,7 @@ import java.nio.file.Paths;
  * Manage VideoConverter Requests.
  *
  * @author Enrique Carrizales.
- * 
+ *
  * @version 0.1 13 Dic 2019.
  */
 @RestController
@@ -45,7 +45,6 @@ public class VideoConverterController {
 
     /**
      * This method receives an video to convert
-     *
      * @param file contains the video file.
      * @param outputPathFile contains the output path of file converted.
      * @param outputFileName contains name of converted file.
