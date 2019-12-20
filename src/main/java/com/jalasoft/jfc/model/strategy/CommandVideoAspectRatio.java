@@ -16,7 +16,7 @@ public class CommandVideoAspectRatio implements ICommandStrategy{
     private String commandValue;
 
     /**
-     * This is the constructor of class.
+     * Creates a new CommandVideoAspectRatio object.
      *
      * @param commandValue, receive a value.
      * @return command concatenated.
@@ -27,7 +27,6 @@ public class CommandVideoAspectRatio implements ICommandStrategy{
 
     /**
      * This method builds a command.
-     *
      * @return command concatenated.
      */
     @Override
