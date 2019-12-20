@@ -9,7 +9,7 @@
 
 package com.jalasoft.jfc.model.strategy;
 
-import com.jalasoft.jfc.model.pdf.PdfCommand;
+import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
 
 import java.util.regex.Pattern;
 
@@ -32,7 +32,7 @@ public class CommandPagesToConvert implements ICommandStrategy {
         if (!pattern.matcher(numberOfPage).matches()){
             return null;
         }
-        return SPACE + PdfCommand.OPEN_BRACKET.getCommand() + numberOfPage +
-        PdfCommand.CLOSE_BRACKET.getCommand();
+        return SPACE + ImageMagickCommand.OPEN_BRACKET.getCommand() + numberOfPage +
+        ImageMagickCommand.CLOSE_BRACKET.getCommand();
     }
 }

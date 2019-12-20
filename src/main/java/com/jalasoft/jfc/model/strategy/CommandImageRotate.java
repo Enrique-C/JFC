@@ -9,7 +9,7 @@
 
 package com.jalasoft.jfc.model.strategy;
 
-import com.jalasoft.jfc.model.pdf.PdfCommand;
+import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
 
 /**
  * Rotates an image.
@@ -29,7 +29,7 @@ public class CommandImageRotate implements ICommandStrategy{
     public String command(String value) {
         int intValue = Integer.parseInt(value);
         if (intValue > 0) {
-            return this.SPACE + PdfCommand.ROTATE.getCommand() + this.SPACE + value;
+            return this.SPACE + ImageMagickCommand.ROTATE.getCommand() + this.SPACE + value;
         }
         return null;
     }

@@ -9,7 +9,7 @@
 
 package com.jalasoft.jfc.model.strategy;
 
-import com.jalasoft.jfc.model.pdf.PdfCommand;
+import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
 
 import java.util.regex.Pattern;
 
@@ -32,6 +32,6 @@ public class CommandScale implements ICommandStrategy {
         if (!pattern.matcher(value).matches()){
             return null;
         }
-        return SPACE + PdfCommand.SCALE.getCommand() + SPACE + value;
+        return SPACE + ImageMagickCommand.SCALE.getCommand() + SPACE + value;
     }
 }

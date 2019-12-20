@@ -16,7 +16,7 @@ package com.jalasoft.jfc.model.pdf;
  *
  * @author Juan Martinez
  */
-public enum PdfCommand {
+public enum ImageMagickCommand {
     CONVERT("convert"),
     DENSITY("-density"),
     SCALE("-scale"),
@@ -38,7 +38,7 @@ public enum PdfCommand {
      * This method sets command value.
      * @param command String value
      */
-    PdfCommand(String command) {
+    ImageMagickCommand(String command) {
         this.command = command;
     }
 
