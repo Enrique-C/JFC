@@ -38,10 +38,10 @@ import java.nio.file.Paths;
 public class PdfConverterController {
 
     // Constant upload file.
-    private static final String UPLOADED_FOLDER = "src/main/java/com/jalasoft/jfc/resources/";
+    private static final String UPLOADED_FOLDER = "src/main/java/com/jalasoft/jfc/resource/";
 
     // Constant path converted file.
-    private static final String CONVERTED_FILE = "src/main/java/com/jalasoft/jfc/resources/";
+    private static final String CONVERTED_FILE = "src/main/java/com/jalasoft/jfc/resource/";
 
     /**
      * pdfConverter method receives a PDF to convert.
@@ -50,20 +50,20 @@ public class PdfConverterController {
      * @param outputFileName contains name of output file.
      * @param rotate degrees of rotation.
      * @param scale contains input Scale 1-10.
-     * @param dpi contains level of Scale 1-10.
-     * @param imageType type of a image.
-     * @param formatImage format of a image.
+     * @param imageFormat format of a image.
      * @return the path of the upload file.
      */
     @PostMapping
     public String pdfConverter(
             @RequestParam("file") MultipartFile file, @RequestParam (defaultValue = CONVERTED_FILE)
-            String outputPathFile, @RequestParam String outputFileName, @RequestParam(defaultValue = "0") int rotate,
-            @RequestParam (defaultValue = "1") String scale, @RequestParam (defaultValue = "100") int dpi,
-            @RequestParam String imageType, @RequestParam String formatImage) {
+            String outputPathFile, @RequestParam String outputFileName, @RequestParam(defaultValue = "90") int rotate,
+            @RequestParam (defaultValue = "300%") String scale, @RequestParam String thumbnail,
+            @RequestParam (defaultValue = ".png")String imageFormat, @RequestParam (defaultValue = "1024") int wight,
+            @RequestParam (defaultValue = "720") int height, @RequestParam String pagesToConvert) {
 
         Param param = new PdfParam();
         PdfParam pdfParam = (PdfParam) param;
+        pdfParam.setMagick("thirdparty/ImageMagick/magick.exe");
         IConverter pdfConverter = new PdfConverter();
         try {
             byte[] bytes = file.getBytes();
@@ -75,8 +75,13 @@ public class PdfConverterController {
         }
         pdfParam.setOutputPathFile(outputPathFile);
         pdfParam.setOutputFileName(outputFileName);
-        pdfParam.setRotate(rotate);
-        pdfParam.setScale(scale);
+        //pdfParam.setThumbnail(thumbnail);
+        pdfParam.setImageFormat(imageFormat);
+        //pdfParam.setWight(wight);
+        //pdfParam.setHeight(height);
+        //pdfParam.setPagesToConvert(pagesToConvert);
+        //pdfParam.setRotate(rotate);
+        //pdfParam.setScale(scale);
 
         return "convert" + pdfConverter.convert(pdfParam);
     }
