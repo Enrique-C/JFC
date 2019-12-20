@@ -23,7 +23,6 @@ import java.util.logging.Logger;
  * This Class is used for convert videos.
  *
  * @author Juan Martinez
- *
  * @version 0.1 13 Dic 2019
  */
 public class VideoConverter implements IConverter {
@@ -39,7 +38,7 @@ public class VideoConverter implements IConverter {
     public FileResult convert(Param param) {
 
         // Instance of videoParam for casting param.
-        VideoParam videoParam = (VideoParam)param;
+        VideoParam videoParam = (VideoParam) param;
 
         // Space between commands.
         String space = " ";

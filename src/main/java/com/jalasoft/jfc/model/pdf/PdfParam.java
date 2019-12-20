@@ -45,6 +45,7 @@ public class PdfParam extends Param {
 
     /**
      * It gets magick value.
+     *
      * @return magick.
      */
     public String getMagick() {

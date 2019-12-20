@@ -10,19 +10,18 @@
 package com.jalasoft.jfc.model.strategy;
 
 /**
- *
  * Defines behavior to Commands classes.
  *
- * @version 0.1 18 Dic 2019.
- *
  * @author Enrique Carrizales.
+ * @version 0.1 18 Dic 2019.
  */
 public interface ICommandStrategy {
-    
+
     String SPACE = " ";
 
     /**
      * Builds a command.
+     *
      * @return String of a command.
      */
     String command();

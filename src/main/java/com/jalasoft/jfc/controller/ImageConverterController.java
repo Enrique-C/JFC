@@ -10,19 +10,22 @@
 package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.exception.ConvertException;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.io.IOException;
 
 /**
  * Manage ImageConverter Requests.
  *
- * @version 0.1 13 Dic 2019.
- *
  * @author Enrique Carrizales.
+ * @version 0.1 13 Dic 2019.
  */
 @RestController
 @RequestMapping(path = "/imageConverter")
@@ -33,14 +36,15 @@ public class ImageConverterController {
 
     /**
      * imageConverter method receives an image to convert.
-     * @param file contains the image file.
-     * @param inputPathFile contains the input path of the image.
-     * @param outputPathFile contains the output path of image converted.
-     * @param outputPathThumbnail contains the output path of thumbnail converted.
-     * @param widthOfFile number of image width.
-     * @param heightOfFile number of image height.
+     *
+     * @param file                 contains the image file.
+     * @param inputPathFile        contains the input path of the image.
+     * @param outputPathFile       contains the output path of image converted.
+     * @param outputPathThumbnail  contains the output path of thumbnail converted.
+     * @param widthOfFile          number of image width.
+     * @param heightOfFile         number of image height.
      * @param whiteBlankPercentage percentage of whiteBlanck.
-     * @param degreesToRotate degrees of rotate.
+     * @param degreesToRotate      degrees of rotate.
      * @return the path of the upload file.
      */
     @PostMapping()
@@ -55,7 +59,7 @@ public class ImageConverterController {
             Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
             Files.write(path, bytes);
         } catch (IOException e) {
-            throw new ConvertException("To Do Message","To Do Error in method that was generated");
+            throw new ConvertException("To Do Message", "To Do Error in method that was generated");
         }
         return UPLOADED_FOLDER;
     }

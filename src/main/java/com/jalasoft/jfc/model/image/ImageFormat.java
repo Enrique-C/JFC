@@ -11,9 +11,8 @@ package com.jalasoft.jfc.model.image;
 /**
  * This enum is used for specify types of image formats.
  *
- * @version 0.1 16 Dic 2019
- *
  * @author Alan Escalera
+ * @version 0.1 16 Dic 2019
  */
 public enum ImageFormat {
     JPEG(".jpg"),
@@ -26,6 +25,7 @@ public enum ImageFormat {
 
     /**
      * This method is for setting command value.
+     *
      * @param format String value
      */
     ImageFormat(String format) {
@@ -34,9 +34,10 @@ public enum ImageFormat {
 
     /**
      * This method gets command value.
+     *
      * @return String value.
      */
-    public String getImageFormat(){
+    public String getImageFormat() {
         return format;
     }
 }

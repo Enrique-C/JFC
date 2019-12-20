@@ -19,14 +19,14 @@ import java.io.IOException;
 /**
  * Converts a image type to another.
  *
- * @version 0.1 11 Dec 2019.
- *
  * @author Oscar Lopez.
- * */
+ * @version 0.1 11 Dec 2019.
+ */
 public class ImageConverter implements IConverter {
 
     /**
      * Changes an Image format to another one.
+     *
      * @param param Image parameters.
      * @return Conversion status.
      */
@@ -62,7 +62,7 @@ public class ImageConverter implements IConverter {
                 fileResult = new FileResult();
                 fileResult.setPath(imageParam.getOutputPathFile());
             } catch (IOException e) {
-                throw new ConvertException("To Do Message","To Do Error in method that was generated");
+                throw new ConvertException("To Do Message", "To Do Error in method that was generated");
             }
         }
         return fileResult;

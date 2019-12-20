@@ -12,9 +12,8 @@ package com.jalasoft.jfc.model.pdf;
 /**
  * This enum is used to list Pdf Commands.
  *
- * @version 0.1 18 Dic 2019
- *
  * @author Juan Martinez
+ * @version 0.1 18 Dic 2019
  */
 public enum ImageMagickCommand {
     CONVERT("convert"),
@@ -36,6 +35,7 @@ public enum ImageMagickCommand {
 
     /**
      * This method sets command value.
+     *
      * @param command String value
      */
     ImageMagickCommand(String command) {
@@ -44,9 +44,10 @@ public enum ImageMagickCommand {
 
     /**
      * This method gets command value.
+     *
      * @return String value.
      */
-    public String getCommand(){
+    public String getCommand() {
         return command;
     }
 }

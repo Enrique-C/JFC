@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -30,9 +31,8 @@ import java.nio.file.Paths;
 /**
  * Manage PdfConverter Requests.
  *
- * @version 0.1 14 Dic 2019.
- *
  * @author Enrique Carrizales
+ * @version 0.1 14 Dic 2019.
  */
 @RestController
 @RequestMapping(path = "/pdfConverter")
@@ -46,21 +46,22 @@ public class PdfConverterController {
 
     /**
      * pdfConverter method receives a PDF to convert.
+     *
      * @param outputPathFile contains the output path of file converted.
-     * @param file contains the image file
+     * @param file           contains the image file
      * @param outputFileName contains name of output file.
-     * @param rotate degrees of rotation.
-     * @param scale contains input Scale 1-10.
-     * @param dpi contains level of Scale 1-10.
-     * @param imageType type of a image.
-     * @param formatImage format of a image.
+     * @param rotate         degrees of rotation.
+     * @param scale          contains input Scale 1-10.
+     * @param dpi            contains level of Scale 1-10.
+     * @param imageType      type of a image.
+     * @param formatImage    format of a image.
      * @return the path of the upload file.
      */
     @PostMapping
     public String pdfConverter(
-            @RequestParam("file") MultipartFile file, @RequestParam (defaultValue = CONVERTED_FILE)
+            @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = CONVERTED_FILE)
             String outputPathFile, @RequestParam String outputFileName, @RequestParam(defaultValue = "0") int rotate,
-            @RequestParam (defaultValue = "1") String scale, @RequestParam (defaultValue = "100") int dpi,
+            @RequestParam(defaultValue = "1") String scale, @RequestParam(defaultValue = "100") int dpi,
             @RequestParam String imageType, @RequestParam String formatImage) throws ConvertException {
 
         Param param = new PdfParam();
@@ -72,7 +73,7 @@ public class PdfConverterController {
             Files.write(path, bytes);
             pdfParam.setInputPathFile(path.toString());
         } catch (IOException ex) {
-            throw new ConvertException("To Do Message","To Do Error in method that was generated");
+            throw new ConvertException("To Do Message", "To Do Error in method that was generated");
         }
         pdfParam.setOutputPathFile(outputPathFile);
         pdfParam.setOutputFileName(outputFileName);
@@ -86,7 +87,7 @@ public class PdfConverterController {
         ImageFormat formatImageSelected = null;
         try {
             if (formatImage == null) {
-                throw new ConvertException("To Do Message","To Do Error in method that was generated");
+                throw new ConvertException("To Do Message", "To Do Error in method that was generated");
             } else {
                 if (formatImage.equals("gif")) {
                     formatImageSelected = ImageFormat.GIF;
@@ -94,12 +95,12 @@ public class PdfConverterController {
                 if (formatImage.equals("png")) {
                     formatImageSelected = ImageFormat.PNG;
                 }
-                if (formatImage.equals("jpg") || formatImage.equals("jpeg") ) {
-                    formatImageSelected = ImageFormat.JPEG ;
+                if (formatImage.equals("jpg") || formatImage.equals("jpeg")) {
+                    formatImageSelected = ImageFormat.JPEG;
                 }
             }
         } catch (NullPointerException e) {
-            throw new ConvertException("To Do Message","To Do Error in method that was generated");
+            throw new ConvertException("To Do Message", "To Do Error in method that was generated");
         }
         return formatImageSelected;
     }
@@ -107,8 +108,8 @@ public class PdfConverterController {
     private ImageType selectImageType(String imageType) throws ConvertException {
         ImageType imageTypeSelected = null;
         try {
-            if (imageType == null ) {
-                throw new ConvertException("To Do Message","To Do Error in method that was generated");
+            if (imageType == null) {
+                throw new ConvertException("To Do Message", "To Do Error in method that was generated");
             } else {
                 if (imageType.equals("gray")) {
                     imageTypeSelected = ImageType.GRAY;
@@ -116,12 +117,12 @@ public class PdfConverterController {
                 if (imageType.equals("binary")) {
                     imageTypeSelected = ImageType.BINARY;
                 }
-                if (imageType.equals("rgb") ) {
+                if (imageType.equals("rgb")) {
                     imageTypeSelected = ImageType.RGB;
                 }
             }
         } catch (IllegalArgumentException e) {
-            throw new ConvertException("To Do Message","To Do Error in method that was generated");
+            throw new ConvertException("To Do Message", "To Do Error in method that was generated");
         }
         return imageTypeSelected;
     }

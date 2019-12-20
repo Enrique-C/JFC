@@ -24,9 +24,8 @@ import java.nio.file.Paths;
 /**
  * Manage VideoConverter Requests.
  *
- * @version 0.1 13 Dic 2019.
- *
  * @author Enrique Carrizales
+ * @version 0.1 13 Dic 2019.
  */
 @RestController
 @RequestMapping(path = "/videoConverter")
@@ -37,23 +36,24 @@ public class VideoConverterController {
 
     /**
      * videoConverter method receives an video to convert
-     * @param file contains the video file.
-     * @param fFmpeg binary variable of FFmpeg.
-     * @param inputPathFile contains the input path of the file.
+     *
+     * @param file           contains the video file.
+     * @param fFmpeg         binary variable of FFmpeg.
+     * @param inputPathFile  contains the input path of the file.
      * @param outputPathFile contains the output path of file converted.
      * @param outputFileName contains name of converted file.
-     * @param aspectRatio contains aspect ratio value.
-     * @param frameRate contains the number of images per second.
-     * @param width contains video's width.
-     * @param height contains video's height.
-     * @param videoCodec contains videoCodec value.
-     * @param audioCodec contains audioCodec value.
-     * @param videoBitRate contains videoBitRate value.
-     * @param audioBitRate contains audioBitRate value.
-     * @param quality contains quality of video.
+     * @param aspectRatio    contains aspect ratio value.
+     * @param frameRate      contains the number of images per second.
+     * @param width          contains video's width.
+     * @param height         contains video's height.
+     * @param videoCodec     contains videoCodec value.
+     * @param audioCodec     contains audioCodec value.
+     * @param videoBitRate   contains videoBitRate value.
+     * @param audioBitRate   contains audioBitRate value.
+     * @param quality        contains quality of video.
      * @param channelsNumber contains number of output channels.
-     * @param volume contains the level of sound.
-     * @param rotate degrees of rotation.
+     * @param volume         contains the level of sound.
+     * @param rotate         degrees of rotation.
      * @return the path of the upload file.
      */
     @PostMapping
@@ -70,7 +70,7 @@ public class VideoConverterController {
             Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
             Files.write(path, bytes);
         } catch (IOException e) {
-            throw new ConvertException("To Do Message","To Do Error in method that was generated");
+            throw new ConvertException("To Do Message", "To Do Error in method that was generated");
         }
         return UPLOADED_FOLDER;
     }

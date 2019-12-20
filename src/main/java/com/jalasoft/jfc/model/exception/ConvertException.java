@@ -15,7 +15,8 @@ public class ConvertException extends Exception {
 
     /**
      * Manages Exceptions.
-     * @param param parameter of file.
+     *
+     * @param param   parameter of file.
      * @param message of error.
      */
     public ConvertException(String message, String param) {
@@ -24,6 +25,7 @@ public class ConvertException extends Exception {
 
     /**
      * Gets error message.
+     *
      * @return message.
      */
     @Override

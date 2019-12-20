@@ -13,11 +13,10 @@ import com.jalasoft.jfc.model.video.VideoCommand;
 /**
  * This class changes aspect ratio of a video.
  *
- * @version 0.1 20 Dic 2019.
- *
  * @author Oscar Lopez.
+ * @version 0.1 20 Dic 2019.
  */
-public class CommandVideoAspectRatio implements ICommandStrategy{
+public class CommandVideoAspectRatio implements ICommandStrategy {
 
 
     public String command(String value) {

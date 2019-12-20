@@ -21,36 +21,36 @@ import java.util.regex.Pattern;
 /**
  * This class converts PDF to Image
  *
- * @version 0.1 13 Dic 2019
- *
  * @author Alan Escalera
+ * @version 0.1 13 Dic 2019
  */
 public class PdfConverter implements IConverter {
 
     /**
      * This method convert a PDF to Image.
+     *
      * @param param
      * @return FileResult object or null value.
      * @throws IOException
      */
-    public FileResult convert(Param param){
+    public FileResult convert(Param param) {
 
-        PdfParam pdfParam = (PdfParam)param;
+        PdfParam pdfParam = (PdfParam) param;
         FileResult fileResult = new FileResult();
         String space = " ";
 
         try {
             StringBuilder command = new StringBuilder();
 
-            if (pdfParam.getMagick().equals(null)){
-                throw new ConvertException("To Do Message","To Do Error in method that was generated");
+            if (pdfParam.getMagick().equals(null)) {
+                throw new ConvertException("To Do Message", "To Do Error in method that was generated");
             }
 
             command.append(pdfParam.getMagick());
 
             if (pdfParam.getInputPathFile() == null || pdfParam.getOutputPathFile()
                     == null || pdfParam.getImageFormat() == null) {
-                throw new ConvertException("To Do Message","To Do Error in method that was generated");
+                throw new ConvertException("To Do Message", "To Do Error in method that was generated");
             }
 
             command.append(space);
@@ -58,18 +58,18 @@ public class PdfConverter implements IConverter {
             command.append(space);
             command.append(pdfParam.getInputPathFile());
 
-            if (pdfParam.getPagesToConvert() != null){
+            if (pdfParam.getPagesToConvert() != null) {
                 final Pattern pattern = Pattern.compile("[0-9][-][0-9]\\d*$");
 
-                if (!pattern.matcher(pdfParam.getPagesToConvert()).matches()){
-                    throw new ConvertException("To Do Message","To Do Error in method that was generated");
+                if (!pattern.matcher(pdfParam.getPagesToConvert()).matches()) {
+                    throw new ConvertException("To Do Message", "To Do Error in method that was generated");
                 }
                 command.append(ImageMagickCommand.OPEN_BRACKET.getCommand());
                 command.append(pdfParam.getPagesToConvert());
                 command.append(ImageMagickCommand.CLOSE_BRACKET.getCommand());
             }
 
-            if (pdfParam.getWidth() > 0 && pdfParam.getHeight() > 0){
+            if (pdfParam.getWidth() > 0 && pdfParam.getHeight() > 0) {
                 command.append(space);
                 command.append(ImageMagickCommand.RESIZE.getCommand());
                 command.append(space);
@@ -78,21 +78,21 @@ public class PdfConverter implements IConverter {
                 command.append(pdfParam.getHeight());
             }
 
-            if (pdfParam.getScale() != null){
+            if (pdfParam.getScale() != null) {
                 command.append(space);
                 command.append(ImageMagickCommand.SCALE.getCommand());
                 command.append(space);
                 command.append(pdfParam.getScale());
             }
 
-            if (pdfParam.getThumbnail() != null){
+            if (pdfParam.getThumbnail() != null) {
                 command.append(space);
                 command.append(ImageMagickCommand.THUMBNAIL.getCommand());
                 command.append(space);
                 command.append(pdfParam.getThumbnail());
             }
 
-            if (pdfParam.getRotate() > 0){
+            if (pdfParam.getRotate() > 0) {
                 command.append(space);
                 command.append(ImageMagickCommand.ROTATE.getCommand());
                 command.append(space);
@@ -109,16 +109,13 @@ public class PdfConverter implements IConverter {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 
             String line;
-            while ((line = bufferedReader.readLine()) != null){
+            while ((line = bufferedReader.readLine()) != null) {
 
             }
             process.waitFor();
-        }
-        catch (NullPointerException e)
-        {
+        } catch (NullPointerException e) {
             throw new NullPointerException();
-        }
-        finally {
+        } finally {
             return fileResult;
         }
     }

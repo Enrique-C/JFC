@@ -14,9 +14,8 @@ import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
 /**
  * This class validates width and height.
  *
- * @version 0.1 19 Dic 2019
- *
  * @author Juan Martinez
+ * @version 0.1 19 Dic 2019
  */
 public class CommandResize implements ICommandStrategy {
 
@@ -25,6 +24,7 @@ public class CommandResize implements ICommandStrategy {
 
     /**
      * It Creates a new CommandResize object.
+     *
      * @param commandValue contains a value.
      */
     public CommandResize(String commandValue) {
@@ -33,6 +33,7 @@ public class CommandResize implements ICommandStrategy {
 
     /**
      * This method builds a command.
+     *
      * @return command concatenated.
      */
     public String command() {
@@ -41,13 +42,14 @@ public class CommandResize implements ICommandStrategy {
 
     /**
      * This method builds a command.
+     *
      * @param width, height receive a value.
      * @return command concatenated.
      */
     public String command(int width, int height) {
-        if (width > 0 && height > 0){
+        if (width > 0 && height > 0) {
             return SPACE + ImageMagickCommand.RESIZE.getCommand() +
-                   SPACE + width + ImageMagickCommand.ASTERISK + height;
+                    SPACE + width + ImageMagickCommand.ASTERISK + height;
         }
         return null;
     }

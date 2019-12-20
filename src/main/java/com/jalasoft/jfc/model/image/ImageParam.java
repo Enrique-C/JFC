@@ -14,14 +14,13 @@ import com.jalasoft.jfc.model.Param;
 /**
  * Manages params of an image.
  *
- * @version 0.1 11 Dec 2019.
- *
  * @author Oscar Lopez.
- * */
+ * @version 0.1 11 Dec 2019.
+ */
 public class ImageParam extends Param {
 
     //Contains format of an image.
-    private  ImageFormat imageFormat;
+    private ImageFormat imageFormat;
 
     // Contains output path of Thumbnail of an Image.
     private String outputPathThumbnail;
@@ -40,6 +39,7 @@ public class ImageParam extends Param {
 
     /**
      * Gets format of an image.
+     *
      * @return image format.
      */
     public ImageFormat getImageFormat() {
@@ -48,6 +48,7 @@ public class ImageParam extends Param {
 
     /**
      * Gets getOutputPathThumbnail.
+     *
      * @return getOutputPathThumbnail.
      */
     public String getOutputPathThumbnail() {
@@ -56,6 +57,7 @@ public class ImageParam extends Param {
 
     /**
      * Gets widthOfFile.
+     *
      * @return widthOfFile.
      */
     public int getWidthOfFile() {
@@ -64,6 +66,7 @@ public class ImageParam extends Param {
 
     /**
      * Gets heightOfFile.
+     *
      * @return heightOfFile.
      */
     public int getHeightOfFile() {
@@ -72,6 +75,7 @@ public class ImageParam extends Param {
 
     /**
      * Gets whiteBlankPercentage.
+     *
      * @return whiteBlankPercentage.
      */
     public int getWhiteBlankPercentage() {
@@ -80,6 +84,7 @@ public class ImageParam extends Param {
 
     /**
      * Gets degreesToRotate.
+     *
      * @return degreesToRotate.
      */
     public double getDegreesToRotate() {
@@ -88,6 +93,7 @@ public class ImageParam extends Param {
 
     /**
      * Sets image format.
+     *
      * @param imageFormat contains a image format.
      */
     public void setImageFormat(ImageFormat imageFormat) {
@@ -96,6 +102,7 @@ public class ImageParam extends Param {
 
     /**
      * Sets outputPathThumbnail.
+     *
      * @param outputPathThumbnail receives path.
      */
     public void setOutputPathThumbnail(String outputPathThumbnail) {
@@ -104,6 +111,7 @@ public class ImageParam extends Param {
 
     /**
      * Sets widthOfFile.
+     *
      * @param widthOfFile receives width.
      */
     public void setWidthOfFile(int widthOfFile) {
@@ -112,6 +120,7 @@ public class ImageParam extends Param {
 
     /**
      * Sets heightOfFile.
+     *
      * @param heightOfFile receives height.
      */
     public void setHeightOfFile(int heightOfFile) {
@@ -120,6 +129,7 @@ public class ImageParam extends Param {
 
     /**
      * Sets whiteBlankPercentage.
+     *
      * @param whiteBlankPercentage receives percentage.
      */
     public void setWhiteBlankPercentage(int whiteBlankPercentage) {
@@ -128,6 +138,7 @@ public class ImageParam extends Param {
 
     /**
      * Sets degreesToRotate.
+     *
      * @param degreesToRotate receives degrees.
      */
     public void setDegreesToRotate(double degreesToRotate) {
