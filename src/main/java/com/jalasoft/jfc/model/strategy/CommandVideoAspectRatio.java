@@ -24,7 +24,6 @@ public class CommandVideoAspectRatio implements ICommandStrategy{
 
     /**
      * Creates a new CommandVideoAspectRatio object.
-     *
      * @param commandValue, receive a value.
      * @return command concatenated.
      */
