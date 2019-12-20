@@ -24,7 +24,7 @@ public class CommandImageRotate implements ICommandStrategy {
     private int commandValue;
 
     /**
-     * It Creates a new CommandImageRotate object.
+     * It creates a new CommandImageRotate object.
      * @param commandValue contains a value.
      */
     public CommandImageRotate(int commandValue) {
@@ -32,7 +32,7 @@ public class CommandImageRotate implements ICommandStrategy {
     }
 
     /**
-     * It Builds a command.
+     * It builds a command.
      * @return String of a command.
      */
     @Override
