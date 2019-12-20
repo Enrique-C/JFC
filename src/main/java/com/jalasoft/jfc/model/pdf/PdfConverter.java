@@ -43,14 +43,14 @@ public class PdfConverter implements IConverter {
             StringBuilder command = new StringBuilder();
 
             if (pdfParam.getMagick().equals(null)){
-                throw new ConvertException("To Do Message","To Do Method where it was generated");
+                throw new ConvertException("To Do Message","To Do Method where it was generated.");
             }
 
             command.append(pdfParam.getMagick());
 
             if (pdfParam.getInputPathFile() == null || pdfParam.getOutputPathFile()
                     == null || pdfParam.getImageFormat() == null) {
-                throw new ConvertException("To Do Message","To Do Method where it was generated");
+                throw new ConvertException("To Do Message","To Do Method where it was generated.");
             }
 
             command.append(space);
