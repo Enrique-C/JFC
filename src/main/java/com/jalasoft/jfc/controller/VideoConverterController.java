@@ -29,9 +29,8 @@ import java.nio.file.Paths;
 /**
  * Manage VideoConverter Requests.
  *
- * @version 0.1 13 Dic 2019.
- *
  * @author Enrique Carrizales
+ * @version 0.1 13 Dic 2019.
  */
 @RestController
 @RequestMapping(path = "/videoConverter")
@@ -44,37 +43,38 @@ public class VideoConverterController {
     private static final String CONVERTED_FILE = "src/main/java/com/jalasoft/jfc/resource/";
 
     /**
-     * videoConverter method receives an video to convert
-     * @param file contains the video file.
+     * This method receives an video to convert
+     *
+     * @param file           contains the video file.
      * @param outputPathFile contains the output path of file converted.
      * @param outputFileName contains name of converted file.
-     * @param aspectRatio contains aspect ratio value.
-     * @param frameRate contains the number of images per second.
-     * @param width contains video's width.
-     * @param height contains video's height.
-     * @param videoCodec contains videoCodec value.
-     * @param audioCodec contains audioCodec value.
-     * @param videoBitRate contains videoBitRate value.
-     * @param audioBitRate contains audioBitRate value.
-     * @param quality contains quality of video.
+     * @param aspectRatio    contains aspect ratio value.
+     * @param frameRate      contains the number of images per second.
+     * @param width          contains video's width.
+     * @param height         contains video's height.
+     * @param videoCodec     contains videoCodec value.
+     * @param audioCodec     contains audioCodec value.
+     * @param videoBitRate   contains videoBitRate value.
+     * @param audioBitRate   contains audioBitRate value.
+     * @param quality        contains quality of video.
      * @param channelsNumber contains number of output channels.
-     * @param volume contains the level of sound.
-     * @param rotate degrees of rotation.
+     * @param volume         contains the level of sound.
+     * @param rotate         degrees of rotation.
      * @return the path of the upload file.
      */
     @PostMapping
     public String videoConverter(
 
-            @RequestParam("file") MultipartFile file, @RequestParam (defaultValue = CONVERTED_FILE)
-            String outputPathFile, @RequestParam String outputFileName, @RequestParam (defaultValue = "4:3")
-            double aspectRatio, @RequestParam (defaultValue = "30") String frameRate,
-            @RequestParam (defaultValue = "800") int width, @RequestParam (defaultValue = "600")int height ,
-            @RequestParam (defaultValue = "") String videoCodec, @RequestParam (defaultValue = "") String audioCodec,
-            @RequestParam (defaultValue = "") String videoBitRate, @RequestParam (defaultValue = "")
-                    String audioBitRate, @RequestParam (defaultValue = "-1") int quality,
-            @RequestParam (defaultValue = "0") int channelsNumber,
-            @RequestParam (defaultValue = "") String volume,
-            @RequestParam (defaultValue = "") String rotate)  throws ConvertException {
+            @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = CONVERTED_FILE)
+            String outputPathFile, @RequestParam String outputFileName, @RequestParam(defaultValue = "4:3")
+                    double aspectRatio, @RequestParam(defaultValue = "30") String frameRate,
+            @RequestParam(defaultValue = "800") int width, @RequestParam(defaultValue = "600") int height,
+            @RequestParam(defaultValue = "") String videoCodec, @RequestParam(defaultValue = "") String audioCodec,
+            @RequestParam(defaultValue = "") String videoBitRate, @RequestParam(defaultValue = "")
+                    String audioBitRate, @RequestParam(defaultValue = "-1") int quality,
+            @RequestParam(defaultValue = "0") int channelsNumber,
+            @RequestParam(defaultValue = "") String volume,
+            @RequestParam(defaultValue = "") String rotate) throws ConvertException {
 
 
         Param param = new VideoParam("thirdparty\\FFmpeg\\bin\\ffmpeg.exe");
@@ -86,9 +86,8 @@ public class VideoConverterController {
             Files.write(path, bytes);
             videoParam.setInputPathFile(path.toString());
         } catch (IOException e) {
-            throw new ConvertException("To Do Message","To Do Method where it was generated");
+            throw new ConvertException("To Do Message", "To Do Method where it was generated");
         }
-
         videoParam.setOutputPathFile(outputPathFile);
         videoParam.setOutputFileName(outputFileName);
         videoParam.setAspectRatio(aspectRatio);

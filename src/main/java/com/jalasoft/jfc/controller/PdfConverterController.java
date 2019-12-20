@@ -30,9 +30,8 @@ import java.nio.file.Paths;
 /**
  * Manage PdfConverter Requests.
  *
- * @version 0.1 14 Dic 2019.
- *
  * @author Enrique Carrizales
+ * @version 0.1 14 Dic 2019.
  */
 @RestController
 @RequestMapping(path = "/pdfConverter")
@@ -45,7 +44,8 @@ public class PdfConverterController {
     private static final String CONVERTED_FILE = "src/main/java/com/jalasoft/jfc/resource/";
 
     /**
-     * pdfConverter method receives a PDF to convert.
+     * This method receives a PDF to convert.
+     *
      * @param outputPathFile contains the output path of file converted.
      * @param file contains the image file
      * @param outputFileName contains name of output file.
@@ -56,11 +56,12 @@ public class PdfConverterController {
      */
     @PostMapping
     public String pdfConverter(
-            @RequestParam("file") MultipartFile file, @RequestParam (defaultValue = CONVERTED_FILE)
+            @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = CONVERTED_FILE)
             String outputPathFile, @RequestParam String outputFileName, @RequestParam(defaultValue = "90") int rotate,
-            @RequestParam (defaultValue = "300%") String scale, @RequestParam (defaultValue = "x128")String thumbnail,
-            @RequestParam (defaultValue = ".png")String imageFormat, @RequestParam (defaultValue = "1024") int wight,
-            @RequestParam (defaultValue = "720") int height, @RequestParam String pagesToConvert) throws ConvertException {
+            @RequestParam(defaultValue = "300%") String scale, @RequestParam(defaultValue = "x128") String thumbnail,
+            @RequestParam(defaultValue = ".png") String imageFormat, @RequestParam(defaultValue = "1024") int wight,
+            @RequestParam(defaultValue = "720") int height, @RequestParam String pagesToConvert)
+            throws ConvertException {
 
         Param param = new PdfParam();
         PdfParam pdfParam = (PdfParam) param;
@@ -71,8 +72,8 @@ public class PdfConverterController {
             Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
             Files.write(path, bytes);
             pdfParam.setInputPathFile(path.toString());
-        }catch (IOException ex) {
-            throw new ConvertException("To Do Message","To Do Method where it was generated");
+        } catch (IOException ex) {
+            throw new ConvertException("To Do Message", "To Do Method where it was generated");
         }
         pdfParam.setOutputPathFile(outputPathFile);
         pdfParam.setOutputFileName(outputFileName);
@@ -81,4 +82,3 @@ public class PdfConverterController {
         return "convert " + pdfConverter.convert(pdfParam);
     }
 }
-
