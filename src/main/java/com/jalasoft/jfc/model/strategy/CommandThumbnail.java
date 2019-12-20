@@ -13,6 +13,13 @@ import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
 
 import java.util.regex.Pattern;
 
+/**
+ * This class validates thumbnail value.
+ *
+ * @version 0.1 20 Dic 2019
+ *
+ * @author Juan Martinez
+ */
 public class CommandThumbnail implements ICommandStrategy {
 
     // Content command value.
