@@ -9,6 +9,8 @@
 
 package com.jalasoft.jfc.model.strategy;
 
+import com.jalasoft.jfc.model.exception.CommandValueException;
+
 /**
  *
  * Defines behavior to Commands classes.
@@ -25,5 +27,5 @@ public interface ICommandStrategy {
      * Builds a command.
      * @return String of a command.
      */
-    String command();
+    String command() throws CommandValueException;
 }

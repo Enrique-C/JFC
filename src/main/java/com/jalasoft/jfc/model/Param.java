@@ -19,14 +19,25 @@ package com.jalasoft.jfc.model;
 */
 public class Param {
 
-  //It is the input of the file that wil be converted.
+  // It is the input of the file that wil be converted.
   private String inputPathFile;
 
-  //It is the output of the file that wil be converted.
+  // It is the output of the file that wil be converted.
   private String outputPathFile;
 
-  //Name the file that will be converted.
+  // Name the file that will be converted.
   private String outputFileName;
+
+  // It is a Md5 code of a file.
+  private String md5;
+
+  /**
+   * getMd5 gets the checksum value.
+   * @return md5 String value.
+   */
+  public String getMd5() {
+    return md5;
+  }
 
   /**
    * getInputPathFile gets inputPathFile value.
@@ -74,5 +85,13 @@ public class Param {
    */
   public void setOutputFileName(String outputFileName) {
     this.outputFileName = outputFileName;
+  }
+
+  /**
+   * setMd5 sets md5 value.
+   * @param md5 for settint this.md5.
+   */
+  public void setMd5(String md5) {
+    this.md5 = md5;
   }
 }
