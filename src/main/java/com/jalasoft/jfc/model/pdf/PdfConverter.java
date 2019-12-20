@@ -49,14 +49,14 @@ public class PdfConverter implements IConverter {
             List<ICommandStrategy> list = new ArrayList<>();
 
             if (pdfParam.getMagick().equals(null)){
-                throw new ConvertException("Aqui el nuevo mensaje","Aqui dondeen que lugar se genera");
+                throw new ConvertException("This message will be deleted","This message will be deleted");
             }
 
             command.append(pdfParam.getMagick());
 
             if (pdfParam.getInputPathFile() == null || pdfParam.getOutputPathFile()
                     == null || pdfParam.getImageFormat() == null) {
-                throw new ConvertException("Aqui el nuevo mensaje","Aqui dondeen que lugar se genera");
+                throw new ConvertException("This message will be deleted","This message will be deleted");
             }
 
             command.append(space);
@@ -67,7 +67,7 @@ public class PdfConverter implements IConverter {
             if (pdfParam.getPagesToConvert() != null){
                 final Pattern pattern = Pattern.compile("[0-9][-][0-9]\\d*$");
                 if (!pattern.matcher(pdfParam.getPagesToConvert()).matches()){
-                    throw new ConvertException("Aqui el nuevo mensaje","Aqui dondeen que lugar se genera");
+                    throw new ConvertException("This message will be deleted","This message will be deleted");
                 }
                 command.append(ImageMagickCommand.OPEN_BRACKET.getCommand());
                 command.append(pdfParam.getPagesToConvert());
