@@ -58,8 +58,8 @@ public class ImageConverterController {
             @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ") String md5,
             @RequestParam (defaultValue = CONVERTED_FILE) String outputPathFile, @RequestParam String outputFileName,
             @RequestParam (defaultValue = "png") String imageFormat, @RequestParam (defaultValue = CONVERTED_FILE)
-                    String outputPathThumbnail,  @RequestParam (defaultValue = "640") int widthOfFile,
-            @RequestParam (defaultValue = "800") int heightOfFile, @RequestParam (defaultValue = "0")
+                    String outputPathThumbnail,  @RequestParam (defaultValue = "0") int widthOfFile,
+            @RequestParam (defaultValue = "0") int heightOfFile, @RequestParam (defaultValue = "0")
                     int whiteBlankPercentage, @RequestParam (defaultValue = "0") double degreesToRotate)
             throws ConvertException {
 

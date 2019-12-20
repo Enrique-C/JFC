@@ -58,10 +58,10 @@ public class PdfConverterController {
     public String pdfConverter(
             @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ") String md5,
             @RequestParam (defaultValue = CONVERTED_FILE) String outputPathFile, @RequestParam String outputFileName,
-            @RequestParam(defaultValue = "90") int rotate, @RequestParam(defaultValue = "300%") String scale,
-            @RequestParam(defaultValue = "x128") String thumbnail, @RequestParam(defaultValue = ".png")
-                    String imageFormat, @RequestParam(defaultValue = "1024") int wight,
-            @RequestParam(defaultValue = "720") int height, @RequestParam String pagesToConvert)
+            @RequestParam(defaultValue = "0") int rotate, @RequestParam(defaultValue = "0") String scale,
+            @RequestParam(defaultValue = "") String thumbnail, @RequestParam(defaultValue = ".png")
+                    String imageFormat, @RequestParam(defaultValue = "0") int widht,
+            @RequestParam(defaultValue = "0") int height, @RequestParam String pagesToConvert)
             throws ConvertException {
 
         Md5Checksum md5Checksum = new Md5Checksum();
