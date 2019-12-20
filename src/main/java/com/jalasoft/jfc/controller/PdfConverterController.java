@@ -12,15 +12,15 @@ package com.jalasoft.jfc.controller;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.ConvertException;
-import com.jalasoft.jfc.model.image.ImageFormat;
 import com.jalasoft.jfc.model.pdf.PdfConverter;
 import com.jalasoft.jfc.model.pdf.PdfParam;
-import org.apache.pdfbox.rendering.ImageType;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -30,99 +30,55 @@ import java.nio.file.Paths;
 /**
  * Manage PdfConverter Requests.
  *
- * @version 0.1 14 Dic 2019.
+ * @author Enrique Carrizales.
  *
- * @author Enrique Carrizales
+ * @version 0.1 14 Dic 2019.
  */
 @RestController
 @RequestMapping(path = "/pdfConverter")
 public class PdfConverterController {
 
     // Constant upload file.
-    private static final String UPLOADED_FOLDER = "src/main/java/com/jalasoft/jfc/resources/";
+    private static final String UPLOADED_FOLDER = "src/main/java/com/jalasoft/jfc/resource/";
 
     // Constant path converted file.
-    private static final String CONVERTED_FILE = "src/main/java/com/jalasoft/jfc/resources/";
+    private static final String CONVERTED_FILE = "src/main/java/com/jalasoft/jfc/resource/";
 
     /**
-     * pdfConverter method receives a PDF to convert.
+     * This method receives a PDF to convert.
      * @param outputPathFile contains the output path of file converted.
      * @param file contains the image file
      * @param outputFileName contains name of output file.
      * @param rotate degrees of rotation.
      * @param scale contains input Scale 1-10.
-     * @param dpi contains level of Scale 1-10.
-     * @param imageType type of a image.
-     * @param formatImage format of a image.
+     * @param imageFormat format of a image.
      * @return the path of the upload file.
      */
     @PostMapping
     public String pdfConverter(
-            @RequestParam("file") MultipartFile file, @RequestParam (defaultValue = CONVERTED_FILE)
-            String outputPathFile, @RequestParam String outputFileName, @RequestParam(defaultValue = "0") int rotate,
-            @RequestParam (defaultValue = "1") String scale, @RequestParam (defaultValue = "100") int dpi,
-            @RequestParam String imageType, @RequestParam String formatImage) throws ConvertException {
+            @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = CONVERTED_FILE)
+            String outputPathFile, @RequestParam String outputFileName, @RequestParam(defaultValue = "90") int rotate,
+            @RequestParam(defaultValue = "300%") String scale, @RequestParam(defaultValue = "x128") String thumbnail,
+            @RequestParam(defaultValue = ".png") String imageFormat, @RequestParam(defaultValue = "1024") int wight,
+            @RequestParam(defaultValue = "720") int height, @RequestParam String pagesToConvert)
+            throws ConvertException {
 
         Param param = new PdfParam();
         PdfParam pdfParam = (PdfParam) param;
+        pdfParam.setMagick("thirdparty/ImageMagick/magick.exe");
         IConverter pdfConverter = new PdfConverter();
         try {
             byte[] bytes = file.getBytes();
             Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
             Files.write(path, bytes);
             pdfParam.setInputPathFile(path.toString());
-        }catch (IOException ex) {
-            throw new ConvertException("To Do Message","To Do Method where it was generated");
+        } catch (IOException ex) {
+            throw new ConvertException("The there is not a file to upload", "PdfConverterController");
         }
         pdfParam.setOutputPathFile(outputPathFile);
         pdfParam.setOutputFileName(outputFileName);
-        pdfParam.setRotate(rotate);
-        pdfParam.setScale(scale);
+        pdfParam.setImageFormat(imageFormat);
 
-        return pdfConverter.convert(pdfParam).toString();
-    }
-
-    private ImageFormat selectFormatImage(String formatImage) throws ConvertException {
-        ImageFormat formatImageSelected = null;
-        try{
-            if (formatImage == null){
-                throw new ConvertException("To Do Message","To Do Method where it was generated");
-            }else {
-                if (formatImage.equals("gif")) {
-                    formatImageSelected = ImageFormat.GIF;
-                }
-                if (formatImage.equals("png")) {
-                    formatImageSelected = ImageFormat.PNG;
-                }
-                if (formatImage.equals("jpg") || formatImage.equals("jpeg") ) {
-                    formatImageSelected = ImageFormat.JPEG ;
-                }
-            }
-        }catch (NullPointerException e){
-            throw new ConvertException("To Do Message","To Do Method where it was generated");
-        }
-        return formatImageSelected;
-    }
-
-    private ImageType selectImageType(String imageType) throws ConvertException {
-        ImageType imageTypeSelected = null;
-        try{
-            if (imageType == null ){
-                throw new ConvertException("To Do Message","To Do Method where it was generated");
-            }else {
-                if (imageType.equals("gray")) {
-                    imageTypeSelected = ImageType.GRAY;
-                }
-                if (imageType.equals("binary")) {
-                    imageTypeSelected = ImageType.BINARY;
-                }
-                if (imageType.equals("rgb") ) {
-                    imageTypeSelected = ImageType.RGB;
-                }
-            }
-        }catch (IllegalArgumentException e){
-            throw new ConvertException("To Do Message","To Do Method where it was generated");
-        }
-        return imageTypeSelected;
+        return "convert " + pdfConverter.convert(pdfParam);
     }
 }

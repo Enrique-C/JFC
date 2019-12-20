@@ -9,7 +9,12 @@
 
 package com.jalasoft.jfc.controller;
 
+import com.jalasoft.jfc.model.IConverter;
+import com.jalasoft.jfc.model.Param;
+import com.jalasoft.jfc.model.video.VideoConverter;
+import com.jalasoft.jfc.model.video.VideoParam;
 import com.jalasoft.jfc.model.exception.ConvertException;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,22 +29,23 @@ import java.nio.file.Paths;
 /**
  * Manage VideoConverter Requests.
  *
- * @version 0.1 13 Dic 2019.
+ * @author Enrique Carrizales.
  *
- * @author Enrique Carrizales
+ * @version 0.1 13 Dic 2019.
  */
 @RestController
 @RequestMapping(path = "/videoConverter")
 public class VideoConverterController {
 
     // Constant upload file.
-    private static final String UPLOADED_FOLDER = "src/main/java/com/jalasoft/jfc/resources/";
+    private static final String UPLOADED_FOLDER = "src/main/java/com/jalasoft/jfc/resource/";
+
+    // Constant path converted file.
+    private static final String CONVERTED_FILE = "src/main/java/com/jalasoft/jfc/resource/";
 
     /**
-     * videoConverter method receives an video to convert
+     * This method receives an video to convert
      * @param file contains the video file.
-     * @param fFmpeg binary variable of FFmpeg.
-     * @param inputPathFile contains the input path of the file.
      * @param outputPathFile contains the output path of file converted.
      * @param outputFileName contains name of converted file.
      * @param aspectRatio contains aspect ratio value.
@@ -58,20 +64,43 @@ public class VideoConverterController {
      */
     @PostMapping
     public String videoConverter(
-            @RequestParam("file") MultipartFile file, @RequestParam String fFmpeg, @RequestParam String inputPathFile,
-            @RequestParam String outputPathFile, @RequestParam String outputFileName, @RequestParam double aspectRatio,
-            @RequestParam String frameRate, @RequestParam int width, @RequestParam int height,
-            @RequestParam String videoCodec, @RequestParam String audioCodec, @RequestParam String videoBitRate,
-            @RequestParam String audioBitRate, @RequestParam byte quality, @RequestParam byte channelsNumber,
-            @RequestParam String volume, @RequestParam String rotate) throws ConvertException {
+            @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = CONVERTED_FILE)
+            String outputPathFile, @RequestParam String outputFileName, @RequestParam(defaultValue = "4:3")
+                    double aspectRatio, @RequestParam(defaultValue = "30") String frameRate,
+            @RequestParam(defaultValue = "800") int width, @RequestParam(defaultValue = "600") int height,
+            @RequestParam(defaultValue = "") String videoCodec, @RequestParam(defaultValue = "") String audioCodec,
+            @RequestParam(defaultValue = "") String videoBitRate, @RequestParam(defaultValue = "")
+                    String audioBitRate, @RequestParam(defaultValue = "-1") int quality,
+            @RequestParam(defaultValue = "0") int channelsNumber,
+            @RequestParam(defaultValue = "") String volume,
+            @RequestParam(defaultValue = "") String rotate) throws ConvertException {
 
+        Param param = new VideoParam("thirdparty\\FFmpeg\\bin\\ffmpeg.exe");
+        VideoParam videoParam = (VideoParam) param;
+        IConverter videoConverter = new VideoConverter();
         try {
             byte[] bytes = file.getBytes();
             Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
             Files.write(path, bytes);
+            videoParam.setInputPathFile(path.toString());
         } catch (IOException e) {
-            throw new ConvertException("To Do Message","To Do Method where it was generated");
+            throw new ConvertException("The there is not a file to upload", "VideoConverterController");
         }
-        return UPLOADED_FOLDER;
+        videoParam.setOutputPathFile(outputPathFile);
+        videoParam.setOutputFileName(outputFileName);
+        videoParam.setAspectRatio(aspectRatio);
+        videoParam.setFrameRate(frameRate);
+        videoParam.setWidth(width);
+        videoParam.setHeight(height);
+        videoParam.setQuality(quality);
+        videoParam.setChannelsNumber(channelsNumber);
+        videoParam.setVolume(volume);
+        videoParam.setRotate(rotate);
+        videoParam.setVideoCodec(videoCodec);
+        videoParam.setAudioCodec(audioCodec);
+        videoParam.setVideoBitRate(videoBitRate);
+        videoParam.setAudioBitRate(audioBitRate);
+
+        return "converted " + videoConverter.convert(videoParam);
     }
 }
