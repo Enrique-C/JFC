@@ -9,6 +9,8 @@
 
 package com.jalasoft.jfc.model.strategy;
 
+import com.jalasoft.jfc.model.exception.CommandValueException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +38,7 @@ public class Context {
      * This method builds a command.
      * @return commandString concatenated.
      */
-    public String buildCommand(){
+    public String buildCommand() throws CommandValueException {
         StringBuilder commandString = new StringBuilder();
 
         for (ICommandStrategy itemCmd : commands) {
