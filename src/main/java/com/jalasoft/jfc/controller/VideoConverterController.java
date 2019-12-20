@@ -84,7 +84,7 @@ public class VideoConverterController {
             Files.write(path, bytes);
             videoParam.setInputPathFile(path.toString());
         } catch (IOException e) {
-            throw new ConvertException("The there is not a file to upload", "ImageConverterController");
+            throw new ConvertException("The there is not a file to upload", "VideoConverterController");
         }
         videoParam.setOutputPathFile(outputPathFile);
         videoParam.setOutputFileName(outputFileName);

@@ -73,7 +73,7 @@ public class PdfConverterController {
             Files.write(path, bytes);
             pdfParam.setInputPathFile(path.toString());
         } catch (IOException ex) {
-            throw new ConvertException("The there is not a file to upload", "ImageConverterController");
+            throw new ConvertException("The there is not a file to upload", "PdfConverterController");
         }
         pdfParam.setOutputPathFile(outputPathFile);
         pdfParam.setOutputFileName(outputFileName);
