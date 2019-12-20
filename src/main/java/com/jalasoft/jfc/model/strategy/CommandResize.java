@@ -20,12 +20,22 @@ import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
  */
 public class CommandResize implements ICommandStrategy {
 
+    // Content command value.
+    private String commandValue;
+
+    /**
+     * It Creates a new CommandResize object.
+     * @param commandValue contains a value.
+     */
+    public CommandResize(String commandValue) {
+        this.commandValue = commandValue;
+    }
+
     /**
      * This method builds a command.
-     * @param widthAndHeight receives a param.
      * @return command concatenated.
      */
-    public String command(String widthAndHeight) {
+    public String command() {
         return SPACE;
     }
 

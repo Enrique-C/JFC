@@ -23,8 +23,7 @@ public interface ICommandStrategy {
 
     /**
      * Builds a command.
-     * @param value receives a param.
      * @return String of a command.
      */
-    String command(String value);
+    String command();
 }
