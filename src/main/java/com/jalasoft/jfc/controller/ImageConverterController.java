@@ -14,6 +14,8 @@ import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.image.ImageConverter;
 import com.jalasoft.jfc.model.image.ImageFormat;
 import com.jalasoft.jfc.model.image.ImageParam;
+import com.jalasoft.jfc.model.exception.ConvertException;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.Files;
@@ -53,12 +55,13 @@ public class ImageConverterController {
      */
     @PostMapping()
     public String imageConverter(
+
             @RequestParam("file") MultipartFile file, @RequestParam (defaultValue = CONVERTED_FILE)
             String outputPathFile, @RequestParam String outputFileName, @RequestParam (defaultValue = "png")
             String imageFormat, @RequestParam (defaultValue = CONVERTED_FILE) String outputPathThumbnail,
             @RequestParam (defaultValue = "640") int widthOfFile, @RequestParam (defaultValue = "800")
-                    int heightOfFile, @RequestParam (defaultValue = "0") int whiteBlankPercentage, @RequestParam (defaultValue = "0")
-                    double degreesToRotate) {
+                    int heightOfFile, @RequestParam (defaultValue = "0") int whiteBlankPercentage,
+            @RequestParam (defaultValue = "0") double degreesToRotate)  throws ConvertException {
 
         Param param = new ImageParam();
         ImageParam imageParam = (ImageParam) param;
@@ -69,7 +72,7 @@ public class ImageConverterController {
             Files.write(path, bytes);
             imageParam.setInputPathFile(path.toString());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new ConvertException("To Do Message","To Do Method where it was generated");
         }
         imageParam.setOutputPathFile(outputPathFile);
         imageParam.setImageFormat(selectFormatImage(imageFormat));

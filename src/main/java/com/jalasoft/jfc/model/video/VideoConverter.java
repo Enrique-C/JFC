@@ -77,11 +77,11 @@ public class VideoConverter implements IConverter {
                 command.append(videoParam.getFrameRate());
             }
 
-            if (videoParam.getWight() > 0 && videoParam.getHeight() > 0) {
+            if (videoParam.getWidth() > 0 && videoParam.getHeight() > 0) {
                 command.append(space);
                 command.append(VideoCommand.FRAME_SIZE.getCommand());
                 command.append(space);
-                command.append(videoParam.getWight());
+                command.append(videoParam.getWidth());
                 command.append(VideoCommand.ASTERISK.getCommand());
                 command.append(videoParam.getHeight());
             }

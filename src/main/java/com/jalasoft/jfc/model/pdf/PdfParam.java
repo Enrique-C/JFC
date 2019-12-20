@@ -28,8 +28,8 @@ public class PdfParam extends Param {
     // Content number of pages to convert
     private String pagesToConvert;
 
-    // Content image's wight.
-    private int wight;
+    // Content image's width.
+    private int width;
 
     // Content image's height.
     private int height;
@@ -68,11 +68,11 @@ public class PdfParam extends Param {
     }
 
     /**
-     * It gets wight value.
-     * @return wight.
+     * It gets width value.
+     * @return width.
      */
-    public int getWight() {
-        return wight;
+    public int getWidth() {
+        return width;
     }
 
     /**
@@ -133,10 +133,10 @@ public class PdfParam extends Param {
 
     /**
      * It sets wight value.
-     * @param wight
+     * @param width
      */
-    public void setWight(int wight) {
-        this.wight = wight;
+    public void setWidth(int width) {
+        this.width = width;
     }
 
     /**

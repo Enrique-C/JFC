@@ -9,27 +9,27 @@
 
 package com.jalasoft.jfc.model.strategy;
 
-import java.io.File;
+import com.jalasoft.jfc.model.pdf.PdfCommand;
 
 /**
- * Validates a output file path.
+ * Rotates an image.
  *
- * @version 0.1 19 Dec 2019.
+ * @version 0.1 19 Dic 2019
  *
- * @author Enrique Carrizales.
+ * @author Enrique Carrizales
  */
-public class CommandOutputFilePath implements ICommandStrategy {
+public class CommandImageRotate implements ICommandStrategy{
 
     /**
-     * Generates a command.
-     * @param value receives a param.
-     * @return output path.
+     * It Builds a command.
+     * @param value receives a value.
+     * @return String of a command.
      */
     @Override
     public String command(String value) {
-        File file = new File(value);
-        if (file.exists()) {
-            return this.SPACE + value;
+        int intValue = Integer.parseInt(value);
+        if (intValue > 0) {
+            return this.SPACE + PdfCommand.ROTATE.getCommand() + this.SPACE + value;
         }
         return null;
     }

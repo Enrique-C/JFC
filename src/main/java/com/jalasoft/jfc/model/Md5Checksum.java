@@ -9,11 +9,13 @@
 
 package com.jalasoft.jfc.model;
 
+import com.jalasoft.jfc.model.exception.ConvertException;
+import org.apache.commons.codec.digest.DigestUtils;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.commons.codec.digest.DigestUtils;
 
 /**
  *  This class contend the attributes in common of Class PdfParam, VideoParam, ImageParam.
@@ -31,12 +33,13 @@ public class Md5Checksum {
      * @param file
      * @return String
      */
-    public String getMd5(String file){
+    public String getMd5(String file) throws ConvertException {
         String checksum = null;
         try {
             checksum = DigestUtils.md5Hex(new FileInputStream(file));
         } catch (IOException ex) {
             logger.log(Level.SEVERE, null, ex);
+            throw new ConvertException("To Do Message","To Do Method where it was generated");
         }
         return checksum;
     }

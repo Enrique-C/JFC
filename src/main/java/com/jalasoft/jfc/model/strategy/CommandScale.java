@@ -14,33 +14,24 @@ import com.jalasoft.jfc.model.pdf.PdfCommand;
 import java.util.regex.Pattern;
 
 /**
- * This class validates width and height.
+ * This class verify the scale value.
  *
  * @version 0.1 19 Dic 2019
  *
  * @author Juan Martinez
  */
-public class CommandResize implements ICommandStrategy {
+public class CommandScale implements ICommandStrategy {
 
     /**
      * This method builds a command.
-     * @param widthAndHeight receives a param.
+     * @param value receives a value.
      * @return command concatenated.
      */
-    public String command(String widthAndHeight) {
-        return SPACE;
-    }
-
-    /**
-     * This method builds a command.
-     * @param width, height receive a value.
-     * @return command concatenated.
-     */
-    public String command(int width, int height) {
-        if (width > 0 && height > 0){
-            return SPACE + PdfCommand.RESIZE.getCommand() +
-                   SPACE + width + PdfCommand.ASTERISK + height;
+    public String command(String value) {
+        final Pattern pattern = Pattern.compile("[0-9]\\d*[%]");
+        if (!pattern.matcher(value).matches()){
+            return null;
         }
-        return null;
+        return SPACE + PdfCommand.SCALE.getCommand() + SPACE + value;
     }
 }
