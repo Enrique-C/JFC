@@ -12,6 +12,11 @@ package com.jalasoft.jfc;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
+
 /**
  *
  *  Run Sprint Boot to Web Application
@@ -27,8 +32,21 @@ public class Main {
      * Main method executes SprintApplication
      * @param args receives String array
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         System.out.println("Welcome to JFC");
+
+        //esta es la forma de leer application.properties
+        Properties properties = new Properties();
+        String links = "src/main/resources/application.properties";
+        properties.load(new FileInputStream(links));
+        String reading = properties.getProperty("test.path.magic");
+        System.out.println("probando:  " + reading);
+
         SpringApplication.run(Main.class, args);
+
+
+
+
+
     }
 }
