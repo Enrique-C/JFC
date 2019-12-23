@@ -38,9 +38,12 @@ public class CommandScale implements ICommandStrategy {
      */
     public String command() {
         final Pattern pattern = Pattern.compile("[0-9]\\d*[%]");
-        if (!pattern.matcher(commandValue).matches()) {
-            return null;
+        String result = null;
+        if (commandValue != null) {
+            if (pattern.matcher(commandValue).matches()) {
+                result = SPACE + ImageMagickCommand.SCALE.getCommand() + SPACE + commandValue;
+            }
         }
-        return SPACE + ImageMagickCommand.SCALE.getCommand() + SPACE + commandValue;
+        return result;
     }
 }
