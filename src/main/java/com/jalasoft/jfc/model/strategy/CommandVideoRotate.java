@@ -20,7 +20,7 @@ import com.jalasoft.jfc.model.video.VideoCommand;
 public class CommandVideoRotate implements ICommandStrategy {
 
     // Content value to rotate.
-    private int commandValue;
+    private short commandValue;
 
     // Content value 90.
     private final short degrees90 = 90;
@@ -35,7 +35,7 @@ public class CommandVideoRotate implements ICommandStrategy {
      *
      * @param commandValue, receive a value.
      */
-    public CommandVideoRotate(int commandValue) {
+    public CommandVideoRotate(byte commandValue) {
         this.commandValue = commandValue;
     }
 
