@@ -9,7 +9,9 @@
 
 package com.jalasoft.jfc.model.utility;
 
-import java.io.File;
+import java.io.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * This class is used compress files into zip file.
@@ -25,7 +27,30 @@ public class ZipFolder {
      * @param files content a list of files.
      * @param pathZipFileName content path name of zip file.
      */
-    public void zipFolderFile(final File [] files, final File pathZipFileName){
+    public void zipFolderFile(final File [] files, final File pathZipFileName) throws IOException {
 
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(pathZipFileName);
+            ZipOutputStream zipOutputStream = new ZipOutputStream(fileOutputStream);
+            int quantity = 128;
+            byte [] bufferBytes = new byte[quantity];
+            for (File currentFile : files) {
+                if (!currentFile.isDirectory()) {
+                    ZipEntry entry = new ZipEntry(currentFile.getName());
+                    FileInputStream fileInputStream = new FileInputStream(currentFile);
+                    zipOutputStream.putNextEntry(entry);
+                    int read = 0;
+                    while ((read = fileInputStream.read(bufferBytes)) != -1) {
+                        zipOutputStream.write(bufferBytes, 0, read);
+                    }
+                    zipOutputStream.closeEntry();
+                    fileInputStream.close();
+                }
+            }
+            zipOutputStream.close();
+            fileOutputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }
