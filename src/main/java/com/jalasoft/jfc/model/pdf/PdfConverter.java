@@ -12,18 +12,7 @@ import com.jalasoft.jfc.model.FileResult;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
-import com.jalasoft.jfc.model.strategy.CommandImageMagickPath;
-import com.jalasoft.jfc.model.strategy.ICommandStrategy;
-import com.jalasoft.jfc.model.strategy.CommandInputFilePath;
-import com.jalasoft.jfc.model.strategy.CommandPagesToConvert;
-import com.jalasoft.jfc.model.strategy.CommandImageResize;
-import com.jalasoft.jfc.model.strategy.CommandScale;
-import com.jalasoft.jfc.model.strategy.CommandThumbnail;
-import com.jalasoft.jfc.model.strategy.CommandImageRotate;
-import com.jalasoft.jfc.model.strategy.CommandOutputFilePath;
-import com.jalasoft.jfc.model.strategy.CommandOutputFileName;
-import com.jalasoft.jfc.model.strategy.CommandImageFormat;
-import com.jalasoft.jfc.model.strategy.ContextStrategy;
+import com.jalasoft.jfc.model.strategy.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -55,6 +44,7 @@ public class PdfConverter implements IConverter {
         try {
             List<ICommandStrategy> list = new ArrayList<>();
             list.add(new CommandImageMagickPath());
+            list.add(new CommandImageConverter());
             list.add(new CommandInputFilePath(pdfParam.getInputPathFile()));
             list.add(new CommandPagesToConvert(pdfParam.getPagesToConvert()));
             list.add(new CommandImageResize(pdfParam.getWidth(), pdfParam.getHeight()));
