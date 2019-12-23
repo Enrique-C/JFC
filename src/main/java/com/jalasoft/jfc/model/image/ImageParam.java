@@ -33,7 +33,7 @@ public class ImageParam extends Param {
     private int imageHeight;
 
     // Contains the degrees to rotate an Image.
-    private double degreesToRotate;
+    private float degreesToRotate;
 
     /**
      * Gets format of an image.
@@ -71,7 +71,7 @@ public class ImageParam extends Param {
      * Gets degreesToRotate.
      * @return degreesToRotate.
      */
-    public double getDegreesToRotate() {
+    public float getDegreesToRotate() {
         return degreesToRotate;
     }
 
@@ -111,7 +111,7 @@ public class ImageParam extends Param {
      * Sets degreesToRotate.
      * @param degreesToRotate receives degrees.
      */
-    public void setDegreesToRotate(double degreesToRotate) {
+    public void setDegreesToRotate(float degreesToRotate) {
         this.degreesToRotate = degreesToRotate;
     }
 }
