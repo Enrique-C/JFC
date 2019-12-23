@@ -22,6 +22,14 @@ public class CommandVideoRotate implements ICommandStrategy {
     // Content value to rotate.
     private int commandValue;
 
+    // Content value 90.
+    private short degrees90 = 90;
+
+    // Content value 180.
+    private short degrees180 = 180;
+
+    // Content value 270.
+    private short degrees270 = 270;
     /**
      * Creates a new CommandVideoRotate object.
      *
@@ -38,7 +46,7 @@ public class CommandVideoRotate implements ICommandStrategy {
      */
     @Override
     public String command() {
-        if (commandValue == 90 || commandValue == 180 || commandValue == 270) {
+        if (commandValue == degrees90 || commandValue == degrees180 || commandValue == degrees270) {
             return SPACE + VideoCommand.VF.getCommand() + SPACE + VideoCommand.ROTATE.getCommand() +
                    SPACE + commandValue;
         }
