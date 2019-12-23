@@ -25,11 +25,12 @@ public enum VideoCommand {
     FRAME_SIZE("-s"),
     VIDEO_BITRATE("-b:v"),
     AUDIO_BITRATE("-b:a"),
-    SCALE("-q:v"),
+    SCALE("-vf scale="),
     ROTATE("-filter:v"),
     CHANNELS("-ac"),
     VOLUME("-vol"),
     EMPTY(""),
+    COLON(":"),
     ASTERISK("*"),
     THUMBNAIL("-ss"),
     V_FRAMES("-vframes");
