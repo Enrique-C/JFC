@@ -24,6 +24,7 @@ import com.jalasoft.jfc.model.strategy.CommandOutputFilePath;
 import com.jalasoft.jfc.model.strategy.CommandOutputFileName;
 import com.jalasoft.jfc.model.strategy.CommandImageFormat;
 import com.jalasoft.jfc.model.strategy.ContextStrategy;
+import com.jalasoft.jfc.model.strategy.CommandImageConverter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -55,6 +56,7 @@ public class PdfConverter implements IConverter {
         try {
             List<ICommandStrategy> list = new ArrayList<>();
             list.add(new CommandImageMagickPath());
+            list.add(new CommandImageConverter());
             list.add(new CommandInputFilePath(pdfParam.getInputPathFile()));
             list.add(new CommandPagesToConvert(pdfParam.getPagesToConvert()));
             list.add(new CommandImageResize(pdfParam.getWidth(), pdfParam.getHeight()));
