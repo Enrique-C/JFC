@@ -27,13 +27,10 @@ public class ImageParam extends Param {
     private String outputPathThumbnail;
 
     // Contains width of Image.
-    private int widthOfFile;
+    private int imageWidth;
 
     // Contains height of Image.
-    private int heightOfFile;
-
-    // Contains the percentage white and black of an Image.
-    private int whiteBlankPercentage;
+    private int imageHeight;
 
     // Contains the degrees to rotate an Image.
     private double degreesToRotate;
@@ -58,24 +55,16 @@ public class ImageParam extends Param {
      * Gets widthOfFile.
      * @return widthOfFile.
      */
-    public int getWidthOfFile() {
-        return widthOfFile;
+    public int getImageWidth() {
+        return imageWidth;
     }
 
     /**
      * Gets heightOfFile.
      * @return heightOfFile.
      */
-    public int getHeightOfFile() {
-        return heightOfFile;
-    }
-
-    /**
-     * Gets whiteBlankPercentage.
-     * @return whiteBlankPercentage.
-     */
-    public int getWhiteBlankPercentage() {
-        return whiteBlankPercentage;
+    public int getImageHeight() {
+        return imageHeight;
     }
 
     /**
@@ -104,26 +93,18 @@ public class ImageParam extends Param {
 
     /**
      * Sets widthOfFile.
-     * @param widthOfFile receives width.
+     * @param imageWidth receives width.
      */
-    public void setWidthOfFile(int widthOfFile) {
-        this.widthOfFile = widthOfFile;
+    public void setImageWidth(int imageWidth) {
+        this.imageWidth = imageWidth;
     }
 
     /**
      * Sets heightOfFile.
-     * @param heightOfFile receives height.
+     * @param imageHeight receives height.
      */
-    public void setHeightOfFile(int heightOfFile) {
-        this.heightOfFile = heightOfFile;
-    }
-
-    /**
-     * Sets whiteBlankPercentage.
-     * @param whiteBlankPercentage receives percentage.
-     */
-    public void setWhiteBlankPercentage(int whiteBlankPercentage) {
-        this.whiteBlankPercentage = whiteBlankPercentage;
+    public void setImageHeight(int imageHeight) {
+        this.imageHeight = imageHeight;
     }
 
     /**

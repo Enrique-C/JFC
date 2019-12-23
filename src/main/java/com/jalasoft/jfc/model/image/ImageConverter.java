@@ -13,14 +13,7 @@ import com.jalasoft.jfc.model.FileResult;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.ConvertException;
-import com.jalasoft.jfc.model.strategy.ICommandStrategy;
-import com.jalasoft.jfc.model.strategy.CommandImageMagickPath;
-import com.jalasoft.jfc.model.strategy.CommandImageConverter;
-import com.jalasoft.jfc.model.strategy.CommandInputFilePath;
-import com.jalasoft.jfc.model.strategy.CommandOutputFilePath;
-import com.jalasoft.jfc.model.strategy.CommandOutputFileName;
-import com.jalasoft.jfc.model.strategy.CommandImageFormat;
-import com.jalasoft.jfc.model.strategy.ContextStrategy;
+import com.jalasoft.jfc.model.strategy.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +43,8 @@ public class ImageConverter implements IConverter {
         commandStrategyList.add(new CommandImageMagickPath());
         commandStrategyList.add(new CommandImageConverter());
         commandStrategyList.add(new CommandInputFilePath(imageParam.getInputPathFile()));
+        commandStrategyList.add(new CommandImageRotate(imageParam.getDegreesToRotate()));
+        commandStrategyList.add(new CommandImageResize(imageParam.getImageWidth(), imageParam.getImageHeight()));
         commandStrategyList.add(new CommandOutputFilePath(imageParam.getOutputPathFile()));
         commandStrategyList.add(new CommandOutputFileName(imageParam.getOutputFileName()));
         commandStrategyList.add(new CommandImageFormat(imageParam.getImageFormat().getImageFormat()));
