@@ -47,9 +47,8 @@ public class ImageConverterController {
      * @param file contains the image file.
      * @param outputPathFile contains the output path of image converted.
      * @param outputPathThumbnail contains the output path of thumbnail converted.
-     * @param widthOfFile number of image width.
-     * @param heightOfFile number of image height.
-     * @param whiteBlankPercentage percentage of whiteBlanck.
+     * @param ImageWidth number of image width.
+     * @param ImageHeight number of image height.
      * @param degreesToRotate degrees of rotate.
      * @return the path of the upload file.
      */
@@ -58,9 +57,8 @@ public class ImageConverterController {
             @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ") String md5,
             @RequestParam (defaultValue = CONVERTED_FILE) String outputPathFile, @RequestParam String outputFileName,
             @RequestParam (defaultValue = "png") String imageFormat, @RequestParam (defaultValue = CONVERTED_FILE)
-                    String outputPathThumbnail,  @RequestParam (defaultValue = "0") int widthOfFile,
-            @RequestParam (defaultValue = "0") int heightOfFile, @RequestParam (defaultValue = "0")
-                    int whiteBlankPercentage, @RequestParam (defaultValue = "0") double degreesToRotate)
+                    String outputPathThumbnail,  @RequestParam (defaultValue = "0") int ImageWidth,
+            @RequestParam (defaultValue = "0") int ImageHeight, @RequestParam (defaultValue = "0") float degreesToRotate)
             throws ConvertException {
 
         Md5Checksum md5Checksum = new Md5Checksum();
@@ -87,9 +85,9 @@ public class ImageConverterController {
             imageParam.setImageFormat(selectFormatImage(imageFormat));
             imageParam.setOutputFileName(outputFileName);
             imageParam.setOutputPathThumbnail(outputPathThumbnail);
-            imageParam.setWidthOfFile(widthOfFile);
-            imageParam.setHeightOfFile(heightOfFile);
-            imageParam.setWhiteBlankPercentage(whiteBlankPercentage);
+            imageParam.setImageWidth(ImageWidth);
+            imageParam.setImageHeight(ImageHeight);
+
             imageParam.setDegreesToRotate(degreesToRotate);
 
             sameMd5 = "convert" + imageConverter.convert(imageParam).toString();
