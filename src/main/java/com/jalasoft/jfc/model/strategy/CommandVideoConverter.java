@@ -30,6 +30,13 @@ public class CommandVideoConverter implements ICommandStrategy {
     }
 
     /**
+     * Creates a new CommandVideoConverter object.
+     * constructor empty.
+     */
+    public CommandVideoConverter() {
+    }
+
+    /**
      * This method builds a command.
      *
      * @return command concatenated.

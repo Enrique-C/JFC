@@ -24,7 +24,7 @@ public class VideoParam extends Param {
     private String fFmpeg;
 
     // Content aspect ratio value.
-    private double aspectRatio;
+    private int aspectRatio;
 
     // Content frameRate value.
     private String frameRate;
@@ -57,7 +57,7 @@ public class VideoParam extends Param {
     private String volume;
 
     // Content rotate value.
-    private String rotate;
+    private short rotate;
 
     // Content a specific time.
     private String thumbnail;
@@ -85,7 +85,7 @@ public class VideoParam extends Param {
      * Gets aspectRatio value.
      * @return aspectRatio double value.
      */
-    public double getAspectRatio() {
+    public int getAspectRatio() {
         return aspectRatio;
     }
 
@@ -173,7 +173,7 @@ public class VideoParam extends Param {
      * Gets rotate value.
      * @return degrees of rotation.
      */
-    public String getRotate() {
+    public short getRotate() {
         return rotate;
     }
 
@@ -197,7 +197,7 @@ public class VideoParam extends Param {
      * Sets aspectRatio value.
      * @param aspectRatio for setting this.aspectRatio.
      */
-    public void setAspectRatio(double aspectRatio) {
+    public void setAspectRatio(int aspectRatio) {
         this.aspectRatio = aspectRatio;
     }
 
@@ -285,7 +285,7 @@ public class VideoParam extends Param {
      * Sets rotate value.
      * @param rotate for setting this.rotate.
      */
-    public void setRotate(String rotate) {
+    public void setRotate(short rotate) {
         this.rotate = rotate;
     }
 

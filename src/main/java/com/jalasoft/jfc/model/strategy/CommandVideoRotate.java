@@ -35,7 +35,7 @@ public class CommandVideoRotate implements ICommandStrategy {
      *
      * @param commandValue, receive a value.
      */
-    public CommandVideoRotate(byte commandValue) {
+    public CommandVideoRotate(short commandValue) {
         this.commandValue = commandValue;
     }
 
