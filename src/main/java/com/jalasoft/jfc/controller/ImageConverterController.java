@@ -87,7 +87,6 @@ public class ImageConverterController {
             imageParam.setOutputPathThumbnail(outputPathThumbnail);
             imageParam.setImageWidth(ImageWidth);
             imageParam.setImageHeight(ImageHeight);
-
             imageParam.setDegreesToRotate(degreesToRotate);
 
             sameMd5 = "convert" + imageConverter.convert(imageParam).toString();
