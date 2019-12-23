@@ -13,19 +13,8 @@ import com.jalasoft.jfc.model.FileResult;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
-import com.jalasoft.jfc.model.strategy.ICommandStrategy;
-import com.jalasoft.jfc.model.strategy.CommandVideoAspectRatio;
-import com.jalasoft.jfc.model.strategy.CommandVideoRotate;
-import com.jalasoft.jfc.model.strategy.CommandVideoThumbNail;
-import com.jalasoft.jfc.model.strategy.CommandFFMpegPath;
-import com.jalasoft.jfc.model.strategy.CommandVideoConverter;
-import com.jalasoft.jfc.model.strategy.CommandOutputFileName;
-import com.jalasoft.jfc.model.strategy.CommandOutputFilePath;
-import com.jalasoft.jfc.model.strategy.CommandInputFilePath;
-import com.jalasoft.jfc.model.strategy.CommandVideoScale;
-import com.jalasoft.jfc.model.strategy.CommandVideoFrameRate;
-import com.jalasoft.jfc.model.strategy.ContextStrategy;
-import com.jalasoft.jfc.model.strategy.CommandFFMpeg;
+import com.jalasoft.jfc.model.strategy.*;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -50,9 +39,9 @@ public class VideoConverter implements IConverter {
      * @return FileResult object or null value.
      * @throws IOException
      */
-    public FileResult convert(Param param){
+    public FileResult convert(Param param) {
 
-        VideoParam videoParam = (VideoParam)param;
+        VideoParam videoParam = (VideoParam) param;
         FileResult fileResult = new FileResult();
 
         try {
@@ -73,22 +62,20 @@ public class VideoConverter implements IConverter {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 
             String line;
-            while ((line = bufferedReader.readLine()) != null){
+            while ((line = bufferedReader.readLine()) != null) {
 
             }
             process.waitFor();
-        }
-        catch (NullPointerException e)
-        {
+        } catch (NullPointerException e) {
             throw new NullPointerException();
-        }
-        finally {
+        } finally {
             return fileResult;
         }
     }
 
     /**
      * This method is for getting the string command.
+     *
      * @param commandList
      * @return command concatenated.
      * @throws CommandValueException
