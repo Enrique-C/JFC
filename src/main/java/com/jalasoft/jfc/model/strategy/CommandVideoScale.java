@@ -26,6 +26,9 @@ public class CommandVideoScale implements ICommandStrategy {
     // Content height value.
     private int height;
 
+    //Content number 0
+    private final short numberZero = 0;
+
     /**
      * Creates a new CommandVideoScale object.
      *
@@ -44,8 +47,8 @@ public class CommandVideoScale implements ICommandStrategy {
      */
     @Override
     public String command() {
-        if (width > 0 && height > 0) {
-            return SPACE + VideoCommand.SCALE.getCommand() + SPACE + width + VideoCommand.COLON.getCommand() + height;
+        if (width > numberZero && height > numberZero) {
+            return SPACE + VideoCommand.VF.getCommand() + VideoCommand.SCALE.getCommand() + SPACE + width + VideoCommand.COLON.getCommand() + height;
         }
         return null;
     }
