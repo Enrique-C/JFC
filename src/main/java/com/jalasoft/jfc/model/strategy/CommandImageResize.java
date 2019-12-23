@@ -14,9 +14,9 @@ import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
 /**
  * This class validates width and height.
  *
- * @author Juan Martinez
- *
  * @version 0.1 19 Dic 2019
+ *
+ * @author Juan Martinez
  */
 public class CommandImageResize implements ICommandStrategy {
 
