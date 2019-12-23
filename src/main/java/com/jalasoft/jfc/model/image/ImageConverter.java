@@ -63,7 +63,7 @@ public class ImageConverter implements IConverter {
             fileResult = new FileResult();
             fileResult.setPath(imageParam.getOutputPathFile());
         } catch (Exception e) {
-            throw new ConvertException("The conversion Image failed", "Error");
+            throw new ConvertException("The conversion Image failed", "Command image converter");
         }
         return fileResult;
     }
