@@ -70,7 +70,7 @@ public class PdfConverterController {
         pdfParam.setMagick("thirdparty/ImageMagick/magick.exe");
         String md5FileUploaded;
         String md5FileFromClient;
-        String sameMd5 = "This file is not the same";
+        String sameMd5 = "Md5 Error! binary is invalid.";
         IConverter pdfConverter = new PdfConverter();
 
         try {
@@ -88,6 +88,7 @@ public class PdfConverterController {
             pdfParam.setOutputPathFile(outputPathFile);
             pdfParam.setOutputFileName(outputFileName);
             pdfParam.setImageFormat(imageFormat);
+            pdfParam.setPagesToConvert(pagesToConvert);
 
             sameMd5 = "convert " + pdfConverter.convert(pdfParam).toString();
         }
