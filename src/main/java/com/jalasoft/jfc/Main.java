@@ -33,7 +33,7 @@ public class Main {
      * Main method executes SprintApplication
      * @param args receives String array
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         System.out.println("Welcome to JFC");
         SpringApplication.run(Main.class, args);
     }
