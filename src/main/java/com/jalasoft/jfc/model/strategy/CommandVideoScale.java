@@ -20,8 +20,10 @@ import com.jalasoft.jfc.model.video.VideoCommand;
  */
 public class CommandVideoScale implements ICommandStrategy {
 
-    // Content command value.
+    // Content width value.
     private int width;
+
+    // Content height value.
     private int height;
 
     /**
