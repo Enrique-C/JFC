@@ -12,11 +12,14 @@ package com.jalasoft.jfc.model.video;
 import com.jalasoft.jfc.model.FileResult;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
+import com.jalasoft.jfc.model.exception.CommandValueException;
+import com.jalasoft.jfc.model.strategy.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.logging.Level;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -32,150 +35,54 @@ public class VideoConverter implements IConverter {
 
     /**
      * This method convert a video format to another format.
-     *
-     * @param param is an object of videoParam class.
-     * @return boolean resultFlag confirm the video's conversion if everything was correct.
+     * @param param
+     * @return FileResult object or null value.
+     * @throws IOException
      */
-    public FileResult convert(Param param) {
+    public FileResult convert(Param param){
 
-        // Instance of videoParam for casting param.
         VideoParam videoParam = (VideoParam)param;
-
-        // Space between commands.
-        String space = " ";
-
-        // Flag for return value.
         FileResult fileResult = new FileResult();
 
         try {
-            StringBuilder command = new StringBuilder();
-            if (videoParam.getfFmpeg().equals(null)) {
-                throw new IOException("JFC_IOException");
-            }
+            List<ICommandStrategy> list = new ArrayList<>();
+            list.add(new CommandFFMpegPath());
+            list.add(new CommandInputFilePath(videoParam.getInputPathFile()));
+            list.add(new CommandVideoAspectRatio(Integer.toString(videoParam.getAspectRatio())));
+            list.add(new CommandVideoScale(videoParam.getWidth(), videoParam.getHeight()));
+            list.add(new CommandVideoConverter());
+            list.add(new CommandVideoThumbNail(Integer.parseInt(videoParam.getThumbnail())));
+            list.add(new CommandVideoRotate(videoParam.getRotate()));
+            list.add(new CommandVideoFrameRate(videoParam.getFrameRate()));
 
-            command.append(videoParam.getfFmpeg());
-            if (videoParam.getInputPathFile().equals(null)) {
-                throw new IOException("JFC_IOException");
-            }
-
-            command.append(space);
-            command.append(VideoCommand.INFILE.getCommand());
-            command.append(space);
-            command.append(videoParam.getInputPathFile());
-
-            if (videoParam.getAspectRatio() != 0.0) {
-                command.append(space);
-                command.append(VideoCommand.ASPECT_RATIO.getCommand());
-                command.append(space);
-                command.append(videoParam.getAspectRatio());
-            }
-
-            if (!videoParam.getFrameRate().equals("")) {
-                command.append(space);
-                command.append(VideoCommand.FRAME_RATE.getCommand());
-                command.append(space);
-                command.append(videoParam.getFrameRate());
-            }
-
-            if (videoParam.getWidth() > 0 && videoParam.getHeight() > 0) {
-                command.append(space);
-                command.append(VideoCommand.FRAME_SIZE.getCommand());
-                command.append(space);
-                command.append(videoParam.getWidth());
-                command.append(VideoCommand.ASTERISK.getCommand());
-                command.append(videoParam.getHeight());
-            }
-
-            if (!videoParam.getVideoCodec().equals("")) {
-                command.append(space);
-                command.append(VideoCommand.AUDIO_CODEC.getCommand());
-                command.append(space);
-                command.append(videoParam.getVideoCodec());
-            }
-
-            if (!videoParam.getAudioCodec().equals("")) {
-                command.append(space);
-                command.append(VideoCommand.AUDIO_CODEC.getCommand());
-                command.append(space);
-                command.append(videoParam.getAudioCodec());
-            }
-
-            if (!videoParam.getVideoCodec().equals("")) {
-                command.append(space);
-                command.append(VideoCommand.VIDEO_BITRATE.getCommand());
-                command.append(space);
-                command.append(videoParam.getVideoBitRate());
-            }
-
-            if (!videoParam.getAudioBitRate().equals("")) {
-                command.append(space);
-                command.append(VideoCommand.AUDIO_BITRATE.getCommand());
-                command.append(space);
-                command.append(videoParam.getAudioBitRate());
-            }
-
-            if (videoParam.getQuality() > -1) {
-                command.append(space);
-                command.append(VideoCommand.SCALE.getCommand());
-                command.append(space);
-                command.append(videoParam.getQuality());
-                command.append(VideoCommand.EMPTY.getCommand());
-            }
-
-            if (videoParam.getChannelsNumber() > 0) {
-                command.append(space);
-                command.append(VideoCommand.CHANNELS.getCommand());
-                command.append(space);
-                command.append(videoParam.getChannelsNumber());
-                command.append(VideoCommand.EMPTY.getCommand());
-            }
-
-            if (!videoParam.getVolume().equals("")) {
-                command.append(space);
-                command.append(VideoCommand.VOLUME.getCommand());
-                command.append(space);
-                command.append(videoParam.getVolume());
-            }
-
-            if (!videoParam.getRotate().equals("")) {
-                command.append(space);
-                command.append(VideoCommand.ROTATE.getCommand());
-                command.append(space);
-                command.append(videoParam.getRotate());
-            }
-
-            if (videoParam.getThumbnail() != null) {
-                command.append(space);
-                command.append(VideoCommand.THUMBNAIL.getCommand());
-                command.append(space);
-                command.append(videoParam.getThumbnail());
-            }
-
-            if (videoParam.getVideoFrame() > 0) {
-                command.append(space);
-                command.append(VideoCommand.V_FRAMES.getCommand());
-                command.append(space);
-                command.append(videoParam.getVideoFrame());
-            }
-
-            if (videoParam.getOutputPathFile().equals(null) || videoParam.getOutputFileName().equals(null)) {
-                throw new NullPointerException("JFCNullPointerException");
-            }
-
-            command.append(space);
-            command.append(videoParam.getOutputPathFile());
-            command.append(videoParam.getOutputFileName());
-            String stringCommand = command.toString();
+            String stringCommand = getCommand(list);
             Process process = Runtime.getRuntime().exec(stringCommand);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-            bufferedReader.close();
-            return fileResult;
-        } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, ex.toString(), ex);
-        } catch (NullPointerException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-        } finally {
-            return null;
+
+            String line;
+            while ((line = bufferedReader.readLine()) != null){
+
+            }
+            process.waitFor();
         }
+        catch (NullPointerException e)
+        {
+            throw new NullPointerException();
+        }
+        finally {
+            return fileResult;
+        }
+    }
+
+    /**
+     * This method is for getting the string command.
+     * @param commandList
+     * @return command concatenated.
+     * @throws CommandValueException
+     */
+    public String getCommand(List<ICommandStrategy> commandList) throws CommandValueException {
+        ContextStrategy contextStrategy = new ContextStrategy(commandList);
+        String result = contextStrategy.buildCommand();
+        return result;
     }
 }
