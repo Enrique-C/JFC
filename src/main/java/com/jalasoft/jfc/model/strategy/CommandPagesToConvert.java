@@ -11,6 +11,7 @@ package com.jalasoft.jfc.model.strategy;
 
 import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
 
+import java.sql.Struct;
 import java.util.regex.Pattern;
 
 /**
@@ -39,10 +40,13 @@ public class CommandPagesToConvert implements ICommandStrategy {
      */
     public String command(){
         final Pattern pattern = Pattern.compile("[0-9]\\d*||[0-9][-][0-9]\\d*$");
-        if (!pattern.matcher(commandValue).matches()){
-            return null;
+        String result = null;
+        if (commandValue != null) {
+            if (pattern.matcher(commandValue).matches()){
+                result = SPACE + ImageMagickCommand.OPEN_BRACKET.getCommand() + commandValue +
+                        ImageMagickCommand.CLOSE_BRACKET.getCommand();
+            }
         }
-        return SPACE + ImageMagickCommand.OPEN_BRACKET.getCommand() + commandValue +
-        ImageMagickCommand.CLOSE_BRACKET.getCommand();
+        return result;
     }
 }
