@@ -13,16 +13,7 @@ import com.jalasoft.jfc.model.FileResult;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.ConvertException;
-import com.jalasoft.jfc.model.strategy.ICommandStrategy;
-import com.jalasoft.jfc.model.strategy.CommandImageMagickPath;
-import com.jalasoft.jfc.model.strategy.CommandImageConverter;
-import com.jalasoft.jfc.model.strategy.CommandInputFilePath;
-import com.jalasoft.jfc.model.strategy.CommandImageRotate;
-import com.jalasoft.jfc.model.strategy.CommandImageResize;
-import com.jalasoft.jfc.model.strategy.CommandOutputFilePath;
-import com.jalasoft.jfc.model.strategy.CommandOutputFileName;
-import com.jalasoft.jfc.model.strategy.CommandImageFormat;
-import com.jalasoft.jfc.model.strategy.ContextStrategy;
+import com.jalasoft.jfc.model.strategy.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +27,9 @@ import java.util.List;
  * */
 public class ImageConverter implements IConverter {
 
+    // List of commands.
+    List<ICommandStrategy> commandStrategyList = new ArrayList<>();
+
     /**
      * Changes an Image format to another one.
      * @param param Image parameters.
@@ -48,15 +42,12 @@ public class ImageConverter implements IConverter {
 
         String commandString;
 
-        List<ICommandStrategy> commandStrategyList = new ArrayList<>();
-        commandStrategyList.add(new CommandImageMagickPath());
-        commandStrategyList.add(new CommandImageConverter());
-        commandStrategyList.add(new CommandInputFilePath(imageParam.getInputPathFile()));
-        commandStrategyList.add(new CommandImageRotate(imageParam.getDegreesToRotate()));
-        commandStrategyList.add(new CommandImageResize(imageParam.getImageWidth(), imageParam.getImageHeight()));
-        commandStrategyList.add(new CommandOutputFilePath(imageParam.getOutputPathFile()));
-        commandStrategyList.add(new CommandOutputFileName(imageParam.getOutputFileName()));
-        commandStrategyList.add(new CommandImageFormat(imageParam.getImageFormat().getImageFormat()));
+        if (imageParam.isThumbnail()) {
+            generateImage(imageParam);
+            generateThumbnail(imageParam);
+        } else {
+            generateImage(imageParam);
+        }
 
         ContextStrategy comContext = new ContextStrategy(commandStrategyList);
 
@@ -70,5 +61,30 @@ public class ImageConverter implements IConverter {
             throw new ConvertException("The conversion Image failed", "Command image converter");
         }
         return fileResult;
+    }
+
+    private void generateImage(ImageParam imageParam) {
+        commonCommandImage(imageParam);
+
+        commandStrategyList.add(new CommandImageRotate(imageParam.getDegreesToRotate()));
+        commandStrategyList.add(new CommandImageResize(imageParam.getImageWidth(), imageParam.getImageHeight()));
+        commandStrategyList.add(new CommandOutputFilePath(imageParam.getOutputPathFile()));
+        commandStrategyList.add(new CommandOutputFileName(imageParam.getOutputFileName()));
+        commandStrategyList.add(new CommandImageFormat(imageParam.getImageFormat().getImageFormat()));
+    }
+
+    private void generateThumbnail(ImageParam imageParam) {
+        commonCommandImage(imageParam);
+
+        commandStrategyList.add(new CommandThumbnail(imageParam.isThumbnail()));
+        commandStrategyList.add(new CommandOutputFilePath(imageParam.getOutputPathFile()));
+        commandStrategyList.add(new CommandOutputFileName(imageParam.getOutputFileName()));
+        commandStrategyList.add(new CommandImageFormat(imageParam.getImageFormat().getImageFormat()));
+    }
+
+    private void commonCommandImage(ImageParam imageParam) {
+        commandStrategyList.add(new CommandImageMagickPath());
+        commandStrategyList.add(new CommandImageConverter());
+        commandStrategyList.add(new CommandInputFilePath(imageParam.getInputPathFile()));
     }
 }

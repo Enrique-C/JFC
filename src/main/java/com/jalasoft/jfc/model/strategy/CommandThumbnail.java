@@ -23,13 +23,16 @@ import java.util.regex.Pattern;
 public class CommandThumbnail implements ICommandStrategy {
 
     // Content command value.
-    private String commandValue;
+    private boolean commandValue;
+
+    // Constant size Thumbnail.
+    private final String THUMBNAIL_SIZE = "128";
 
     /**
      * Allows to instantiate this class.
      * @param commandValue
      */
-    public CommandThumbnail(String commandValue){
+    public CommandThumbnail(boolean commandValue){
         this.commandValue = commandValue;
     }
 
@@ -38,12 +41,10 @@ public class CommandThumbnail implements ICommandStrategy {
      * @return command concatenated.
      */
     public String command() {
-        final Pattern pattern = Pattern.compile("[x][0-9]\\d*");
         String result = null;
-        if (commandValue != null) {
-            if (pattern.matcher(commandValue).matches()){
-                result = SPACE + ImageMagickCommand.THUMBNAIL.getCommand() + SPACE + commandValue;
-            }
+        if (commandValue) {
+            result = SPACE + ImageMagickCommand.THUMBNAIL.getCommand() + SPACE + THUMBNAIL_SIZE +
+                    ImageMagickCommand.ASTERISK.getCommand();
         }
         return result;
     }
