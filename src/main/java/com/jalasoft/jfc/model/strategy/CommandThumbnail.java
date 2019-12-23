@@ -26,7 +26,7 @@ public class CommandThumbnail implements ICommandStrategy {
     private boolean commandValue;
 
     // Constant size Thumbnail.
-    private String THUMBNAIL_SIZE = "128";
+    private final String THUMBNAIL_SIZE = "128";
 
     /**
      * Allows to instantiate this class.
@@ -41,9 +41,11 @@ public class CommandThumbnail implements ICommandStrategy {
      * @return command concatenated.
      */
     public String command() {
-        if (!commandValue){
-            return "";
+        String result = null;
+        if (commandValue) {
+            result = SPACE + ImageMagickCommand.THUMBNAIL.getCommand() + SPACE + THUMBNAIL_SIZE +
+                    ImageMagickCommand.ASTERISK.getCommand();
         }
-        return SPACE + ImageMagickCommand.THUMBNAIL.getCommand() + SPACE + THUMBNAIL_SIZE + ImageMagickCommand.ASTERISK.getCommand();
+        return result;
     }
 }

@@ -41,7 +41,7 @@ public class PdfParam extends Param {
     private int rotate;
 
     // Content thumbnail value.
-    private String thumbnail;
+    private boolean thumbnail;
 
     /**
      * It gets magick value.
@@ -95,7 +95,7 @@ public class PdfParam extends Param {
      * It gets thumbnail value.
      * @return thumbnail.
      */
-    public String getThumbnail() {
+    public boolean getThumbnail() {
         return thumbnail;
     }
 
@@ -159,7 +159,7 @@ public class PdfParam extends Param {
      * It sets thumbnail value.
      * @param thumbnail
      */
-    public void setThumbnail(String thumbnail) {
+    public void setThumbnail(boolean thumbnail) {
         this.thumbnail = thumbnail;
     }
 
