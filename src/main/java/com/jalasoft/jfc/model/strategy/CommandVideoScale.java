@@ -45,7 +45,7 @@ public class CommandVideoScale implements ICommandStrategy {
     @Override
     public String command() {
         if (width > 0 && height > 0) {
-            return SPACE + VideoCommand.SCALE.getCommand() + SPACE + width + VideoCommand.COLON.getCommand() + height;
+            return SPACE + VideoCommand.VF.getCommand() + VideoCommand.SCALE.getCommand() + SPACE + width + VideoCommand.COLON.getCommand() + height;
         }
         return null;
     }
