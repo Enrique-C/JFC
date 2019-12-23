@@ -10,10 +10,22 @@ package com.jalasoft.jfc.model.strategy;
 
 import com.jalasoft.jfc.model.exception.CommandValueException;
 
+/**
+ * This Class has Command FFmpeg.
+ *
+ * @version 0.1 23 Dic 2019.
+ *
+ * @author Oscar Lopez.
+ */
 public class CommandFFMpeg implements ICommandStrategy {
 
     //Content ffmpeg value;
-    String commandValue = "ffmpeg ";
+    private final String commandValue = "ffmpeg ";
+
+    /**
+     * This method builds a command.
+     * @return command concatenated.
+     */
     @Override
     public String command() throws CommandValueException {
         return commandValue;
