@@ -9,12 +9,13 @@
 
 package com.jalasoft.jfc;
 
+import com.jalasoft.jfc.model.strategy.CommandImageMagickPath;
+import com.jalasoft.jfc.model.utility.PathJfc;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
 import java.util.Properties;
 
 /**
@@ -34,19 +35,6 @@ public class Main {
      */
     public static void main(String[] args) throws IOException {
         System.out.println("Welcome to JFC");
-
-        //esta es la forma de leer application.properties
-        Properties properties = new Properties();
-        String links = "src/main/resources/application.properties";
-        properties.load(new FileInputStream(links));
-        String reading = properties.getProperty("test.path.magic");
-        System.out.println("probando:  " + reading);
-
         SpringApplication.run(Main.class, args);
-
-
-
-
-
     }
 }
