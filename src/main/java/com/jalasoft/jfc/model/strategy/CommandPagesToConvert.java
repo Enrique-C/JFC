@@ -43,7 +43,7 @@ public class CommandPagesToConvert implements ICommandStrategy {
         String result = null;
         if (commandValue != null) {
             if (pattern.matcher(commandValue).matches()){
-                result = SPACE + ImageMagickCommand.OPEN_BRACKET.getCommand() + commandValue +
+                result = ImageMagickCommand.OPEN_BRACKET.getCommand() + commandValue +
                         ImageMagickCommand.CLOSE_BRACKET.getCommand();
             }
         }
