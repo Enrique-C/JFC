@@ -8,6 +8,8 @@
 
 package com.jalasoft.jfc.model.strategy;
 
+import com.jalasoft.jfc.model.video.VideoCommand;
+
 /**
  * This Class changes the Frame Rate of a video.
  *
@@ -36,6 +38,6 @@ public class CommandVideoFrameRate implements ICommandStrategy {
      */
     @Override
     public String command() {
-        return this.SPACE + commandValue + this.SPACE;
+        return this.SPACE + VideoCommand.FRAME_RATE.getCommand() + SPACE + commandValue;
     }
 }

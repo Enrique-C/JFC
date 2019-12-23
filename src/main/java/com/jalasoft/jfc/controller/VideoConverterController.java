@@ -67,7 +67,7 @@ public class VideoConverterController {
     public String videoConverter(
             @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ") String md5,
             @RequestParam (defaultValue = CONVERTED_FILE) String outputPathFile, @RequestParam String outputFileName,
-            @RequestParam (defaultValue = "0.0") int aspectRatio, @RequestParam (defaultValue = "")
+            @RequestParam (defaultValue = "0.0") String aspectRatio, @RequestParam (defaultValue = "")
                     String frameRate, @RequestParam (defaultValue = "0") int width,
             @RequestParam (defaultValue = "0")int height, @RequestParam (defaultValue = "") String videoCodec,
             @RequestParam (defaultValue = "") String audioCodec,

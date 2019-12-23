@@ -9,6 +9,8 @@
 
 package com.jalasoft.jfc.model.strategy;
 
+import com.jalasoft.jfc.model.video.VideoCommand;
+
 import java.io.File;
 
 /**
@@ -39,8 +41,9 @@ public class CommandInputFilePath implements ICommandStrategy {
     public String command() {
         File file = new File(commandValue);
         if (file.exists()) {
-            return this.SPACE + commandValue;
+            return VideoCommand.INFILE.getCommand() + this.SPACE + commandValue;
         }
         return null;
     }
+
 }

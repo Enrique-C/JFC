@@ -24,7 +24,7 @@ public class VideoParam extends Param {
     private String fFmpeg;
 
     // Content aspect ratio value.
-    private int aspectRatio;
+    private String aspectRatio;
 
     // Content frameRate value.
     private String frameRate;
@@ -85,7 +85,7 @@ public class VideoParam extends Param {
      * Gets aspectRatio value.
      * @return aspectRatio double value.
      */
-    public int getAspectRatio() {
+    public String getAspectRatio() {
         return aspectRatio;
     }
 
@@ -197,7 +197,7 @@ public class VideoParam extends Param {
      * Sets aspectRatio value.
      * @param aspectRatio for setting this.aspectRatio.
      */
-    public void setAspectRatio(int aspectRatio) {
+    public void setAspectRatio(String aspectRatio) {
         this.aspectRatio = aspectRatio;
     }
 

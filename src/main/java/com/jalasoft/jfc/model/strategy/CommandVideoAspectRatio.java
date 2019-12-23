@@ -38,6 +38,6 @@ public class CommandVideoAspectRatio implements ICommandStrategy{
      */
     @Override
     public String command() {
-        return this.SPACE + VideoCommand.INFILE + this.SPACE + commandValue + this.SPACE;
+        return this.SPACE + VideoCommand.ASPECT_RATIO.getCommand() + this.SPACE + commandValue + this.SPACE;
     }
 }

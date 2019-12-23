@@ -34,7 +34,7 @@ public class CommandOutputFileName implements ICommandStrategy {
      * @return String of a command.
      */
     public String command(){
-        String regexRule = "[^a-zA-Z0-9]";
+        String regexRule = "[^a-zA-Z0-9.]";
         String replaceValue = "";
         if (commandValue != null){
             commandValue = commandValue.replaceAll(regexRule, replaceValue);
