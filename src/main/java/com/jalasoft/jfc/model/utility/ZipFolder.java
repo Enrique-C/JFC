@@ -28,7 +28,7 @@ public class ZipFolder {
      * @param zipOutputStream is the stream content.
      * @throws IOException is thrown when there are some error.
      */
-    public void addCurrentFile(File currentFile, ZipOutputStream zipOutputStream) throws IOException {
+    private void addCurrentFile(File currentFile, ZipOutputStream zipOutputStream) throws IOException {
         int quantity = 128;
         byte [] bufferBytes = new byte[quantity];
         ZipEntry entry = new ZipEntry(currentFile.getName());
@@ -41,6 +41,7 @@ public class ZipFolder {
         zipOutputStream.closeEntry();
         fileInputStream.close();
     }
+
     /**
      * This method compress files.
      * @param files content a list of files.
