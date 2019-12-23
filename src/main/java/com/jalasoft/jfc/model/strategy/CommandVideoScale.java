@@ -27,7 +27,7 @@ public class CommandVideoScale implements ICommandStrategy {
     private int height;
 
     //Content number 0
-    private short numberZero = 0;
+    private final short numberZero = 0;
 
     /**
      * Creates a new CommandVideoScale object.

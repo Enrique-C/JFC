@@ -23,13 +23,13 @@ public class CommandVideoRotate implements ICommandStrategy {
     private int commandValue;
 
     // Content value 90.
-    private short degrees90 = 90;
+    private final short degrees90 = 90;
 
     // Content value 180.
-    private short degrees180 = 180;
+    private final short degrees180 = 180;
 
     // Content value 270.
-    private short degrees270 = 270;
+    private final short degrees270 = 270;
     /**
      * Creates a new CommandVideoRotate object.
      *
