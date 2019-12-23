@@ -24,8 +24,8 @@ public class CommandVideoAspectRatio implements ICommandStrategy{
 
     /**
      * Creates a new CommandVideoAspectRatio object.
+     *
      * @param commandValue, receive a value.
-     * @return command concatenated.
      */
     public CommandVideoAspectRatio(String commandValue) {
         this.commandValue = commandValue;
@@ -33,6 +33,7 @@ public class CommandVideoAspectRatio implements ICommandStrategy{
 
     /**
      * This method builds a command.
+     *
      * @return command concatenated.
      */
     @Override
