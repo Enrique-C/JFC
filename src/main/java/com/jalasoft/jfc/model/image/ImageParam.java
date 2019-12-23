@@ -23,8 +23,8 @@ public class ImageParam extends Param {
     //Contains format of an image.
     private  ImageFormat imageFormat;
 
-    // Contains output path of Thumbnail of an Image.
-    private String outputPathThumbnail;
+    // Contains a boolean value for building a Thumbnail.
+    private boolean isThumbnail;
 
     // Contains width of Image.
     private int imageWidth;
@@ -47,8 +47,8 @@ public class ImageParam extends Param {
      * Gets getOutputPathThumbnail.
      * @return getOutputPathThumbnail.
      */
-    public String getOutputPathThumbnail() {
-        return outputPathThumbnail;
+    public boolean isThumbnail() {
+        return isThumbnail;
     }
 
     /**
@@ -84,11 +84,11 @@ public class ImageParam extends Param {
     }
 
     /**
-     * Sets outputPathThumbnail.
-     * @param outputPathThumbnail receives path.
+     * Sets ifThumbnail.
+     * @param ifThumbnail receives path.
      */
-    public void setOutputPathThumbnail(String outputPathThumbnail) {
-        this.outputPathThumbnail = outputPathThumbnail;
+    public void isThumbnail(boolean ifThumbnail) {
+        this.isThumbnail = ifThumbnail;
     }
 
     /**

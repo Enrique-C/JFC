@@ -28,6 +28,6 @@ public class CommandImageConverter implements ICommandStrategy{
      */
     @Override
     public String command() {
-        return this.SPACE + ImageMagickCommand.CONVERT;
+        return this.SPACE + ImageMagickCommand.CONVERT.getCommand();
     }
 }
