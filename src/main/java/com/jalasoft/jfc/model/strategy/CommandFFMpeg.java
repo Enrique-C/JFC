@@ -11,7 +11,7 @@ package com.jalasoft.jfc.model.strategy;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 
 /**
- * This Class has Command FFmpeg.
+ * This Class has fFmpeg Command.
  *
  * @version 0.1 23 Dic 2019.
  *
