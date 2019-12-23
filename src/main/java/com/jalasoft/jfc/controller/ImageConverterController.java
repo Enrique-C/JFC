@@ -46,7 +46,7 @@ public class ImageConverterController {
      * This method receives an image to convert.
      * @param file contains the image file.
      * @param outputPathFile contains the output path of image converted.
-     * @param outputPathThumbnail contains the output path of thumbnail converted.
+     * @param Thumbnail contains the output path of thumbnail converted.
      * @param ImageWidth number of image width.
      * @param ImageHeight number of image height.
      * @param degreesToRotate degrees of rotate.
@@ -56,8 +56,8 @@ public class ImageConverterController {
     public String imageConverter(
             @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ") String md5,
             @RequestParam (defaultValue = CONVERTED_FILE) String outputPathFile, @RequestParam String outputFileName,
-            @RequestParam (defaultValue = "png") String imageFormat, @RequestParam (defaultValue = CONVERTED_FILE)
-                    String outputPathThumbnail,  @RequestParam (defaultValue = "0") int ImageWidth,
+            @RequestParam (defaultValue = ".png") String imageFormat, @RequestParam (defaultValue = "false")
+                    boolean Thumbnail,  @RequestParam (defaultValue = "0") int ImageWidth,
             @RequestParam (defaultValue = "0") int ImageHeight, @RequestParam (defaultValue = "0") float degreesToRotate)
             throws ConvertException {
 
@@ -84,7 +84,7 @@ public class ImageConverterController {
             imageParam.setOutputPathFile(outputPathFile);
             imageParam.setImageFormat(selectFormatImage(imageFormat));
             imageParam.setOutputFileName(outputFileName);
-            imageParam.setOutputPathThumbnail(outputPathThumbnail);
+            imageParam.isThumbnail(Thumbnail);
             imageParam.setImageWidth(ImageWidth);
             imageParam.setImageHeight(ImageHeight);
             imageParam.setDegreesToRotate(degreesToRotate);
