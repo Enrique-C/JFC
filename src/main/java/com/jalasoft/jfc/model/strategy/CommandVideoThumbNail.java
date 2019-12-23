@@ -27,7 +27,7 @@ public class CommandVideoThumbNail implements ICommandStrategy{
 
     //Content number 0
     private final short numberZero = 0;
-    
+
     /**
      * Creates a new CommandVideoRotate object.
      *
