@@ -13,8 +13,19 @@ import com.jalasoft.jfc.model.FileResult;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
-import com.jalasoft.jfc.model.strategy.*;
-
+import com.jalasoft.jfc.model.strategy.ICommandStrategy;
+import com.jalasoft.jfc.model.strategy.CommandVideoAspectRatio;
+import com.jalasoft.jfc.model.strategy.CommandVideoRotate;
+import com.jalasoft.jfc.model.strategy.CommandVideoThumbNail;
+import com.jalasoft.jfc.model.strategy.CommandFFMpegPath;
+import com.jalasoft.jfc.model.strategy.CommandVideoConverter;
+import com.jalasoft.jfc.model.strategy.CommandOutputFileName;
+import com.jalasoft.jfc.model.strategy.CommandOutputFilePath;
+import com.jalasoft.jfc.model.strategy.CommandInputFilePath;
+import com.jalasoft.jfc.model.strategy.CommandVideoScale;
+import com.jalasoft.jfc.model.strategy.CommandVideoFrameRate;
+import com.jalasoft.jfc.model.strategy.ContextStrategy;
+import com.jalasoft.jfc.model.strategy.CommandFFMpeg;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -47,6 +58,7 @@ public class VideoConverter implements IConverter {
         try {
             List<ICommandStrategy> list = new ArrayList<>();
             list.add(new CommandFFMpegPath());
+            list.add(new CommandFFMpeg());
             list.add(new CommandInputFilePath(videoParam.getInputPathFile()));
             list.add(new CommandVideoAspectRatio(Integer.toString(videoParam.getAspectRatio())));
             list.add(new CommandVideoScale(videoParam.getWidth(), videoParam.getHeight()));
@@ -54,7 +66,8 @@ public class VideoConverter implements IConverter {
             list.add(new CommandVideoThumbNail(Integer.parseInt(videoParam.getThumbnail())));
             list.add(new CommandVideoRotate(videoParam.getRotate()));
             list.add(new CommandVideoFrameRate(videoParam.getFrameRate()));
-
+            list.add(new CommandOutputFilePath(videoParam.getOutputPathFile()));
+            list.add(new CommandOutputFileName(videoParam.getOutputFileName()));
             String stringCommand = getCommand(list);
             Process process = Runtime.getRuntime().exec(stringCommand);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
