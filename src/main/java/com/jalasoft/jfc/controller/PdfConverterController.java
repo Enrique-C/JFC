@@ -70,8 +70,9 @@ public class PdfConverterController {
         pdfParam.setMagick("thirdparty/ImageMagick/magick.exe");
         String md5FileUploaded;
         String md5FileFromClient;
-        String sameMd5 = "This file is not the same";
+        String sameMd5 = "Md5 Error! binary is invalid.";
         IConverter pdfConverter = new PdfConverter();
+
         try {
             byte[] bytes = file.getBytes();
             Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());

@@ -66,7 +66,7 @@ public class ImageConverterController {
         ImageParam imageParam = (ImageParam) param;
         String md5FileUploaded;
         String md5FileFromClient;
-        String sameMd5 = "This file is not the same";
+        String sameMd5 = "Md5 Error! binary is invalid.";
         IConverter imageConverter = new ImageConverter();
 
         try {
