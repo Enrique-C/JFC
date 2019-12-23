@@ -39,9 +39,12 @@ public class CommandThumbnail implements ICommandStrategy {
      */
     public String command() {
         final Pattern pattern = Pattern.compile("[x][0-9]\\d*");
-        if (!pattern.matcher(commandValue).matches()){
-            return null;
+        String result = null;
+        if (commandValue != null) {
+            if (pattern.matcher(commandValue).matches()){
+                result = SPACE + ImageMagickCommand.THUMBNAIL.getCommand() + SPACE + commandValue;
+            }
         }
-        return SPACE + ImageMagickCommand.THUMBNAIL.getCommand() + SPACE + commandValue;
+        return result;
     }
 }
