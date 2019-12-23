@@ -43,7 +43,7 @@ public class CommandImageResize implements ICommandStrategy {
     public String command() {
         if (width > 0 && height > 0) {
             return SPACE + ImageMagickCommand.RESIZE.getCommand() +
-                    SPACE + width + ImageMagickCommand.ASTERISK + height;
+                    SPACE + width + ImageMagickCommand.ASTERISK.getCommand() + height;
         }
         return null;
     }
