@@ -21,13 +21,13 @@ import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
 public class CommandImageRotate implements ICommandStrategy {
 
     // Content command value.
-    private int commandValue;
+    private float commandValue;
 
     /**
      * It creates a new CommandImageRotate object.
      * @param commandValue contains a value.
      */
-    public CommandImageRotate(int commandValue) {
+    public CommandImageRotate(float commandValue) {
         this.commandValue = commandValue;
     }
 
