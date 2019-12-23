@@ -22,11 +22,12 @@ public class CommandVideoThumbNail implements ICommandStrategy{
     // Content value to rotate.
     private int commandValue;
 
-    // Content value one second to extract a thumbnail.
+    // Content value of one second to extract a thumbnail.
     private final short second = 1;
 
     //Content number 0
     private final short numberZero = 0;
+    
     /**
      * Creates a new CommandVideoRotate object.
      *
