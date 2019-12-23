@@ -9,14 +9,8 @@
 
 package com.jalasoft.jfc;
 
-import com.jalasoft.jfc.model.strategy.CommandImageMagickPath;
-import com.jalasoft.jfc.model.utility.PathJfc;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.io.*;
-import java.net.URL;
-import java.util.Properties;
 
 /**
  *
