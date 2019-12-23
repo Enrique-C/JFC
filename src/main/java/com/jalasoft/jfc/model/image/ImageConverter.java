@@ -70,7 +70,7 @@ public class ImageConverter implements IConverter {
         commandStrategyList.add(new CommandImageResize(imageParam.getImageWidth(), imageParam.getImageHeight()));
         commandStrategyList.add(new CommandOutputFilePath(imageParam.getOutputPathFile()));
         commandStrategyList.add(new CommandOutputFileName(imageParam.getOutputFileName()));
-        commandStrategyList.add(new CommandImageFormat(imageParam.getImageFormat().getImageFormat()));
+        commandStrategyList.add(new CommandImageFormat(imageParam.getImageFormat()));
     }
 
     private void generateThumbnail(ImageParam imageParam) {
@@ -79,7 +79,7 @@ public class ImageConverter implements IConverter {
         commandStrategyList.add(new CommandThumbnail(imageParam.isThumbnail()));
         commandStrategyList.add(new CommandOutputFilePath(imageParam.getOutputPathFile()));
         commandStrategyList.add(new CommandOutputFileName(imageParam.getOutputFileName()));
-        commandStrategyList.add(new CommandImageFormat(imageParam.getImageFormat().getImageFormat()));
+        commandStrategyList.add(new CommandImageFormat(imageParam.getImageFormat()));
     }
 
     private void commonCommandImage(ImageParam imageParam) {
