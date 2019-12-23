@@ -22,8 +22,8 @@ public class CommandVideoFrameRate implements ICommandStrategy {
 
     /**
      * Creates a new CommandVideoFrameRate object.
+     *
      * @param commandValue, receive a value.
-     * @return command concatenated.
      */
     public CommandVideoFrameRate(String commandValue) {
         this.commandValue = commandValue;
@@ -31,6 +31,7 @@ public class CommandVideoFrameRate implements ICommandStrategy {
 
     /**
      * This method builds a command.
+     *
      * @return command concatenated.
      */
     @Override

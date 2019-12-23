@@ -11,23 +11,23 @@ package com.jalasoft.jfc.model.strategy;
 import com.jalasoft.jfc.model.video.VideoCommand;
 
 /**
- * Class changes Aspect Ratio.
+ * Class changes Command Video Audio Codec.
  *
- * @version 0.1 20 Dic 2019.
+ * @version 0.1 23 Dic 2019.
  *
  * @author Oscar Lopez.
  */
-public class CommandVideoAspectRatio implements ICommandStrategy{
+public class CommandVideoAudioCodec implements ICommandStrategy{
 
     // Content command value.
     private String commandValue;
 
     /**
-     * Creates a new CommandVideoAspectRatio object.
+     * Creates a new CommandVideoAudioCodec object.
      *
      * @param commandValue, receive a value.
      */
-    public CommandVideoAspectRatio(String commandValue) {
+    public CommandVideoAudioCodec(String commandValue) {
         this.commandValue = commandValue;
     }
 
@@ -38,6 +38,6 @@ public class CommandVideoAspectRatio implements ICommandStrategy{
      */
     @Override
     public String command() {
-        return this.SPACE + VideoCommand.INFILE + this.SPACE + commandValue + this.SPACE;
+        return this.SPACE + VideoCommand.AUDIO_CODEC + this.SPACE + commandValue;
     }
 }

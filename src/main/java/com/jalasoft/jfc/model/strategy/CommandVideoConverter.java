@@ -8,8 +8,6 @@
 
 package com.jalasoft.jfc.model.strategy;
 
-import com.jalasoft.jfc.model.video.VideoCommand;
-
 /**
  * This Class converts a video.
  *
@@ -24,8 +22,8 @@ public class CommandVideoConverter implements ICommandStrategy {
 
     /**
      * Creates a new CommandVideoConverter object.
+     *
      * @param commandValue, receive a value.
-     * @return command concatenated.
      */
     public CommandVideoConverter(String commandValue) {
         this.commandValue = commandValue;
@@ -33,6 +31,7 @@ public class CommandVideoConverter implements ICommandStrategy {
 
     /**
      * This method builds a command.
+     *
      * @return command concatenated.
      */
     @Override
