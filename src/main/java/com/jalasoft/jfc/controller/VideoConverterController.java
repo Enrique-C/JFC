@@ -12,6 +12,7 @@ package com.jalasoft.jfc.controller;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Md5Checksum;
 import com.jalasoft.jfc.model.Param;
+import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.video.VideoConverter;
 import com.jalasoft.jfc.model.video.VideoParam;
 import com.jalasoft.jfc.model.exception.ConvertException;
@@ -68,13 +69,12 @@ public class VideoConverterController {
             @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ") String md5,
             @RequestParam (defaultValue = CONVERTED_FILE) String outputPathFile, @RequestParam String outputFileName,
             @RequestParam (defaultValue = "0.0") int aspectRatio, @RequestParam (defaultValue = "")
-                    String frameRate, @RequestParam (defaultValue = "0") int width,
-            @RequestParam (defaultValue = "0")int height, @RequestParam (defaultValue = "") String videoCodec,
-            @RequestParam (defaultValue = "") String audioCodec,
-            @RequestParam (defaultValue = "") String videoBitRate, @RequestParam (defaultValue = "")
-                    String audioBitRate, @RequestParam (defaultValue = "-1") int quality,
-            @RequestParam (defaultValue = "0") int channelsNumber, @RequestParam (defaultValue = "") String volume,
-            @RequestParam (defaultValue = "") short rotate) throws ConvertException, IOException {
+            String frameRate, @RequestParam (defaultValue = "0") int width, @RequestParam (defaultValue = "0")
+            int height, @RequestParam (defaultValue = "") String videoCodec, @RequestParam (defaultValue = "")
+            String audioCodec, @RequestParam (defaultValue = "") String videoBitRate, @RequestParam (defaultValue = "")
+            String audioBitRate, @RequestParam (defaultValue = "-1") int quality, @RequestParam (defaultValue = "0")
+            int channelsNumber, @RequestParam (defaultValue = "") String volume, @RequestParam (defaultValue = "")
+            short rotate) throws CommandValueException {
 
         Md5Checksum md5Checksum = new Md5Checksum();
         Param param = new VideoParam("thirdparty\\FFmpeg\\bin\\ffmpeg.exe");
