@@ -15,6 +15,7 @@ import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.ConvertException;
 import com.jalasoft.jfc.model.strategy.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class ImageConverter implements IConverter {
      * @param param Image parameters.
      * @return Conversion status.
      */
-    public FileResult convert(Param param) throws ConvertException {
+    public FileResult convert(Param param) throws ConvertException, IOException {
         ImageParam imageParam = (ImageParam) param;
 
         FileResult fileResult;
@@ -63,7 +64,7 @@ public class ImageConverter implements IConverter {
         return fileResult;
     }
 
-    private void generateImage(ImageParam imageParam) {
+    private void generateImage(ImageParam imageParam) throws IOException {
         commonCommandImage(imageParam);
 
         commandStrategyList.add(new CommandImageRotate(imageParam.getDegreesToRotate()));
@@ -73,7 +74,7 @@ public class ImageConverter implements IConverter {
         commandStrategyList.add(new CommandImageFormat(imageParam.getImageFormat().getImageFormat()));
     }
 
-    private void generateThumbnail(ImageParam imageParam) {
+    private void generateThumbnail(ImageParam imageParam) throws IOException {
         commonCommandImage(imageParam);
 
         commandStrategyList.add(new CommandThumbnail(imageParam.isThumbnail()));
@@ -82,7 +83,7 @@ public class ImageConverter implements IConverter {
         commandStrategyList.add(new CommandImageFormat(imageParam.getImageFormat().getImageFormat()));
     }
 
-    private void commonCommandImage(ImageParam imageParam) {
+    private void commonCommandImage(ImageParam imageParam) throws IOException {
         commandStrategyList.add(new CommandImageMagickPath());
         commandStrategyList.add(new CommandImageConverter());
         commandStrategyList.add(new CommandInputFilePath(imageParam.getInputPathFile()));
