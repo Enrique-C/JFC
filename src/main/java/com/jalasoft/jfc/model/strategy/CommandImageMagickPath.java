@@ -9,7 +9,10 @@
 
 package com.jalasoft.jfc.model.strategy;
 
+import com.jalasoft.jfc.model.utility.PathJfc;
+
 import java.io.File;
+import java.io.IOException;
 
 /**
  * Validates ImageMagick path.
@@ -21,7 +24,19 @@ import java.io.File;
 public class CommandImageMagickPath implements ICommandStrategy {
 
     // Content command value.
-    private final String IMAGE_MAGIC_PATH = "thirdparty/ImageMagick/magick.exe";
+    private  String imageMagickPath;
+
+    // Variable type PathJfc.
+    PathJfc pathJfc;
+
+    /**
+     * This initialize PathJfc and gets the Image Magick Path.
+     * @throws IOException
+     */
+    public CommandImageMagickPath() throws IOException {
+        pathJfc = new PathJfc();
+        imageMagickPath = pathJfc.getMagickPath();
+    }
 
     /**
      * Generates a command.
@@ -29,9 +44,9 @@ public class CommandImageMagickPath implements ICommandStrategy {
      */
     @Override
     public String command() {
-        File file = new File(IMAGE_MAGIC_PATH);
+        File file = new File(imageMagickPath);
         if (file.exists()) {
-            return this.SPACE + IMAGE_MAGIC_PATH;
+            return this.SPACE + imageMagickPath;
         }
         return null;
     }
