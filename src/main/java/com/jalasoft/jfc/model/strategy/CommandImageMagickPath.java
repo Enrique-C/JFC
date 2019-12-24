@@ -31,7 +31,7 @@ public class CommandImageMagickPath implements ICommandStrategy {
 
     /**
      * This initialize PathJfc and gets the Image Magick Path.
-     * @throws IOException
+     * @throws IOException when is a invalid file.
      */
     public CommandImageMagickPath() throws IOException {
         pathJfc = new PathJfc();

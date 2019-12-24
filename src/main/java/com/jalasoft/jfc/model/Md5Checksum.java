@@ -32,6 +32,7 @@ public class Md5Checksum {
      *  This method return a Md5 checksum from a file.
      * @param file
      * @return String
+     * @throws IOException when is a invalid file.
      */
     public String getMd5(String file) throws IOException {
         String checksum = null;
