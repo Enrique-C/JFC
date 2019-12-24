@@ -63,6 +63,10 @@ public class ImageConverter implements IConverter {
         return fileResult;
     }
 
+    /**
+     * Generates a command to convert an image to another image.
+     * @param imageParam receives image params.
+     */
     private void generateImage(ImageParam imageParam) {
         commonCommandImage(imageParam);
 
@@ -73,6 +77,10 @@ public class ImageConverter implements IConverter {
         commandStrategyList.add(new CommandImageFormat(imageParam.getImageFormat()));
     }
 
+    /**
+     * Generates a command to convert an image to thumbnail.
+     * @param imageParam receives image params.
+     */
     private void generateThumbnail(ImageParam imageParam) {
         commonCommandImage(imageParam);
 
@@ -82,6 +90,10 @@ public class ImageConverter implements IConverter {
         commandStrategyList.add(new CommandImageFormat(imageParam.getImageFormat()));
     }
 
+    /**
+     * Generates a command common.
+     * @param imageParam receives image params.
+     */
     private void commonCommandImage(ImageParam imageParam) {
         commandStrategyList.add(new CommandImageMagickPath());
         commandStrategyList.add(new CommandImageConverter());
