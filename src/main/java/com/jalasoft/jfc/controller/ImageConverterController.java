@@ -57,9 +57,9 @@ public class ImageConverterController {
             @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ") String md5,
             @RequestParam (defaultValue = CONVERTED_FILE) String outputPathFile, @RequestParam String outputFileName,
             @RequestParam (defaultValue = ".png") String imageFormat, @RequestParam (defaultValue = "false")
-                    boolean Thumbnail,  @RequestParam (defaultValue = "0") int ImageWidth,
-            @RequestParam (defaultValue = "0") int ImageHeight, @RequestParam (defaultValue = "0") float degreesToRotate)
-            throws ConvertException, IOException {
+            boolean Thumbnail,  @RequestParam (defaultValue = "0") int ImageWidth, @RequestParam (defaultValue = "0")
+            int ImageHeight, @RequestParam (defaultValue = "0") float degreesToRotate) throws ConvertException,
+            IOException {
 
         Md5Checksum md5Checksum = new Md5Checksum();
         Param param = new ImageParam();
@@ -78,7 +78,7 @@ public class ImageConverterController {
             imageParam.setMd5(md5);
             md5FileFromClient = imageParam.getMd5();
         } catch (IOException e) {
-            throw new ConvertException("The there is not a file to upload", "ImageConverterController");
+            throw new IOException("The there is not a file to upload");
         }
         if (md5FileUploaded.equals(md5FileFromClient)) {
             imageParam.setOutputPathFile(outputPathFile);
@@ -92,31 +92,5 @@ public class ImageConverterController {
             sameMd5 = "convert" + imageConverter.convert(imageParam).toString();
         }
         return sameMd5;
-    }
-
-    private ImageFormat selectFormatImage(String formatImage) {
-        ImageFormat formatImageSelected = null;
-
-        try {
-            if (formatImage == null) {
-                throw new NullPointerException();
-            } else {
-                if (formatImage.equals("gif")) {
-                    formatImageSelected = ImageFormat.GIF;
-                }
-                if (formatImage.equals("png")) {
-                    formatImageSelected = ImageFormat.PNG;
-                }
-                if (formatImage.equals("jpg") || formatImage.equals("jpeg")) {
-                    formatImageSelected = ImageFormat.JPEG;
-                }
-                if (formatImage.equals("tif")) {
-                    formatImageSelected = ImageFormat.TIFF;
-                }
-            }
-        } catch (NullPointerException e) {
-            throw new NullPointerException();
-        }
-        return formatImageSelected;
     }
 }

@@ -60,9 +60,8 @@ public class PdfConverterController {
             @RequestParam (defaultValue = CONVERTED_FILE) String outputPathFile, @RequestParam String outputFileName,
             @RequestParam(defaultValue = "0") int rotate, @RequestParam(defaultValue = "0") String scale,
             @RequestParam(defaultValue = "") String thumbnail, @RequestParam(defaultValue = ".png")
-                    String imageFormat, @RequestParam(defaultValue = "0") int widht,
-            @RequestParam(defaultValue = "0") int height, @RequestParam String pagesToConvert)
-            throws ConvertException, IOException {
+            String imageFormat, @RequestParam(defaultValue = "0") int widht, @RequestParam(defaultValue = "0")
+            int height, @RequestParam String pagesToConvert) throws IOException, ConvertException {
 
         Md5Checksum md5Checksum = new Md5Checksum();
         Param param = new PdfParam();
@@ -81,16 +80,22 @@ public class PdfConverterController {
             pdfParam.setMd5(md5);
             md5FileFromClient = pdfParam.getMd5();
         } catch (IOException ex) {
-            throw new ConvertException("The there is not a file to upload", "PdfConverterController");
+            throw new IOException("There is not a file to upload");
         }
-        if (md5FileUploaded.equals(md5FileFromClient)){
-            pdfParam.setOutputPathFile(outputPathFile);
-            pdfParam.setOutputFileName(outputFileName);
-            pdfParam.setImageFormat(imageFormat);
-            pdfParam.setPagesToConvert(pagesToConvert);
+        try{
+            if (md5FileUploaded.equals(md5FileFromClient)){
+                pdfParam.setOutputPathFile(outputPathFile);
+                pdfParam.setOutputFileName(outputFileName);
+                pdfParam.setImageFormat(imageFormat);
+                pdfParam.setPagesToConvert(pagesToConvert);
 
-            sameMd5 = "convert " + pdfConverter.convert(pdfParam).toString();
+                sameMd5 = "convert " + pdfConverter.convert(pdfParam).toString();
+            }
+            return  sameMd5;
+        } catch (IOException ex) {
+            throw new IOException("There is not a file to upload");
+        } catch (ConvertException ex) {
+            throw new ConvertException("Convertion failed", "VideoConverterController");
         }
-        return  sameMd5;
     }
 }

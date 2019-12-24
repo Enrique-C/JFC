@@ -33,13 +33,13 @@ public class Md5Checksum {
      * @param file
      * @return String
      */
-    public String getMd5(String file) throws ConvertException {
+    public String getMd5(String file) throws IOException {
         String checksum = null;
         try {
             checksum = DigestUtils.md5Hex(new FileInputStream(file));
         } catch (IOException ex) {
             logger.log(Level.SEVERE, null, ex);
-            throw new ConvertException("To Do Message","To Do Method where it was generated");
+            throw new IOException("This is a invalid file");
         }
         return checksum;
     }
