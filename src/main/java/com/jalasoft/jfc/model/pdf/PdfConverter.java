@@ -46,7 +46,6 @@ public class PdfConverter implements IConverter {
      * This method converts a PDF to Image.
      * @param param
      * @return FileResult object or null value.
-     * @throws IOException
      */
     public FileResult convert(Param param){
 

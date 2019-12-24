@@ -12,6 +12,8 @@ package com.jalasoft.jfc.model;
 import com.jalasoft.jfc.model.exception.ConvertException;
 import org.im4java.utils.BatchConverter;
 
+import java.io.IOException;
+
 /**
  *
  *  IConverter interface defines behavior to Converters.
@@ -26,6 +28,8 @@ public interface IConverter {
      * Convert files to another type file.
      * @param param it receives file params.
      * @return state of conversion.
+     * @throws IOException when is a invalid file.
+     * @throws ConvertException when the conversion failed.
      */
-    public FileResult convert(Param param) throws ConvertException;
+    public FileResult convert(Param param) throws ConvertException, IOException;
 }

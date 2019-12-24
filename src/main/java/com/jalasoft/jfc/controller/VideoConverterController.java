@@ -74,13 +74,13 @@ public class VideoConverterController {
             @RequestParam (defaultValue = "") String videoBitRate, @RequestParam (defaultValue = "")
                     String audioBitRate, @RequestParam (defaultValue = "-1") int quality,
             @RequestParam (defaultValue = "0") int channelsNumber, @RequestParam (defaultValue = "") String volume,
-            @RequestParam (defaultValue = "") short rotate)  throws ConvertException {
+            @RequestParam (defaultValue = "") short rotate) throws ConvertException, IOException {
 
         Md5Checksum md5Checksum = new Md5Checksum();
         Param param = new VideoParam("thirdparty\\FFmpeg\\bin\\ffmpeg.exe");
         VideoParam videoParam = (VideoParam) param;
-        String md5FileUploaded;
-        String md5FileFromClient;
+        String md5FileUploaded = "a";
+        String md5FileFromClient = "b";
         String sameMd5 = "Md5 Error! binary is invalid.";
         IConverter videoConverter = new VideoConverter();
 
@@ -92,26 +92,32 @@ public class VideoConverterController {
             md5FileUploaded = md5Checksum.getMd5(path.toString());
             videoParam.setMd5(md5);
             md5FileFromClient = videoParam.getMd5();
-        } catch (IOException e) {
-            throw new ConvertException("The there is not a file to upload", "VideoConverterController");
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
-        if (md5FileUploaded.equals(md5FileFromClient)) {
-            videoParam.setOutputPathFile(outputPathFile);
-            videoParam.setOutputFileName(outputFileName);
-            videoParam.setAspectRatio(aspectRatio);
-            videoParam.setFrameRate(frameRate);
-            videoParam.setWidth(width);
-            videoParam.setHeight(height);
-            videoParam.setQuality(quality);
-            videoParam.setChannelsNumber(channelsNumber);
-            videoParam.setVolume(volume);
-            videoParam.setRotate(rotate);
-            videoParam.setVideoCodec(videoCodec);
-            videoParam.setAudioCodec(audioCodec);
-            videoParam.setVideoBitRate(videoBitRate);
-            videoParam.setAudioBitRate(audioBitRate);
+        try {
+            if (md5FileUploaded.equals(md5FileFromClient)) {
+                videoParam.setOutputPathFile(outputPathFile);
+                videoParam.setOutputFileName(outputFileName);
+                videoParam.setAspectRatio(aspectRatio);
+                videoParam.setFrameRate(frameRate);
+                videoParam.setWidth(width);
+                videoParam.setHeight(height);
+                videoParam.setQuality(quality);
+                videoParam.setChannelsNumber(channelsNumber);
+                videoParam.setVolume(volume);
+                videoParam.setRotate(rotate);
+                videoParam.setVideoCodec(videoCodec);
+                videoParam.setAudioCodec(audioCodec);
+                videoParam.setVideoBitRate(videoBitRate);
+                videoParam.setAudioBitRate(audioBitRate);
 
-            sameMd5 = "converted " + videoConverter.convert(videoParam).toString();
+                sameMd5 = "converted " + videoConverter.convert(videoParam).toString();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (ConvertException ex) {
+            ex.printStackTrace();
         }
         return sameMd5;
     }
