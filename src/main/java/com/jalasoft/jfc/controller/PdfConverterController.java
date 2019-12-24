@@ -62,7 +62,7 @@ public class PdfConverterController {
             @RequestParam(defaultValue = "") String thumbnail, @RequestParam(defaultValue = ".png")
                     String imageFormat, @RequestParam(defaultValue = "0") int widht,
             @RequestParam(defaultValue = "0") int height, @RequestParam String pagesToConvert)
-            throws ConvertException {
+            throws ConvertException, IOException {
 
         Md5Checksum md5Checksum = new Md5Checksum();
         Param param = new PdfParam();
