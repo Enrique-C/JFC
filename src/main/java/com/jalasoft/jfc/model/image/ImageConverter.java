@@ -64,6 +64,10 @@ public class ImageConverter implements IConverter {
         return fileResult;
     }
 
+    /**
+     * Generates a command to convert an image to another image.
+     * @param imageParam receives image params.
+     */
     private void generateImage(ImageParam imageParam) throws IOException {
         commonCommandImage(imageParam);
 
@@ -71,18 +75,26 @@ public class ImageConverter implements IConverter {
         commandStrategyList.add(new CommandImageResize(imageParam.getImageWidth(), imageParam.getImageHeight()));
         commandStrategyList.add(new CommandOutputFilePath(imageParam.getOutputPathFile()));
         commandStrategyList.add(new CommandOutputFileName(imageParam.getOutputFileName()));
-        commandStrategyList.add(new CommandImageFormat(imageParam.getImageFormat().getImageFormat()));
+        commandStrategyList.add(new CommandImageFormat(imageParam.getImageFormat()));
     }
 
+    /**
+     * Generates a command to convert an image to thumbnail.
+     * @param imageParam receives image params.
+     */
     private void generateThumbnail(ImageParam imageParam) throws IOException {
         commonCommandImage(imageParam);
 
         commandStrategyList.add(new CommandThumbnail(imageParam.isThumbnail()));
         commandStrategyList.add(new CommandOutputFilePath(imageParam.getOutputPathFile()));
         commandStrategyList.add(new CommandOutputFileName(imageParam.getOutputFileName()));
-        commandStrategyList.add(new CommandImageFormat(imageParam.getImageFormat().getImageFormat()));
+        commandStrategyList.add(new CommandImageFormat(imageParam.getImageFormat()));
     }
 
+    /**
+     * Generates a command common.
+     * @param imageParam receives image params.
+     */
     private void commonCommandImage(ImageParam imageParam) throws IOException {
         commandStrategyList.add(new CommandImageMagickPath());
         commandStrategyList.add(new CommandImageConverter());

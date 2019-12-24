@@ -59,7 +59,7 @@ public class ImageConverterController {
             @RequestParam (defaultValue = ".png") String imageFormat, @RequestParam (defaultValue = "false")
                     boolean Thumbnail,  @RequestParam (defaultValue = "0") int ImageWidth,
             @RequestParam (defaultValue = "0") int ImageHeight, @RequestParam (defaultValue = "0") float degreesToRotate)
-            throws ConvertException {
+            throws ConvertException, IOException {
 
         Md5Checksum md5Checksum = new Md5Checksum();
         Param param = new ImageParam();
@@ -82,7 +82,7 @@ public class ImageConverterController {
         }
         if (md5FileUploaded.equals(md5FileFromClient)) {
             imageParam.setOutputPathFile(outputPathFile);
-            imageParam.setImageFormat(selectFormatImage(imageFormat));
+            imageParam.setImageFormat(imageFormat);
             imageParam.setOutputFileName(outputFileName);
             imageParam.isThumbnail(Thumbnail);
             imageParam.setImageWidth(ImageWidth);

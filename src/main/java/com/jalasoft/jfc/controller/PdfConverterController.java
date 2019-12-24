@@ -67,7 +67,6 @@ public class PdfConverterController {
         Md5Checksum md5Checksum = new Md5Checksum();
         Param param = new PdfParam();
         PdfParam pdfParam = (PdfParam) param;
-        pdfParam.setMagick("thirdparty/ImageMagick/magick.exe");
         String md5FileUploaded;
         String md5FileFromClient;
         String sameMd5 = "Md5 Error! binary is invalid.";
