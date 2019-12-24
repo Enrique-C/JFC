@@ -58,16 +58,16 @@ public class PdfConverterController {
     public String pdfConverter(
             @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ") String md5,
             @RequestParam (defaultValue = CONVERTED_FILE) String outputPathFile, @RequestParam String outputFileName,
-            @RequestParam(defaultValue = "0") int rotate, @RequestParam(defaultValue = "0") String scale,
-            @RequestParam(defaultValue = "") String thumbnail, @RequestParam(defaultValue = ".png")
+            @RequestParam(defaultValue = "0") int rotate, @RequestParam(defaultValue = "100%") String scale,
+            @RequestParam(defaultValue = "false") boolean thumbnail, @RequestParam(defaultValue = ".png")
             String imageFormat, @RequestParam(defaultValue = "0") int widht, @RequestParam(defaultValue = "0")
-            int height, @RequestParam String pagesToConvert) throws IOException, ConvertException {
+            int height, @RequestParam String pagesToConvert) {
 
         Md5Checksum md5Checksum = new Md5Checksum();
         Param param = new PdfParam();
         PdfParam pdfParam = (PdfParam) param;
-        String md5FileUploaded;
-        String md5FileFromClient;
+        String md5FileUploaded = "a";
+        String md5FileFromClient = "b";
         String sameMd5 = "Md5 Error! binary is invalid.";
         IConverter pdfConverter = new PdfConverter();
 
@@ -80,22 +80,26 @@ public class PdfConverterController {
             pdfParam.setMd5(md5);
             md5FileFromClient = pdfParam.getMd5();
         } catch (IOException ex) {
-            throw new IOException("There is not a file to upload");
+            ex.printStackTrace();
         }
-        try{
-            if (md5FileUploaded.equals(md5FileFromClient)){
+        try {
+            if (md5FileUploaded.equals(md5FileFromClient)) {
                 pdfParam.setOutputPathFile(outputPathFile);
                 pdfParam.setOutputFileName(outputFileName);
                 pdfParam.setImageFormat(imageFormat);
                 pdfParam.setPagesToConvert(pagesToConvert);
+                pdfParam.setThumbnail(thumbnail);
+                pdfParam.setWidth(widht);
+                pdfParam.setScale(scale);
+                pdfParam.setHeight(height);
 
                 sameMd5 = "convert " + pdfConverter.convert(pdfParam).toString();
             }
-            return  sameMd5;
         } catch (IOException ex) {
-            throw new IOException("There is not a file to upload");
+            ex.printStackTrace();
         } catch (ConvertException ex) {
-            throw new ConvertException("Convertion failed", "VideoConverterController");
+            ex.printStackTrace();
         }
+        return sameMd5;
     }
 }
