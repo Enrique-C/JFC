@@ -12,6 +12,8 @@ package com.jalasoft.jfc.model;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ConvertException;
 
+import java.io.IOException;
+
 /**
  *
  *  IConverter interface defines behavior to Converters.
@@ -26,8 +28,10 @@ public interface IConverter {
      * Convert files to another type file.
      * @param param it receives file params.
      * @return state of conversion.
-     * @throws ConvertException
-     * @throws CommandValueException
+     * @throws IOException when is a invalid file.
+     * @throws CommandValueException this.
+     * @throws ConvertException this.
      */
-    FileResult convert(Param param) throws ConvertException, CommandValueException;
+
+    FileResult convert(Param param) throws ConvertException , IOException, CommandValueException;
 }

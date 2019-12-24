@@ -43,9 +43,8 @@ public class PdfConverter implements IConverter {
      * This method converts a PDF to Image.
      * @param param
      * @return FileResult object or null value.
-     * @throws IOException
      */
-    public FileResult convert(Param param) throws CommandValueException {
+    public FileResult convert(Param param) throws CommandValueException, IOException {
         FileResult fileResult = new FileResult();
         String stringCommand = getCommand(param);
         int value = runCommand(stringCommand);
@@ -58,7 +57,7 @@ public class PdfConverter implements IConverter {
      * @return command concatenated.
      * @throws CommandValueException
      */
-    public String getCommand(Param param) throws CommandValueException {
+    public String getCommand(Param param) throws CommandValueException, IOException {
         PdfParam pdfParam = (PdfParam)param;
         List<ICommandStrategy> list = new ArrayList<>();
         list.add(new CommandImageMagickPath());

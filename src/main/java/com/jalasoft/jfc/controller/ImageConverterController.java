@@ -58,15 +58,20 @@ public class ImageConverterController {
             @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ") String md5,
             @RequestParam (defaultValue = CONVERTED_FILE) String outputPathFile, @RequestParam String outputFileName,
             @RequestParam (defaultValue = ".png") String imageFormat, @RequestParam (defaultValue = "false")
+<<<<<<< HEAD
                     boolean Thumbnail,  @RequestParam (defaultValue = "0") int ImageWidth,
             @RequestParam (defaultValue = "0") int ImageHeight, @RequestParam (defaultValue = "0") float degreesToRotate)
             throws ConvertException, CommandValueException {
+=======
+            boolean Thumbnail,  @RequestParam (defaultValue = "0") int ImageWidth, @RequestParam (defaultValue = "0")
+            int ImageHeight, @RequestParam (defaultValue = "0") float degreesToRotate) {
+>>>>>>> fa94340db56ffad8740bbcfd9f28cf787cb1f086
 
         Md5Checksum md5Checksum = new Md5Checksum();
         Param param = new ImageParam();
         ImageParam imageParam = (ImageParam) param;
-        String md5FileUploaded;
-        String md5FileFromClient;
+        String md5FileUploaded = "a";
+        String md5FileFromClient = "b";
         String sameMd5 = "Md5 Error! binary is invalid.";
         IConverter imageConverter = new ImageConverter();
 
@@ -78,46 +83,26 @@ public class ImageConverterController {
             md5FileUploaded = md5Checksum.getMd5(path.toString());
             imageParam.setMd5(md5);
             md5FileFromClient = imageParam.getMd5();
-        } catch (IOException e) {
-            throw new ConvertException("The there is not a file to upload", "ImageConverterController");
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
-        if (md5FileUploaded.equals(md5FileFromClient)) {
-            imageParam.setOutputPathFile(outputPathFile);
-            imageParam.setImageFormat(selectFormatImage(imageFormat));
-            imageParam.setOutputFileName(outputFileName);
-            imageParam.isThumbnail(Thumbnail);
-            imageParam.setImageWidth(ImageWidth);
-            imageParam.setImageHeight(ImageHeight);
-            imageParam.setDegreesToRotate(degreesToRotate);
+        try {
+            if (md5FileUploaded.equals(md5FileFromClient)) {
+                imageParam.setOutputPathFile(outputPathFile);
+                imageParam.setImageFormat(imageFormat);
+                imageParam.setOutputFileName(outputFileName);
+                imageParam.isThumbnail(Thumbnail);
+                imageParam.setImageWidth(ImageWidth);
+                imageParam.setImageHeight(ImageHeight);
+                imageParam.setDegreesToRotate(degreesToRotate);
 
-            sameMd5 = "convert" + imageConverter.convert(imageParam).toString();
+                sameMd5 = "convert" + imageConverter.convert(imageParam).toString();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (ConvertException ex) {
+            ex.printStackTrace();
         }
         return sameMd5;
-    }
-
-    private ImageFormat selectFormatImage(String formatImage) {
-        ImageFormat formatImageSelected = null;
-
-        try {
-            if (formatImage == null) {
-                throw new NullPointerException();
-            } else {
-                if (formatImage.equals("gif")) {
-                    formatImageSelected = ImageFormat.GIF;
-                }
-                if (formatImage.equals("png")) {
-                    formatImageSelected = ImageFormat.PNG;
-                }
-                if (formatImage.equals("jpg") || formatImage.equals("jpeg")) {
-                    formatImageSelected = ImageFormat.JPEG;
-                }
-                if (formatImage.equals("tif")) {
-                    formatImageSelected = ImageFormat.TIFF;
-                }
-            }
-        } catch (NullPointerException e) {
-            throw new NullPointerException();
-        }
-        return formatImageSelected;
     }
 }
