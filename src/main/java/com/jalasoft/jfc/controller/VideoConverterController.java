@@ -75,11 +75,7 @@ public class VideoConverterController {
             @RequestParam (defaultValue = "") String videoBitRate, @RequestParam (defaultValue = "")
                     String audioBitRate, @RequestParam (defaultValue = "-1") int quality,
             @RequestParam (defaultValue = "0") int channelsNumber, @RequestParam (defaultValue = "") String volume,
-<<<<<<< HEAD
-            @RequestParam (defaultValue = "") short rotate) throws ConvertException, CommandValueException {
-=======
-            @RequestParam (defaultValue = "") short rotate) throws ConvertException, IOException {
->>>>>>> fa94340db56ffad8740bbcfd9f28cf787cb1f086
+            @RequestParam (defaultValue = "") short rotate) throws CommandValueException {
 
         Md5Checksum md5Checksum = new Md5Checksum();
         Param param = new VideoParam("thirdparty\\FFmpeg\\bin\\ffmpeg.exe");
