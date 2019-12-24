@@ -20,13 +20,16 @@ public class CommandValueException extends Exception {
     // Returns a message error.
     String message;
 
+    // Method where error is generated.
+    String method;
     /**
      * Manages Value Exceptions.
-     * @param param parameter of file.
+     * @param method where error is generated.
      * @param message of error.
      */
-    public CommandValueException(String message, String param) {
+    public CommandValueException(String message, String method) {
         this.message = message;
+        this.method = method;
     }
 
     /**

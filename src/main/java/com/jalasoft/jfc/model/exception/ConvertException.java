@@ -13,13 +13,16 @@ public class ConvertException extends Exception {
     // Returns a message error
     String message;
 
+    // Method where error is generated.
+    String method;
     /**
      * Manages Exceptions.
-     * @param param parameter of file.
+     * @param method where error is generated.
      * @param message of error.
      */
-    public ConvertException(String message, String param) {
+    public ConvertException(String message, String method) {
         this.message = message;
+        this.method = method;
     }
 
     /**

@@ -27,13 +27,15 @@ public enum VideoCommand {
     AUDIO_BITRATE("-b:a"),
     VF("-vf"),
     SCALE("scale="),
-    ROTATE("-filter:v"),
+    ROTATE90("vflip"),
+    ROTATE180("hflip"),
+    ROTATE270("vflip,hflip"),
     CHANNELS("-ac"),
     VOLUME("-vol"),
     EMPTY(""),
     COLON(":"),
     ASTERISK("*"),
-    THUMBNAIL("-ss"),
+    THUMBNAIL("-an -s 128x128 -ss"),
     V_FRAMES("-vframes");
 
     // Command variable.

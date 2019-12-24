@@ -45,5 +45,4 @@ public class CommandInputFilePath implements ICommandStrategy {
         }
         return null;
     }
-
 }

@@ -46,10 +46,20 @@ public class CommandVideoRotate implements ICommandStrategy {
      */
     @Override
     public String command() {
-        if (commandValue == degrees90 || commandValue == degrees180 || commandValue == degrees270) {
-            return SPACE + VideoCommand.VF.getCommand() + SPACE + VideoCommand.ROTATE.getCommand() +
-                   SPACE + commandValue;
+        String returnCommand = SPACE + VideoCommand.VF.getCommand() + SPACE;
+        switch (commandValue) {
+            case 90:
+                returnCommand += VideoCommand.ROTATE90.getCommand();
+                break;
+            case 180:
+                returnCommand += VideoCommand.ROTATE180.getCommand();
+                break;
+            case 270:
+                returnCommand += VideoCommand.ROTATE270.getCommand();
+                break;
+            default:
+                returnCommand = null;
         }
-        return null;
+        return returnCommand;
     }
 }

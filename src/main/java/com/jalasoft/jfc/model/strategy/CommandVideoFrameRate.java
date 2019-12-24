@@ -11,7 +11,7 @@ package com.jalasoft.jfc.model.strategy;
 import com.jalasoft.jfc.model.video.VideoCommand;
 
 /**
- * This Class changes the Frame Rate of a video.
+ * This Class manage the Frame Rate of video..
  *
  * @version 0.1 20 Dic 2019.
  *

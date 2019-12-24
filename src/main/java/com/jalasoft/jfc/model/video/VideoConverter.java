@@ -52,20 +52,20 @@ public class VideoConverter implements IConverter {
      * @throws IOException
      */
     public FileResult convert(Param param) {
-        System.out.println("convert ---");
         VideoParam videoParam = (VideoParam) param;
         FileResult fileResult = new FileResult();
 
+        //Variable to get a second where take a thumbnail
+        final String secondToGetThumbnail = "00:00:2.100";
         try {
             List<ICommandStrategy> list = new ArrayList<>();
             list.add(new CommandFFMpegPath());
             list.add(new CommandInputFilePath(videoParam.getInputPathFile()));
             list.add(new CommandVideoAspectRatio(videoParam.getAspectRatio()));
-            list.add(new CommandVideoScale(videoParam.getWidth(), videoParam.getHeight()));
-            //list.add(new CommandVideoConverter());
-            list.add(new CommandVideoThumbNail("00:00:2.100"));
             list.add(new CommandVideoRotate(videoParam.getRotate()));
+            list.add(new CommandVideoScale(videoParam.getWidth(), videoParam.getHeight()));
             list.add(new CommandVideoFrameRate(videoParam.getFrameRate()));
+            //list.add(new CommandVideoThumbNail(secondToGetThumbnail));
             list.add(new CommandOutputFilePath(videoParam.getOutputPathFile()));
             list.add(new CommandOutputFileName(videoParam.getOutputFileName()));
             String stringCommand = getCommand(list);
@@ -81,7 +81,6 @@ public class VideoConverter implements IConverter {
         } catch (NullPointerException e) {
             throw new NullPointerException();
         } finally {
-            System.out.println("99999");
             return fileResult;
         }
     }
