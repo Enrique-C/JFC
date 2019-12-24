@@ -25,10 +25,7 @@ import com.jalasoft.jfc.model.strategy.CommandOutputFileName;
 import com.jalasoft.jfc.model.strategy.CommandImageFormat;
 import com.jalasoft.jfc.model.strategy.ContextStrategy;
 import com.jalasoft.jfc.model.strategy.CommandImageConverter;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,53 +45,52 @@ public class PdfConverter implements IConverter {
      * @return FileResult object or null value.
      * @throws IOException
      */
-    public FileResult convert(Param param){
-
-        PdfParam pdfParam = (PdfParam)param;
+    public FileResult convert(Param param) throws CommandValueException {
         FileResult fileResult = new FileResult();
-
-        try {
-            List<ICommandStrategy> list = new ArrayList<>();
-            list.add(new CommandImageMagickPath());
-            list.add(new CommandImageConverter());
-            list.add(new CommandInputFilePath(pdfParam.getInputPathFile()));
-            list.add(new CommandPagesToConvert(pdfParam.getPagesToConvert()));
-            list.add(new CommandImageResize(pdfParam.getWidth(), pdfParam.getHeight()));
-            list.add(new CommandScale(pdfParam.getScale()));
-            list.add(new CommandThumbnail(pdfParam.getThumbnail()));
-            list.add(new CommandImageRotate(pdfParam.getRotate()));
-            list.add(new CommandOutputFilePath(pdfParam.getOutputPathFile()));
-            list.add(new CommandOutputFileName(pdfParam.getOutputFileName()));
-            list.add(new CommandImageFormat(pdfParam.getImageFormat()));
-
-            String stringCommand = getCommand(list);
-            Process process = Runtime.getRuntime().exec(stringCommand);
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-
-            String line;
-            while ((line = bufferedReader.readLine()) != null){
-
-            }
-            process.waitFor();
-        }
-        catch (NullPointerException e)
-        {
-            throw new NullPointerException();
-        }
-        finally {
-            return fileResult;
-        }
+        String stringCommand = getCommand(param);
+        int value = runCommand(stringCommand);
+        return fileResult;
     }
 
     /**
      * This method is for getting the string command.
-     * @param commandList
+     * @param param
      * @return command concatenated.
      * @throws CommandValueException
      */
-    public String getCommand(List<ICommandStrategy> commandList) throws CommandValueException {
-        ContextStrategy contextStrategy = new ContextStrategy(commandList);
+    public String getCommand(Param param) throws CommandValueException {
+        PdfParam pdfParam = (PdfParam)param;
+        List<ICommandStrategy> list = new ArrayList<>();
+        list.add(new CommandImageMagickPath());
+        list.add(new CommandImageConverter());
+        list.add(new CommandInputFilePath(pdfParam.getInputPathFile()));
+        list.add(new CommandPagesToConvert(pdfParam.getPagesToConvert()));
+        list.add(new CommandImageResize(pdfParam.getWidth(), pdfParam.getHeight()));
+        list.add(new CommandScale(pdfParam.getScale()));
+        list.add(new CommandThumbnail(pdfParam.getThumbnail()));
+        list.add(new CommandImageRotate(pdfParam.getRotate()));
+        list.add(new CommandOutputFilePath(pdfParam.getOutputPathFile()));
+        list.add(new CommandOutputFileName(pdfParam.getOutputFileName()));
+        list.add(new CommandImageFormat(pdfParam.getImageFormat()));
+        ContextStrategy contextStrategy = new ContextStrategy(list);
         String result = contextStrategy.buildCommand();
         return result;
+    }
+
+    /**
+     * Runs string command.
+     * @param stringCommand value of command.
+     * @return 0 when the process was executed successfully.
+     */
+    private int runCommand(String stringCommand){
+        int returnValue = -1;
+        try {
+            Process process = Runtime.getRuntime().exec(stringCommand);
+            process.waitFor();
+            returnValue = process.exitValue();
+        } catch (InterruptedException | IOException e) {
+            e.printStackTrace();
+        }
+        return returnValue;
     }
 }

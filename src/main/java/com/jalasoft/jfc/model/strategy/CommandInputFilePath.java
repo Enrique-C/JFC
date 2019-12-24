@@ -9,7 +9,10 @@
 
 package com.jalasoft.jfc.model.strategy;
 
+import com.jalasoft.jfc.model.exception.CommandValueException;
+
 import java.io.File;
+import java.security.InvalidParameterException;
 
 /**
  * Validates an input file path.
@@ -32,15 +35,21 @@ public class CommandInputFilePath implements ICommandStrategy {
     }
 
     /**
-     * Generates a command.
+     * Generates a commands.
      * @return input path.
+     * @throws CommandValueException
      */
     @Override
-    public String command() {
+    public String command() throws CommandValueException {
         File file = new File(commandValue);
-        if (file.exists()) {
-            return this.SPACE + commandValue;
+        String stringCommand = "";
+        try {
+            if (file.exists()) {
+                stringCommand = this.SPACE + commandValue;
+            }
+        } catch (InvalidParameterException ipe) {
+            throw new CommandValueException(ipe.toString(), this.getClass().getName());
         }
-        return null;
+        return stringCommand;
     }
 }

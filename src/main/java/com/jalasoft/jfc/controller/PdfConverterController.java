@@ -12,6 +12,7 @@ package com.jalasoft.jfc.controller;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Md5Checksum;
 import com.jalasoft.jfc.model.Param;
+import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ConvertException;
 import com.jalasoft.jfc.model.pdf.PdfConverter;
 import com.jalasoft.jfc.model.pdf.PdfParam;
@@ -62,7 +63,7 @@ public class PdfConverterController {
             @RequestParam(defaultValue = "") String thumbnail, @RequestParam(defaultValue = ".png")
                     String imageFormat, @RequestParam(defaultValue = "0") int widht,
             @RequestParam(defaultValue = "0") int height, @RequestParam String pagesToConvert)
-            throws ConvertException {
+            throws ConvertException, CommandValueException {
 
         Md5Checksum md5Checksum = new Md5Checksum();
         Param param = new PdfParam();

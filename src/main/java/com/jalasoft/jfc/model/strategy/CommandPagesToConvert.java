@@ -9,8 +9,10 @@
 
 package com.jalasoft.jfc.model.strategy;
 
+import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
 
+import java.security.InvalidParameterException;
 import java.sql.Struct;
 import java.util.regex.Pattern;
 
@@ -35,18 +37,27 @@ public class CommandPagesToConvert implements ICommandStrategy {
     }
 
     /**
-     * Builds a command.
+     * Build a command.
      * @return String of a command.
+     * @throws CommandValueException
      */
-    public String command(){
-        final Pattern pattern = Pattern.compile("[0-9]\\d*||[0-9][-][0-9]\\d*$");
-        String result = null;
-        if (commandValue != null) {
-            if (pattern.matcher(commandValue).matches()){
-                result = ImageMagickCommand.OPEN_BRACKET.getCommand() + commandValue +
-                        ImageMagickCommand.CLOSE_BRACKET.getCommand();
+    public String command() throws CommandValueException {
+        final Pattern pattern = Pattern.compile("[0-9]\\d*||[0-9][-][0-9]\\d*$||[^$]");
+        String stringCommand = "";
+        try {
+            if (commandValue != null) {
+                if (commandValue.equals("")){
+                    return commandValue;
+                }
+                if (pattern.matcher(commandValue).matches()){
+
+                    stringCommand = ImageMagickCommand.OPEN_BRACKET.getCommand() + commandValue +
+                            ImageMagickCommand.CLOSE_BRACKET.getCommand();
+                }
             }
+        } catch (InvalidParameterException ipe) {
+            throw new CommandValueException(ipe.getMessage(), this.getClass().getName());
         }
-        return result;
+        return stringCommand;
     }
 }

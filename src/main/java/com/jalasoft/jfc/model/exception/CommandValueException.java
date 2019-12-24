@@ -26,7 +26,7 @@ public class CommandValueException extends Exception {
      * @param message of error.
      */
     public CommandValueException(String message, String param) {
-        this.message = message;
+        this.message = message + " " + param;
     }
 
     /**

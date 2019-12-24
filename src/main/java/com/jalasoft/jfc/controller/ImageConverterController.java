@@ -12,6 +12,7 @@ package com.jalasoft.jfc.controller;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Md5Checksum;
 import com.jalasoft.jfc.model.Param;
+import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.image.ImageConverter;
 import com.jalasoft.jfc.model.image.ImageFormat;
 import com.jalasoft.jfc.model.image.ImageParam;
@@ -59,7 +60,7 @@ public class ImageConverterController {
             @RequestParam (defaultValue = ".png") String imageFormat, @RequestParam (defaultValue = "false")
                     boolean Thumbnail,  @RequestParam (defaultValue = "0") int ImageWidth,
             @RequestParam (defaultValue = "0") int ImageHeight, @RequestParam (defaultValue = "0") float degreesToRotate)
-            throws ConvertException {
+            throws ConvertException, CommandValueException {
 
         Md5Checksum md5Checksum = new Md5Checksum();
         Param param = new ImageParam();
