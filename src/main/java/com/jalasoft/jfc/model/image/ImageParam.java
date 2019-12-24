@@ -21,7 +21,7 @@ import com.jalasoft.jfc.model.Param;
 public class ImageParam extends Param {
 
     //Contains format of an image.
-    private  ImageFormat imageFormat;
+    private  String imageFormat;
 
     // Contains a boolean value for building a Thumbnail.
     private boolean isThumbnail;
@@ -39,7 +39,7 @@ public class ImageParam extends Param {
      * Gets format of an image.
      * @return image format.
      */
-    public ImageFormat getImageFormat() {
+        public String getImageFormat() {
         return imageFormat;
     }
 
@@ -79,7 +79,7 @@ public class ImageParam extends Param {
      * Sets image format.
      * @param imageFormat contains a image format.
      */
-    public void setImageFormat(ImageFormat imageFormat) {
+    public void setImageFormat(String imageFormat) {
         this.imageFormat = imageFormat;
     }
 
