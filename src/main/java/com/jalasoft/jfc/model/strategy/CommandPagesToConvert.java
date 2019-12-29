@@ -41,11 +41,10 @@ public class CommandPagesToConvert implements ICommandStrategy {
      * @return String of a command.
      * @throws CommandValueException
      */
-    public String command() throws CommandValueException {
+    public String command() throws CommandValueException, NullPointerException {
         final Pattern pattern = Pattern.compile("[0-9]\\d*||[0-9][-][0-9]\\d*$||[^$]");
         String stringCommand = "";
         try {
-            if (commandValue != null) {
                 if (commandValue.equals("")){
                     return commandValue;
                 }
@@ -54,9 +53,10 @@ public class CommandPagesToConvert implements ICommandStrategy {
                     stringCommand = ImageMagickCommand.OPEN_BRACKET.getCommand() + commandValue +
                             ImageMagickCommand.CLOSE_BRACKET.getCommand();
                 }
-            }
         } catch (InvalidParameterException ipe) {
             throw new CommandValueException(ipe.getMessage(), this.getClass().getName());
+        } catch (NullPointerException nex) {
+            throw  new NullPointerException("Pages to convert value is NULL " + this.getClass().getName());
         }
         return stringCommand;
     }

@@ -92,7 +92,7 @@ public class VideoConverter implements IConverter {
      * @return command concatenated.
      * @throws CommandValueException
      */
-    public String getCommand(List<ICommandStrategy> commandList) throws CommandValueException {
+    public String getCommand(List<ICommandStrategy> commandList) throws CommandValueException, IOException {
         ContextStrategy contextStrategy = new ContextStrategy(commandList);
         String result = contextStrategy.buildCommand();
         return result;
