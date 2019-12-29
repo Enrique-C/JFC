@@ -37,8 +37,17 @@ public class PathJfc {
     // This is a constant variable of key FFmpeg path.
     private final String FFMPEG_PATH = "path.ffmpeg";
 
+    // This is a constant variable of key input files path.
+    private final String INPUT_FILES_PATH = "path.input.files";
+
+    // This is a constant variable of key output files path.
+    private final String OUTPUT_FILES_PATH = "path.output.files";
+
+    // This is a constant variable of key public files path.
+    private final String PUBLIC_FILES_PATH = "path.public.files";
+
     /**
-     * This inizialize properties and inputPaht. Also load the inputPath in properties.
+     * Inizialize properties and inputPaht. Also load the inputPath in properties.
      * @throws IOException
      */
     public PathJfc() throws IOException {
@@ -48,7 +57,7 @@ public class PathJfc {
     }
 
     /**
-     * This method gets the path Magick.
+     * This gets the path Magick.
      * @return the Image Magick Path.
      */
     public String getMagickPath(){
@@ -56,10 +65,34 @@ public class PathJfc {
     }
 
     /**
-     * This method gets the path.
+     * This gets the path.
      * @return the FFmpeg path.
      */
     public String getFfmpegPath(){
         return  properties.getProperty(FFMPEG_PATH);
+    }
+
+    /**
+     * This gets the path.
+     * @return the Input files Path path.
+     */
+    public String getInputFilePath() {
+        return properties.getProperty(INPUT_FILES_PATH);
+    }
+
+    /**
+     * This gets the path.
+     * @return the Input files Path path.
+     */
+    public String getOutputFilePath() {
+        return properties.getProperty(OUTPUT_FILES_PATH);
+    }
+
+    /**
+     * This gets the path.
+     * @return the Input files Path path.
+     */
+    public String getPublicFilePath() {
+        return properties.getProperty(PUBLIC_FILES_PATH);
     }
 }
