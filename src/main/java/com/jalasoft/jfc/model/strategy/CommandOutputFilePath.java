@@ -9,6 +9,8 @@
 
 package com.jalasoft.jfc.model.strategy;
 
+import com.jalasoft.jfc.model.exception.CommandValueException;
+
 import java.io.File;
 
 /**
@@ -36,11 +38,17 @@ public class CommandOutputFilePath implements ICommandStrategy {
      * @return output path.
      */
     @Override
-    public String command() {
+    public String command() throws CommandValueException, NullPointerException {
         File file = new File(commandValue);
-        if (file.exists()) {
-            return this.SPACE + commandValue;
+        try {
+            if (file.exists()) {
+                return this.SPACE + commandValue;
+            }
+            throw new CommandValueException("Invalid input file path value\n", "File not found\n");
+        } catch (CommandValueException cve){
+            throw new CommandValueException(cve.getMessage(), this.getClass().getName());
+        } catch (NullPointerException nex) {
+            throw  new NullPointerException("Pages to convert value is NULL " + this.getClass().getName());
         }
-        return null;
     }
 }

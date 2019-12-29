@@ -40,10 +40,10 @@ import java.nio.file.Paths;
 public class PdfConverterController {
 
     // Constant upload file.
-    private static final String UPLOADED_FOLDER = "src/main/java/com/jalasoft/jfc/resource/";
+    private static final String UPLOADED_FOLDER = "files/input/";
 
     // Constant path converted file.
-    private static final String CONVERTED_FILE = "src/main/java/com/jalasoft/jfc/resource/";
+    private static final String CONVERTED_FILE = "files/output/";
 
     /**
      * This method receives a PDF to convert.
@@ -59,10 +59,10 @@ public class PdfConverterController {
     public String pdfConverter(
             @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ") String md5,
             @RequestParam (defaultValue = CONVERTED_FILE) String outputPathFile, @RequestParam String outputFileName,
-            @RequestParam(defaultValue = "0") int rotate, @RequestParam(defaultValue = "100%") String scale,
+            @RequestParam(defaultValue = "0") int rotate, @RequestParam(defaultValue = "%") String scale,
             @RequestParam(defaultValue = "false") boolean thumbnail, @RequestParam(defaultValue = ".png")
             String imageFormat, @RequestParam(defaultValue = "0") int width, @RequestParam(defaultValue = "0")
-            int height, @RequestParam String pagesToConvert) throws CommandValueException {
+            int height, @RequestParam String pagesToConvert) {
 
         Md5Checksum md5Checksum = new Md5Checksum();
         Param param = new PdfParam();
@@ -100,6 +100,10 @@ public class PdfConverterController {
             ex.printStackTrace();
         } catch (ConvertException ex) {
             ex.printStackTrace();
+        } catch (CommandValueException cve) {
+            cve.printStackTrace();
+        } catch (NullPointerException nex) {
+            nex.printStackTrace();
         }
         return sameMd5;
     }
