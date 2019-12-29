@@ -43,6 +43,12 @@ public class PdfParam extends Param {
     // Content thumbnail value.
     private boolean thumbnail;
 
+    // Content background value.
+    private String background;
+
+    // Content alpha value.
+    private String alpha;
+
     /**
      * It gets magick value.
      * @return magick.
@@ -105,6 +111,22 @@ public class PdfParam extends Param {
      */
     public int getRotate() {
         return rotate;
+    }
+
+    /**
+     * This method gets background value.
+     * @return
+     */
+    public String getBackground() {
+        return background;
+    }
+
+    /**
+     * This method gets alpha value.
+     * @return
+     */
+    public String getAlpha() {
+        return alpha;
     }
 
     /**
