@@ -9,6 +9,7 @@
 
 package com.jalasoft.jfc.model.strategy;
 
+import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
 
 import java.util.regex.Pattern;
@@ -41,11 +42,10 @@ public class CommandThumbnail implements ICommandStrategy {
      * @return command concatenated.
      */
     public String command() {
-        String result = null;
-        if (commandValue) {
-            result = SPACE + ImageMagickCommand.THUMBNAIL.getCommand() + SPACE + THUMBNAIL_SIZE +
-                    ImageMagickCommand.ASTERISK.getCommand();
-        }
-        return result;
+            if (commandValue) {
+                return SPACE + ImageMagickCommand.THUMBNAIL.getCommand() + SPACE + THUMBNAIL_SIZE +
+                        ImageMagickCommand.ASTERISK.getCommand();
+            }
+        return "";
     }
 }

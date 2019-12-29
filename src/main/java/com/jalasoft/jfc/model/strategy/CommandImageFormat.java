@@ -9,6 +9,7 @@
 
 package com.jalasoft.jfc.model.strategy;
 
+import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.image.ImageFormat;
 
 /**
@@ -35,12 +36,12 @@ public class CommandImageFormat implements ICommandStrategy {
      * Builds a command.
      * @return String of a command.
      */
-    public String command() {
+    public String command() throws CommandValueException {
         for (ImageFormat image : ImageFormat.values()) {
             if (image.getImageFormat().equals(commandValue)) {
                 return commandValue;
             }
         }
-        return null;
+        throw new CommandValueException("Format is not valid", this.getClass().getName());
     }
 }

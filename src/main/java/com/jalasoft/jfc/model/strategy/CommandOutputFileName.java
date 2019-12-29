@@ -42,16 +42,10 @@ public class CommandOutputFileName implements ICommandStrategy {
         String regexRule = "[^a-zA-Z0-9]";
         String replaceValue = "";
 
-        try {
-            if (commandValue != null){
-                if (commandValue.equals("")) {
-                    commandValue = "image";
-                }
-                commandValue = commandValue.replaceAll(regexRule, replaceValue);
+            if (commandValue.equals("")) {
+                commandValue = "image";
             }
-        } catch (InvalidParameterException ipe){
-            throw new CommandValueException(ipe.getMessage(), this.getClass().getName());
-        }
+            commandValue = commandValue.replaceAll(regexRule, replaceValue);
         return commandValue;
     }
 }
