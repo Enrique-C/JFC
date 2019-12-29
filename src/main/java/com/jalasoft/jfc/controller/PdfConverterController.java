@@ -44,15 +44,24 @@ public class PdfConverterController {
     private PathJfc pathJfc;
 
     // Constant upload file.
-    private static final String UPLOADED_FOLDER = "files/input/";
+    private final String uploadedFolder;
 
     // Constant path converted file.
-    private static final String CONVERTED_FILE = "files/output/";
+    private final String convertedFile;
 
-    
+    PdfConverterController(){
+        try {
+            pathJfc = new PathJfc();
+        }
+        catch (IOException ex){
+            ex.printStackTrace();
+        }
+        uploadedFolder = pathJfc.getInputFilePath();
+        convertedFile = pathJfc.getOutputFilePath();
+    }
+
     /**
      * This method receives a PDF to convert.
-     * @param outputPathFile contains the output path of file converted.
      * @param file contains the image file
      * @param outputFileName contains name of output file.
      * @param rotate degrees of rotation.
@@ -63,11 +72,10 @@ public class PdfConverterController {
     @PostMapping
     public String pdfConverter(
             @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ") String md5,
-            @RequestParam (defaultValue = CONVERTED_FILE) String outputPathFile, @RequestParam String outputFileName,
-            @RequestParam(defaultValue = "0") int rotate, @RequestParam(defaultValue = "%") String scale,
-            @RequestParam(defaultValue = "false") boolean thumbnail, @RequestParam(defaultValue = ".png")
-            String imageFormat, @RequestParam(defaultValue = "0") int width, @RequestParam(defaultValue = "0")
-            int height, @RequestParam String pagesToConvert) {
+            @RequestParam String outputFileName,@RequestParam(defaultValue = "0") int rotate,
+            @RequestParam(defaultValue = "%") String scale, @RequestParam(defaultValue = "false") boolean thumbnail,
+            @RequestParam(defaultValue = ".png") String imageFormat, @RequestParam(defaultValue = "0") int width,
+            @RequestParam(defaultValue = "0") int height, @RequestParam String pagesToConvert) {
 
         Md5Checksum md5Checksum = new Md5Checksum();
         Param param = new PdfParam();
@@ -79,7 +87,7 @@ public class PdfConverterController {
 
         try {
             byte[] bytes = file.getBytes();
-            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
+            Path path = Paths.get(uploadedFolder + file.getOriginalFilename());
             Files.write(path, bytes);
             pdfParam.setInputPathFile(path.toString());
             md5FileUploaded = md5Checksum.getMd5(path.toString());
@@ -90,7 +98,7 @@ public class PdfConverterController {
         }
         try {
             if (md5FileUploaded.equals(md5FileFromClient)) {
-                pdfParam.setOutputPathFile(outputPathFile);
+                pdfParam.setOutputPathFile(convertedFile);
                 pdfParam.setOutputFileName(outputFileName);
                 pdfParam.setImageFormat(imageFormat);
                 pdfParam.setPagesToConvert(pagesToConvert);
