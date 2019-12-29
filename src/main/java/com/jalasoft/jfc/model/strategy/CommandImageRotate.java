@@ -9,6 +9,7 @@
 
 package com.jalasoft.jfc.model.strategy;
 
+import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
 
 /**
@@ -36,10 +37,19 @@ public class CommandImageRotate implements ICommandStrategy {
      * @return String of a command.
      */
     @Override
-    public String command() {
-        if (commandValue > 0) {
-            return this.SPACE + ImageMagickCommand.ROTATE.getCommand() + this.SPACE + commandValue;
+    public String command() throws CommandValueException, NullPointerException {
+        try {
+            if (commandValue == 0.0) {
+                return "";
+            }
+            if (commandValue > 0.0) {
+                return this.SPACE + ImageMagickCommand.ROTATE.getCommand() + this.SPACE + commandValue;
+            }
+            throw new CommandValueException("Invalid Image rotate value\n", "command value is invalid\n");
+        } catch (CommandValueException cve){
+            throw new CommandValueException(cve.getMessage(), this.getClass().getName());
+        } catch (NullPointerException nex) {
+            throw  new NullPointerException("Command value is NULL " + this.getClass().getName());
         }
-        return null;
     }
 }

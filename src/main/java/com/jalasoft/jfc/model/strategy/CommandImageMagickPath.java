@@ -9,6 +9,7 @@
 
 package com.jalasoft.jfc.model.strategy;
 
+import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.utility.PathJfc;
 
 import java.io.File;
@@ -43,11 +44,16 @@ public class CommandImageMagickPath implements ICommandStrategy {
      * @return exe of ImageMagick path.
      */
     @Override
-    public String command() {
-        File file = new File(imageMagickPath);
-        if (file.exists()) {
-            return this.SPACE + imageMagickPath;
+    public String command() throws CommandValueException {
+        try {
+            File file = new File(imageMagickPath);
+
+            if (file.exists()) {
+                return this.SPACE + imageMagickPath;
+            }
+            throw new CommandValueException("Image magick doesn't exist\n", "Image magick not found\n");
+        } catch (CommandValueException cve){
+            throw new CommandValueException(cve.getMessage(), this.getClass().getName());
         }
-        return null;
     }
 }

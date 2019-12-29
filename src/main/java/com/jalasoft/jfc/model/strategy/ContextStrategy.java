@@ -11,6 +11,7 @@ package com.jalasoft.jfc.model.strategy;
 
 import com.jalasoft.jfc.model.exception.CommandValueException;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -37,15 +38,20 @@ public class ContextStrategy {
      * This method builds a command.
      * @return commandString concatenated.
      */
-    public String buildCommand() throws CommandValueException {
+    public String buildCommand() throws CommandValueException, NullPointerException, IOException {
         StringBuilder commandString = new StringBuilder();
-
-        for (ICommandStrategy itemCmd : commands) {
-            String itemCmdValue = itemCmd.command();
-            if (itemCmdValue != null) {
-                commandString.append(itemCmdValue);
+        try {
+            for (ICommandStrategy itemCmd : commands) {
+                String itemCmdValue = itemCmd.command();
+                    commandString.append(itemCmdValue);
             }
+            return commandString.toString();
+        } catch (CommandValueException cve){
+            throw new CommandValueException(cve.getMessage(), this.getClass().getName());
+        } catch (NullPointerException nex) {
+            throw  new NullPointerException(nex.getMessage());
+        } catch (IOException e) {
+            throw new IOException(e.getMessage());
         }
-        return commandString.toString();
     }
 }
