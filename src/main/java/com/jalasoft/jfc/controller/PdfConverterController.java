@@ -17,6 +17,7 @@ import com.jalasoft.jfc.model.exception.ConvertException;
 import com.jalasoft.jfc.model.pdf.PdfConverter;
 import com.jalasoft.jfc.model.pdf.PdfParam;
 
+import com.jalasoft.jfc.model.utility.PathJfc;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,12 +40,16 @@ import java.nio.file.Paths;
 @RequestMapping(path = "/pdfConverter")
 public class PdfConverterController {
 
+    // Variable PathJfc type.
+    private PathJfc pathJfc;
+
     // Constant upload file.
     private static final String UPLOADED_FOLDER = "src/main/java/com/jalasoft/jfc/resource/";
 
     // Constant path converted file.
     private static final String CONVERTED_FILE = "src/main/java/com/jalasoft/jfc/resource/";
 
+    
     /**
      * This method receives a PDF to convert.
      * @param outputPathFile contains the output path of file converted.
