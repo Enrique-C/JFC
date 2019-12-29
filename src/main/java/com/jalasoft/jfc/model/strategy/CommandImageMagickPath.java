@@ -46,7 +46,7 @@ public class CommandImageMagickPath implements ICommandStrategy {
     public String command() {
         File file = new File(imageMagickPath);
         if (file.exists()) {
-            return this.SPACE + imageMagickPath;
+            return imageMagickPath;
         }
         return null;
     }
