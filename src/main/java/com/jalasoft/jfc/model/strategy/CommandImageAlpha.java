@@ -22,6 +22,7 @@ public class CommandImageAlpha implements ICommandStrategy {
 
     // Content alpha value.
     private final String COMMAND_VALUE = "remove";
+
     /**
      * Builds a alpha command.
      * @return command concatenated.

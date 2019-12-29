@@ -22,6 +22,7 @@ public class CommandImageBackground implements ICommandStrategy {
 
     // Content background value.
     private final String COMMAND_VALUE = "white";
+
     /**
      * Builds a background command.
      * @return command concatenated.

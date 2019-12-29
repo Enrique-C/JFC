@@ -29,9 +29,7 @@ import com.jalasoft.jfc.model.strategy.CommandOutputFileName;
 import com.jalasoft.jfc.model.strategy.CommandImageFormat;
 import com.jalasoft.jfc.model.strategy.ContextStrategy;
 
-
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.List;
 

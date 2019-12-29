@@ -12,10 +12,6 @@ package com.jalasoft.jfc.model.strategy;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.image.ImageFormat;
 
-import java.awt.*;
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * This class verify a valid image format.
  *
