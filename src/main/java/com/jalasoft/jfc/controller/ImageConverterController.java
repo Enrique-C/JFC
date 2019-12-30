@@ -14,7 +14,6 @@ import com.jalasoft.jfc.model.Md5Checksum;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.image.ImageConverter;
-import com.jalasoft.jfc.model.image.ImageFormat;
 import com.jalasoft.jfc.model.image.ImageParam;
 import com.jalasoft.jfc.model.exception.ConvertException;
 
