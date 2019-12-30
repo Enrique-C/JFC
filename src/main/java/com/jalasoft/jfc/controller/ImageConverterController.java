@@ -44,14 +44,14 @@ public class ImageConverterController {
     // Variable upload file.
     private final String uploadedFile;
 
-    // Variable path converted file.
+    // Variable converted file path.
     private final String convertedFile;
 
-    ImageConverterController(){
+    ImageConverterController() {
         try {
             pathJfc = new PathJfc();
         }
-        catch (IOException ex){
+        catch (IOException ex) {
             ex.printStackTrace();
         }
         uploadedFile = pathJfc.getInputFilePath();
