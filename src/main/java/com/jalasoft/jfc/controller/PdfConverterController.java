@@ -44,7 +44,7 @@ public class PdfConverterController {
     private PathJfc pathJfc;
 
     // Constant upload file.
-    private final String uploadedFolder;
+    private final String uploadedFile;
 
     // Constant path converted file.
     private final String convertedFile;
@@ -56,7 +56,7 @@ public class PdfConverterController {
         catch (IOException ex){
             ex.printStackTrace();
         }
-        uploadedFolder = pathJfc.getInputFilePath();
+        uploadedFile = pathJfc.getInputFilePath();
         convertedFile = pathJfc.getOutputFilePath();
     }
 
@@ -87,7 +87,7 @@ public class PdfConverterController {
 
         try {
             byte[] bytes = file.getBytes();
-            Path path = Paths.get(uploadedFolder + file.getOriginalFilename());
+            Path path = Paths.get(uploadedFile + file.getOriginalFilename());
             Files.write(path, bytes);
             pdfParam.setInputPathFile(path.toString());
             md5FileUploaded = md5Checksum.getMd5(path.toString());
