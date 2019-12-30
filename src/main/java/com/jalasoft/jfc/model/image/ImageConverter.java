@@ -14,7 +14,6 @@ import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.ConvertException;
 import com.jalasoft.jfc.model.strategy.*;
-import sun.jvm.hotspot.debugger.win32.coff.COMDATSelectionTypes;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,8 +28,11 @@ import java.util.List;
  * */
 public class ImageConverter implements IConverter {
 
-    // List of commands.
-    List<ICommandStrategy> commandStrategyList = new ArrayList<>();
+    // List of image command.
+    List<ICommandStrategy> commandImageList = new ArrayList<>();
+
+    // List of thumbnail commands.
+    List<ICommandStrategy> commandThumbnailList = new ArrayList<>();
 
     /**
      * Changes an Image format to another one.
@@ -46,20 +48,26 @@ public class ImageConverter implements IConverter {
 
         String commandString;
 
-        commandStrategyList.add(new CommandImageMagickPath());
-
         if (imageParam.isThumbnail()) {
             generateThumbnail(imageParam);
         }
 
         generateImage(imageParam);
 
-        ContextStrategy comContext = new ContextStrategy(commandStrategyList);
+        ContextStrategy commandImageContext = new ContextStrategy(commandImageList);
 
         try {
-            commandString = comContext.buildCommand();
+            commandString = commandImageContext.buildCommand();
 
             Runtime.getRuntime().exec(commandString);
+
+            if (!commandThumbnailList.isEmpty()) {
+                ContextStrategy commandThumbnailContext = new ContextStrategy(commandThumbnailList);
+                String commandStringAA = commandThumbnailContext.buildCommand();
+
+                Runtime.getRuntime().exec(commandStringAA);
+            }
+
             fileResult = new FileResult();
             fileResult.setPath(imageParam.getOutputPathFile());
         } catch (Exception e) {
@@ -74,15 +82,14 @@ public class ImageConverter implements IConverter {
      * @throws IOException when is a invalid file.
      */
     private void generateImage(ImageParam imageParam) throws IOException {
-        commandStrategyList.add(new CommandImageAddCommand());
-
-        commonCommandImage(imageParam);
-
-        commandStrategyList.add(new CommandImageRotate(imageParam.getDegreesToRotate()));
-        commandStrategyList.add(new CommandImageResize(imageParam.getImageWidth(), imageParam.getImageHeight()));
-        commandStrategyList.add(new CommandOutputFilePath(imageParam.getOutputPathFile()));
-        commandStrategyList.add(new CommandOutputFileName(imageParam.getOutputFileName()));
-        commandStrategyList.add(new CommandImageFormat(imageParam.getImageFormat()));
+        commandImageList.add(new CommandImageMagickPath());
+        commandImageList.add(new CommandImageConverter());
+        commandImageList.add(new CommandInputFilePath(imageParam.getInputPathFile()));
+        commandImageList.add(new CommandImageRotate(imageParam.getDegreesToRotate()));
+        commandImageList.add(new CommandImageResize(imageParam.getImageWidth(), imageParam.getImageHeight()));
+        commandImageList.add(new CommandOutputFilePath(imageParam.getOutputPathFile()));
+        commandImageList.add(new CommandOutputFileName(imageParam.getOutputFileName()));
+        commandImageList.add(new CommandImageFormat(imageParam.getImageFormat()));
     }
 
     /**
@@ -93,21 +100,12 @@ public class ImageConverter implements IConverter {
     private void generateThumbnail(ImageParam imageParam) throws IOException {
         final String THUMBNAIL_TAG = "thumb01";
 
-        commonCommandImage(imageParam);
-
-        commandStrategyList.add(new CommandThumbnail(imageParam.isThumbnail()));
-        commandStrategyList.add(new CommandOutputFilePath(imageParam.getOutputPathFile()));
-        commandStrategyList.add(new CommandOutputFileName(THUMBNAIL_TAG));
-        commandStrategyList.add(new CommandImageFormat(imageParam.getImageFormat()));
-    }
-
-    /**
-     * Generates a command common.
-     * @param imageParam receives image params.
-     * @throws IOException when is a invalid file.
-     */
-    private void commonCommandImage(ImageParam imageParam) throws IOException {
-        commandStrategyList.add(new CommandImageConverter());
-        commandStrategyList.add(new CommandInputFilePath(imageParam.getInputPathFile()));
+        commandThumbnailList.add(new CommandImageMagickPath());
+        commandThumbnailList.add(new CommandImageConverter());
+        commandThumbnailList.add(new CommandInputFilePath(imageParam.getInputPathFile()));
+        commandThumbnailList.add(new CommandThumbnail(imageParam.isThumbnail()));
+        commandThumbnailList.add(new CommandOutputFilePath(imageParam.getOutputPathFile()));
+        commandThumbnailList.add(new CommandOutputFileName(THUMBNAIL_TAG));
+        commandThumbnailList.add(new CommandImageFormat(imageParam.getImageFormat()));
     }
 }

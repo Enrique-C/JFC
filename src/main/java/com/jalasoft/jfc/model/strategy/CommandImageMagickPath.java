@@ -49,7 +49,7 @@ public class CommandImageMagickPath implements ICommandStrategy {
             File file = new File(imageMagickPath);
 
             if (file.exists()) {
-                return this.SPACE + imageMagickPath;
+                return imageMagickPath;
             }
             throw new CommandValueException("Image magick doesn't exist\n", "Image magick not found\n");
         } catch (CommandValueException cve){
