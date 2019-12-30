@@ -43,10 +43,10 @@ public class PdfConverterController {
     // Variable PathJfc type.
     private PathJfc pathJfc;
 
-    // Constant upload file.
+    // Variable upload file.
     private final String uploadedFile;
 
-    // Constant path converted file.
+    // Variable path converted file.
     private final String convertedFile;
 
     PdfConverterController(){
