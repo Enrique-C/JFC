@@ -9,7 +9,6 @@
 
 package com.jalasoft.jfc.model;
 
-import com.jalasoft.jfc.model.exception.ConvertException;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.FileInputStream;
