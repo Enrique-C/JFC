@@ -12,8 +12,6 @@ package com.jalasoft.jfc.model.strategy;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
 
-import java.security.InvalidParameterException;
-import java.sql.Struct;
 import java.util.regex.Pattern;
 
 /**
@@ -43,21 +41,20 @@ public class CommandPagesToConvert implements ICommandStrategy {
      */
     public String command() throws CommandValueException, NullPointerException {
         final Pattern pattern = Pattern.compile("[0-9]\\d*||[0-9][-][0-9]\\d*$||[^$]");
-        String stringCommand = "";
         try {
                 if (commandValue.equals("")){
                     return commandValue;
                 }
                 if (pattern.matcher(commandValue).matches()){
 
-                    stringCommand = ImageMagickCommand.OPEN_BRACKET.getCommand() + commandValue +
+                    return ImageMagickCommand.OPEN_BRACKET.getCommand() + commandValue +
                             ImageMagickCommand.CLOSE_BRACKET.getCommand();
                 }
-        } catch (InvalidParameterException ipe) {
-            throw new CommandValueException(ipe.getMessage(), this.getClass().getName());
+                throw new CommandValueException("Invalid command value", this.getClass().getName());
         } catch (NullPointerException nex) {
             throw  new NullPointerException("Pages to convert value is NULL " + this.getClass().getName());
+        } catch (CommandValueException cve) {
+            throw new CommandValueException("Invalid command value", this.getClass().getName());
         }
-        return stringCommand;
     }
 }

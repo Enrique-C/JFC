@@ -75,7 +75,7 @@ public class PdfConverterController {
             @RequestParam String outputFileName,@RequestParam(defaultValue = "0") int rotate,
             @RequestParam(defaultValue = "%") String scale, @RequestParam(defaultValue = "false") boolean thumbnail,
             @RequestParam(defaultValue = ".png") String imageFormat, @RequestParam(defaultValue = "0") int width,
-            @RequestParam(defaultValue = "0") int height, @RequestParam String pagesToConvert) {
+            @RequestParam(defaultValue = "0") int height, @RequestParam(defaultValue = "") String pagesToConvert) {
 
         Md5Checksum md5Checksum = new Md5Checksum();
         Param param = new PdfParam();
@@ -106,6 +106,7 @@ public class PdfConverterController {
                 pdfParam.setWidth(width);
                 pdfParam.setScale(scale);
                 pdfParam.setHeight(height);
+                pdfParam.setRotate(rotate);
 
                 sameMd5 = "convert " + pdfConverter.convert(pdfParam).toString();
             }
