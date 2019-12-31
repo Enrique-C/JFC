@@ -16,9 +16,12 @@ import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.image.ImageConverter;
 import com.jalasoft.jfc.model.image.ImageParam;
 import com.jalasoft.jfc.model.exception.ConvertException;
-
 import com.jalasoft.jfc.model.utility.PathJfc;
-import org.springframework.web.bind.annotation.*;
+
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Files;
@@ -68,7 +71,7 @@ public class ImageConverterController {
      */
     @PostMapping()
     public String imageConverter(
-            @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ") String md5,
+            @RequestParam("file") MultipartFile file,  @RequestParam(defaultValue = " ") String md5,
             @RequestParam String outputFileName, @RequestParam (defaultValue = ".png") String imageFormat,
             @RequestParam (defaultValue = "false") boolean Thumbnail,  @RequestParam (defaultValue = "0")
             int ImageWidth, @RequestParam (defaultValue = "0") int ImageHeight, @RequestParam (defaultValue = "0")

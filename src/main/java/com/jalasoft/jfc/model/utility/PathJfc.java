@@ -47,7 +47,7 @@ public class PathJfc {
     private final String PUBLIC_FILES_PATH = "path.public.files";
 
     /**
-     * Initialize properties and inputPath. Also load the inputPath in properties.
+     * Initializes properties and inputPath. Also load the inputPath in properties.
      * @throws IOException
      */
     public PathJfc() throws IOException {
@@ -61,7 +61,7 @@ public class PathJfc {
      * @return the Image Magick Path.
      */
     public String getMagickPath() {
-        return  properties.getProperty(IMAGE_MAGICK_PATH);
+        return properties.getProperty(IMAGE_MAGICK_PATH);
     }
 
     /**
@@ -69,7 +69,7 @@ public class PathJfc {
      * @return the FFmpeg path.
      */
     public String getFfmpegPath() {
-        return  properties.getProperty(FFMPEG_PATH);
+        return properties.getProperty(FFMPEG_PATH);
     }
 
     /**
