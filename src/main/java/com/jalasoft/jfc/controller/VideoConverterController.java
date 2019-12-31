@@ -108,6 +108,7 @@ public class VideoConverterController {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+
         try {
             if (md5FileUploaded.equals(md5FileFromClient)) {
                 videoParam.setOutputPathFile(convertedFile);
