@@ -14,11 +14,14 @@ import com.jalasoft.jfc.model.Md5Checksum;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.image.ImageConverter;
-import com.jalasoft.jfc.model.image.ImageFormat;
 import com.jalasoft.jfc.model.image.ImageParam;
 import com.jalasoft.jfc.model.exception.ConvertException;
+import com.jalasoft.jfc.model.utility.PathJfc;
 
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Files;
@@ -37,16 +40,29 @@ import java.io.IOException;
 @RequestMapping(path = "/imageConverter")
 public class ImageConverterController {
 
-    // Constant upload file.
-    private static final String UPLOADED_FOLDER = "src/main/java/com/jalasoft/jfc/resource/";
+    // Variable PathJfc type.
+    private PathJfc pathJfc;
 
-    // Constant path converted file.
-    private static final String CONVERTED_FILE = "src/main/java/com/jalasoft/jfc/resource/";
+    // Variable upload file.
+    private final String uploadedFile;
+
+    // Variable converted file path.
+    private final String convertedFile;
+
+    ImageConverterController() {
+        try {
+            pathJfc = new PathJfc();
+        }
+        catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        uploadedFile = pathJfc.getInputFilePath();
+        convertedFile = pathJfc.getOutputFilePath();
+    }
 
     /**
      * This method receives an image to convert.
      * @param file contains the image file.
-     * @param outputPathFile contains the output path of image converted.
      * @param Thumbnail contains the output path of thumbnail converted.
      * @param ImageWidth number of image width.
      * @param ImageHeight number of image height.
@@ -55,11 +71,11 @@ public class ImageConverterController {
      */
     @PostMapping()
     public String imageConverter(
-            @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ") String md5,
-            @RequestParam (defaultValue = CONVERTED_FILE) String outputPathFile, @RequestParam String outputFileName,
-            @RequestParam (defaultValue = ".png") String imageFormat, @RequestParam (defaultValue = "false")
-            boolean Thumbnail,  @RequestParam (defaultValue = "0") int ImageWidth, @RequestParam (defaultValue = "0")
-            int ImageHeight, @RequestParam (defaultValue = "0") float degreesToRotate) throws CommandValueException {
+            @RequestParam("file") MultipartFile file,  @RequestParam(defaultValue = " ") String md5,
+            @RequestParam String outputFileName, @RequestParam (defaultValue = ".png") String imageFormat,
+            @RequestParam (defaultValue = "false") boolean Thumbnail,  @RequestParam (defaultValue = "0")
+            int ImageWidth, @RequestParam (defaultValue = "0") int ImageHeight, @RequestParam (defaultValue = "0")
+            float degreesToRotate) throws CommandValueException {
 
         Md5Checksum md5Checksum = new Md5Checksum();
         Param param = new ImageParam();
@@ -71,7 +87,7 @@ public class ImageConverterController {
 
         try {
             byte[] bytes = file.getBytes();
-            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
+            Path path = Paths.get(uploadedFile + file.getOriginalFilename());
             Files.write(path, bytes);
             imageParam.setInputPathFile(path.toString());
             md5FileUploaded = md5Checksum.getMd5(path.toString());
@@ -82,7 +98,7 @@ public class ImageConverterController {
         }
         try {
             if (md5FileUploaded.equals(md5FileFromClient)) {
-                imageParam.setOutputPathFile(outputPathFile);
+                imageParam.setOutputPathFile(convertedFile);
                 imageParam.setImageFormat(imageFormat);
                 imageParam.setOutputFileName(outputFileName);
                 imageParam.isThumbnail(Thumbnail);
