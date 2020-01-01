@@ -47,10 +47,8 @@ public class CommandScale implements ICommandStrategy {
                 return SPACE + ImageMagickCommand.SCALE.getCommand() + SPACE + commandValue;
             }
             throw new CommandValueException("Invalid scale value\n", "command value is invalid\n");
-        } catch (CommandValueException cve){
-            throw new CommandValueException(cve.getMessage(), this.getClass().getName());
         } catch (NullPointerException nex) {
-            throw  new NullPointerException("Command value is NULL " + this.getClass().getName());
+            throw  new CommandValueException("Command value is NULL ", this.getClass().getName());
         }
     }
 }

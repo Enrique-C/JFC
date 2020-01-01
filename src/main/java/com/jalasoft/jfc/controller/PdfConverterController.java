@@ -110,14 +110,13 @@ public class PdfConverterController {
 
                 sameMd5 = "convert " + pdfConverter.convert(pdfParam).toString();
             }
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } catch (ConvertException ex) {
+        }  catch (ConvertException ex) {
             ex.printStackTrace();
         } catch (CommandValueException cve) {
             cve.printStackTrace();
-        } catch (NullPointerException nex) {
-            nex.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            // response error result (400, 200)
         }
         return sameMd5;
     }

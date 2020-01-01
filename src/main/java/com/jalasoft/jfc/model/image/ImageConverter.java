@@ -12,6 +12,7 @@ package com.jalasoft.jfc.model.image;
 import com.jalasoft.jfc.model.FileResult;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
+import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ConvertException;
 import com.jalasoft.jfc.model.strategy.*;
 
@@ -38,7 +39,7 @@ public class ImageConverter implements IConverter {
      * @throws IOException when is a invalid file.
      * @throws ConvertException when the conversion failed.
      */
-    public FileResult convert(Param param) throws ConvertException, IOException {
+    public FileResult convert(Param param) throws ConvertException, CommandValueException {
         ImageParam imageParam = (ImageParam) param;
 
         FileResult fileResult;
@@ -71,7 +72,7 @@ public class ImageConverter implements IConverter {
      * @param imageParam receives image params.
      * @throws IOException when is a invalid file.
      */
-    private void generateImage(ImageParam imageParam) throws IOException {
+    private void generateImage(ImageParam imageParam) throws CommandValueException {
         commonCommandImage(imageParam);
 
         commandStrategyList.add(new CommandImageRotate(imageParam.getDegreesToRotate()));
@@ -86,7 +87,7 @@ public class ImageConverter implements IConverter {
      * @param imageParam receives image params.
      * @throws IOException when is a invalid file.
      */
-    private void generateThumbnail(ImageParam imageParam) throws IOException {
+    private void generateThumbnail(ImageParam imageParam) throws CommandValueException {
         commonCommandImage(imageParam);
 
         commandStrategyList.add(new CommandThumbnail(imageParam.isThumbnail()));
@@ -98,9 +99,8 @@ public class ImageConverter implements IConverter {
     /**
      * Generates a command common.
      * @param imageParam receives image params.
-     * @throws IOException when is a invalid file.
      */
-    private void commonCommandImage(ImageParam imageParam) throws IOException {
+    private void commonCommandImage(ImageParam imageParam) throws CommandValueException {
         commandStrategyList.add(new CommandImageMagickPath());
         commandStrategyList.add(new CommandImageConverter());
         commandStrategyList.add(new CommandInputFilePath(imageParam.getInputPathFile()));

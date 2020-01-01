@@ -26,6 +26,9 @@ public class CommandPagesToConvert implements ICommandStrategy {
     // Content command value.
     private String commandValue;
 
+    // Content quantity of pdf file pages.
+    private int quantityOfPages;
+
     /**
      * It Creates a new CommandPagesToConvert object.
      * @param commandValue contains a value.
@@ -39,10 +42,10 @@ public class CommandPagesToConvert implements ICommandStrategy {
      * @return String of a command.
      * @throws CommandValueException
      */
-    public String command() throws CommandValueException, NullPointerException {
+    public String command() throws CommandValueException {
         final Pattern pattern = Pattern.compile("[0-9]\\d*||[0-9][-][0-9]\\d*$||[^$]");
         try {
-                if (commandValue.equals("")){
+                if (commandValue.isEmpty()){
                     return commandValue;
                 }
                 if (pattern.matcher(commandValue).matches()){
@@ -52,9 +55,7 @@ public class CommandPagesToConvert implements ICommandStrategy {
                 }
                 throw new CommandValueException("Invalid command value", this.getClass().getName());
         } catch (NullPointerException nex) {
-            throw  new NullPointerException("Pages to convert value is NULL " + this.getClass().getName());
-        } catch (CommandValueException cve) {
-            throw new CommandValueException("Invalid command value", this.getClass().getName());
+            throw  new CommandValueException("Pages to convert value is NULL ", this.getClass().getName());
         }
     }
 }

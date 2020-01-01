@@ -108,9 +108,9 @@ public class ImageConverterController {
 
                 sameMd5 = "convert" + imageConverter.convert(imageParam).toString();
             }
-        } catch (IOException ex) {
+        }  catch (ConvertException ex) {
             ex.printStackTrace();
-        } catch (ConvertException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return sameMd5;

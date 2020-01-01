@@ -46,10 +46,8 @@ public class CommandImageRotate implements ICommandStrategy {
                 return this.SPACE + ImageMagickCommand.ROTATE.getCommand() + this.SPACE + commandValue;
             }
             throw new CommandValueException("Invalid Image rotate value\n", "command value is invalid\n");
-        } catch (CommandValueException cve){
-            throw new CommandValueException(cve.getMessage(), this.getClass().getName());
         } catch (NullPointerException nex) {
-            throw  new NullPointerException("Command value is NULL " + this.getClass().getName());
+            throw  new CommandValueException("Command value is NULL ", this.getClass().getName());
         }
     }
 }

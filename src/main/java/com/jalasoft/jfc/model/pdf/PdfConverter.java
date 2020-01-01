@@ -47,7 +47,7 @@ public class PdfConverter implements IConverter {
      * @param param
      * @return FileResult object or null value.
      */
-    public FileResult convert(Param param) throws CommandValueException, IOException {
+    public FileResult convert(Param param) throws CommandValueException {
         FileResult fileResult = new FileResult();
         String stringCommand = getCommand(param);
         System.out.println(stringCommand);
@@ -61,8 +61,8 @@ public class PdfConverter implements IConverter {
      * @return command concatenated.
      * @throws CommandValueException
      */
-    public String getCommand(Param param) throws CommandValueException, IOException {
-        try {
+    private String getCommand(Param param) throws CommandValueException {
+
             PdfParam pdfParam = (PdfParam)param;
             List<ICommandStrategy> list = new ArrayList<>();
             list.add(new CommandImageMagickPath());
@@ -82,9 +82,6 @@ public class PdfConverter implements IConverter {
             ContextStrategy contextStrategy = new ContextStrategy(list);
             String result = contextStrategy.buildCommand();
             return result;
-        } catch (CommandValueException cve) {
-            throw new CommandValueException(cve.getMessage(), this.getClass().getName());
-        }
     }
 
     /**
@@ -93,6 +90,7 @@ public class PdfConverter implements IConverter {
      * @return 0 when the process was executed successfully.
      */
     private int runCommand(String stringCommand){
+        ///this method void
         int returnValue = -1;
         try {
             Process process = Runtime.getRuntime().exec(stringCommand);
@@ -100,6 +98,7 @@ public class PdfConverter implements IConverter {
             returnValue = process.exitValue();
         } catch (InterruptedException | IOException e) {
             e.printStackTrace();
+            ///throw invalid convert exception
         }
         return returnValue;
     }

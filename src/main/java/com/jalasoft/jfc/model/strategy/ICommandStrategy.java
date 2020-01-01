@@ -30,5 +30,5 @@ public interface ICommandStrategy {
      * Builds a command.
      * @return String of a command.
      */
-    String command() throws CommandValueException, IOException;
+    String command() throws CommandValueException;
 }

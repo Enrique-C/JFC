@@ -51,10 +51,8 @@ public class CommandImageResize implements ICommandStrategy {
                         SPACE + width + ImageMagickCommand.ASTERISK.getCommand() + height;
             }
             throw new CommandValueException("Invalid resize values\n", "width and height are invalid\n");
-        } catch (CommandValueException cve){
-            throw new CommandValueException(cve.getMessage(), this.getClass().getName());
         } catch (NullPointerException nex) {
-            throw  new NullPointerException("Command value is NULL " + this.getClass().getName());
+            throw  new CommandValueException("Command value is NULL ", this.getClass().getName());
         }
     }
 }
