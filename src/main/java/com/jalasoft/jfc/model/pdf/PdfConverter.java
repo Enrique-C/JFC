@@ -12,6 +12,7 @@ import com.jalasoft.jfc.model.FileResult;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
+import com.jalasoft.jfc.model.exception.ConvertException;
 import com.jalasoft.jfc.model.strategy.ICommandStrategy;
 import com.jalasoft.jfc.model.strategy.CommandImageMagickPath;
 import com.jalasoft.jfc.model.strategy.CommandImageConverter;
@@ -42,46 +43,97 @@ import java.util.List;
  */
 public class PdfConverter implements IConverter {
 
+    // List of commands.
+    List<ICommandStrategy> commandsList;
+
+    // Variable of CommandStrategy.
+    ContextStrategy contextStrategy;
     /**
      * This method converts a PDF to Image.
      * @param param
      * @return FileResult object or null value.
      */
-    public FileResult convert(Param param) throws CommandValueException {
+    public FileResult convert(Param param) throws CommandValueException, ConvertException {
         FileResult fileResult = new FileResult();
-        String stringCommand = getCommand(param);
+        PdfParam pdfParam = (PdfParam)param;
+        StringBuilder stringCommand = new StringBuilder();
+        if (!pdfParam.isThumbnail() && !pdfParam.isMetadata()) {
+            stringCommand.append(generateImage(pdfParam));
+            runCommand(stringCommand.toString());
+        }
+
+        if (pdfParam.isThumbnail()) {
+            stringCommand.delete(0, stringCommand.length());
+            stringCommand.append(generateImage(pdfParam));
+            runCommand(stringCommand.toString());
+            stringCommand = new StringBuilder();
+            stringCommand.append(generateThumbnail(pdfParam));
+            runCommand(stringCommand.toString());
+        }
+        if (pdfParam.isMetadata()) {
+            stringCommand.delete(0, stringCommand.length());
+            stringCommand.append(generateImage(pdfParam));
+            runCommand(stringCommand.toString());
+            generateMetadata(pdfParam);
+        }
         System.out.println(stringCommand);
-        int value = runCommand(stringCommand);
         return fileResult;
     }
 
     /**
-     * This method is for getting the string command.
-     * @param param
+     * This method is for generate image string command.
+     * @param pdfParam
      * @return command concatenated.
      * @throws CommandValueException
      */
-    private String getCommand(Param param) throws CommandValueException {
+    private String generateImage(PdfParam pdfParam) throws CommandValueException {
+        commandsList = new ArrayList<>();
+        commandsList.add(new CommandImageMagickPath());
+        commandsList.add(new CommandImageConverter());
+        commandsList.add(new CommandImageDensity());
+        commandsList.add(new CommandImageAlpha());
+        commandsList.add(new CommandImageBackground());
+        commandsList.add(new CommandInputFilePath(pdfParam.getInputPathFile()));
+        commandsList.add(new CommandPagesToConvert(pdfParam.getPagesToConvert(), pdfParam.getQuantityOfPage()));
+        commandsList.add(new CommandImageResize(pdfParam.getWidth(), pdfParam.getHeight()));
+        commandsList.add(new CommandScale(pdfParam.getScale()));
+        commandsList.add(new CommandImageRotate(pdfParam.getRotate()));
+        commandsList.add(new CommandOutputFilePath(pdfParam.getOutputPathFile()));
+        commandsList.add(new CommandOutputFileName(pdfParam.getOutputFileName()));
+        commandsList.add(new CommandImageFormat(pdfParam.getImageFormat()));
+        contextStrategy = new ContextStrategy(commandsList);
+        String result = contextStrategy.buildCommand();
+        return result;
+    }
 
-            PdfParam pdfParam = (PdfParam)param;
-            List<ICommandStrategy> list = new ArrayList<>();
-            list.add(new CommandImageMagickPath());
-            list.add(new CommandImageConverter());
-            list.add(new CommandImageDensity());
-            list.add(new CommandImageAlpha());
-            list.add(new CommandImageBackground());
-            list.add(new CommandInputFilePath(pdfParam.getInputPathFile()));
-            list.add(new CommandPagesToConvert(pdfParam.getPagesToConvert()));
-            list.add(new CommandImageResize(pdfParam.getWidth(), pdfParam.getHeight()));
-            list.add(new CommandScale(pdfParam.getScale()));
-            list.add(new CommandThumbnail(pdfParam.getThumbnail()));
-            list.add(new CommandImageRotate(pdfParam.getRotate()));
-            list.add(new CommandOutputFilePath(pdfParam.getOutputPathFile()));
-            list.add(new CommandOutputFileName(pdfParam.getOutputFileName()));
-            list.add(new CommandImageFormat(pdfParam.getImageFormat()));
-            ContextStrategy contextStrategy = new ContextStrategy(list);
-            String result = contextStrategy.buildCommand();
-            return result;
+    /**
+     * This method is for generate thumbnail string command.
+     * @param pdfParam
+     * @return command concatenated.
+     * @throws CommandValueException
+     */
+    private String generateThumbnail(PdfParam pdfParam) throws CommandValueException {
+        commandsList = new ArrayList<>();
+        commandsList.add(new CommandImageMagickPath());
+        commandsList.add(new CommandImageConverter());
+        commandsList.add(new CommandImageDensity());
+        commandsList.add(new CommandImageAlpha());
+        commandsList.add(new CommandImageBackground());
+        commandsList.add(new CommandInputFilePath(pdfParam.getInputPathFile()));
+        commandsList.add(new CommandPagesToConvert(pdfParam.getPagesToConvert(), pdfParam.getQuantityOfPage()));
+        commandsList.add(new CommandThumbnail(pdfParam.isThumbnail()));
+        commandsList.add(new CommandOutputFilePath(pdfParam.getOutputPathFile()));
+        commandsList.add(new CommandOutputFileName(pdfParam.getOutputFileName() + "_t"));
+        commandsList.add(new CommandImageFormat(pdfParam.getImageFormat()));
+        contextStrategy = new ContextStrategy(commandsList);
+        String result = contextStrategy.buildCommand();
+        return result;
+    }
+
+    private void generateMetadata(PdfParam pdfParam) {
+        commandsList = new ArrayList<>();
+        commandsList.add(new CommandInputFilePath(pdfParam.getInputPathFile()));
+        // execute XMP or use XMP.
     }
 
     /**
@@ -89,17 +141,12 @@ public class PdfConverter implements IConverter {
      * @param stringCommand value of command.
      * @return 0 when the process was executed successfully.
      */
-    private int runCommand(String stringCommand){
-        ///this method void
-        int returnValue = -1;
+    private void runCommand(String stringCommand) throws ConvertException {
         try {
             Process process = Runtime.getRuntime().exec(stringCommand);
             process.waitFor();
-            returnValue = process.exitValue();
         } catch (InterruptedException | IOException e) {
-            e.printStackTrace();
-            ///throw invalid convert exception
+            throw new ConvertException(e.getMessage(), this.getClass().getName());
         }
-        return returnValue;
     }
 }

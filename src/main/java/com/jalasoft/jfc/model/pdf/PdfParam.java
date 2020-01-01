@@ -28,6 +28,9 @@ public class PdfParam extends Param {
     // Content number of pages to convert
     private String pagesToConvert;
 
+    // Content quantity of pdf pages.
+    private int quantityOfPage;
+
     // Content image's width.
     private int width;
 
@@ -48,6 +51,9 @@ public class PdfParam extends Param {
 
     // Content alpha value.
     private String alpha;
+
+    // Content metadata value.
+    private boolean metadata;
 
     /**
      * It gets magick value.
@@ -71,6 +77,14 @@ public class PdfParam extends Param {
      */
     public String getPagesToConvert() {
         return pagesToConvert;
+    }
+
+    /**
+     * Gets quantity of pdf file pages.
+     * @return
+     */
+    public int getQuantityOfPage() {
+        return quantityOfPage;
     }
 
     /**
@@ -101,7 +115,7 @@ public class PdfParam extends Param {
      * It gets thumbnail value.
      * @return thumbnail.
      */
-    public boolean getThumbnail() {
+    public boolean isThumbnail() {
         return thumbnail;
     }
 
@@ -130,6 +144,14 @@ public class PdfParam extends Param {
     }
 
     /**
+     * Gets metadata value.
+     * @return metadata.
+     */
+    public boolean isMetadata() {
+        return metadata;
+    }
+
+    /**
      * It sets magick value.
      * @param magick
      */
@@ -151,6 +173,14 @@ public class PdfParam extends Param {
      */
     public void setPagesToConvert(String pagesToConvert) {
         this.pagesToConvert = pagesToConvert;
+    }
+
+    /**
+     * Sets quantity of pdf file pages.
+     * @param quantityOfPage
+     */
+    public void setQuantityOfPage(int quantityOfPage) {
+        this.quantityOfPage = quantityOfPage;
     }
 
     /**
@@ -191,5 +221,13 @@ public class PdfParam extends Param {
      */
     public void setRotate(int rotate) {
         this.rotate = rotate;
+    }
+
+    /**
+     * Sets metadata value.
+     * @param metadata
+     */
+    public void setMetadata(boolean metadata) {
+        this.metadata = metadata;
     }
 }

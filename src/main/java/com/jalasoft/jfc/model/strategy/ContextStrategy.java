@@ -42,8 +42,8 @@ public class ContextStrategy {
         StringBuilder commandString = new StringBuilder();
             for (ICommandStrategy itemCmd : commands) {
                 String itemCmdValue = itemCmd.command();
-                    commandString.append(itemCmdValue);
+                commandString.append(itemCmdValue);
             }
-            return commandString.toString();
+        return commandString.toString();
     }
 }

@@ -18,12 +18,14 @@ import com.jalasoft.jfc.model.pdf.PdfConverter;
 import com.jalasoft.jfc.model.pdf.PdfParam;
 import com.jalasoft.jfc.model.utility.PathJfc;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -83,12 +85,15 @@ public class PdfConverterController {
         String md5FileUploaded = "a";
         String md5FileFromClient = "b";
         String sameMd5 = "Md5 Error! binary is invalid.";
+        int quantityPages = 0;
         IConverter pdfConverter = new PdfConverter();
 
         try {
             byte[] bytes = file.getBytes();
             Path path = Paths.get(uploadedFile + file.getOriginalFilename());
             Files.write(path, bytes);
+            PDDocument doc = PDDocument.load(new File(uploadedFile + file.getOriginalFilename()));
+            quantityPages = doc.getNumberOfPages();
             pdfParam.setInputPathFile(path.toString());
             md5FileUploaded = md5Checksum.getMd5(path.toString());
             pdfParam.setMd5(md5);
@@ -102,6 +107,7 @@ public class PdfConverterController {
                 pdfParam.setOutputFileName(outputFileName);
                 pdfParam.setImageFormat(imageFormat);
                 pdfParam.setPagesToConvert(pagesToConvert);
+                pdfParam.setQuantityOfPage(quantityPages);
                 pdfParam.setThumbnail(thumbnail);
                 pdfParam.setWidth(width);
                 pdfParam.setScale(scale);
