@@ -9,18 +9,34 @@
 
 package com.jalasoft.jfc.model.result;
 
+/**
+ * This class is used in order to return the file converted.
+ *
+ * @version 0.1 02 Jan 2020
+ *
+ * @author Alan Escalera
+ */
 public class Response {
 
     // Name of the file.
     String Name;
-    // Status of the conversion.
-    String Status;
 
+    // Status of the conversion.
+    String status;
+
+    /**
+     * Sets the name of file.
+     * @param name
+     */
     public void setName(String name) {
         Name = name;
     }
 
+    /**
+     * Sets the status of the conversion.
+     * @param status
+     */
     public void setStatus(String status) {
-        Status = status;
+        this.status = status;
     }
 }

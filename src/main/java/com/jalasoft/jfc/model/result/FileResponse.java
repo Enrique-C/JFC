@@ -10,7 +10,7 @@
 package com.jalasoft.jfc.model.result;
 
 /**
- * This class is used in order to return the file converted.
+ * This class is used in order to return the success of the conversion.
  *
  * @version 0.1 17 Dic 2019
  *
@@ -21,6 +21,10 @@ public class FileResponse {
     // Downolad link of the file.
     String download;
 
+    /**
+     * Sets the path to download.
+     * @param download
+     */
     public void setDownload(String download) {
         this.download = download;
     }

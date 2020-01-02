@@ -9,10 +9,23 @@
 
 package com.jalasoft.jfc.model.result;
 
+/**
+ * This class is used in order to return an error on the conversion.
+ *
+ * @version 0.1 02 Jan 2020
+ *
+ * @author Alan Escalera
+ */
 public class ErrorResponse extends Response {
-    private String Error;
 
+    // Error of the conversion.
+    private String error;
+
+    /**
+     * Sets the type of error.
+     * @param error
+     */
     public void setError(String error) {
-        Error = error;
+        this.error = error;
     }
 }
