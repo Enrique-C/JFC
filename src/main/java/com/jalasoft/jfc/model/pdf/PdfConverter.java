@@ -79,6 +79,9 @@ public class PdfConverter implements IConverter {
             generateMetadata(pdfParam);
         }
         System.out.println(stringCommand);
+        fileResponse.setName(pdfParam.getOutputFileName());
+        fileResponse.setStatus("Conversion Success!");
+        fileResponse.setDownload(pdfParam.getOutputPathFile()+pdfParam.getOutputFileName());
         return fileResponse;
     }
 
