@@ -6,7 +6,7 @@
  * license agreement you entered into with Jalasoft.
  */
 
-package com.jalasoft.jfc.model.strategy;
+package com.jalasoft.jfc.model.command;
 
 /**
  * This Class changes the Frame Rate of a video.
