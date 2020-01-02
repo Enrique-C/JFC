@@ -93,6 +93,7 @@ public class ImageConverter implements IConverter {
         commandImageList.add(new CommandImageMagickPath());
         commandImageList.add(new CommandImageConverter());
         commandImageList.add(new CommandInputFilePath(imageParam.getInputPathFile()));
+        commandImageList.add(new CommandImageGrayscale(imageParam.isGrayscale()));
         commandImageList.add(new CommandImageRotate(imageParam.getDegreesToRotate()));
         commandImageList.add(new CommandImageResize(imageParam.getImageWidth(), imageParam.getImageHeight()));
         commandImageList.add(new CommandOutputFilePath(imageParam.getOutputPathFile(), imageParam.getFolderName()));
