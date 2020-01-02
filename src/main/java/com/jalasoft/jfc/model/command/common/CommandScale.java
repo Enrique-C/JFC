@@ -7,34 +7,31 @@
  * license agreement you entered into with Jalasoft.
  */
 
-package com.jalasoft.jfc.model.strategy;
+package com.jalasoft.jfc.model.command.common;
 
+import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
+import java.util.regex.Pattern;
 
 /**
- * This class validates width and height.
+ * This class verify the scale value.
  *
  * @version 0.1 19 Dic 2019
  *
  * @author Juan Martinez
  */
-public class CommandImageResize implements ICommandStrategy {
+public class CommandScale implements ICommandStrategy {
 
-    // Content width value.
-    private int width;
-
-    // Content height value.
-    private int height;
+    // Content command value.
+    private String commandValue;
 
     /**
-     * Allows to instantiate CommandResize.
-     * @param width, height receive a value.
-     * @return command concatenated.
+     * It Creates a new CommandScale object.
+     * @param commandValue contains a value.
      */
-    public CommandImageResize(int width, int height) {
-        this.width = width;
-        this.height = height;
+    public CommandScale(String commandValue) {
+        this.commandValue = commandValue;
     }
 
     /**
@@ -43,15 +40,15 @@ public class CommandImageResize implements ICommandStrategy {
      * @throws CommandValueException when is a invalid command.
      */
     public String command() throws CommandValueException {
+        final Pattern pattern = Pattern.compile("[0-9]\\d*[%]");
         try {
-            if (width == 0 && height == 0){
+            if (commandValue.equals("%")) {
                 return "";
             }
-            if (width > 0 && height > 0) {
-                return SPACE + ImageMagickCommand.RESIZE.getCommand() +
-                        SPACE + width + ImageMagickCommand.ASTERISK.getCommand() + height;
+            if (pattern.matcher(commandValue).matches()) {
+                return SPACE + ImageMagickCommand.SCALE.getCommand() + SPACE + commandValue;
             }
-            throw new CommandValueException("Invalid resize values\n", "width and height are invalid\n");
+            throw new CommandValueException("Invalid scale value\n", "command value is invalid\n");
         } catch (NullPointerException nex) {
             throw  new CommandValueException("Command value is NULL ", this.getClass().getName());
         }
