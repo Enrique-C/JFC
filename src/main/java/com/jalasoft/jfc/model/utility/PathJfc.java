@@ -22,28 +22,28 @@ import java.util.Properties;
  */
 public class PathJfc {
 
-    // This is a class properties.
+    // Properties type variable.
     private static Properties properties;
 
-    // This is a InputStream.
+    // InputStream type variable.
     private InputStream inputPath;
 
-    // This is a constant variable to get application.properties file.
+    // Constant variable to get application.properties file.
     private static final String APPLICATION_PROPERTIES = "application.properties";
 
-    // This is a constant variable of the key imageMagick path.
+    // Constant variable of the key imageMagick path.
     private static final String IMAGE_MAGICK_PATH = "path.magick";
 
-    // This is a constant variable of key FFmpeg path.
+    // Constant variable of key FFmpeg path.
     private static final String FFMPEG_PATH = "path.ffmpeg";
 
-    // This is a constant variable of key input files path.
+    // Constant variable of key input files path.
     private static final String INPUT_FILES_PATH = "path.input.files";
 
-    // This is a constant variable of key output files path.
+    // Constant variable of key output files path.
     private static final String OUTPUT_FILES_PATH = "path.output.files";
 
-    // This is a constant variable of key public files path.
+    // Constant variable of key public files path.
     private static final String PUBLIC_FILES_PATH = "path.public.files";
 
     /**
@@ -57,7 +57,7 @@ public class PathJfc {
     }
 
     /**
-     * This gets the Image Magick's path.
+     * Gets the Image Magick's path.
      * @return the Image Magick Path.
      */
     public static String getMagickPath() {
@@ -65,7 +65,7 @@ public class PathJfc {
     }
 
     /**
-     * This gets the FFmpeg's path.
+     * Gets the FFmpeg's path.
      * @return the FFmpeg path.
      */
     public static String getFfmpegPath() {
@@ -73,7 +73,7 @@ public class PathJfc {
     }
 
     /**
-     * This gets the Input Files path.
+     * Gets the Input Files's path.
      * @return the Input files Path path.
      */
     public static String getInputFilePath() {
@@ -81,7 +81,7 @@ public class PathJfc {
     }
 
     /**
-     * This gets the Output Files path.
+     * Gets the Output Files's path.
      * @return the Output files Path path.
      */
     public static String getOutputFilePath() {
@@ -89,7 +89,7 @@ public class PathJfc {
     }
 
     /**
-     * This gets the Public files path.
+     * Gets the Public files's path.
      * @return the Public files Path path.
      */
     public static String getPublicFilePath() {

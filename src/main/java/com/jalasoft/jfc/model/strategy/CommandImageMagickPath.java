@@ -28,7 +28,7 @@ public class CommandImageMagickPath implements ICommandStrategy {
     private  String imageMagickPath;
 
     /**
-     * Gets the Image Magick Path.
+     * Assigns the Image Magick Path.
      */
     public CommandImageMagickPath() {
         imageMagickPath = PathJfc.getMagickPath();
