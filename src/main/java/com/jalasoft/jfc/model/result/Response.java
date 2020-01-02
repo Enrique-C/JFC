@@ -19,17 +19,34 @@ package com.jalasoft.jfc.model.result;
 public class Response {
 
     // Name of the file.
-    String Name;
+    String name;
 
     // Status of the conversion.
     String status;
+
+
+    /**
+     * Gets the name of the file.
+     * @return the name of the file.
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Gets the Status of the conversion.
+     * @return the status of the conversion.
+     */
+    public String getStatus() {
+        return status;
+    }
 
     /**
      * Sets the name of file.
      * @param name receives the name of the file.
      */
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     /**

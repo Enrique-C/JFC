@@ -9,8 +9,10 @@
 
 package com.jalasoft.jfc.controller;
 
+import com.jalasoft.jfc.model.result.ErrorResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.IConverter;
+import com.jalasoft.jfc.model.result.Response;
 import com.jalasoft.jfc.model.utility.Md5Checksum;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
@@ -73,7 +75,7 @@ public class PdfConverterController {
      * @return Result of the conversion.
      */
     @PostMapping
-    public FileResponse pdfConverter(
+    public Response pdfConverter(
             @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ") String md5,
             @RequestParam String outputFileName,@RequestParam(defaultValue = "0") int rotate,
             @RequestParam(defaultValue = "%") String scale, @RequestParam(defaultValue = "false") boolean thumbnail,
@@ -83,6 +85,7 @@ public class PdfConverterController {
         Param param = new PdfParam();
         PdfParam pdfParam = (PdfParam) param;
         FileResponse fileResult = new FileResponse();
+        ErrorResponse errorResponse = new ErrorResponse();
         String failMd5 = "Md5 Error! binary is invalid.";
         int quantityPages = 0;
         IConverter pdfConverter = new PdfConverter();
@@ -117,16 +120,30 @@ public class PdfConverterController {
 
                 fileResult = pdfConverter.convert(pdfParam);
             }
-
+            else {
+                throw new ConvertException(failMd5,this.getClass().getName());
+            }
 
         }  catch (ConvertException ex) {
-            ex.printStackTrace();
+            errorResponse.setName(pdfParam.getOutputFileName());
+            errorResponse.setStatus("Error! 406 Not Acceptable");
+            errorResponse.setError(ex.toString());
+            return errorResponse;
         } catch (CommandValueException cve) {
-            cve.printStackTrace();
+            errorResponse.setName(pdfParam.getOutputFileName());
+            errorResponse.setStatus("Error! 400 Bad Request");
+            errorResponse.setError(cve.toString());
+            return errorResponse;
         } catch (IOException ex) {
-            ex.printStackTrace();
+            errorResponse.setName(pdfParam.getOutputFileName());
+            errorResponse.setStatus("Error! Bad Request");
+            errorResponse.setError(ex.toString());
+            return errorResponse;
         } catch (Exception ex) {
-            ex.printStackTrace();
+            errorResponse.setName(pdfParam.getOutputFileName());
+            errorResponse.setStatus("Error! 404 Not Found");
+            errorResponse.setError(ex.toString());
+            return errorResponse;
             // response error result (400, 200)
         }
         return fileResult;

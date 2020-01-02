@@ -22,6 +22,14 @@ public class FileResponse extends Response{
     String download;
 
     /**
+     * Gets the download path.
+     * @return the download paht of the file.
+     */
+    public String getDownload() {
+        return download;
+    }
+
+    /**
      * Sets the path to download.
      * @param download receives the path to download.
      */
