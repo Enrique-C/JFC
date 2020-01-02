@@ -58,7 +58,7 @@ public class PathJfc {
 
     /**
      * Gets Image Magick's path.
-     * @return Image Magick Path.
+     * @return Image Magick's Path.
      */
     public static String getMagickPath() {
         return properties.getProperty(IMAGE_MAGICK_PATH);
@@ -66,7 +66,7 @@ public class PathJfc {
 
     /**
      * Gets FFmpeg's path.
-     * @return FFmpeg path.
+     * @return FFmpeg's path.
      */
     public static String getFfmpegPath() {
         return properties.getProperty(FFMPEG_PATH);
@@ -74,7 +74,7 @@ public class PathJfc {
 
     /**
      * Gets Input Files's path.
-     * @return Input files Path path.
+     * @return Input files Path's path.
      */
     public static String getInputFilePath() {
         return properties.getProperty(INPUT_FILES_PATH);
@@ -82,7 +82,7 @@ public class PathJfc {
 
     /**
      * Gets Output Files's path.
-     * @return Output files Path path.
+     * @return Output files Path's path.
      */
     public static String getOutputFilePath() {
         return properties.getProperty(OUTPUT_FILES_PATH);
@@ -90,7 +90,7 @@ public class PathJfc {
 
     /**
      * Gets Public files's path.
-     * @return Public files Path path.
+     * @return Public files Path's path.
      */
     public static String getPublicFilePath() {
         return properties.getProperty(PUBLIC_FILES_PATH);
