@@ -7,8 +7,9 @@
  * license agreement you entered into with Jalasoft.
  */
 
-package com.jalasoft.jfc.model.command;
+package com.jalasoft.jfc.model.command.common;
 
+import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 
 import java.io.File;

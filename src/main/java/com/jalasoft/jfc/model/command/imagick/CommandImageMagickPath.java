@@ -7,13 +7,13 @@
  * license agreement you entered into with Jalasoft.
  */
 
-package com.jalasoft.jfc.model.strategy;
+package com.jalasoft.jfc.model.command.imagick;
 
+import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.utility.PathJfc;
 
 import java.io.File;
-import java.io.IOException;
 
 /**
  * Validates ImageMagick path.

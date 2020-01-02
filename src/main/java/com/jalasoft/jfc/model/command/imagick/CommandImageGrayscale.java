@@ -7,8 +7,9 @@
  * license agreement you entered into with Jalasoft.
  */
 
-package com.jalasoft.jfc.model.strategy;
+package com.jalasoft.jfc.model.command.imagick;
 
+import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
 
@@ -19,7 +20,7 @@ import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
  *
  * @author  Enrique Carrizales
  */
-public class CommandImageGrayscale implements ICommandStrategy{
+public class CommandImageGrayscale implements ICommandStrategy {
 
     // Content command value.
     private boolean commandValue;

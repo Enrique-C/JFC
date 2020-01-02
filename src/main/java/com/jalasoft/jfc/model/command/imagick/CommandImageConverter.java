@@ -7,28 +7,28 @@
  * license agreement you entered into with Jalasoft.
  */
 
-package com.jalasoft.jfc.model.command;
+package com.jalasoft.jfc.model.command.imagick;
 
+import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
 
 /**
- * This class allows to use alpha of image.
  *
- * @version 0.1 28 Dic 2019
+ * Builds a command to convert an image.
  *
- * @author Juan Martinez
+ * @version 0.1 18 Dic 2019.
+ *
+ * @author Enrique Carrizales.
  */
-public class CommandImageAlpha implements ICommandStrategy {
+public class CommandImageConverter implements ICommandStrategy {
 
-    // Content alpha value.
-    private final String COMMAND_VALUE = "remove";
 
     /**
-     * Builds a alpha command.
-     * @return command concatenated.
+     * Builds a convert command.
+     * @return command convert.
      */
     @Override
     public String command() {
-        return this.SPACE + ImageMagickCommand.ALPHA.getCommand() + SPACE + COMMAND_VALUE;
+        return this.SPACE + ImageMagickCommand.CONVERT.getCommand();
     }
 }

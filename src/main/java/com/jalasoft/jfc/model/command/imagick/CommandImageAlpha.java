@@ -7,28 +7,29 @@
  * license agreement you entered into with Jalasoft.
  */
 
-package com.jalasoft.jfc.model.command;
+package com.jalasoft.jfc.model.command.imagick;
 
+import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
 
 /**
- * This class allows to use background of image.
+ * This class allows to use alpha of image.
  *
  * @version 0.1 28 Dic 2019
  *
  * @author Juan Martinez
  */
-public class CommandImageBackground implements ICommandStrategy {
+public class CommandImageAlpha implements ICommandStrategy {
 
-    // Content background value.
-    private final String COMMAND_VALUE = "white";
+    // Content alpha value.
+    private final String COMMAND_VALUE = "remove";
 
     /**
-     * Builds a background command.
+     * Builds a alpha command.
      * @return command concatenated.
      */
     @Override
     public String command() {
-        return this.SPACE + ImageMagickCommand.BACKGROUND.getCommand() + SPACE + COMMAND_VALUE;
+        return this.SPACE + ImageMagickCommand.ALPHA.getCommand() + SPACE + COMMAND_VALUE;
     }
 }

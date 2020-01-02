@@ -1,33 +1,34 @@
 /*
  * Copyright (c) 2019 Jalasoft.
+ *
  * This software is the confidential and proprietary information of Jalasoft.
  * ("Confidential Information"). You shall not disclose such Confidential
  * Information and shall use it only in accordance with the terms of the
  * license agreement you entered into with Jalasoft.
  */
 
-package com.jalasoft.jfc.model.command;
+package com.jalasoft.jfc.model.command.ffmpeg;
 
-import com.jalasoft.jfc.model.video.VideoCommand;
+import com.jalasoft.jfc.model.command.ICommandStrategy;
 
 /**
- * Class changes Command Video Audio Codec.
+ * This Class changes the Frame Rate of a video.
  *
- * @version 0.1 23 Dic 2019.
+ * @version 0.1 20 Dic 2019.
  *
  * @author Oscar Lopez.
  */
-public class CommandVideoAudioCodec implements ICommandStrategy{
+public class CommandVideoFrameRate implements ICommandStrategy {
 
     // Content command value.
     private String commandValue;
 
     /**
-     * Creates a new CommandVideoAudioCodec object.
+     * Creates a new CommandVideoFrameRate object.
      *
      * @param commandValue, receive a value.
      */
-    public CommandVideoAudioCodec(String commandValue) {
+    public CommandVideoFrameRate(String commandValue) {
         this.commandValue = commandValue;
     }
 
@@ -38,6 +39,6 @@ public class CommandVideoAudioCodec implements ICommandStrategy{
      */
     @Override
     public String command() {
-        return this.SPACE + VideoCommand.AUDIO_CODEC + this.SPACE + commandValue;
+        return this.SPACE + commandValue + this.SPACE;
     }
 }
