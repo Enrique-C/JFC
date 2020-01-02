@@ -8,9 +8,12 @@
 
 package com.jalasoft.jfc.model.strategy;
 
+import com.jalasoft.jfc.model.exception.CommandValueException;
+import com.jalasoft.jfc.model.utility.PathJfc;
 import com.jalasoft.jfc.model.video.VideoCommand;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * This Class has Command FFmpeg path.
@@ -22,18 +25,35 @@ import java.io.File;
 public class CommandFFMpegPath implements ICommandStrategy {
 
     // Content command value.
-    private final String FFMPEG_PATH = "thirdparty/ffmpeg/bin/ffmpeg.exe";
+    private  String FFMpegPath;
+
+    // Variable type PathJfc.
+    PathJfc pathJfc;
+
+    /**
+     * This initialize PathJfc and gets the FfMpeg Path.
+     * @throws IOException when is a invalid file.
+     */
+    public CommandFFMpegPath() throws IOException {
+        pathJfc = new PathJfc();
+        FFMpegPath = pathJfc.getMagickPath();
+    }
 
     /**
      * Generates a command.
-     * @return exe of FFmpeg path.
+     * @return exe of ImageMagick path.
      */
     @Override
-    public String command() {
-        File file = new File(FFMPEG_PATH);
-        if (file.exists()) {
-            return FFMPEG_PATH + this.SPACE + VideoCommand.INFILE.getCommand();
+    public String command() throws CommandValueException {
+        try {
+            File file = new File(FFMpegPath);
+
+            if (file.exists()) {
+                return this.SPACE + FFMpegPath;
+            }
+            throw new CommandValueException("Image magick doesn't exist\n", "Image magick not found\n");
+        } catch (CommandValueException cve){
+            throw new CommandValueException(cve.getMessage(), this.getClass().getName());
         }
-        return null;
     }
 }

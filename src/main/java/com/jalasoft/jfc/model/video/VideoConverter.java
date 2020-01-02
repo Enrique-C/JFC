@@ -46,59 +46,61 @@ public class VideoConverter implements IConverter {
     private final static Logger LOGGER = Logger.getLogger(VideoConverter.class.getName());
 
     /**
-     * This method convert a video format to another format.
+     * Runs string command.
+     * @param stringCommand value of command.
+     * @return 0 when the process was executed successfully.
+     */
+    private int runCommand(String stringCommand){
+        int returnValue = -1;
+        try {
+            Process process = Runtime.getRuntime().exec(stringCommand);
+            process.waitFor();
+            returnValue = process.exitValue();
+        } catch (InterruptedException | IOException e) {
+            e.printStackTrace();
+        }
+        return returnValue;
+    }
+
+    /**
+     * This method converts a Video to other format.
      * @param param
      * @return FileResult object or null value.
-     * @throws IOException
      */
-    public FileResult convert(Param param) {
-
-        VideoParam videoParam = (VideoParam) param;
+    public FileResult convert(Param param) throws CommandValueException, IOException {
         FileResult fileResult = new FileResult();
-
-        try {
-            List<ICommandStrategy> list = new ArrayList<>();
-            list.add(new CommandFFMpegPath());
-            //list.add(new CommandFFMpeg());
-            list.add(new CommandInputFilePath(videoParam.getInputPathFile()));
-            //list.add(new CommandVideoAspectRatio(videoParam.getAspectRatio()));
-            //list.add(new CommandVideoScale(videoParam.getWidth(), videoParam.getHeight()));
-            //list.add(new CommandVideoConverter());
-            //list.add(new CommandVideoThumbNail(videoParam.getThumbnail()));
-            //list.add(new CommandVideoRotate(videoParam.getRotate()));
-            list.add(new CommandVideoFrameRate(videoParam.getFrameRate()));
-            list.add(new CommandOutputFilePath(videoParam.getOutputPathFile()));
-            list.add(new CommandOutputFileName(videoParam.getOutputFileName()));
-            String stringCommand = getCommand(list);
-            System.out.println(stringCommand);
-            Process process = Runtime.getRuntime().exec(stringCommand);
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-
-            }
-            process.waitFor();
-            if (videoParam.getThumbnail() > 0) {
-
-            }
-        } catch (NullPointerException e) {
-            throw new NullPointerException();
-        } finally {
-            return fileResult;
-        }
+        String stringCommand = getCommand(param);
+        System.out.println(stringCommand);
+        int value = runCommand(stringCommand);
+        return fileResult;
     }
 
     /**
      * This method is for getting the string command.
      *
-     * @param commandList
+     * @param param
      * @return command concatenated.
      * @throws CommandValueException
      */
-    public String getCommand(List<ICommandStrategy> commandList) throws CommandValueException, IOException {
-        ContextStrategy contextStrategy = new ContextStrategy(commandList);
-        String result = contextStrategy.buildCommand();
-        return result;
+    public String getCommand(Param param) throws CommandValueException, IOException {
+        VideoParam videoParam = (VideoParam) param;
+        try {
+            List<ICommandStrategy> list = new ArrayList<>();
+            list.add(new CommandFFMpegPath());
+            list.add(new CommandInputFilePath(videoParam.getInputPathFile()));
+            list.add(new CommandVideoAspectRatio(videoParam.getAspectRatio()));
+            list.add(new CommandVideoScale(videoParam.getWidth(), videoParam.getHeight()));
+            list.add(new CommandVideoConverter());
+            list.add(new CommandVideoThumbNail(videoParam.getThumbnail()));
+            list.add(new CommandVideoRotate(videoParam.getRotate()));
+            list.add(new CommandVideoFrameRate(videoParam.getFrameRate()));
+            list.add(new CommandOutputFilePath(videoParam.getOutputPathFile()));
+            list.add(new CommandOutputFileName(videoParam.getOutputFileName()));
+            ContextStrategy contextStrategy = new ContextStrategy(list);
+            String result = contextStrategy.buildCommand();
+            return result;
+        } catch (CommandValueException | IOException cve) {
+            throw new CommandValueException(cve.getMessage(), this.getClass().getName());
+        }
     }
 }
