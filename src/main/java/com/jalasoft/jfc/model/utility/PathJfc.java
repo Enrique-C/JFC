@@ -23,28 +23,28 @@ import java.util.Properties;
 public class PathJfc {
 
     // This is a class properties.
-    private Properties properties;
+    private static Properties properties;
 
     // This is a InputStream.
     private InputStream inputPath;
 
     // This is a constant variable to get application.properties file.
-    private final String APPLICATION_PROPERTIES = "application.properties";
+    private static final String APPLICATION_PROPERTIES = "application.properties";
 
     // This is a constant variable of the key imageMagick path.
-    private final String IMAGE_MAGICK_PATH = "path.magick";
+    private static final String IMAGE_MAGICK_PATH = "path.magick";
 
     // This is a constant variable of key FFmpeg path.
-    private final String FFMPEG_PATH = "path.ffmpeg";
+    private static final String FFMPEG_PATH = "path.ffmpeg";
 
     // This is a constant variable of key input files path.
-    private final String INPUT_FILES_PATH = "path.input.files";
+    private static final String INPUT_FILES_PATH = "path.input.files";
 
     // This is a constant variable of key output files path.
-    private final String OUTPUT_FILES_PATH = "path.output.files";
+    private static final String OUTPUT_FILES_PATH = "path.output.files";
 
     // This is a constant variable of key public files path.
-    private final String PUBLIC_FILES_PATH = "path.public.files";
+    private static final String PUBLIC_FILES_PATH = "path.public.files";
 
     /**
      * Initializes properties and inputPath. Also load the inputPath in properties.
@@ -60,7 +60,7 @@ public class PathJfc {
      * This gets the Image Magick's path.
      * @return the Image Magick Path.
      */
-    public String getMagickPath() {
+    public static String getMagickPath() {
         return properties.getProperty(IMAGE_MAGICK_PATH);
     }
 
@@ -68,7 +68,7 @@ public class PathJfc {
      * This gets the FFmpeg's path.
      * @return the FFmpeg path.
      */
-    public String getFfmpegPath() {
+    public static String getFfmpegPath() {
         return properties.getProperty(FFMPEG_PATH);
     }
 
@@ -76,7 +76,7 @@ public class PathJfc {
      * This gets the Input Files path.
      * @return the Input files Path path.
      */
-    public String getInputFilePath() {
+    public static String getInputFilePath() {
         return properties.getProperty(INPUT_FILES_PATH);
     }
 
@@ -84,7 +84,7 @@ public class PathJfc {
      * This gets the Output Files path.
      * @return the Output files Path path.
      */
-    public String getOutputFilePath() {
+    public static String getOutputFilePath() {
         return properties.getProperty(OUTPUT_FILES_PATH);
     }
 
@@ -92,7 +92,7 @@ public class PathJfc {
      * This gets the Public files path.
      * @return the Public files Path path.
      */
-    public String getPublicFilePath() {
+    public static String getPublicFilePath() {
         return properties.getProperty(PUBLIC_FILES_PATH);
     }
 }
