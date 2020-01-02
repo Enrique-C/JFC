@@ -9,14 +9,13 @@
 
 package com.jalasoft.jfc.model.image;
 
-import com.jalasoft.jfc.model.FileResult;
+import com.jalasoft.jfc.model.result.FileResult;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ConvertException;
 import com.jalasoft.jfc.model.strategy.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 

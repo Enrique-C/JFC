@@ -11,6 +11,7 @@ package com.jalasoft.jfc.model;
 
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ConvertException;
+import com.jalasoft.jfc.model.result.FileResult;
 
 import java.io.IOException;
 

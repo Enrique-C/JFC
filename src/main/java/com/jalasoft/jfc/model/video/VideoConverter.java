@@ -9,7 +9,7 @@
 
 package com.jalasoft.jfc.model.video;
 
-import com.jalasoft.jfc.model.FileResult;
+import com.jalasoft.jfc.model.result.FileResult;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;

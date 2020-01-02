@@ -7,7 +7,7 @@
  * license agreement you entered into with Jalasoft.
  */
 
-package com.jalasoft.jfc.model;
+package com.jalasoft.jfc.model.result;
 
 /**
  * This class is used in order to return the file converted.
