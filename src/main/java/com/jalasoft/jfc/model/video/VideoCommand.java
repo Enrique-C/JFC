@@ -27,7 +27,7 @@ public enum VideoCommand {
     AUDIO_BITRATE("-b:a"),
     VF("-vf"),
     SCALE("scale="),
-    ROTATE("-filter:v"),
+    ROTATE("transpose=0"),
     CHANNELS("-ac"),
     VOLUME("-vol"),
     EMPTY(""),

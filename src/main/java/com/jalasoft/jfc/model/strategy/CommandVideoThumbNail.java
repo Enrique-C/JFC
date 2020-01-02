@@ -23,7 +23,7 @@ public class CommandVideoThumbNail implements ICommandStrategy{
     private int commandValue;
 
     // Content value of one second to extract a thumbnail.
-    private final short second = 1;
+    private final String secondBegin = "00:00:01.000";
 
     //Content number 0
     private final short numberZero = 0;
@@ -45,8 +45,8 @@ public class CommandVideoThumbNail implements ICommandStrategy{
     @Override
     public String command() {
         if (commandValue > numberZero) {
-            return SPACE + VideoCommand.THUMBNAIL.getCommand() + SPACE + commandValue +
-                  VideoCommand.V_FRAMES + second;
+            return this.SPACE + VideoCommand.THUMBNAIL.getCommand() + this.SPACE + secondBegin + this.SPACE +
+                  VideoCommand.V_FRAMES.getCommand() + this.SPACE + commandValue;
         }
         return null;
     }

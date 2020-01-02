@@ -81,13 +81,14 @@ public class VideoConverterController {
     @PostMapping
     public String videoConverter(
             @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ") String md5,
-            @RequestParam String outputFileName, @RequestParam (defaultValue = "0.0") int aspectRatio,
+            @RequestParam String outputFileName, @RequestParam (defaultValue = "0.0") String aspectRatio,
             @RequestParam (defaultValue = "") String frameRate, @RequestParam (defaultValue = "0") int width,
             @RequestParam (defaultValue = "0") int height, @RequestParam (defaultValue = "") String videoCodec,
             @RequestParam (defaultValue = "") String audioCodec, @RequestParam (defaultValue = "") String videoBitRate,
             @RequestParam (defaultValue = "") String audioBitRate, @RequestParam (defaultValue = "-1") int quality,
             @RequestParam (defaultValue = "0") int channelsNumber, @RequestParam (defaultValue = "") String volume,
-            @RequestParam (defaultValue = "") short rotate) throws CommandValueException {
+            @RequestParam (defaultValue = "") short rotate, @RequestParam (defaultValue = "") short thumbNail)
+            throws CommandValueException {
 
         Md5Checksum md5Checksum = new Md5Checksum();
         Param param = new VideoParam("thirdparty\\FFmpeg\\bin\\ffmpeg.exe");
@@ -125,6 +126,7 @@ public class VideoConverterController {
                 videoParam.setAudioCodec(audioCodec);
                 videoParam.setVideoBitRate(videoBitRate);
                 videoParam.setAudioBitRate(audioBitRate);
+                videoParam.setThumbnail(thumbNail);
 
                 sameMd5 = "converted " + videoConverter.convert(videoParam).toString();
             }

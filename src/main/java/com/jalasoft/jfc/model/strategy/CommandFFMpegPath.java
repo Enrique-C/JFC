@@ -8,6 +8,8 @@
 
 package com.jalasoft.jfc.model.strategy;
 
+import com.jalasoft.jfc.model.video.VideoCommand;
+
 import java.io.File;
 
 /**
@@ -30,7 +32,7 @@ public class CommandFFMpegPath implements ICommandStrategy {
     public String command() {
         File file = new File(FFMPEG_PATH);
         if (file.exists()) {
-            return FFMPEG_PATH + this.SPACE;
+            return FFMPEG_PATH + this.SPACE + VideoCommand.INFILE.getCommand();
         }
         return null;
     }

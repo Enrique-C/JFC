@@ -22,14 +22,11 @@ public class CommandVideoRotate implements ICommandStrategy {
     // Content value to rotate.
     private short commandValue;
 
-    // Content value 90.
-    private final short degrees90 = 90;
+    // Content value Comma.
+    private final String COMMA = ", ";
 
-    // Content value 180.
-    private final short degrees180 = 180;
-
-    // Content value 270.
-    private final short degrees270 = 270;
+    // Content value quotation mark.
+    private final char quotationMark = '"';
     /**
      * Creates a new CommandVideoRotate object.
      *
@@ -46,10 +43,20 @@ public class CommandVideoRotate implements ICommandStrategy {
      */
     @Override
     public String command() {
-        if (commandValue == degrees90 || commandValue == degrees180 || commandValue == degrees270) {
-            return SPACE + VideoCommand.VF.getCommand() + SPACE + VideoCommand.ROTATE.getCommand() +
-                   SPACE + commandValue;
+        switch (commandValue) {
+            case 90:
+                return SPACE + VideoCommand.VF.getCommand() + SPACE + this.quotationMark +
+                       VideoCommand.ROTATE.getCommand() + this.quotationMark;
+            case 180:
+                return SPACE + VideoCommand.VF.getCommand() + SPACE + this.quotationMark +
+                        VideoCommand.ROTATE.getCommand() + this.COMMA + VideoCommand.ROTATE.getCommand() +
+                        this.quotationMark;
+            case 270:
+                return SPACE + VideoCommand.VF.getCommand() + SPACE + this.quotationMark +
+                        VideoCommand.ROTATE.getCommand() + this.COMMA + VideoCommand.ROTATE.getCommand() + this.COMMA +
+                        VideoCommand.ROTATE.getCommand() + this.quotationMark;
+            default:
+                return null;
         }
-        return null;
     }
 }

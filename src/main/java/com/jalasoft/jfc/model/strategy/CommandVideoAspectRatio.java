@@ -8,6 +8,7 @@
 
 package com.jalasoft.jfc.model.strategy;
 
+import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.video.VideoCommand;
 
 /**
@@ -38,6 +39,6 @@ public class CommandVideoAspectRatio implements ICommandStrategy{
      */
     @Override
     public String command() {
-        return this.SPACE + VideoCommand.INFILE + this.SPACE + commandValue + this.SPACE;
+        return this.SPACE + VideoCommand.ASPECT_RATIO.getCommand() + this.SPACE + commandValue;
     }
 }

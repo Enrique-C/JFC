@@ -59,17 +59,18 @@ public class VideoConverter implements IConverter {
         try {
             List<ICommandStrategy> list = new ArrayList<>();
             list.add(new CommandFFMpegPath());
-            list.add(new CommandFFMpeg());
+            //list.add(new CommandFFMpeg());
             list.add(new CommandInputFilePath(videoParam.getInputPathFile()));
-            list.add(new CommandVideoAspectRatio(Integer.toString(videoParam.getAspectRatio())));
-            list.add(new CommandVideoScale(videoParam.getWidth(), videoParam.getHeight()));
-            list.add(new CommandVideoConverter());
-            list.add(new CommandVideoThumbNail(Integer.parseInt(videoParam.getThumbnail())));
-            list.add(new CommandVideoRotate(videoParam.getRotate()));
+            //list.add(new CommandVideoAspectRatio(videoParam.getAspectRatio()));
+            //list.add(new CommandVideoScale(videoParam.getWidth(), videoParam.getHeight()));
+            //list.add(new CommandVideoConverter());
+            //list.add(new CommandVideoThumbNail(videoParam.getThumbnail()));
+            //list.add(new CommandVideoRotate(videoParam.getRotate()));
             list.add(new CommandVideoFrameRate(videoParam.getFrameRate()));
             list.add(new CommandOutputFilePath(videoParam.getOutputPathFile()));
             list.add(new CommandOutputFileName(videoParam.getOutputFileName()));
             String stringCommand = getCommand(list);
+            System.out.println(stringCommand);
             Process process = Runtime.getRuntime().exec(stringCommand);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 
@@ -78,6 +79,9 @@ public class VideoConverter implements IConverter {
 
             }
             process.waitFor();
+            if (videoParam.getThumbnail() > 0) {
+
+            }
         } catch (NullPointerException e) {
             throw new NullPointerException();
         } finally {

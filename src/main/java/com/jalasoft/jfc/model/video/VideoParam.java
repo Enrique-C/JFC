@@ -24,7 +24,7 @@ public class VideoParam extends Param {
     private String fFmpeg;
 
     // Content aspect ratio value.
-    private int aspectRatio;
+    private String aspectRatio;
 
     // Content frameRate value.
     private String frameRate;
@@ -60,7 +60,7 @@ public class VideoParam extends Param {
     private short rotate;
 
     // Content a specific time.
-    private String thumbnail;
+    private short thumbnail;
 
     // Number of video frames to output.
     private byte videoFrame;
@@ -85,7 +85,7 @@ public class VideoParam extends Param {
      * Gets aspectRatio value.
      * @return aspectRatio double value.
      */
-    public int getAspectRatio() {
+    public String getAspectRatio() {
         return aspectRatio;
     }
 
@@ -181,7 +181,7 @@ public class VideoParam extends Param {
      * Gets thumbnail value.
      * @return value of thumbnail.
      */
-    public String getThumbnail() {
+    public short getThumbnail() {
         return thumbnail;
     }
 
@@ -197,7 +197,7 @@ public class VideoParam extends Param {
      * Sets aspectRatio value.
      * @param aspectRatio for setting this.aspectRatio.
      */
-    public void setAspectRatio(int aspectRatio) {
+    public void setAspectRatio(String aspectRatio) {
         this.aspectRatio = aspectRatio;
     }
 
@@ -293,7 +293,7 @@ public class VideoParam extends Param {
      * Sets thumbnail value.
      * @param thumbnail time String value.
      */
-    public void setThumbnail(String thumbnail) {
+    public void setThumbnail(short thumbnail) {
         this.thumbnail = thumbnail;
     }
 
