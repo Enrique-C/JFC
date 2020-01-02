@@ -9,7 +9,7 @@
 
 package com.jalasoft.jfc.controller;
 
-import com.jalasoft.jfc.model.FileResult;
+import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.utility.Md5Checksum;
 import com.jalasoft.jfc.model.Param;
@@ -73,7 +73,7 @@ public class PdfConverterController {
      * @return Result of the conversion.
      */
     @PostMapping
-    public FileResult pdfConverter(
+    public FileResponse pdfConverter(
             @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ") String md5,
             @RequestParam String outputFileName,@RequestParam(defaultValue = "0") int rotate,
             @RequestParam(defaultValue = "%") String scale, @RequestParam(defaultValue = "false") boolean thumbnail,
@@ -82,7 +82,7 @@ public class PdfConverterController {
 
         Param param = new PdfParam();
         PdfParam pdfParam = (PdfParam) param;
-        FileResult fileResult = new FileResult();
+        FileResponse fileResult = new FileResponse();
         String sameMd5 = "Md5 Error! binary is invalid.";
         int quantityPages = 0;
         IConverter pdfConverter = new PdfConverter();
@@ -116,7 +116,7 @@ public class PdfConverterController {
                 pdfParam.setFolderName(md5FileUploaded);
 
                 pdfConverter.convert(pdfParam);
-                fileResult.setPath(pdfParam.getOutputPathFile() +pdfParam.getFolderName());
+                fileResult.setDownload(pdfParam.getOutputPathFile() +pdfParam.getFolderName());
             }
         }  catch (ConvertException ex) {
             ex.printStackTrace();
