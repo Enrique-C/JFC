@@ -29,8 +29,11 @@ import java.util.List;
  * */
 public class ImageConverter implements IConverter {
 
-    // List of commands.
-    List<ICommandStrategy> commandStrategyList = new ArrayList<>();
+    // List of image command.
+    List<ICommandStrategy> commandImageList = new ArrayList<>();
+
+    // List of thumbnail commands.
+    List<ICommandStrategy> commandThumbnailList = new ArrayList<>();
 
     /**
      * Changes an Image format to another one.
@@ -47,18 +50,25 @@ public class ImageConverter implements IConverter {
         String commandString;
 
         if (imageParam.isThumbnail()) {
-            generateImage(imageParam);
             generateThumbnail(imageParam);
-        } else {
-            generateImage(imageParam);
         }
 
-        ContextStrategy comContext = new ContextStrategy(commandStrategyList);
+        generateImage(imageParam);
+
+        ContextStrategy commandImageContext = new ContextStrategy(commandImageList);
 
         try {
-            commandString = comContext.buildCommand();
+            commandString = commandImageContext.buildCommand();
 
             Runtime.getRuntime().exec(commandString);
+
+            if (!commandThumbnailList.isEmpty()) {
+                ContextStrategy commandThumbnailContext = new ContextStrategy(commandThumbnailList);
+                commandString = commandThumbnailContext.buildCommand();
+
+                Runtime.getRuntime().exec(commandString);
+            }
+
             fileResult = new FileResult();
             fileResult.setPath(imageParam.getOutputPathFile());
         } catch (Exception e) {
@@ -73,13 +83,14 @@ public class ImageConverter implements IConverter {
      * @throws CommandValueException when is a invalid command.
      */
     private void generateImage(ImageParam imageParam) throws CommandValueException {
-        commonCommandImage(imageParam);
-
-        commandStrategyList.add(new CommandImageRotate(imageParam.getDegreesToRotate()));
-        commandStrategyList.add(new CommandImageResize(imageParam.getImageWidth(), imageParam.getImageHeight()));
-        commandStrategyList.add(new CommandOutputFilePath(imageParam.getOutputPathFile(), imageParam.getInputFileName()));
-        commandStrategyList.add(new CommandOutputFileName(imageParam.getOutputFileName(), imageParam.getInputFileName()));
-        commandStrategyList.add(new CommandImageFormat(imageParam.getImageFormat()));
+        commandImageList.add(new CommandImageMagickPath());
+        commandImageList.add(new CommandImageConverter());
+        commandImageList.add(new CommandInputFilePath(imageParam.getInputPathFile()));
+        commandImageList.add(new CommandImageRotate(imageParam.getDegreesToRotate()));
+        commandImageList.add(new CommandImageResize(imageParam.getImageWidth(), imageParam.getImageHeight()));
+        commandImageList.add(new CommandOutputFilePath(imageParam.getOutputPathFile(), imageParam.getInputFileName()));
+        commandImageList.add(new CommandOutputFileName(imageParam.getOutputFileName(), imageParam.getInputFileName()));
+        commandImageList.add(new CommandImageFormat(imageParam.getImageFormat()));
     }
 
     /**
@@ -88,22 +99,14 @@ public class ImageConverter implements IConverter {
      * @throws CommandValueException when is a invalid command.
      */
     private void generateThumbnail(ImageParam imageParam) throws CommandValueException {
-        commonCommandImage(imageParam);
+        final String THUMBNAIL_TAG = "thumb01";
 
-        commandStrategyList.add(new CommandThumbnail(imageParam.isThumbnail()));
-        commandStrategyList.add(new CommandOutputFilePath(imageParam.getOutputPathFile(), imageParam.getInputFileName()));
-        commandStrategyList.add(new CommandOutputFileName(imageParam.getOutputFileName(), imageParam.getInputFileName()));
-        commandStrategyList.add(new CommandImageFormat(imageParam.getImageFormat()));
-    }
-
-    /**
-     * Generates a command common.
-     * @param imageParam receives image params.
-     * @throws CommandValueException when is a invalid command.
-     */
-    private void commonCommandImage(ImageParam imageParam) throws CommandValueException {
-        commandStrategyList.add(new CommandImageMagickPath());
-        commandStrategyList.add(new CommandImageConverter());
-        commandStrategyList.add(new CommandInputFilePath(imageParam.getInputPathFile()));
+        commandThumbnailList.add(new CommandImageMagickPath());
+        commandThumbnailList.add(new CommandImageConverter());
+        commandThumbnailList.add(new CommandInputFilePath(imageParam.getInputPathFile()));
+        commandThumbnailList.add(new CommandThumbnail(imageParam.isThumbnail()));
+        commandThumbnailList.add(new CommandOutputFilePath(imageParam.getOutputPathFile(), imageParam.getInputFileName()));
+        commandThumbnailList.add(new CommandOutputFileName(THUMBNAIL_TAG, imageParam.getInputFileName()));
+        commandThumbnailList.add(new CommandImageFormat(imageParam.getImageFormat()));
     }
 }
