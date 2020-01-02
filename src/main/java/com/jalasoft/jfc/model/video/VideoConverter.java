@@ -9,7 +9,7 @@
 
 package com.jalasoft.jfc.model.video;
 
-import com.jalasoft.jfc.model.FileResult;
+import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
@@ -51,10 +51,10 @@ public class VideoConverter implements IConverter {
      * @return FileResult object or null value.
      * @throws IOException
      */
-    public FileResult convert(Param param) {
+    public FileResponse convert(Param param) {
 
         VideoParam videoParam = (VideoParam) param;
-        FileResult fileResult = new FileResult();
+        FileResponse fileResult = new FileResponse();
 
         try {
             List<ICommandStrategy> list = new ArrayList<>();

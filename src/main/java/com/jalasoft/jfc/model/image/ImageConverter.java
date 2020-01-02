@@ -9,7 +9,7 @@
 
 package com.jalasoft.jfc.model.image;
 
-import com.jalasoft.jfc.model.FileResult;
+import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.command.imagick.CommandImageGrayscale;
@@ -52,10 +52,10 @@ public class ImageConverter implements IConverter {
      * @throws CommandValueException when is a invalid command.
      * @throws ConvertException when the conversion failed.
      */
-    public FileResult convert(Param param) throws ConvertException, CommandValueException {
+    public FileResponse convert(Param param) throws ConvertException, CommandValueException {
         ImageParam imageParam = (ImageParam) param;
 
-        FileResult fileResult;
+        FileResponse fileResult;
 
         String commandString;
 
@@ -77,8 +77,8 @@ public class ImageConverter implements IConverter {
                 Runtime.getRuntime().exec(commandString);
             }
 
-            fileResult = new FileResult();
-            fileResult.setPath(imageParam.getOutputPathFile());
+            fileResult = new FileResponse();
+            fileResult.setDownload(imageParam.getOutputPathFile());
         } catch (Exception e) {
             throw new ConvertException("Error converting Image: " + e.getMessage(), this.getClass().getName());
         }
