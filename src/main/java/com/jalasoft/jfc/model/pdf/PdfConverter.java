@@ -53,6 +53,8 @@ public class PdfConverter implements IConverter {
      * This method converts a PDF to Image.
      * @param param
      * @return FileResult object or null value.
+     * @throws CommandValueException when is a invalid command.
+     * @throws ConvertException when the conversion was not completed.
      */
     public FileResult convert(Param param) throws CommandValueException, ConvertException {
         FileResult fileResult = new FileResult();
@@ -132,7 +134,7 @@ public class PdfConverter implements IConverter {
     }
 
     /**
-     * THis method generate metadata of input file.
+     * This method generate metadata of input file.
      * @param pdfParam
      */
     private void generateMetadata(PdfParam pdfParam) {
@@ -145,6 +147,7 @@ public class PdfConverter implements IConverter {
      * Runs string command.
      * @param stringCommand value of command.
      * @return 0 when the process was executed successfully.
+     * @throws ConvertException when the conversion was not completed.
      */
     private void runCommand(String stringCommand) throws ConvertException {
         try {

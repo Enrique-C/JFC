@@ -40,8 +40,9 @@ public class CommandImageResize implements ICommandStrategy {
     /**
      * This method builds a command.
      * @return command concatenated.
+     * @throws CommandValueException when is a invalid command.
      */
-    public String command() throws CommandValueException, NullPointerException {
+    public String command() throws CommandValueException {
         try {
             if (width == 0 && height == 0){
                 return "";

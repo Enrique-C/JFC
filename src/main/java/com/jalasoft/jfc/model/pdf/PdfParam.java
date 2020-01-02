@@ -129,7 +129,7 @@ public class PdfParam extends Param {
 
     /**
      * This method gets background value.
-     * @return
+     * @return background.
      */
     public String getBackground() {
         return background;
@@ -137,7 +137,7 @@ public class PdfParam extends Param {
 
     /**
      * This method gets alpha value.
-     * @return
+     * @return alpha.
      */
     public String getAlpha() {
         return alpha;
@@ -153,7 +153,7 @@ public class PdfParam extends Param {
 
     /**
      * It sets magick value.
-     * @param magick
+     * @param magick value.
      */
     public void setMagick(String magick) {
         this.magick = magick;
@@ -161,7 +161,7 @@ public class PdfParam extends Param {
 
     /**
      * It sets imageMagick value.
-     * @param imageFormat
+     * @param imageFormat value.
      */
     public void setImageFormat(String imageFormat) {
         this.imageFormat = imageFormat;
@@ -169,7 +169,7 @@ public class PdfParam extends Param {
 
     /**
      * It sets number of pages to be converted.
-     * @param pagesToConvert
+     * @param pagesToConvert value.
      */
     public void setPagesToConvert(String pagesToConvert) {
         this.pagesToConvert = pagesToConvert;
@@ -177,7 +177,7 @@ public class PdfParam extends Param {
 
     /**
      * Sets quantity of pdf file pages.
-     * @param quantityOfPage
+     * @param quantityOfPage value.
      */
     public void setQuantityOfPage(int quantityOfPage) {
         this.quantityOfPage = quantityOfPage;
@@ -185,7 +185,7 @@ public class PdfParam extends Param {
 
     /**
      * It sets wight value.
-     * @param width
+     * @param width value.
      */
     public void setWidth(int width) {
         this.width = width;
@@ -193,7 +193,7 @@ public class PdfParam extends Param {
 
     /**
      * It sets height value.
-     * @param height
+     * @param height value.
      */
     public void setHeight(int height) {
         this.height = height;
@@ -201,7 +201,7 @@ public class PdfParam extends Param {
 
     /**
      * This method sets the Scale that will be converted into JPEG, PNG, GIF, BMP and WBMP.
-     * @param scale
+     * @param scale value.
      */
     public void setScale(String scale) {
         this.scale = scale;
@@ -209,7 +209,7 @@ public class PdfParam extends Param {
 
     /**
      * It sets thumbnail value.
-     * @param thumbnail
+     * @param thumbnail value.
      */
     public void setThumbnail(boolean thumbnail) {
         this.thumbnail = thumbnail;
@@ -217,7 +217,7 @@ public class PdfParam extends Param {
 
     /**
      * This method sets degrees to rotate image.
-     * @param rotate
+     * @param rotate value.
      */
     public void setRotate(int rotate) {
         this.rotate = rotate;
@@ -225,7 +225,7 @@ public class PdfParam extends Param {
 
     /**
      * Sets metadata value.
-     * @param metadata
+     * @param metadata value.
      */
     public void setMetadata(boolean metadata) {
         this.metadata = metadata;

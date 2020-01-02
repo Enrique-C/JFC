@@ -35,9 +35,10 @@ public class CommandImageRotate implements ICommandStrategy {
     /**
      * It builds a command.
      * @return String of a command.
+     * @throws CommandValueException when is a invalid command.
      */
     @Override
-    public String command() throws CommandValueException, NullPointerException {
+    public String command() throws CommandValueException {
         try {
             if (commandValue == 0.0) {
                 return "";

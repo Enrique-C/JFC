@@ -32,7 +32,7 @@ public class CommandImageMagickPath implements ICommandStrategy {
 
     /**
      * This initialize PathJfc and gets the Image Magick Path.
-     * @throws IOException when is a invalid file.
+     * @throws CommandValueException when is a invalid command.
      */
     public CommandImageMagickPath() throws CommandValueException {
         try {
@@ -46,6 +46,7 @@ public class CommandImageMagickPath implements ICommandStrategy {
     /**
      * Generates a command.
      * @return exe of ImageMagick path.
+     * @throws CommandValueException when is a invalid command.
      */
     @Override
     public String command() throws CommandValueException {
