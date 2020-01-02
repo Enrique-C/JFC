@@ -126,7 +126,7 @@ public class VideoConverterController {
                 videoParam.setAudioCodec(audioCodec);
                 videoParam.setVideoBitRate(videoBitRate);
                 videoParam.setAudioBitRate(audioBitRate);
-                videoParam.setThumbnail(thumbNail);
+                videoParam.setThumbNail(thumbNail);
 
                 sameMd5 = "converted " + videoConverter.convert(videoParam).toString();
             }

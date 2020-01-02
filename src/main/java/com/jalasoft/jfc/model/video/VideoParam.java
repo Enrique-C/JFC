@@ -60,7 +60,7 @@ public class VideoParam extends Param {
     private short rotate;
 
     // Content a specific time.
-    private short thumbnail;
+    private short thumbNail;
 
     // Number of video frames to output.
     private byte videoFrame;
@@ -182,7 +182,7 @@ public class VideoParam extends Param {
      * @return value of thumbnail.
      */
     public short getThumbnail() {
-        return thumbnail;
+        return thumbNail;
     }
 
     /**
@@ -291,10 +291,10 @@ public class VideoParam extends Param {
 
     /**
      * Sets thumbnail value.
-     * @param thumbnail time String value.
+     * @param thumbNail time String value.
      */
-    public void setThumbnail(short thumbnail) {
-        this.thumbnail = thumbnail;
+    public void setThumbNail(short thumbNail) {
+        this.thumbNail = thumbNail;
     }
 
     /**

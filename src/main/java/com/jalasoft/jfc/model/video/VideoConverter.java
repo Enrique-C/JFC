@@ -14,7 +14,6 @@ import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.strategy.CommandFFMpegPath;
-import com.jalasoft.jfc.model.strategy.CommandFFMpeg;
 import com.jalasoft.jfc.model.strategy.CommandInputFilePath;
 import com.jalasoft.jfc.model.strategy.CommandVideoAspectRatio;
 import com.jalasoft.jfc.model.strategy.CommandVideoScale;
@@ -27,9 +26,7 @@ import com.jalasoft.jfc.model.strategy.CommandOutputFileName;
 import com.jalasoft.jfc.model.strategy.ContextStrategy;
 import com.jalasoft.jfc.model.strategy.ICommandStrategy;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;

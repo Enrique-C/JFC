@@ -51,7 +51,7 @@ public class CommandFFMpegPath implements ICommandStrategy {
             if (file.exists()) {
                 return this.SPACE + FFMpegPath;
             }
-            throw new CommandValueException("Image magick doesn't exist\n", "Image magick not found\n");
+            throw new CommandValueException("FFMepg doesn't exist\n", this.getClass().getName());
         } catch (CommandValueException cve){
             throw new CommandValueException(cve.getMessage(), this.getClass().getName());
         }

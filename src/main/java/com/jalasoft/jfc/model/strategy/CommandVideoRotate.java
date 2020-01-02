@@ -8,6 +8,7 @@
 
 package com.jalasoft.jfc.model.strategy;
 
+import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.video.VideoCommand;
 
 /**
@@ -22,10 +23,10 @@ public class CommandVideoRotate implements ICommandStrategy {
     // Content value to rotate.
     private short commandValue;
 
-    // Content value Comma.
+    // Content Comma value.
     private final String COMMA = ", ";
 
-    // Content value quotation mark.
+    // Content quotation mark value.
     private final char quotationMark = '"';
     /**
      * Creates a new CommandVideoRotate object.
@@ -42,21 +43,24 @@ public class CommandVideoRotate implements ICommandStrategy {
      * @return command concatenated.
      */
     @Override
-    public String command() {
-        switch (commandValue) {
-            case 90:
-                return SPACE + VideoCommand.VF.getCommand() + SPACE + this.quotationMark +
-                       VideoCommand.ROTATE.getCommand() + this.quotationMark;
-            case 180:
-                return SPACE + VideoCommand.VF.getCommand() + SPACE + this.quotationMark +
-                        VideoCommand.ROTATE.getCommand() + this.COMMA + VideoCommand.ROTATE.getCommand() +
-                        this.quotationMark;
-            case 270:
-                return SPACE + VideoCommand.VF.getCommand() + SPACE + this.quotationMark +
-                        VideoCommand.ROTATE.getCommand() + this.COMMA + VideoCommand.ROTATE.getCommand() + this.COMMA +
-                        VideoCommand.ROTATE.getCommand() + this.quotationMark;
-            default:
-                return null;
+    public String command() throws CommandValueException {
+        try {
+            switch (commandValue) {
+                case 90:
+                    return SPACE + VideoCommand.VF.getCommand() + SPACE + this.quotationMark +
+                            VideoCommand.ROTATE.getCommand() + this.quotationMark;
+                case 180:
+                    return SPACE + VideoCommand.VF.getCommand() + SPACE + this.quotationMark +
+                            VideoCommand.ROTATE.getCommand() + this.COMMA + VideoCommand.ROTATE.getCommand() +
+                            this.quotationMark;
+                case 270:
+                    return SPACE + VideoCommand.VF.getCommand() + SPACE + this.quotationMark +
+                            VideoCommand.ROTATE.getCommand() + this.COMMA + VideoCommand.ROTATE.getCommand() + this.COMMA +
+                            VideoCommand.ROTATE.getCommand() + this.quotationMark;
+            }
+            throw new CommandValueException("FFMepg doesn't exist", this.getClass().getName());
+        } catch (CommandValueException e) {
+            throw new CommandValueException(e.getMessage(), this.getClass().getName());
         }
     }
 }
