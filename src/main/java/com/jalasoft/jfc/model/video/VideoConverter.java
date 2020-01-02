@@ -67,8 +67,8 @@ public class VideoConverter implements IConverter {
             list.add(new CommandVideoThumbNail(Integer.parseInt(videoParam.getThumbnail())));
             list.add(new CommandVideoRotate(videoParam.getRotate()));
             list.add(new CommandVideoFrameRate(videoParam.getFrameRate()));
-            list.add(new CommandOutputFilePath(videoParam.getOutputPathFile(), videoParam.getInputFileName()));
-            list.add(new CommandOutputFileName(videoParam.getOutputFileName(), videoParam.getInputFileName()));
+            list.add(new CommandOutputFilePath(videoParam.getOutputPathFile(), videoParam.getFolderName()));
+            list.add(new CommandOutputFileName(videoParam.getOutputFileName(), videoParam.getFolderName()));
             String stringCommand = getCommand(list);
             Process process = Runtime.getRuntime().exec(stringCommand);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));

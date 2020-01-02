@@ -23,9 +23,9 @@ public class Param {
   private String inputPathFile;
 
   // It is the input file name without extension.
-  private String inputFileName;
+  private String FolderName;
 
-  // It is the output of the file that wil be converted.
+  // It is the folder name where the files  wil be converted.
   private String outputPathFile;
 
   // Name the file that will be converted.
@@ -54,8 +54,8 @@ public class Param {
    * Gets input file name value without extension.
    * @return inputFileName.
    */
-  public String getInputFileName() {
-    return inputFileName;
+  public String getFolderName() {
+    return FolderName;
   }
 
   /**
@@ -84,10 +84,10 @@ public class Param {
 
   /**
    * Sets input file name without extension.
-   * @param inputFileName
+   * @param folderName
    */
-  public void setInputFileName(String inputFileName) {
-    this.inputFileName = inputFileName;
+  public void setFolderName(String folderName) {
+    this.FolderName = folderName;
   }
 
   /**

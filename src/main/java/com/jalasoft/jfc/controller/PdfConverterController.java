@@ -9,6 +9,7 @@
 
 package com.jalasoft.jfc.controller;
 
+import com.jalasoft.jfc.model.FileResult;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.utility.Md5Checksum;
 import com.jalasoft.jfc.model.Param;
@@ -72,7 +73,7 @@ public class PdfConverterController {
      * @return the path of the upload file.
      */
     @PostMapping
-    public String pdfConverter(
+    public FileResult pdfConverter(
             @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ") String md5,
             @RequestParam String outputFileName,@RequestParam(defaultValue = "0") int rotate,
             @RequestParam(defaultValue = "%") String scale, @RequestParam(defaultValue = "false") boolean thumbnail,
@@ -81,11 +82,9 @@ public class PdfConverterController {
 
         Param param = new PdfParam();
         PdfParam pdfParam = (PdfParam) param;
-        String md5FileUploaded = "a";
-        String md5FileFromClient = "b";
+        FileResult fileResult = new FileResult();
         String sameMd5 = "Md5 Error! binary is invalid.";
         int quantityPages = 0;
-        String fileName;
         IConverter pdfConverter = new PdfConverter();
 
         try {
@@ -95,16 +94,14 @@ public class PdfConverterController {
             PDDocument doc = PDDocument.load(new File(uploadedFile + file.getOriginalFilename()));
             quantityPages = doc.getNumberOfPages();
             pdfParam.setInputPathFile(path.toString());
-            fileName = file.getOriginalFilename();
-            fileName = fileName.replaceFirst("[.][^.]+$", "");
-            pdfParam.setInputFileName(fileName);
-            md5FileUploaded = Md5Checksum.getMd5(path.toString());
+            if (outputFileName.equals(null) || outputFileName.equals("")){
+                outputFileName = file.getOriginalFilename();
+                outputFileName = outputFileName.replaceFirst("[.][^.]+$", "");
+            }
+            String md5FileUploaded = Md5Checksum.getMd5(path.toString());
             pdfParam.setMd5(md5);
-            md5FileFromClient = pdfParam.getMd5();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        try {
+            String md5FileFromClient = pdfParam.getMd5();
+
             if (md5FileUploaded.equals(md5FileFromClient)) {
                 pdfParam.setOutputPathFile(convertedFile);
                 pdfParam.setOutputFileName(outputFileName);
@@ -116,17 +113,22 @@ public class PdfConverterController {
                 pdfParam.setScale(scale);
                 pdfParam.setHeight(height);
                 pdfParam.setRotate(rotate);
+                pdfParam.setFolderName(md5FileUploaded);
 
-                sameMd5 = "convert " + pdfConverter.convert(pdfParam).toString();
+                pdfConverter.convert(pdfParam);
+                fileResult.setPath(pdfParam.getOutputPathFile() +pdfParam.getFolderName());
             }
         }  catch (ConvertException ex) {
             ex.printStackTrace();
         } catch (CommandValueException cve) {
             cve.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
         } catch (Exception ex) {
             ex.printStackTrace();
             // response error result (400, 200)
         }
-        return sameMd5;
+        return fileResult;
     }
+
 }
