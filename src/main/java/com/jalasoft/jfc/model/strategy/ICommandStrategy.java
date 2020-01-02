@@ -29,6 +29,7 @@ public interface ICommandStrategy {
     /**
      * Builds a command.
      * @return String of a command.
+     * @throws CommandValueException when is a invalid command.
      */
-    String command() throws CommandValueException, IOException;
+    String command() throws CommandValueException;
 }
