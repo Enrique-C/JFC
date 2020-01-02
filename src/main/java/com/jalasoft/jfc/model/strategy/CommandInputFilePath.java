@@ -7,14 +7,11 @@
  * license agreement you entered into with Jalasoft.
  */
 
-package com.jalasoft.jfc.model.strategy;
+package com.jalasoft.jfc.model.command;
 
 import com.jalasoft.jfc.model.exception.CommandValueException;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.security.InvalidParameterException;
 
 /**
  * Validates an input file path.

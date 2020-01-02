@@ -14,9 +14,18 @@ import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ConvertException;
-import com.jalasoft.jfc.model.strategy.*;
+import com.jalasoft.jfc.model.strategy.CommandImageConverter;
+import com.jalasoft.jfc.model.strategy.CommandImageFormat;
+import com.jalasoft.jfc.model.strategy.CommandImageMagickPath;
+import com.jalasoft.jfc.model.strategy.CommandImageResize;
+import com.jalasoft.jfc.model.strategy.CommandImageRotate;
+import com.jalasoft.jfc.model.strategy.CommandInputFilePath;
+import com.jalasoft.jfc.model.strategy.CommandOutputFileName;
+import com.jalasoft.jfc.model.strategy.CommandOutputFilePath;
+import com.jalasoft.jfc.model.strategy.CommandThumbnail;
+import com.jalasoft.jfc.model.strategy.ContextStrategy;
+import com.jalasoft.jfc.model.strategy.ICommandStrategy;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,7 +79,7 @@ public class ImageConverter implements IConverter {
             fileResult = new FileResult();
             fileResult.setPath(imageParam.getOutputPathFile());
         } catch (Exception e) {
-            throw new ConvertException("The conversion Image failed", "Command image converter");
+            throw new ConvertException("Error converting Image: " + e.getMessage(), this.getClass().getName());
         }
         return fileResult;
     }

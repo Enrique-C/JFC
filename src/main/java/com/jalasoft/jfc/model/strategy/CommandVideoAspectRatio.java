@@ -6,7 +6,7 @@
  * license agreement you entered into with Jalasoft.
  */
 
-package com.jalasoft.jfc.model.strategy;
+package com.jalasoft.jfc.model.command;
 
 import com.jalasoft.jfc.model.video.VideoCommand;
 

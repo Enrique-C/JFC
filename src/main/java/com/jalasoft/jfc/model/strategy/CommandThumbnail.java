@@ -7,12 +7,9 @@
  * license agreement you entered into with Jalasoft.
  */
 
-package com.jalasoft.jfc.model.strategy;
+package com.jalasoft.jfc.model.command;
 
-import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
-
-import java.util.regex.Pattern;
 
 /**
  * This class validates thumbnail value.
