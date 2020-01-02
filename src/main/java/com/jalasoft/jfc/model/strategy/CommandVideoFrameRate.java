@@ -8,6 +8,7 @@
 
 package com.jalasoft.jfc.model.strategy;
 
+import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.video.VideoCommand;
 
 /**
@@ -37,7 +38,14 @@ public class CommandVideoFrameRate implements ICommandStrategy {
      * @return command concatenated.
      */
     @Override
-    public String command() {
-        return this.SPACE + VideoCommand.FRAME_RATE.getCommand() + SPACE + commandValue;
+    public String command() throws CommandValueException {
+        try {
+            if (commandValue != "") {
+                return this.SPACE + VideoCommand.FRAME_RATE.getCommand() + SPACE + commandValue;
+            }
+            throw new CommandValueException("Can not change the Frame rate", this.getClass().getName());
+        } catch (CommandValueException cve) {
+            throw new CommandValueException(cve.getMessage(), this.getClass().getName());
+        }
     }
 }

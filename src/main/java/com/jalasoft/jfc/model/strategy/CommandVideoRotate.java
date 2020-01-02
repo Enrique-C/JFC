@@ -58,7 +58,7 @@ public class CommandVideoRotate implements ICommandStrategy {
                             VideoCommand.ROTATE.getCommand() + this.COMMA + VideoCommand.ROTATE.getCommand() + this.COMMA +
                             VideoCommand.ROTATE.getCommand() + this.quotationMark;
             }
-            throw new CommandValueException("FFMepg doesn't exist", this.getClass().getName());
+            throw new CommandValueException("Can not rotate the video", this.getClass().getName());
         } catch (CommandValueException e) {
             throw new CommandValueException(e.getMessage(), this.getClass().getName());
         }

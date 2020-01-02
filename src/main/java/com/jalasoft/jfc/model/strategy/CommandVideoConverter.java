@@ -8,6 +8,9 @@
 
 package com.jalasoft.jfc.model.strategy;
 
+import com.jalasoft.jfc.model.exception.CommandValueException;
+import com.jalasoft.jfc.model.video.VideoCommand;
+
 /**
  * This Class converts a video.
  *
@@ -42,7 +45,14 @@ public class CommandVideoConverter implements ICommandStrategy {
      * @return command concatenated.
      */
     @Override
-    public String command() {
-        return this.SPACE + commandValue + this.SPACE;
+    public String command() throws CommandValueException {
+        try {
+            if (commandValue != "") {
+                return this.SPACE + commandValue + this.SPACE;
+            }
+            throw new CommandValueException("Can not convert a video", this.getClass().getName());
+        } catch (CommandValueException cve) {
+            throw new CommandValueException(cve.getMessage(), this.getClass().getName());
+        }
     }
 }

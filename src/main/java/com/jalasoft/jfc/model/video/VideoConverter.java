@@ -13,9 +13,12 @@ import com.jalasoft.jfc.model.FileResult;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
+import com.jalasoft.jfc.model.pdf.PdfParam;
 import com.jalasoft.jfc.model.strategy.CommandFFMpegPath;
 import com.jalasoft.jfc.model.strategy.CommandInputFilePath;
 import com.jalasoft.jfc.model.strategy.CommandVideoAspectRatio;
+import com.jalasoft.jfc.model.strategy.CommandVideoBitRate;
+import com.jalasoft.jfc.model.strategy.CommandVideoCodec;
 import com.jalasoft.jfc.model.strategy.CommandVideoScale;
 import com.jalasoft.jfc.model.strategy.CommandVideoConverter;
 import com.jalasoft.jfc.model.strategy.CommandVideoThumbNail;
@@ -60,39 +63,68 @@ public class VideoConverter implements IConverter {
     }
 
     /**
-     * This method converts a Video to other format.
+     * It is converts a Video to other format.
      * @param param
      * @return FileResult object or null value.
      */
     public FileResult convert(Param param) throws CommandValueException {
         FileResult fileResult = new FileResult();
-        String stringCommand = getCommand(param);
+        VideoParam videoParam = (VideoParam)param;
+        StringBuilder stringCommand = new StringBuilder();
+
+        stringCommand = new StringBuilder();
+        stringCommand.append(videoConvert(videoParam));
+        runCommand(stringCommand.toString());
         System.out.println(stringCommand);
-        int value = runCommand(stringCommand);
+        if (videoParam.getThumbnail()) {
+            stringCommand = new StringBuilder();
+            stringCommand.append(getThumbnail(videoParam));
+            runCommand(stringCommand.toString());
+        }
+        System.out.println(stringCommand);
         return fileResult;
     }
 
     /**
-     * This method is for getting the string command.
+     * It is for getting the string command.
      *
      * @param param
      * @return command concatenated.
      * @throws CommandValueException
      */
-    public String getCommand(Param param) throws CommandValueException {
+    public String videoConvert(Param param) throws CommandValueException {
         VideoParam videoParam = (VideoParam) param;
         try {
             List<ICommandStrategy> list = new ArrayList<>();
             list.add(new CommandFFMpegPath());
             list.add(new CommandInputFilePath(videoParam.getInputPathFile()));
-            list.add(new CommandVideoAspectRatio(videoParam.getAspectRatio()));
-            list.add(new CommandVideoScale(videoParam.getWidth(), videoParam.getHeight()));
-            list.add(new CommandVideoConverter());
-            list.add(new CommandVideoThumbNail(videoParam.getThumbnail()));
-            list.add(new CommandVideoRotate(videoParam.getRotate()));
-            list.add(new CommandVideoFrameRate(videoParam.getFrameRate()));
+            //list.add(new CommandVideoAspectRatio(videoParam.getAspectRatio()));
+            //list.add(new CommandVideoScale(videoParam.getWidth(), videoParam.getHeight()));
+            //list.add(new CommandVideoConverter());
+            //list.add(new CommandVideoRotate(videoParam.getRotate()));
+            //list.add(new CommandVideoCodec(videoParam.getVideoCodec()));
+            list.add(new CommandVideoBitRate(videoParam.getVideoBitRate()));
             list.add(new CommandOutputFilePath(videoParam.getOutputPathFile(), videoParam.getInputFileName()));
             list.add(new CommandOutputFileName(videoParam.getOutputFileName(), videoParam.getInputFileName()));
+            ContextStrategy contextStrategy = new ContextStrategy(list);
+            String result = contextStrategy.buildCommand();
+            return result;
+        } catch (CommandValueException cve) {
+            throw new CommandValueException(cve.getMessage(), this.getClass().getName());
+        } catch (IOException e) {
+            throw new CommandValueException(e.getMessage(), this.getClass().getName());
+        }
+    }
+
+    public String getThumbnail(Param param) throws CommandValueException {
+        VideoParam videoParam = (VideoParam) param;
+        try {
+            List<ICommandStrategy> list = new ArrayList<>();
+            list.add(new CommandFFMpegPath());
+            list.add(new CommandInputFilePath(videoParam.getInputPathFile()));
+            list.add(new CommandVideoThumbNail(videoParam.getThumbnail()));
+            list.add(new CommandOutputFilePath(videoParam.getOutputPathFile(), videoParam.getInputFileName()));
+            list.add(new CommandOutputFileName("thumbnail.gif", videoParam.getInputFileName()));
             ContextStrategy contextStrategy = new ContextStrategy(list);
             String result = contextStrategy.buildCommand();
             return result;

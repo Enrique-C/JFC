@@ -8,6 +8,7 @@
 
 package com.jalasoft.jfc.model.strategy;
 
+import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
 import com.jalasoft.jfc.model.video.VideoCommand;
 
@@ -46,11 +47,16 @@ public class CommandVideoScale implements ICommandStrategy {
      * @return command concatenated.
      */
     @Override
-    public String command() {
-        if (width > numberZero && height > numberZero) {
-            return this.SPACE + VideoCommand.VF.getCommand() + this.SPACE + VideoCommand.SCALE.getCommand() +
-                   width + VideoCommand.COLON.getCommand() + height;
+    public String command() throws CommandValueException {
+        try {
+            if (width > numberZero && height > numberZero) {
+                return this.SPACE + VideoCommand.VF.getCommand() + this.SPACE + VideoCommand.SCALE.getCommand() +
+                        width + VideoCommand.COLON.getCommand() + height;
+            }
+            throw new CommandValueException("Can not change the Frame rate", this.getClass().getName());
+        } catch (CommandValueException cve) {
+            throw new CommandValueException(cve.getMessage(), this.getClass().getName());
         }
-        return null;
+
     }
 }

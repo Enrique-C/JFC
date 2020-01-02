@@ -87,11 +87,11 @@ public class VideoConverterController {
             @RequestParam (defaultValue = "") String audioCodec, @RequestParam (defaultValue = "") String videoBitRate,
             @RequestParam (defaultValue = "") String audioBitRate, @RequestParam (defaultValue = "-1") int quality,
             @RequestParam (defaultValue = "0") int channelsNumber, @RequestParam (defaultValue = "") String volume,
-            @RequestParam (defaultValue = "") short rotate, @RequestParam (defaultValue = "") short thumbnail)
+            @RequestParam (defaultValue = "") short rotate, @RequestParam (defaultValue = "") boolean thumbnail)
             throws CommandValueException {
 
         Md5Checksum md5Checksum = new Md5Checksum();
-        Param param = new VideoParam("thirdparty\\FFmpeg\\bin\\ffmpeg.exe");
+        Param param = new VideoParam();
         VideoParam videoParam = (VideoParam) param;
         String md5FileUploaded = "a";
         String md5FileFromClient = "b";
@@ -104,6 +104,7 @@ public class VideoConverterController {
             Files.write(path, bytes);
             videoParam.setInputPathFile(path.toString());
             md5FileUploaded = md5Checksum.getMd5(path.toString());
+            System.out.println(md5FileUploaded);
             videoParam.setMd5(md5);
             md5FileFromClient = videoParam.getMd5();
         } catch (IOException ex) {

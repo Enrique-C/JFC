@@ -11,6 +11,8 @@ package com.jalasoft.jfc.model.strategy;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.video.VideoCommand;
 
+import java.io.File;
+
 /**
  * Class changes Aspect Ratio.
  *
@@ -38,7 +40,14 @@ public class CommandVideoAspectRatio implements ICommandStrategy{
      * @return command concatenated.
      */
     @Override
-    public String command() {
-        return this.SPACE + VideoCommand.ASPECT_RATIO.getCommand() + this.SPACE + commandValue;
+    public String command() throws CommandValueException {
+        try {
+            if (commandValue != "") {
+                return this.SPACE + VideoCommand.ASPECT_RATIO.getCommand() + this.SPACE + commandValue;
+            }
+            throw new CommandValueException("Can not change the Aspect ratio", this.getClass().getName());
+        } catch (CommandValueException cve) {
+            throw new CommandValueException(cve.getMessage(), this.getClass().getName());
+        }
     }
 }

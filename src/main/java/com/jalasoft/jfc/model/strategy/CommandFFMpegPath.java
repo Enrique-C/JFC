@@ -27,16 +27,12 @@ public class CommandFFMpegPath implements ICommandStrategy {
     // Content command value.
     private  String FFMpegPath;
 
-    // Variable type PathJfc.
-    PathJfc pathJfc;
-
     /**
      * This initialize PathJfc and gets the FfMpeg Path.
      * @throws IOException when is a invalid file.
      */
     public CommandFFMpegPath() throws IOException {
-        pathJfc = new PathJfc();
-        FFMpegPath = pathJfc.getMagickPath();
+        FFMpegPath = PathJfc.getFfmpegPath();
     }
 
     /**
@@ -49,7 +45,7 @@ public class CommandFFMpegPath implements ICommandStrategy {
             File file = new File(FFMpegPath);
 
             if (file.exists()) {
-                return this.SPACE + FFMpegPath;
+                return this.SPACE + FFMpegPath + this.SPACE + VideoCommand.INFILE.getCommand();
             }
             throw new CommandValueException("FFMepg doesn't exist\n", this.getClass().getName());
         } catch (CommandValueException cve){

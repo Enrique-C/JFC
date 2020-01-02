@@ -20,20 +20,20 @@ import com.jalasoft.jfc.model.video.VideoCommand;
 public class CommandVideoThumbNail implements ICommandStrategy{
 
     // Content value to rotate.
-    private int commandValue;
+    private boolean commandValue;
 
     // Content value of one second to extract a thumbnail.
-    private final String secondBegin = "00:00:01.000";
+    private final String secondBegin = "00:00:02.000";
 
     //Content number 0
-    private final short numberZero = 0;
+    private final short getFrames = 100;
 
     /**
      * Creates a new CommandVideoRotate object.
      *
      * @param commandValue, receive a value.
      */
-    public CommandVideoThumbNail(int commandValue) {
+    public CommandVideoThumbNail(boolean commandValue) {
         this.commandValue = commandValue;
     }
 
@@ -44,10 +44,10 @@ public class CommandVideoThumbNail implements ICommandStrategy{
      */
     @Override
     public String command() {
-        if (commandValue > numberZero) {
+        if (commandValue) {
             return this.SPACE + VideoCommand.THUMBNAIL.getCommand() + this.SPACE + secondBegin + this.SPACE +
-                  VideoCommand.V_FRAMES.getCommand() + this.SPACE + commandValue;
+                  VideoCommand.V_FRAMES.getCommand() + this.SPACE + getFrames;
         }
-        return null;
+        return "";
     }
 }

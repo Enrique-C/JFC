@@ -60,18 +60,10 @@ public class VideoParam extends Param {
     private short rotate;
 
     // Content a specific time.
-    private short thumbnail;
+    private boolean thumbnail;
 
     // Number of video frames to output.
     private byte videoFrame;
-
-    /**
-     * Constructor of VideoParam class.
-     * @param fFmpeg is for getting the binary path value.
-     */
-    public VideoParam(String fFmpeg){
-        this.fFmpeg = fFmpeg;
-    }
 
     /**
      * Gets fFmpeg value.
@@ -181,7 +173,7 @@ public class VideoParam extends Param {
      * Gets thumbnail value.
      * @return value of thumbnail.
      */
-    public short getThumbnail() {
+    public boolean getThumbnail() {
         return thumbnail;
     }
 
@@ -293,7 +285,7 @@ public class VideoParam extends Param {
      * Sets thumbnail value.
      * @param thumbnail time String value.
      */
-    public void setThumbnail(short thumbnail) {
+    public void setThumbnail(boolean thumbnail) {
         this.thumbnail = thumbnail;
     }
 
