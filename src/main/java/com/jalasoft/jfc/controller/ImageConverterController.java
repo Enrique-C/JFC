@@ -10,6 +10,9 @@
 package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.IConverter;
+import com.jalasoft.jfc.model.result.ErrorResponse;
+import com.jalasoft.jfc.model.result.FileResponse;
+import com.jalasoft.jfc.model.result.Response;
 import com.jalasoft.jfc.model.utility.Md5Checksum;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
@@ -70,18 +73,18 @@ public class ImageConverterController {
      * @return the path of the upload file.
      */
     @PostMapping()
-    public String imageConverter(
+    public Response imageConverter(
             @RequestParam("file") MultipartFile file,  @RequestParam(defaultValue = " ") String md5,
             @RequestParam String outputFileName, @RequestParam (defaultValue = ".png") String imageFormat,
             @RequestParam (defaultValue = "false") boolean Thumbnail,  @RequestParam (defaultValue = "0")
             int ImageWidth, @RequestParam (defaultValue = "0") int ImageHeight, @RequestParam (defaultValue = "0")
             float degreesToRotate) throws CommandValueException {
 
+        FileResponse fileResponse = new FileResponse();
+        ErrorResponse errorResponse = new ErrorResponse();
         Param param = new ImageParam();
         ImageParam imageParam = (ImageParam) param;
-        String md5FileUploaded = "a";
-        String md5FileFromClient = "b";
-        String sameMd5 = "Md5 Error! binary is invalid.";
+        String failMd5 = "Md5 Error! binary is invalid.";
         IConverter imageConverter = new ImageConverter();
 
         try {
@@ -89,13 +92,10 @@ public class ImageConverterController {
             Path path = Paths.get(uploadedFile + file.getOriginalFilename());
             Files.write(path, bytes);
             imageParam.setInputPathFile(path.toString());
-            md5FileUploaded = Md5Checksum.getMd5(path.toString());
+            String md5FileUploaded = Md5Checksum.getMd5(path.toString());
             imageParam.setMd5(md5);
-            md5FileFromClient = imageParam.getMd5();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        try {
+            String md5FileFromClient = imageParam.getMd5();
+
             if (md5FileUploaded.equals(md5FileFromClient)) {
                 imageParam.setOutputPathFile(convertedFile);
                 imageParam.setImageFormat(imageFormat);
@@ -105,15 +105,34 @@ public class ImageConverterController {
                 imageParam.setImageHeight(ImageHeight);
                 imageParam.setDegreesToRotate(degreesToRotate);
 
-                sameMd5 = "convert" + imageConverter.convert(imageParam).toString();
+                fileResponse = imageConverter.convert(imageParam);
             }
-        }  catch (ConvertException ex) {
-            ex.printStackTrace();
+            else {
+                throw new ConvertException(failMd5,this.getClass().getName());
+            }
+
+        } catch (ConvertException ex) {
+            errorResponse.setName(imageParam.getOutputFileName());
+            errorResponse.setStatus("Error! 406 Not Acceptable");
+            errorResponse.setError(ex.toString());
+            return errorResponse;
         } catch (CommandValueException cve) {
-            cve.printStackTrace();
+            errorResponse.setName(imageParam.getOutputFileName());
+            errorResponse.setStatus("Error! 400 Bad Request");
+            errorResponse.setError(cve.toString());
+            return errorResponse;
+        } catch (IOException ex) {
+            errorResponse.setName(imageParam.getOutputFileName());
+            errorResponse.setStatus("Error! Bad Request");
+            errorResponse.setError(ex.toString());
+            return errorResponse;
         } catch (Exception ex) {
-            ex.printStackTrace();
+            errorResponse.setName(imageParam.getOutputFileName());
+            errorResponse.setStatus("Error! 404 Not Found");
+            errorResponse.setError(ex.toString());
+            return errorResponse;
+            // response error result (400, 200)
         }
-        return sameMd5;
+        return fileResponse;
     }
 }

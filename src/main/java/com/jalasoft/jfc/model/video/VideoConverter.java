@@ -54,7 +54,7 @@ public class VideoConverter implements IConverter {
     public FileResponse convert(Param param) {
 
         VideoParam videoParam = (VideoParam) param;
-        FileResponse fileResult = new FileResponse();
+        FileResponse fileResponse = new FileResponse();
 
         try {
             List<ICommandStrategy> list = new ArrayList<>();
@@ -81,7 +81,10 @@ public class VideoConverter implements IConverter {
         } catch (NullPointerException e) {
             throw new NullPointerException();
         } finally {
-            return fileResult;
+            fileResponse.setName(videoParam.getOutputFileName());
+            fileResponse.setStatus("Conversion Success!");
+            fileResponse.setDownload(videoParam.getOutputPathFile()+videoParam.getOutputFileName());
+            return fileResponse;
         }
     }
 

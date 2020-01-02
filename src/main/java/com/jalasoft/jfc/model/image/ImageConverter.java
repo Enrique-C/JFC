@@ -44,7 +44,7 @@ public class ImageConverter implements IConverter {
     public FileResponse convert(Param param) throws ConvertException, CommandValueException {
         ImageParam imageParam = (ImageParam) param;
 
-        FileResponse fileResult;
+        FileResponse fileResponse = new FileResponse();
 
         String commandString;
 
@@ -66,12 +66,14 @@ public class ImageConverter implements IConverter {
                 Runtime.getRuntime().exec(commandString);
             }
 
-            fileResult = new FileResponse();
-            fileResult.setDownload(imageParam.getOutputPathFile());
+
+            fileResponse.setName(imageParam.getOutputFileName());
+            fileResponse.setStatus("Conversion Success!");
+            fileResponse.setDownload(imageParam.getOutputPathFile()+imageParam.getOutputFileName());
         } catch (Exception e) {
             throw new ConvertException("The conversion Image failed", "Command image converter");
         }
-        return fileResult;
+        return fileResponse;
     }
 
     /**

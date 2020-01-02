@@ -84,7 +84,7 @@ public class PdfConverterController {
 
         Param param = new PdfParam();
         PdfParam pdfParam = (PdfParam) param;
-        FileResponse fileResult = new FileResponse();
+        FileResponse fileResponse = new FileResponse();
         ErrorResponse errorResponse = new ErrorResponse();
         String failMd5 = "Md5 Error! binary is invalid.";
         int quantityPages = 0;
@@ -118,13 +118,13 @@ public class PdfConverterController {
                 pdfParam.setRotate(rotate);
                 pdfParam.setFolderName(md5FileUploaded);
 
-                fileResult = pdfConverter.convert(pdfParam);
+                fileResponse = pdfConverter.convert(pdfParam);
             }
             else {
                 throw new ConvertException(failMd5,this.getClass().getName());
             }
 
-        }  catch (ConvertException ex) {
+        } catch (ConvertException ex) {
             errorResponse.setName(pdfParam.getOutputFileName());
             errorResponse.setStatus("Error! 406 Not Acceptable");
             errorResponse.setError(ex.toString());
@@ -146,7 +146,7 @@ public class PdfConverterController {
             return errorResponse;
             // response error result (400, 200)
         }
-        return fileResult;
+        return fileResponse;
     }
 
 }
