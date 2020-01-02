@@ -85,8 +85,8 @@ public class ImageConverter implements IConverter {
         commandImageList.add(new CommandInputFilePath(imageParam.getInputPathFile()));
         commandImageList.add(new CommandImageRotate(imageParam.getDegreesToRotate()));
         commandImageList.add(new CommandImageResize(imageParam.getImageWidth(), imageParam.getImageHeight()));
-        commandImageList.add(new CommandOutputFilePath(imageParam.getOutputPathFile(), imageParam.getInputFileName()));
-        commandImageList.add(new CommandOutputFileName(imageParam.getOutputFileName(), imageParam.getInputFileName()));
+        commandImageList.add(new CommandOutputFilePath(imageParam.getOutputPathFile(), imageParam.getFolderName()));
+        commandImageList.add(new CommandOutputFileName(imageParam.getOutputFileName(), imageParam.getFolderName()));
         commandImageList.add(new CommandImageFormat(imageParam.getImageFormat()));
     }
 
@@ -102,8 +102,8 @@ public class ImageConverter implements IConverter {
         commandThumbnailList.add(new CommandImageConverter());
         commandThumbnailList.add(new CommandInputFilePath(imageParam.getInputPathFile()));
         commandThumbnailList.add(new CommandThumbnail(imageParam.isThumbnail()));
-        commandThumbnailList.add(new CommandOutputFilePath(imageParam.getOutputPathFile(), imageParam.getInputFileName()));
-        commandThumbnailList.add(new CommandOutputFileName(THUMBNAIL_TAG, imageParam.getInputFileName()));
+        commandThumbnailList.add(new CommandOutputFilePath(imageParam.getOutputPathFile(), imageParam.getFolderName()));
+        commandThumbnailList.add(new CommandOutputFileName(THUMBNAIL_TAG, imageParam.getFolderName()));
         commandThumbnailList.add(new CommandImageFormat(imageParam.getImageFormat()));
     }
 }
