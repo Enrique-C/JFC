@@ -22,7 +22,7 @@ public class Param {
   // It is the input of the file that wil be converted.
   private String inputPathFile;
 
-  // It is the folder name where the files will be save.
+  // It is the folder name where the files will be saved.
   private String folderName;
 
   // It is the output of the file that wil be converted.
