@@ -43,6 +43,7 @@ public class CommandOutputFilePath implements ICommandStrategy {
     /**
      * Generates a command.
      * @return output path.
+     * @throws CommandValueException when is a invalid command.
      */
     @Override
     public String command() throws CommandValueException {

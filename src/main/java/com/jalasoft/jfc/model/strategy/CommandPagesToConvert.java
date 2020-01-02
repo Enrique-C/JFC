@@ -42,7 +42,7 @@ public class CommandPagesToConvert implements ICommandStrategy {
     /**
      * Build a command.
      * @return String of pages to convert.
-     * @throws CommandValueException
+     * @throws CommandValueException when is a invalid command.
      */
     public String command() throws CommandValueException {
         final Pattern pattern = Pattern.compile("^(?:\\d+(?:-\\d+)?(?:,|$))+$");

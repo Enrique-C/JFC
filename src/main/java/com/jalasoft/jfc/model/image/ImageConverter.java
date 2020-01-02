@@ -36,7 +36,7 @@ public class ImageConverter implements IConverter {
      * Changes an Image format to another one.
      * @param param Image parameters.
      * @return Conversion status.
-     * @throws IOException when is a invalid file.
+     * @throws CommandValueException when is a invalid command.
      * @throws ConvertException when the conversion failed.
      */
     public FileResult convert(Param param) throws ConvertException, CommandValueException {
@@ -70,7 +70,7 @@ public class ImageConverter implements IConverter {
     /**
      * Generates a command to convert an image to another image.
      * @param imageParam receives image params.
-     * @throws IOException when is a invalid file.
+     * @throws CommandValueException when is a invalid command.
      */
     private void generateImage(ImageParam imageParam) throws CommandValueException {
         commonCommandImage(imageParam);
@@ -85,7 +85,7 @@ public class ImageConverter implements IConverter {
     /**
      * Generates a command to convert an image to thumbnail.
      * @param imageParam receives image params.
-     * @throws IOException when is a invalid file.
+     * @throws CommandValueException when is a invalid command.
      */
     private void generateThumbnail(ImageParam imageParam) throws CommandValueException {
         commonCommandImage(imageParam);
@@ -99,6 +99,7 @@ public class ImageConverter implements IConverter {
     /**
      * Generates a command common.
      * @param imageParam receives image params.
+     * @throws CommandValueException when is a invalid command.
      */
     private void commonCommandImage(ImageParam imageParam) throws CommandValueException {
         commandStrategyList.add(new CommandImageMagickPath());

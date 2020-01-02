@@ -37,6 +37,7 @@ public class ContextStrategy {
     /**
      * This method builds a command.
      * @return commandString concatenated.
+     * @throws CommandValueException when is a invalid command.
      */
     public String buildCommand() throws CommandValueException {
         StringBuilder commandString = new StringBuilder();

@@ -48,6 +48,7 @@ public class PdfConverter implements IConverter {
 
     // Variable of CommandStrategy.
     ContextStrategy contextStrategy;
+
     /**
      * This method converts a PDF to Image.
      * @param param
@@ -130,6 +131,10 @@ public class PdfConverter implements IConverter {
         return result;
     }
 
+    /**
+     * THis method generate metadata of input file.
+     * @param pdfParam
+     */
     private void generateMetadata(PdfParam pdfParam) {
         commandsList = new ArrayList<>();
         commandsList.add(new CommandInputFilePath(pdfParam.getInputPathFile()));
