@@ -10,7 +10,7 @@
 package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.IConverter;
-import com.jalasoft.jfc.model.Md5Checksum;
+import com.jalasoft.jfc.model.utility.Md5Checksum;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.utility.PathJfc;
@@ -89,7 +89,6 @@ public class VideoConverterController {
             @RequestParam (defaultValue = "0") int channelsNumber, @RequestParam (defaultValue = "") String volume,
             @RequestParam (defaultValue = "") short rotate) throws CommandValueException {
 
-        Md5Checksum md5Checksum = new Md5Checksum();
         Param param = new VideoParam("thirdparty\\FFmpeg\\bin\\ffmpeg.exe");
         VideoParam videoParam = (VideoParam) param;
         String md5FileUploaded = "a";
@@ -102,7 +101,7 @@ public class VideoConverterController {
             Path path = Paths.get(uploadedFile + file.getOriginalFilename());
             Files.write(path, bytes);
             videoParam.setInputPathFile(path.toString());
-            md5FileUploaded = md5Checksum.getMd5(path.toString());
+            md5FileUploaded = Md5Checksum.getMd5(path.toString());
             videoParam.setMd5(md5);
             md5FileFromClient = videoParam.getMd5();
         } catch (IOException ex) {

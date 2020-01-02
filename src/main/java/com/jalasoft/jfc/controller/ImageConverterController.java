@@ -10,7 +10,7 @@
 package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.IConverter;
-import com.jalasoft.jfc.model.Md5Checksum;
+import com.jalasoft.jfc.model.utility.Md5Checksum;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.image.ImageConverter;
@@ -77,7 +77,6 @@ public class ImageConverterController {
             int ImageWidth, @RequestParam (defaultValue = "0") int ImageHeight, @RequestParam (defaultValue = "0")
             float degreesToRotate) throws CommandValueException {
 
-        Md5Checksum md5Checksum = new Md5Checksum();
         Param param = new ImageParam();
         ImageParam imageParam = (ImageParam) param;
         String md5FileUploaded = "a";
@@ -90,7 +89,7 @@ public class ImageConverterController {
             Path path = Paths.get(uploadedFile + file.getOriginalFilename());
             Files.write(path, bytes);
             imageParam.setInputPathFile(path.toString());
-            md5FileUploaded = md5Checksum.getMd5(path.toString());
+            md5FileUploaded = Md5Checksum.getMd5(path.toString());
             imageParam.setMd5(md5);
             md5FileFromClient = imageParam.getMd5();
         } catch (IOException ex) {
