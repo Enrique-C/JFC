@@ -24,23 +24,14 @@ import java.io.IOException;
  */
 public class CommandImageMagickPath implements ICommandStrategy {
 
-    // Content command value.
+    // Content Image Magick Path value.
     private  String imageMagickPath;
 
-    // Variable type PathJfc.
-    PathJfc pathJfc;
-
     /**
-     * This initialize PathJfc and gets the Image Magick Path.
-     * @throws CommandValueException when is a invalid command.
+     * Assigns the Image Magick Path.
      */
-    public CommandImageMagickPath() throws CommandValueException {
-        try {
-            pathJfc = new PathJfc();
-            imageMagickPath = pathJfc.getMagickPath();
-        } catch (IOException ie) {
-            throw new CommandValueException("invalid path", this.getClass().getName());
-        }
+    public CommandImageMagickPath() {
+        imageMagickPath = PathJfc.getMagickPath();
     }
 
     /**
@@ -54,7 +45,7 @@ public class CommandImageMagickPath implements ICommandStrategy {
             File file = new File(imageMagickPath);
 
             if (file.exists()) {
-                return this.SPACE + imageMagickPath;
+                return imageMagickPath;
             }
             throw new CommandValueException("Image magick doesn't exist\n", "Image magick not found\n");
         } catch (CommandValueException cve) {
