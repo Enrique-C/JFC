@@ -10,7 +10,7 @@
 package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.IConverter;
-import com.jalasoft.jfc.model.Md5Checksum;
+import com.jalasoft.jfc.model.utility.Md5Checksum;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ConvertException;
@@ -79,7 +79,6 @@ public class PdfConverterController {
             @RequestParam(defaultValue = ".png") String imageFormat, @RequestParam(defaultValue = "0") int width,
             @RequestParam(defaultValue = "0") int height, @RequestParam(defaultValue = "") String pagesToConvert) {
 
-        Md5Checksum md5Checksum = new Md5Checksum();
         Param param = new PdfParam();
         PdfParam pdfParam = (PdfParam) param;
         String md5FileUploaded = "a";
@@ -99,7 +98,7 @@ public class PdfConverterController {
             fileName = file.getOriginalFilename();
             fileName = fileName.replaceFirst("[.][^.]+$", "");
             pdfParam.setInputFileName(fileName);
-            md5FileUploaded = md5Checksum.getMd5(path.toString());
+            md5FileUploaded = Md5Checksum.getMd5(path.toString());
             pdfParam.setMd5(md5);
             md5FileFromClient = pdfParam.getMd5();
         } catch (IOException ex) {

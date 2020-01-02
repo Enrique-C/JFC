@@ -7,9 +7,8 @@
  * license agreement you entered into with Jalasoft.
  */
 
-package com.jalasoft.jfc.model;
+package com.jalasoft.jfc.model.utility;
 
-import com.jalasoft.jfc.model.exception.ConvertException;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.FileInputStream;
@@ -34,7 +33,7 @@ public class Md5Checksum {
      * @return String
      * @throws IOException when is a invalid file.
      */
-    public String getMd5(String file) throws IOException {
+    public static String getMd5(String file) throws IOException {
         String checksum = null;
         try {
             checksum = DigestUtils.md5Hex(new FileInputStream(file));
