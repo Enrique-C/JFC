@@ -9,6 +9,10 @@
 
 package com.jalasoft.jfc.model.result;
 
-public interface IResult {
+public class ErrorResponse extends Response {
+    private String Error;
 
+    public void setError(String error) {
+        Error = error;
+    }
 }

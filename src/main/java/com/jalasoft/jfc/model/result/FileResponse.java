@@ -16,24 +16,13 @@ package com.jalasoft.jfc.model.result;
  *
  * @author Juan Martinez
  */
-public class FileResult {
+public class FileResponse {
 
-    // Content path of result file.
-    private String path;
+    // Downolad link of the file.
+    String download;
 
-    /**
-     * Gets path value.
-     * @return path.
-     */
-    public String getPath() {
-        return path;
+    public void setDownload(String download) {
+        this.download = download;
     }
 
-    /**
-     * Sets path String value.
-     * @param path
-     */
-    public void setPath(String path) {
-        this.path = path;
-    }
 }

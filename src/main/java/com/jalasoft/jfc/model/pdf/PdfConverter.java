@@ -8,7 +8,7 @@
  */
 package com.jalasoft.jfc.model.pdf;
 
-import com.jalasoft.jfc.model.result.FileResult;
+import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
@@ -56,8 +56,8 @@ public class PdfConverter implements IConverter {
      * @throws CommandValueException when is a invalid command.
      * @throws ConvertException when the conversion was not completed.
      */
-    public FileResult convert(Param param) throws CommandValueException, ConvertException {
-        FileResult fileResult = new FileResult();
+    public FileResponse convert(Param param) throws CommandValueException, ConvertException {
+        FileResponse fileResult = new FileResponse();
         PdfParam pdfParam = (PdfParam)param;
         StringBuilder stringCommand = new StringBuilder();
         if (!pdfParam.isThumbnail() && !pdfParam.isMetadata()) {

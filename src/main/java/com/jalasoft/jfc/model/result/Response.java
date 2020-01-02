@@ -9,5 +9,18 @@
 
 package com.jalasoft.jfc.model.result;
 
-public class ErrorResult {
+public class Response {
+
+    // Name of the file.
+    String Name;
+    // Status of the conversion.
+    String Status;
+
+    public void setName(String name) {
+        Name = name;
+    }
+
+    public void setStatus(String status) {
+        Status = status;
+    }
 }
