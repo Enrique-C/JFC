@@ -70,7 +70,7 @@ public class PdfConverterController {
      * @param rotate degrees of rotation.
      * @param scale contains input Scale 1-10.
      * @param imageFormat format of a image.
-     * @return the path of the upload file.
+     * @return Result of the conversion.
      */
     @PostMapping
     public FileResult pdfConverter(

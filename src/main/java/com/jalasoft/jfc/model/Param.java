@@ -22,10 +22,10 @@ public class Param {
   // It is the input of the file that wil be converted.
   private String inputPathFile;
 
-  // It is the input file name without extension.
-  private String FolderName;
+  // It is the folder name where the files that will be save.
+  private String folderName;
 
-  // It is the folder name where the files  wil be converted.
+  // It is the output of the file that wil be converted.
   private String outputPathFile;
 
   // Name the file that will be converted.
@@ -51,11 +51,11 @@ public class Param {
   }
 
   /**
-   * Gets input file name value without extension.
-   * @return inputFileName.
+   * getFolderName gets input file name value.
+   * @return folderName.
    */
   public String getFolderName() {
-    return FolderName;
+    return folderName;
   }
 
   /**
@@ -83,11 +83,11 @@ public class Param {
   }
 
   /**
-   * Sets input file name without extension.
+   * setFolderName sets folder name.
    * @param folderName
    */
   public void setFolderName(String folderName) {
-    this.FolderName = folderName;
+    this.folderName = folderName;
   }
 
   /**
