@@ -70,7 +70,7 @@ public class ImageConverterController {
      * @param ImageWidth number of image width.
      * @param ImageHeight number of image height.
      * @param degreesToRotate degrees of rotate.
-     * @return the path of the upload file.
+     * @return Response it mean the result of the conversion.
      */
     @PostMapping()
     public Response imageConverter(
@@ -78,7 +78,7 @@ public class ImageConverterController {
             @RequestParam String outputFileName, @RequestParam (defaultValue = ".png") String imageFormat,
             @RequestParam (defaultValue = "false") boolean Thumbnail,  @RequestParam (defaultValue = "0")
             int ImageWidth, @RequestParam (defaultValue = "0") int ImageHeight, @RequestParam (defaultValue = "0")
-            float degreesToRotate) throws CommandValueException {
+            float degreesToRotate) {
 
         FileResponse fileResponse = new FileResponse();
         ErrorResponse errorResponse = new ErrorResponse();

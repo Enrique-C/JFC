@@ -79,7 +79,7 @@ public class VideoConverterController {
      * @param channelsNumber contains number of output channels.
      * @param volume contains the level of sound.
      * @param rotate degrees of rotation.
-     * @return the path of the upload file.
+     * @return Response it mean the result of the conversion.
      */
     @PostMapping
     public Response videoConverter(
