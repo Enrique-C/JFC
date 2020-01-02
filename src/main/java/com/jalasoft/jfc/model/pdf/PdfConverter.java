@@ -61,9 +61,8 @@ public class PdfConverter implements IConverter {
             stringCommand.append(generateImage(pdfParam));
             runCommand(stringCommand.toString());
         }
-
         if (pdfParam.isThumbnail()) {
-            stringCommand.delete(0, stringCommand.length());
+            stringCommand = new StringBuilder();
             stringCommand.append(generateImage(pdfParam));
             runCommand(stringCommand.toString());
             stringCommand = new StringBuilder();
@@ -71,7 +70,7 @@ public class PdfConverter implements IConverter {
             runCommand(stringCommand.toString());
         }
         if (pdfParam.isMetadata()) {
-            stringCommand.delete(0, stringCommand.length());
+            stringCommand = new StringBuilder();
             stringCommand.append(generateImage(pdfParam));
             runCommand(stringCommand.toString());
             generateMetadata(pdfParam);
@@ -98,8 +97,8 @@ public class PdfConverter implements IConverter {
         commandsList.add(new CommandImageResize(pdfParam.getWidth(), pdfParam.getHeight()));
         commandsList.add(new CommandScale(pdfParam.getScale()));
         commandsList.add(new CommandImageRotate(pdfParam.getRotate()));
-        commandsList.add(new CommandOutputFilePath(pdfParam.getOutputPathFile()));
-        commandsList.add(new CommandOutputFileName(pdfParam.getOutputFileName()));
+        commandsList.add(new CommandOutputFilePath(pdfParam.getOutputPathFile(), pdfParam.getInputFileName()));
+        commandsList.add(new CommandOutputFileName(pdfParam.getOutputFileName(), pdfParam.getInputFileName()));
         commandsList.add(new CommandImageFormat(pdfParam.getImageFormat()));
         contextStrategy = new ContextStrategy(commandsList);
         String result = contextStrategy.buildCommand();
@@ -122,8 +121,9 @@ public class PdfConverter implements IConverter {
         commandsList.add(new CommandInputFilePath(pdfParam.getInputPathFile()));
         commandsList.add(new CommandPagesToConvert(pdfParam.getPagesToConvert(), pdfParam.getQuantityOfPage()));
         commandsList.add(new CommandThumbnail(pdfParam.isThumbnail()));
-        commandsList.add(new CommandOutputFilePath(pdfParam.getOutputPathFile()));
-        commandsList.add(new CommandOutputFileName(pdfParam.getOutputFileName() + "_t"));
+        commandsList.add(new CommandOutputFilePath(pdfParam.getOutputPathFile(), pdfParam.getInputFileName()));
+        commandsList.add(new CommandOutputFileName(pdfParam.getOutputFileName() + "_t",
+                pdfParam.getInputFileName() + "_t"));
         commandsList.add(new CommandImageFormat(pdfParam.getImageFormat()));
         contextStrategy = new ContextStrategy(commandsList);
         String result = contextStrategy.buildCommand();

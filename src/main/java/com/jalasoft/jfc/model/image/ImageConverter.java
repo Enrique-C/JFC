@@ -77,8 +77,8 @@ public class ImageConverter implements IConverter {
 
         commandStrategyList.add(new CommandImageRotate(imageParam.getDegreesToRotate()));
         commandStrategyList.add(new CommandImageResize(imageParam.getImageWidth(), imageParam.getImageHeight()));
-        commandStrategyList.add(new CommandOutputFilePath(imageParam.getOutputPathFile()));
-        commandStrategyList.add(new CommandOutputFileName(imageParam.getOutputFileName()));
+        commandStrategyList.add(new CommandOutputFilePath(imageParam.getOutputPathFile(), imageParam.getInputFileName()));
+        commandStrategyList.add(new CommandOutputFileName(imageParam.getOutputFileName(), imageParam.getInputFileName()));
         commandStrategyList.add(new CommandImageFormat(imageParam.getImageFormat()));
     }
 
@@ -91,8 +91,8 @@ public class ImageConverter implements IConverter {
         commonCommandImage(imageParam);
 
         commandStrategyList.add(new CommandThumbnail(imageParam.isThumbnail()));
-        commandStrategyList.add(new CommandOutputFilePath(imageParam.getOutputPathFile()));
-        commandStrategyList.add(new CommandOutputFileName(imageParam.getOutputFileName()));
+        commandStrategyList.add(new CommandOutputFilePath(imageParam.getOutputPathFile(), imageParam.getInputFileName()));
+        commandStrategyList.add(new CommandOutputFileName(imageParam.getOutputFileName(), imageParam.getInputFileName()));
         commandStrategyList.add(new CommandImageFormat(imageParam.getImageFormat()));
     }
 
