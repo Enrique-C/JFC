@@ -86,6 +86,7 @@ public class PdfConverterController {
         String md5FileFromClient = "b";
         String sameMd5 = "Md5 Error! binary is invalid.";
         int quantityPages = 0;
+        String fileName;
         IConverter pdfConverter = new PdfConverter();
 
         try {
@@ -95,6 +96,9 @@ public class PdfConverterController {
             PDDocument doc = PDDocument.load(new File(uploadedFile + file.getOriginalFilename()));
             quantityPages = doc.getNumberOfPages();
             pdfParam.setInputPathFile(path.toString());
+            fileName = file.getOriginalFilename();
+            fileName = fileName.replaceFirst("[.][^.]+$", "");
+            pdfParam.setInputFileName(fileName);
             md5FileUploaded = md5Checksum.getMd5(path.toString());
             pdfParam.setMd5(md5);
             md5FileFromClient = pdfParam.getMd5();

@@ -110,6 +110,8 @@ public class ImageConverterController {
             }
         }  catch (ConvertException ex) {
             ex.printStackTrace();
+        } catch (CommandValueException cve) {
+            cve.printStackTrace();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
