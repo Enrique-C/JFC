@@ -10,7 +10,7 @@
 package com.jalasoft.jfc.model.result;
 
 /**
- * This class is used in order to return an error on the conversion.
+ * This class is used to return an error on the conversion.
  *
  * @version 0.1 02 Jan 2020
  *
@@ -23,7 +23,7 @@ public class ErrorResponse extends Response {
 
     /**
      * Sets the type of error.
-     * @param error
+     * @param error receives the type of error.
      */
     public void setError(String error) {
         this.error = error;

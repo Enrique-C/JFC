@@ -10,7 +10,7 @@
 package com.jalasoft.jfc.model.result;
 
 /**
- * This class is used in order to return the file converted.
+ * This class is used to return the information about the file converted.
  *
  * @version 0.1 02 Jan 2020
  *
@@ -26,7 +26,7 @@ public class Response {
 
     /**
      * Sets the name of file.
-     * @param name
+     * @param name receives the name of the file.
      */
     public void setName(String name) {
         Name = name;
