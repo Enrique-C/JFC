@@ -10,8 +10,10 @@
 package com.jalasoft.jfc.model.strategy;
 
 import com.jalasoft.jfc.model.exception.CommandValueException;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * Validates a output file path.
@@ -25,30 +27,36 @@ public class CommandOutputFilePath implements ICommandStrategy {
     // Content command value.
     private String commandValue;
 
+    // Content input file name without extension.
+    private String inputFileName;
+
     /**
      * It Creates a new CommandOutputFilePath object.
      * @param commandValue contains a value.
+     * @param inputFileName contains file name witout extension.
      */
-    public CommandOutputFilePath(String commandValue) {
+    public CommandOutputFilePath(String commandValue, String inputFileName) {
         this.commandValue = commandValue;
+        this.inputFileName = inputFileName;
     }
 
     /**
      * Generates a command.
      * @return output path.
+     * @throws CommandValueException when is a invalid command.
      */
     @Override
-    public String command() throws CommandValueException, NullPointerException {
+    public String command() throws CommandValueException {
         File file = new File(commandValue);
         try {
             if (file.exists()) {
-                return this.SPACE + commandValue;
+                file = new File(commandValue + inputFileName);
+                file.mkdir();
+                return this.SPACE + commandValue + inputFileName + "/";
             }
             throw new CommandValueException("Invalid input file path value\n", "File not found\n");
-        } catch (CommandValueException cve){
-            throw new CommandValueException(cve.getMessage(), this.getClass().getName());
         } catch (NullPointerException nex) {
-            throw  new NullPointerException("Pages to convert value is NULL " + this.getClass().getName());
+            throw  new CommandValueException("Pages to convert value is NULL ", this.getClass().getName());
         }
     }
 }

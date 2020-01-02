@@ -22,6 +22,9 @@ public class Param {
   // It is the input of the file that wil be converted.
   private String inputPathFile;
 
+  // It is the input file name without extension.
+  private String inputFileName;
+
   // It is the output of the file that wil be converted.
   private String outputPathFile;
 
@@ -48,6 +51,14 @@ public class Param {
   }
 
   /**
+   * Gets input file name value without extension.
+   * @return inputFileName.
+   */
+  public String getInputFileName() {
+    return inputFileName;
+  }
+
+  /**
    * getOutputPathFile gets outputPathFile value.
    * @return inputPathFile String value.
    */
@@ -69,6 +80,14 @@ public class Param {
    */
   public void setInputPathFile(String inputPathFile) {
     this.inputPathFile = inputPathFile;
+  }
+
+  /**
+   * Sets input file name without extension.
+   * @param inputFileName
+   */
+  public void setInputFileName(String inputFileName) {
+    this.inputFileName = inputFileName;
   }
 
   /**

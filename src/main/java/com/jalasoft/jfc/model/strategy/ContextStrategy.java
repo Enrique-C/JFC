@@ -37,21 +37,14 @@ public class ContextStrategy {
     /**
      * This method builds a command.
      * @return commandString concatenated.
+     * @throws CommandValueException when is a invalid command.
      */
-    public String buildCommand() throws CommandValueException, NullPointerException, IOException {
+    public String buildCommand() throws CommandValueException {
         StringBuilder commandString = new StringBuilder();
-        try {
             for (ICommandStrategy itemCmd : commands) {
                 String itemCmdValue = itemCmd.command();
-                    commandString.append(itemCmdValue);
+                commandString.append(itemCmdValue);
             }
-            return commandString.toString();
-        } catch (CommandValueException cve){
-            throw new CommandValueException(cve.getMessage(), this.getClass().getName());
-        } catch (NullPointerException nex) {
-            throw  new NullPointerException(nex.getMessage());
-        } catch (IOException e) {
-            throw new IOException(e.getMessage());
-        }
+        return commandString.toString();
     }
 }

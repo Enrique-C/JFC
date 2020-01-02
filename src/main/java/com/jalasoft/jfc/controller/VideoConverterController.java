@@ -87,7 +87,7 @@ public class VideoConverterController {
             @RequestParam (defaultValue = "") String audioCodec, @RequestParam (defaultValue = "") String videoBitRate,
             @RequestParam (defaultValue = "") String audioBitRate, @RequestParam (defaultValue = "-1") int quality,
             @RequestParam (defaultValue = "0") int channelsNumber, @RequestParam (defaultValue = "") String volume,
-            @RequestParam (defaultValue = "") short rotate, @RequestParam (defaultValue = "") short thumbNail)
+            @RequestParam (defaultValue = "") short rotate, @RequestParam (defaultValue = "") short thumbnail)
             throws CommandValueException {
 
         Md5Checksum md5Checksum = new Md5Checksum();
@@ -126,13 +126,15 @@ public class VideoConverterController {
                 videoParam.setAudioCodec(audioCodec);
                 videoParam.setVideoBitRate(videoBitRate);
                 videoParam.setAudioBitRate(audioBitRate);
-                videoParam.setThumbNail(thumbNail);
+                videoParam.setThumbnail(thumbnail);
 
                 sameMd5 = "converted " + videoConverter.convert(videoParam).toString();
             }
-        } catch (IOException ex) {
-            ex.printStackTrace();
         } catch (ConvertException ex) {
+            ex.printStackTrace();
+        } catch (CommandValueException cve) {
+            cve.printStackTrace();
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return sameMd5;

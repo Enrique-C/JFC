@@ -18,12 +18,14 @@ import com.jalasoft.jfc.model.pdf.PdfConverter;
 import com.jalasoft.jfc.model.pdf.PdfParam;
 import com.jalasoft.jfc.model.utility.PathJfc;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -75,7 +77,7 @@ public class PdfConverterController {
             @RequestParam String outputFileName,@RequestParam(defaultValue = "0") int rotate,
             @RequestParam(defaultValue = "%") String scale, @RequestParam(defaultValue = "false") boolean thumbnail,
             @RequestParam(defaultValue = ".png") String imageFormat, @RequestParam(defaultValue = "0") int width,
-            @RequestParam(defaultValue = "0") int height, @RequestParam String pagesToConvert) {
+            @RequestParam(defaultValue = "0") int height, @RequestParam(defaultValue = "") String pagesToConvert) {
 
         Md5Checksum md5Checksum = new Md5Checksum();
         Param param = new PdfParam();
@@ -83,13 +85,20 @@ public class PdfConverterController {
         String md5FileUploaded = "a";
         String md5FileFromClient = "b";
         String sameMd5 = "Md5 Error! binary is invalid.";
+        int quantityPages = 0;
+        String fileName;
         IConverter pdfConverter = new PdfConverter();
 
         try {
             byte[] bytes = file.getBytes();
             Path path = Paths.get(uploadedFile + file.getOriginalFilename());
             Files.write(path, bytes);
+            PDDocument doc = PDDocument.load(new File(uploadedFile + file.getOriginalFilename()));
+            quantityPages = doc.getNumberOfPages();
             pdfParam.setInputPathFile(path.toString());
+            fileName = file.getOriginalFilename();
+            fileName = fileName.replaceFirst("[.][^.]+$", "");
+            pdfParam.setInputFileName(fileName);
             md5FileUploaded = md5Checksum.getMd5(path.toString());
             pdfParam.setMd5(md5);
             md5FileFromClient = pdfParam.getMd5();
@@ -102,21 +111,22 @@ public class PdfConverterController {
                 pdfParam.setOutputFileName(outputFileName);
                 pdfParam.setImageFormat(imageFormat);
                 pdfParam.setPagesToConvert(pagesToConvert);
+                pdfParam.setQuantityOfPage(quantityPages);
                 pdfParam.setThumbnail(thumbnail);
                 pdfParam.setWidth(width);
                 pdfParam.setScale(scale);
                 pdfParam.setHeight(height);
+                pdfParam.setRotate(rotate);
 
                 sameMd5 = "convert " + pdfConverter.convert(pdfParam).toString();
             }
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } catch (ConvertException ex) {
+        }  catch (ConvertException ex) {
             ex.printStackTrace();
         } catch (CommandValueException cve) {
             cve.printStackTrace();
-        } catch (NullPointerException nex) {
-            nex.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            // response error result (400, 200)
         }
         return sameMd5;
     }

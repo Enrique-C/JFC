@@ -79,7 +79,7 @@ public class VideoConverter implements IConverter {
      * @return command concatenated.
      * @throws CommandValueException
      */
-    public String getCommand(Param param) throws CommandValueException, IOException {
+    public String getCommand(Param param) throws CommandValueException {
         VideoParam videoParam = (VideoParam) param;
         try {
             List<ICommandStrategy> list = new ArrayList<>();
@@ -91,8 +91,8 @@ public class VideoConverter implements IConverter {
             list.add(new CommandVideoThumbNail(videoParam.getThumbnail()));
             list.add(new CommandVideoRotate(videoParam.getRotate()));
             list.add(new CommandVideoFrameRate(videoParam.getFrameRate()));
-            list.add(new CommandOutputFilePath(videoParam.getOutputPathFile()));
-            list.add(new CommandOutputFileName(videoParam.getOutputFileName()));
+            list.add(new CommandOutputFilePath(videoParam.getOutputPathFile(), videoParam.getInputFileName()));
+            list.add(new CommandOutputFileName(videoParam.getOutputFileName(), videoParam.getInputFileName()));
             ContextStrategy contextStrategy = new ContextStrategy(list);
             String result = contextStrategy.buildCommand();
             return result;

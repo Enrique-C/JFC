@@ -49,10 +49,8 @@ public class CommandInputFilePath implements ICommandStrategy {
                 return this.SPACE + commandValue;
             }
             throw new CommandValueException("Invalid input file path value\n", "File not found\n");
-        } catch (CommandValueException cve){
-            throw new CommandValueException(cve.getMessage(), this.getClass().getName());
         } catch (NullPointerException nex) {
-            throw  new NullPointerException("Pages to convert value is NULL " + this.getClass().getName());
+            throw  new CommandValueException("Pages to convert value is NULL ", this.getClass().getName());
         }
     }
 }

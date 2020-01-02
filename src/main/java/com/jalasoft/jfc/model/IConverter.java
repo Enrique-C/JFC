@@ -33,5 +33,5 @@ public interface IConverter {
      * @throws ConvertException this.
      */
 
-    FileResult convert(Param param) throws ConvertException , IOException, CommandValueException;
+    FileResult convert(Param param) throws ConvertException, CommandValueException, IOException;
 }
