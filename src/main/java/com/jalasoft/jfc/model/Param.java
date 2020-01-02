@@ -22,7 +22,7 @@ public class Param {
   // It is the input of the file that wil be converted.
   private String inputPathFile;
 
-  // It is the folder name where the files that will be save.
+  // It is the folder name where the files will be save.
   private String folderName;
 
   // It is the output of the file that wil be converted.
@@ -35,7 +35,7 @@ public class Param {
   private String md5;
 
   /**
-   * getMd5 gets the checksum value.
+   * Gets the checksum value.
    * @return md5 String value.
    */
   public String getMd5() {
@@ -43,7 +43,7 @@ public class Param {
   }
 
   /**
-   * getInputPathFile gets inputPathFile value.
+   * Gets inputPathFile value.
    * @return inputPathFile String value.
    */
   public String getInputPathFile() {
@@ -51,7 +51,7 @@ public class Param {
   }
 
   /**
-   * getFolderName gets input file name value.
+   * Gets input file name value.
    * @return folderName.
    */
   public String getFolderName() {
@@ -59,7 +59,7 @@ public class Param {
   }
 
   /**
-   * getOutputPathFile gets outputPathFile value.
+   * Gets outputPathFile value.
    * @return inputPathFile String value.
    */
   public String getOutputPathFile() {
@@ -67,7 +67,7 @@ public class Param {
   }
 
   /**
-   * getOutputFileName gets outputFileName value.
+   * Gets outputFileName value.
    * @return outputFileName String value.
    */
   public String getOutputFileName() {
@@ -91,7 +91,7 @@ public class Param {
   }
 
   /**
-   * setOutputPathFile sets outputPathFile value.
+   * Sets outputPathFile value.
    * @param outputPathFile for setting in this.outputPathFile.
    */
   public void setOutputPathFile(String outputPathFile) {
@@ -99,7 +99,7 @@ public class Param {
   }
 
   /**
-   * setOutputFileName sets outputFileName value.
+   * Sets outputFileName value.
    * @param outputFileName for setting this.outputFileName.
    */
   public void setOutputFileName(String outputFileName) {
@@ -107,8 +107,8 @@ public class Param {
   }
 
   /**
-   * setMd5 sets md5 value.
-   * @param md5 for settint this.md5.
+   * Sets md5 value.
+   * @param md5 for setting this.md5.
    */
   public void setMd5(String md5) {
     this.md5 = md5;
