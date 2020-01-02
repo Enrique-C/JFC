@@ -64,7 +64,7 @@ public class VideoConverter implements IConverter {
      * @param param
      * @return FileResult object or null value.
      */
-    public FileResult convert(Param param) throws CommandValueException, IOException {
+    public FileResult convert(Param param) throws CommandValueException {
         FileResult fileResult = new FileResult();
         String stringCommand = getCommand(param);
         System.out.println(stringCommand);
@@ -96,8 +96,10 @@ public class VideoConverter implements IConverter {
             ContextStrategy contextStrategy = new ContextStrategy(list);
             String result = contextStrategy.buildCommand();
             return result;
-        } catch (CommandValueException | IOException cve) {
+        } catch (CommandValueException cve) {
             throw new CommandValueException(cve.getMessage(), this.getClass().getName());
+        } catch (IOException e) {
+            throw new CommandValueException(e.getMessage(), this.getClass().getName());
         }
     }
 }
