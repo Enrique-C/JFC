@@ -54,7 +54,6 @@ public class ImageConverter implements IConverter {
         }
 
         generateImage(imageParam);
-
         ContextStrategy commandImageContext = new ContextStrategy(commandImageList);
 
         try {
@@ -65,7 +64,6 @@ public class ImageConverter implements IConverter {
             if (!commandThumbnailList.isEmpty()) {
                 ContextStrategy commandThumbnailContext = new ContextStrategy(commandThumbnailList);
                 commandString = commandThumbnailContext.buildCommand();
-
                 Runtime.getRuntime().exec(commandString);
             }
 
