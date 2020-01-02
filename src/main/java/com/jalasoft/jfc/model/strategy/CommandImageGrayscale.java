@@ -33,7 +33,7 @@ public class CommandImageGrayscale implements ICommandStrategy{
     }
 
     /**
-     * This method builds a command.
+     * Builds a command.
      * @return command concatenated.
      * @throws CommandValueException generates a error message.
      */
