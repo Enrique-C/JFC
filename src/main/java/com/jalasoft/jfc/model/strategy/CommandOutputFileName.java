@@ -9,6 +9,10 @@
 
 package com.jalasoft.jfc.model.strategy;
 
+import com.jalasoft.jfc.model.exception.CommandValueException;
+
+import java.security.InvalidParameterException;
+
 /**
  * This class verify if outputFileName value.
  *
@@ -30,16 +34,18 @@ public class CommandOutputFileName implements ICommandStrategy {
     }
 
     /**
-     * Builds command.
-     * @return String of a command.
+     * Build command.
+     * @return string of command.
+     * @throws CommandValueException
      */
-    public String command(){
+    public String command() throws CommandValueException {
         String regexRule = "[^a-zA-Z0-9]";
         String replaceValue = "";
-        if (commandValue != null){
+
+            if (commandValue.equals("")) {
+                commandValue = "image";
+            }
             commandValue = commandValue.replaceAll(regexRule, replaceValue);
-            return commandValue;
-        }
-        return null;
+        return commandValue;
     }
 }

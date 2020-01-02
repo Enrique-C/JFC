@@ -29,7 +29,9 @@ public enum ImageMagickCommand {
     EN_DASH("-"),
     CLOSE_BRACKET("]"),
     ASTERISK("x"),
-    ROTATE("-rotate");
+    ROTATE("-rotate"),
+    BACKGROUND("-background"),
+    ALPHA("-alpha");
 
     // Command variable.
     private String command;

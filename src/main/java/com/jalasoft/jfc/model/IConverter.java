@@ -9,8 +9,10 @@
 
 package com.jalasoft.jfc.model;
 
+import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ConvertException;
-import org.im4java.utils.BatchConverter;
+
+import java.io.IOException;
 
 /**
  *
@@ -26,6 +28,10 @@ public interface IConverter {
      * Convert files to another type file.
      * @param param it receives file params.
      * @return state of conversion.
+     * @throws IOException when is a invalid file.
+     * @throws CommandValueException this.
+     * @throws ConvertException this.
      */
-    public FileResult convert(Param param) throws ConvertException;
+
+    FileResult convert(Param param) throws ConvertException , IOException, CommandValueException;
 }

@@ -9,6 +9,7 @@
 
 package com.jalasoft.jfc.model.strategy;
 
+import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
 import java.util.regex.Pattern;
 
@@ -36,14 +37,20 @@ public class CommandScale implements ICommandStrategy {
      * This method builds a command.
      * @return command concatenated.
      */
-    public String command() {
+    public String command() throws CommandValueException, NullPointerException {
         final Pattern pattern = Pattern.compile("[0-9]\\d*[%]");
-        String result = null;
-        if (commandValue != null) {
-            if (pattern.matcher(commandValue).matches()) {
-                result = SPACE + ImageMagickCommand.SCALE.getCommand() + SPACE + commandValue;
+        try {
+            if (commandValue.equals("%")) {
+                return "";
             }
+            if (pattern.matcher(commandValue).matches()) {
+                return SPACE + ImageMagickCommand.SCALE.getCommand() + SPACE + commandValue;
+            }
+            throw new CommandValueException("Invalid scale value\n", "command value is invalid\n");
+        } catch (CommandValueException cve){
+            throw new CommandValueException(cve.getMessage(), this.getClass().getName());
+        } catch (NullPointerException nex) {
+            throw  new NullPointerException("Command value is NULL " + this.getClass().getName());
         }
-        return result;
     }
 }
