@@ -41,7 +41,6 @@ public class CommandImageMagickPath implements ICommandStrategy {
         } catch (IOException ie) {
             throw new CommandValueException("invalid path", this.getClass().getName());
         }
-
     }
 
     /**
@@ -57,7 +56,7 @@ public class CommandImageMagickPath implements ICommandStrategy {
                 return this.SPACE + imageMagickPath;
             }
             throw new CommandValueException("Image magick doesn't exist\n", "Image magick not found\n");
-        } catch (CommandValueException cve){
+        } catch (CommandValueException cve) {
             throw new CommandValueException(cve.getMessage(), this.getClass().getName());
         }
     }

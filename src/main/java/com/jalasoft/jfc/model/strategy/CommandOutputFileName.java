@@ -25,12 +25,16 @@ public class CommandOutputFileName implements ICommandStrategy {
     // Content command value.
     private String commandValue;
 
+    // Content input file name without extension.
+    private String inputFileName;
+
     /**
      * It Creates a new CommandOutputFileName object.
      * @param commandValue contains a value.
      */
-    public CommandOutputFileName(String commandValue) {
+    public CommandOutputFileName(String commandValue, String inputFileName) {
         this.commandValue = commandValue;
+        this.inputFileName = inputFileName;
     }
 
     /**
@@ -42,8 +46,8 @@ public class CommandOutputFileName implements ICommandStrategy {
         String regexRule = "[^a-zA-Z0-9]";
         String replaceValue = "";
 
-            if (commandValue.equals("")) {
-                commandValue = "image";
+            if (commandValue.equals("_t") || commandValue.isEmpty()) {
+                commandValue = inputFileName;
             }
             commandValue = commandValue.replaceAll(regexRule, replaceValue);
         return commandValue;
