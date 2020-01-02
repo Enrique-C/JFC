@@ -128,9 +128,11 @@ public class VideoConverterController {
 
                 sameMd5 = "converted " + videoConverter.convert(videoParam).toString();
             }
-        } catch (IOException ex) {
-            ex.printStackTrace();
         } catch (ConvertException ex) {
+            ex.printStackTrace();
+        } catch (CommandValueException cve) {
+            cve.printStackTrace();
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return sameMd5;

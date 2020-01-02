@@ -32,16 +32,21 @@ public class CommandImageMagickPath implements ICommandStrategy {
 
     /**
      * This initialize PathJfc and gets the Image Magick Path.
-     * @throws IOException when is a invalid file.
+     * @throws CommandValueException when is a invalid command.
      */
-    public CommandImageMagickPath() throws IOException {
-        pathJfc = new PathJfc();
-        imageMagickPath = pathJfc.getMagickPath();
+    public CommandImageMagickPath() throws CommandValueException {
+        try {
+            pathJfc = new PathJfc();
+            imageMagickPath = pathJfc.getMagickPath();
+        } catch (IOException ie) {
+            throw new CommandValueException("invalid path", this.getClass().getName());
+        }
     }
 
     /**
      * Generates a command.
      * @return exe of ImageMagick path.
+     * @throws CommandValueException when is a invalid command.
      */
     @Override
     public String command() throws CommandValueException {
@@ -52,7 +57,7 @@ public class CommandImageMagickPath implements ICommandStrategy {
                 return this.SPACE + imageMagickPath;
             }
             throw new CommandValueException("Image magick doesn't exist\n", "Image magick not found\n");
-        } catch (CommandValueException cve){
+        } catch (CommandValueException cve) {
             throw new CommandValueException(cve.getMessage(), this.getClass().getName());
         }
     }

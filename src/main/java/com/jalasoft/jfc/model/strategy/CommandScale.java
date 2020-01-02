@@ -36,8 +36,9 @@ public class CommandScale implements ICommandStrategy {
     /**
      * This method builds a command.
      * @return command concatenated.
+     * @throws CommandValueException when is a invalid command.
      */
-    public String command() throws CommandValueException, NullPointerException {
+    public String command() throws CommandValueException {
         final Pattern pattern = Pattern.compile("[0-9]\\d*[%]");
         try {
             if (commandValue.equals("%")) {
@@ -47,10 +48,8 @@ public class CommandScale implements ICommandStrategy {
                 return SPACE + ImageMagickCommand.SCALE.getCommand() + SPACE + commandValue;
             }
             throw new CommandValueException("Invalid scale value\n", "command value is invalid\n");
-        } catch (CommandValueException cve){
-            throw new CommandValueException(cve.getMessage(), this.getClass().getName());
         } catch (NullPointerException nex) {
-            throw  new NullPointerException("Command value is NULL " + this.getClass().getName());
+            throw  new CommandValueException("Command value is NULL ", this.getClass().getName());
         }
     }
 }

@@ -19,7 +19,7 @@ public enum ImageFormat {
     JPEG(".jpg"),
     PNG(".png"),
     GIF(".gif"),
-    TIFF(".tif");
+    BMP(".bmp");
 
     // Command variable
     private String format;
