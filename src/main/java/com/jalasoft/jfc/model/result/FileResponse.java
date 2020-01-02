@@ -18,7 +18,7 @@ package com.jalasoft.jfc.model.result;
  */
 public class FileResponse extends Response{
 
-    // Downolad link of the file.
+    // Download link of the file.
     String download;
 
     /**

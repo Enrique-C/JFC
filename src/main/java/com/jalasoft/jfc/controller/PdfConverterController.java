@@ -9,10 +9,8 @@
 
 package com.jalasoft.jfc.controller;
 
-import com.jalasoft.jfc.model.result.ErrorResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.IConverter;
-import com.jalasoft.jfc.model.result.Response;
 import com.jalasoft.jfc.model.utility.Md5Checksum;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
@@ -85,7 +83,6 @@ public class PdfConverterController {
         Param param = new PdfParam();
         PdfParam pdfParam = (PdfParam) param;
         FileResponse fileResult = new FileResponse();
-        ErrorResponse errorResponse = new ErrorResponse();
         String failMd5 = "Md5 Error! binary is invalid.";
         int quantityPages = 0;
         IConverter pdfConverter = new PdfConverter();
@@ -119,30 +116,17 @@ public class PdfConverterController {
                 pdfParam.setFolderName(md5FileUploaded);
 
                 fileResult = pdfConverter.convert(pdfParam);
-
-            } else{
-                throw new ConvertException(failMd5,this.getClass().getName());
             }
+
+
         }  catch (ConvertException ex) {
-            errorResponse.setName(pdfParam.getOutputFileName());
-            errorResponse.setStatus("400 Bad Request");
-            //errorResponse.setError(ex.toString());
-           // return errorResponse;
+            ex.printStackTrace();
         } catch (CommandValueException cve) {
-            errorResponse.setName(pdfParam.getOutputFileName());
-            errorResponse.setStatus("404 Not Found");
-           // errorResponse.setError(cve.toString());
-           // return errorResponse;
+            cve.printStackTrace();
         } catch (IOException ex) {
-            errorResponse.setName(pdfParam.getOutputFileName());
-            errorResponse.setStatus("400 Bad Request");
-           // errorResponse.setError(ex.toString());
-            //return errorResponse;
+            ex.printStackTrace();
         } catch (Exception ex) {
-            errorResponse.setName(pdfParam.getOutputFileName());
-            errorResponse.setStatus("404 Not Found");
-           // errorResponse.setError(ex.toString());
-            //return errorResponse;
+            ex.printStackTrace();
             // response error result (400, 200)
         }
         return fileResult;
