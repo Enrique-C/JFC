@@ -8,6 +8,7 @@
  */
 package com.jalasoft.jfc.model.pdf;
 
+import com.jalasoft.jfc.model.exception.ZipJfcException;
 import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.IConverter;
@@ -37,6 +38,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.ZipException;
 
 /**
  * This class converts PDF to Image
@@ -63,7 +65,7 @@ public class PdfConverter implements IConverter {
      * @throws CommandValueException when is a invalid command.
      * @throws ConvertException when the conversion was not completed.
      */
-    public FileResponse convert(Param param) throws CommandValueException, ConvertException, IOException {
+    public FileResponse convert(Param param) throws CommandValueException, ConvertException, ZipJfcException {
         FileResponse fileResponse = new FileResponse();
         PdfParam pdfParam = (PdfParam)param;
         StringBuilder stringCommand = new StringBuilder();
@@ -174,7 +176,7 @@ public class PdfConverter implements IConverter {
      * @param pdfParam receives pdfParam.
      * @throws IOException when is a invalid file path.
      */
-    private void zipFile(PdfParam pdfParam) throws IOException {
+    private void zipFile(PdfParam pdfParam) throws ZipJfcException {
         ZipFolder zip = new ZipFolder();
 
         final String BACKSLASH = "/";
