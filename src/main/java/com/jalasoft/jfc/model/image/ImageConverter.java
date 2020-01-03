@@ -133,7 +133,6 @@ public class ImageConverter implements IConverter {
      * @throws IOException when is a invalid file path.
      */
     private void zipFile(ImageParam imageParam) throws IOException {
-        PathJfc pathJfc = new PathJfc();
         ZipFolder zip = new ZipFolder();
 
         final String BACKSLASH = "/";
@@ -142,7 +141,7 @@ public class ImageConverter implements IConverter {
         File[] files = new File(imageParam.getOutputPathFile() + BACKSLASH + imageParam.getFolderName() +
                 BACKSLASH).listFiles();
 
-        File fileZip = new File(pathJfc.getPublicFilePath() + BACKSLASH + imageParam.getFolderName() +
+        File fileZip = new File(PathJfc.getPublicFilePath() + BACKSLASH + imageParam.getFolderName() +
                 ZIP_TAG);
 
 
