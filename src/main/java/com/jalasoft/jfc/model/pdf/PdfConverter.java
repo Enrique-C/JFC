@@ -54,6 +54,9 @@ public class PdfConverter implements IConverter {
     // Variable of CommandStrategy.
     ContextStrategy contextStrategy;
 
+    // Constant Zip.
+    final String ZIP = ".zip";
+
     /**
      * This method converts a PDF to Image.
      * @param param
@@ -86,7 +89,7 @@ public class PdfConverter implements IConverter {
         System.out.println(stringCommand);
         fileResponse.setName(pdfParam.getOutputName());
         fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
-        fileResponse.setDownload(pdfParam.getOutputPathFile()+pdfParam.getOutputName());
+        fileResponse.setDownload(PathJfc.getPublicFilePath()+"/"+pdfParam.getFolderName()+ZIP);
         zipFile(pdfParam);
         return fileResponse;
     }
@@ -167,9 +170,14 @@ public class PdfConverter implements IConverter {
         }
     }
 
+    /**
+     * Zips a list of files.
+     * @param pdfParam is has an object.
+     * @throws IOException when the input is incorrect.
+     */
     private void zipFile(PdfParam pdfParam) throws IOException {
         PathJfc pathJfc = new PathJfc();
-        final String ZIP = ".zip";
+
         File[] files = new File(pdfParam.getOutputPathFile() + "/" + pdfParam.getFolderName() +
                 "/").listFiles();
 
