@@ -63,7 +63,7 @@ public class VideoConverterController {
     /**
      * This method receives an video to convert
      * @param file contains the video file.
-     * @param outputFileName contains name of converted file.
+     * @param outputName contains name of converted file.
      * @param aspectRatio contains aspect ratio value.
      * @param frameRate contains the number of images per second.
      * @param width contains video's width.
@@ -81,7 +81,7 @@ public class VideoConverterController {
     @PostMapping
     public String videoConverter(
             @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ") String md5,
-            @RequestParam String outputFileName, @RequestParam (defaultValue = "0.0") int aspectRatio,
+            @RequestParam String outputName, @RequestParam (defaultValue = "0.0") int aspectRatio,
             @RequestParam (defaultValue = "") String frameRate, @RequestParam (defaultValue = "0") int width,
             @RequestParam (defaultValue = "0") int height, @RequestParam (defaultValue = "") String videoCodec,
             @RequestParam (defaultValue = "") String audioCodec, @RequestParam (defaultValue = "") String videoBitRate,
@@ -111,7 +111,7 @@ public class VideoConverterController {
         try {
             if (md5FileUploaded.equals(md5FileFromClient)) {
                 videoParam.setOutputPathFile(convertedFile);
-                videoParam.setOutputName(outputFileName);
+                videoParam.setOutputName(outputName);
                 videoParam.setAspectRatio(aspectRatio);
                 videoParam.setFrameRate(frameRate);
                 videoParam.setWidth(width);

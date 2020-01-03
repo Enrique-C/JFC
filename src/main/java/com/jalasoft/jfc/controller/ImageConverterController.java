@@ -72,7 +72,7 @@ public class ImageConverterController {
     @PostMapping()
     public String imageConverter(
             @RequestParam("file") MultipartFile file,  @RequestParam String md5,
-            @RequestParam String outputFileName, @RequestParam (defaultValue = ".png") String imageFormat,
+            @RequestParam String outputName, @RequestParam (defaultValue = ".png") String imageFormat,
             @RequestParam (defaultValue = "false") boolean Thumbnail, @RequestParam (defaultValue = "false")
             boolean Grayscale,  @RequestParam (defaultValue = "0") int ImageWidth, @RequestParam (defaultValue = "0")
             int ImageHeight, @RequestParam (defaultValue = "0") float degreesToRotate) throws CommandValueException {
@@ -99,7 +99,7 @@ public class ImageConverterController {
             if (md5FileUploaded.equals(md5FileFromClient)) {
                 imageParam.setOutputPathFile(convertedFile);
                 imageParam.setImageFormat(imageFormat);
-                imageParam.setOutputName(outputFileName);
+                imageParam.setOutputName(outputName);
                 imageParam.isThumbnail(Thumbnail);
                 imageParam.isGrayscale(Grayscale);
                 imageParam.setImageWidth(ImageWidth);
