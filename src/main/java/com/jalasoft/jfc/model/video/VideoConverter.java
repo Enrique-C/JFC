@@ -9,26 +9,25 @@
 
 package com.jalasoft.jfc.model.video;
 
-import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoBitRate;
-import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoCodec;
-import com.jalasoft.jfc.model.result.MessageResponse;
-import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
-import com.jalasoft.jfc.model.exception.CommandValueException;
-import com.jalasoft.jfc.model.command.ffmpeg.CommandFFMpegPath;
-import com.jalasoft.jfc.model.command.common.CommandInputFilePath;
-import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoAspectRatio;
-import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoScale;
-import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoConverter;
-import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoThumbNail;
-import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoRotate;
-import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoFrameRate;
-import com.jalasoft.jfc.model.command.common.CommandOutputFilePath;
-import com.jalasoft.jfc.model.command.common.CommandOutputFileName;
 import com.jalasoft.jfc.model.command.ContextStrategy;
 import com.jalasoft.jfc.model.command.ICommandStrategy;
+import com.jalasoft.jfc.model.command.common.CommandInputFilePath;
+import com.jalasoft.jfc.model.command.common.CommandOutputFileName;
+import com.jalasoft.jfc.model.command.common.CommandOutputFilePath;
+import com.jalasoft.jfc.model.command.ffmpeg.CommandFFMpegPath;
+import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoAspectRatio;
+import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoConverter;
+import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoThumbNail;
+import com.jalasoft.jfc.model.exception.CommandValueException;
+import com.jalasoft.jfc.model.pdf.PdfParam;
+import com.jalasoft.jfc.model.result.FileResponse;
+import com.jalasoft.jfc.model.result.MessageResponse;
+import com.jalasoft.jfc.model.utility.PathJfc;
+import com.jalasoft.jfc.model.utility.ZipFolder;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +40,9 @@ import java.util.List;
  * @version 0.1 13 Dic 2019
  */
 public class VideoConverter implements IConverter {
+
+    // Assigns the zip's Path.
+    private String zipPath;
 
     /**
      * Runs string command.
@@ -62,7 +64,7 @@ public class VideoConverter implements IConverter {
      * @return FileResult object or null value.
      * @throws CommandValueException when is a invalid command.
      */
-    public FileResponse convert(Param param) throws CommandValueException {
+    public FileResponse convert(Param param) throws CommandValueException, IOException {
         FileResponse fileResponse = new FileResponse();
         VideoParam videoParam = (VideoParam)param;
 
@@ -77,10 +79,10 @@ public class VideoConverter implements IConverter {
             runCommand(stringCommand.toString());
             System.out.println(stringCommand);
         }
-
+        zipFile(videoParam);
         fileResponse.setName(videoParam.getOutputName());
         fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
-        fileResponse.setDownload(videoParam.getOutputPathFile()+videoParam.getOutputName());
+        fileResponse.setDownload(zipPath);
         return fileResponse;
     }
 
@@ -96,13 +98,13 @@ public class VideoConverter implements IConverter {
             List<ICommandStrategy> list = new ArrayList<>();
             list.add(new CommandFFMpegPath());
             list.add(new CommandInputFilePath(videoParam.getInputPathFile()));
-            list.add(new CommandVideoConverter());
+            //list.add(new CommandVideoConverter());
             list.add(new CommandVideoAspectRatio(videoParam.getAspectRatio()));
-            list.add(new CommandVideoScale(videoParam.getWidth(), videoParam.getHeight()));
+            /*list.add(new CommandVideoScale(videoParam.getWidth(), videoParam.getHeight()));
             list.add(new CommandVideoFrameRate(videoParam.getFrameRate()));
             list.add(new CommandVideoRotate(videoParam.getRotate()));
             list.add(new CommandVideoCodec(videoParam.getVideoCodec()));
-            list.add(new CommandVideoBitRate(videoParam.getVideoBitRate()));
+            list.add(new CommandVideoBitRate(videoParam.getVideoBitRate()));*/
             list.add(new CommandOutputFilePath(videoParam.getOutputPathFile(), videoParam.getFolderName()));
             list.add(new CommandOutputFileName(videoParam.getOutputName(), videoParam.getFolderName()));
             ContextStrategy contextStrategy = new ContextStrategy(list);
@@ -138,5 +140,25 @@ public class VideoConverter implements IConverter {
         } catch (CommandValueException cve) {
             throw new CommandValueException(cve.getMessage(), this.getClass().getName());
         }
+    }
+
+    /**
+     * Zips a list of files.
+     * @param videoParam receives videoParam.
+     * @throws IOException when is a invalid file path.
+     */
+    private void zipFile(VideoParam videoParam) throws IOException {
+        ZipFolder zip = new ZipFolder();
+
+        final String BACKSLASH = "/";
+        final String ZIP_TAG = ".zip";
+
+        File[] files = new File(videoParam.getOutputPathFile() + BACKSLASH + videoParam.getFolderName() +
+                "/").listFiles();
+
+        File fileZip = new File(PathJfc.getPublicFilePath() + videoParam.getFolderName() + ZIP_TAG);
+
+        zipPath = fileZip.getAbsolutePath();
+        zip.zipFolderFile(files, fileZip);
     }
 }
