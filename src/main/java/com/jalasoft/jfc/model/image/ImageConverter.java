@@ -26,7 +26,11 @@ import com.jalasoft.jfc.model.command.common.CommandOutputFilePath;
 import com.jalasoft.jfc.model.command.imagick.CommandThumbnail;
 import com.jalasoft.jfc.model.command.ContextStrategy;
 import com.jalasoft.jfc.model.command.ICommandStrategy;
+import com.jalasoft.jfc.model.utility.PathJfc;
+import com.jalasoft.jfc.model.utility.ZipFolder;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +42,9 @@ import java.util.List;
  * @author Oscar Lopez.
  * */
 public class ImageConverter implements IConverter {
+
+    // Tag thumbnail.
+    final String THUMBNAIL_TAG = "thumb";
 
     // List of image command.
     List<ICommandStrategy> commandImageList = new ArrayList<>();
@@ -78,6 +85,9 @@ public class ImageConverter implements IConverter {
             }
 
             fileResult = new FileResponse();
+
+            zipFile(imageParam);
+
             fileResult.setDownload(imageParam.getOutputPathFile());
         } catch (Exception e) {
             throw new ConvertException("Error converting Image: " + e.getMessage(), this.getClass().getName());
@@ -98,7 +108,7 @@ public class ImageConverter implements IConverter {
         commandImageList.add(new CommandImageRotate(imageParam.getDegreesToRotate()));
         commandImageList.add(new CommandImageResize(imageParam.getImageWidth(), imageParam.getImageHeight()));
         commandImageList.add(new CommandOutputFilePath(imageParam.getOutputPathFile(), imageParam.getFolderName()));
-        commandImageList.add(new CommandOutputFileName(imageParam.getOutputFileName(), imageParam.getFolderName()));
+        commandImageList.add(new CommandOutputFileName(imageParam.getOutputName(), imageParam.getOutputName()));
         commandImageList.add(new CommandImageFormat(imageParam.getImageFormat()));
     }
 
@@ -108,8 +118,6 @@ public class ImageConverter implements IConverter {
      * @throws CommandValueException when is a invalid command.
      */
     private void generateThumbnail(ImageParam imageParam) throws CommandValueException {
-        final String THUMBNAIL_TAG = "thumb01";
-
         commandThumbnailList.add(new CommandImageMagickPath());
         commandThumbnailList.add(new CommandImageConverter());
         commandThumbnailList.add(new CommandInputFilePath(imageParam.getInputPathFile()));
@@ -117,5 +125,17 @@ public class ImageConverter implements IConverter {
         commandThumbnailList.add(new CommandOutputFilePath(imageParam.getOutputPathFile(), imageParam.getFolderName()));
         commandThumbnailList.add(new CommandOutputFileName(THUMBNAIL_TAG, imageParam.getFolderName()));
         commandThumbnailList.add(new CommandImageFormat(imageParam.getImageFormat()));
+    }
+
+    private void zipFile(ImageParam imageParam) throws IOException {
+        PathJfc pathJfc = new PathJfc();
+
+        File[] files = new File(imageParam.getOutputPathFile() + "/" + imageParam.getFolderName() +
+                "/").listFiles();
+
+        File fileZip = new File( pathJfc.getPublicFilePath() + "/" + imageParam.getOutputName() + ".zip");
+
+        ZipFolder zip = new ZipFolder();
+        zip.zipFolderFile(files, fileZip);
     }
 }
