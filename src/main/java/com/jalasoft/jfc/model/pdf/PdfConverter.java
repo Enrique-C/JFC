@@ -30,7 +30,10 @@ import com.jalasoft.jfc.model.command.common.CommandOutputFilePath;
 import com.jalasoft.jfc.model.command.common.CommandOutputFileName;
 import com.jalasoft.jfc.model.command.imagick.CommandImageFormat;
 import com.jalasoft.jfc.model.command.ContextStrategy;
+import com.jalasoft.jfc.model.utility.PathJfc;
+import com.jalasoft.jfc.model.utility.ZipFolder;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +53,9 @@ public class PdfConverter implements IConverter {
     // Variable of CommandStrategy.
     ContextStrategy contextStrategy;
 
+    // Assigns the zip's Path.
+    private String zipPath;
+
     /**
      * This method converts a PDF to Image.
      * @param param
@@ -57,7 +63,7 @@ public class PdfConverter implements IConverter {
      * @throws CommandValueException when is a invalid command.
      * @throws ConvertException when the conversion was not completed.
      */
-    public FileResponse convert(Param param) throws CommandValueException, ConvertException {
+    public FileResponse convert(Param param) throws CommandValueException, ConvertException, IOException {
         FileResponse fileResponse = new FileResponse();
         PdfParam pdfParam = (PdfParam)param;
         StringBuilder stringCommand = new StringBuilder();
@@ -80,9 +86,10 @@ public class PdfConverter implements IConverter {
             generateMetadata(pdfParam);
         }
         System.out.println(stringCommand);
+        zipFile(pdfParam);
         fileResponse.setName(pdfParam.getOutputName());
         fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
-        fileResponse.setDownload(pdfParam.getOutputPathFile()+pdfParam.getOutputName());
+        fileResponse.setDownload(zipPath);
         return fileResponse;
     }
 
@@ -160,5 +167,25 @@ public class PdfConverter implements IConverter {
         } catch (InterruptedException | IOException e) {
             throw new ConvertException(e.getMessage(), this.getClass().getName());
         }
+    }
+
+    /**
+     * Zips a list of files.
+     * @param pdfParam receives pdfParam.
+     * @throws IOException when is a invalid file path.
+     */
+    private void zipFile(PdfParam pdfParam) throws IOException {
+        ZipFolder zip = new ZipFolder();
+
+        final String BACKSLASH = "/";
+        final String ZIP_TAG = ".zip";
+
+        File[] files = new File(pdfParam.getOutputPathFile() + BACKSLASH + pdfParam.getFolderName() +
+                "/").listFiles();
+
+        File fileZip = new File( PathJfc.getPublicFilePath() + pdfParam.getFolderName() + ZIP_TAG);
+
+        zipPath = fileZip.getAbsolutePath();
+        zip.zipFolderFile(files, fileZip);
     }
 }

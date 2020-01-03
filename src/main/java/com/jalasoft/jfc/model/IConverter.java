@@ -31,8 +31,8 @@ public interface IConverter {
      * @return state of conversion.
      * @throws IOException when is a invalid file.
      * @throws CommandValueException this.
-     * @throws ConvertException this.
+     * @throws ConvertException when the convert process is not completed.
      */
 
-    FileResponse convert(Param param) throws ConvertException, CommandValueException;
+    FileResponse convert(Param param) throws ConvertException, CommandValueException, IOException;
 }
