@@ -8,7 +8,6 @@
  */
 package com.jalasoft.jfc.model.pdf;
 
-import com.jalasoft.jfc.model.image.ImageParam;
 import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.IConverter;
@@ -55,7 +54,7 @@ public class PdfConverter implements IConverter {
     ContextStrategy contextStrategy;
 
     // Constant Zip.
-    final String ZIP = ".zip";
+    private final String ZIP = ".zip";
 
     /**
      * This method converts a PDF to Image.
