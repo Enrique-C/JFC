@@ -42,7 +42,7 @@ public class CommandOutputFileName implements ICommandStrategy {
      * @throws CommandValueException
      */
     public String command() throws CommandValueException {
-        String regexRule = "[^a-zA-Z0-9]";
+        String regexRule = "[^a-zA-Z0-9.]";
         String replaceValue = "";
 
             if (outputName.equals("_t") || outputName.isEmpty()) {

@@ -11,6 +11,9 @@ package com.jalasoft.jfc.model.command.ffmpeg;
 
 import com.jalasoft.jfc.model.command.ICommandStrategy;
 
+import com.jalasoft.jfc.model.exception.CommandValueException;
+import com.jalasoft.jfc.model.video.VideoCommand;
+
 /**
  * This Class converts a video.
  *
@@ -21,7 +24,7 @@ import com.jalasoft.jfc.model.command.ICommandStrategy;
 public class CommandVideoConverter implements ICommandStrategy {
 
     // Content command value.
-    private String commandValue;
+    private String commandValue = "";
 
     /**
      * Creates a new CommandVideoConverter object.
@@ -45,7 +48,14 @@ public class CommandVideoConverter implements ICommandStrategy {
      * @return command concatenated.
      */
     @Override
-    public String command() {
-        return this.SPACE + commandValue + this.SPACE;
+    public String command() throws CommandValueException {
+        try {
+            if (!commandValue.isEmpty()) {
+                return this.SPACE + commandValue;
+            }
+            throw new CommandValueException("Can not convert a video", this.getClass().getName());
+        } catch (CommandValueException cve) {
+            throw new CommandValueException(cve.getMessage(), this.getClass().getName());
+        }
     }
 }
