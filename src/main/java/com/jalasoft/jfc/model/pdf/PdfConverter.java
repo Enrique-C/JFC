@@ -88,7 +88,7 @@ public class PdfConverter implements IConverter {
         System.out.println(stringCommand);
         fileResponse.setName(pdfParam.getOutputName());
         fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
-        fileResponse.setDownload(PathJfc.getPublicFilePath()+"/"+pdfParam.getFolderName()+ZIP);
+        fileResponse.setDownload(PathJfc.getPublicFilePath() + pdfParam.getFolderName() + ZIP);
         zipFile(pdfParam);
         return fileResponse;
     }
@@ -171,16 +171,18 @@ public class PdfConverter implements IConverter {
 
     /**
      * Zips a list of files.
-     * @param pdfParam is has an object.
-     * @throws IOException when the input is incorrect.
+     * @param pdfParam receives pdfParam.
+     * @throws IOException when is a invalid file path.
      */
     private void zipFile(PdfParam pdfParam) throws IOException {
         PathJfc pathJfc = new PathJfc();
 
-        File[] files = new File(pdfParam.getOutputPathFile() + "/" + pdfParam.getFolderName() +
+        final String BACKSLASH = "/";
+        
+        File[] files = new File(pdfParam.getOutputPathFile() + BACKSLASH + pdfParam.getFolderName() +
                 "/").listFiles();
 
-        File fileZip = new File( pathJfc.getPublicFilePath() + "/" + pdfParam.getOutputName() + ZIP);
+        File fileZip = new File( pathJfc.getPublicFilePath() + pdfParam.getFolderName() + ZIP);
 
         ZipFolder zip = new ZipFolder();
         zip.zipFolderFile(files, fileZip);
