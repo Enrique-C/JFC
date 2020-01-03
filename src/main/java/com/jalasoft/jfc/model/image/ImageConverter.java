@@ -77,17 +77,21 @@ public class ImageConverter implements IConverter {
         try {
             commandString = commandImageContext.buildCommand();
 
-            Runtime.getRuntime().exec(commandString);
+            Process process1 = Runtime.getRuntime().exec(commandString);
+            process1.waitFor();
+
 
             if (!commandThumbnailList.isEmpty()) {
                 ContextStrategy commandThumbnailContext = new ContextStrategy(commandThumbnailList);
                 commandString = commandThumbnailContext.buildCommand();
-                Runtime.getRuntime().exec(commandString);
+                Process process2 = Runtime.getRuntime().exec(commandString);
+                process2.waitFor();
             }
 
             fileResponse.setName(imageParam.getOutputName());
             fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
             fileResponse.setDownload(imageParam.getOutputPathFile()+imageParam.getOutputName());
+
             zipFile(imageParam);
         } catch (Exception e) {
             throw new ConvertException("Error converting Image: " + e.getMessage(), this.getClass().getName());
