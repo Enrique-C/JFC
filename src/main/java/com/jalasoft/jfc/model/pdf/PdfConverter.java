@@ -8,6 +8,7 @@
  */
 package com.jalasoft.jfc.model.pdf;
 
+import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
@@ -79,9 +80,9 @@ public class PdfConverter implements IConverter {
             generateMetadata(pdfParam);
         }
         System.out.println(stringCommand);
-        fileResponse.setName(pdfParam.getOutputFileName());
-        fileResponse.setStatus("Conversion Success!");
-        fileResponse.setDownload(pdfParam.getOutputPathFile()+pdfParam.getOutputFileName());
+        fileResponse.setName(pdfParam.getOutputName());
+        fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
+        fileResponse.setDownload(pdfParam.getOutputPathFile()+pdfParam.getOutputName());
         return fileResponse;
     }
 
@@ -104,7 +105,7 @@ public class PdfConverter implements IConverter {
         commandsList.add(new CommandScale(pdfParam.getScale()));
         commandsList.add(new CommandImageRotate(pdfParam.getRotate()));
         commandsList.add(new CommandOutputFilePath(pdfParam.getOutputPathFile(), pdfParam.getFolderName()));
-        commandsList.add(new CommandOutputFileName(pdfParam.getOutputFileName(), pdfParam.getFolderName()));
+        commandsList.add(new CommandOutputFileName(pdfParam.getOutputName(), pdfParam.getFolderName()));
         commandsList.add(new CommandImageFormat(pdfParam.getImageFormat()));
         contextStrategy = new ContextStrategy(commandsList);
         String result = contextStrategy.buildCommand();
@@ -128,7 +129,7 @@ public class PdfConverter implements IConverter {
         commandsList.add(new CommandPagesToConvert(pdfParam.getPagesToConvert(), pdfParam.getQuantityOfPage()));
         commandsList.add(new CommandThumbnail(pdfParam.isThumbnail()));
         commandsList.add(new CommandOutputFilePath(pdfParam.getOutputPathFile(), pdfParam.getFolderName()));
-        commandsList.add(new CommandOutputFileName(pdfParam.getOutputFileName() + "_t",
+        commandsList.add(new CommandOutputFileName(pdfParam.getOutputName() + "_t",
                 pdfParam.getFolderName() + "_t"));
         commandsList.add(new CommandImageFormat(pdfParam.getImageFormat()));
         contextStrategy = new ContextStrategy(commandsList);

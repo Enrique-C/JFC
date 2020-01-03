@@ -7,7 +7,7 @@
  * license agreement you entered into with Jalasoft.
  */
 
-package com.jalasoft.jfc.model.exception;
+package com.jalasoft.jfc.model.result;
 
 /**
  * This enum is used for specify types of messages of response.

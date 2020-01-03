@@ -10,7 +10,7 @@
 package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.IConverter;
-import com.jalasoft.jfc.model.exception.MessageResponse;
+import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.ErrorResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.result.Response;
@@ -53,6 +53,9 @@ public class VideoConverterController {
     // Variable converted file path.
     private final String convertedFile;
 
+    /**
+     * It assigns paths of input and output
+     */
     VideoConverterController() {
         try {
             pathJfc = new PathJfc();
@@ -67,7 +70,7 @@ public class VideoConverterController {
     /**
      * This method receives an video to convert
      * @param file contains the video file.
-     * @param outputFileName contains name of converted file.
+     * @param outputName contains name of converted file.
      * @param aspectRatio contains aspect ratio value.
      * @param frameRate contains the number of images per second.
      * @param width contains video's width.
@@ -85,7 +88,7 @@ public class VideoConverterController {
     @PostMapping
     public Response videoConverter(
             @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ") String md5,
-            @RequestParam String outputFileName, @RequestParam (defaultValue = "0.0") int aspectRatio,
+            @RequestParam String outputName, @RequestParam (defaultValue = "0.0") int aspectRatio,
             @RequestParam (defaultValue = "") String frameRate, @RequestParam (defaultValue = "0") int width,
             @RequestParam (defaultValue = "0") int height, @RequestParam (defaultValue = "") String videoCodec,
             @RequestParam (defaultValue = "") String audioCodec, @RequestParam (defaultValue = "") String videoBitRate,
@@ -107,9 +110,9 @@ public class VideoConverterController {
             Path path = Paths.get(uploadedFile + file.getOriginalFilename());
             Files.write(path, bytes);
             videoParam.setInputPathFile(path.toString());
-            if (outputFileName.equals(null) || outputFileName.equals("")) {
-                outputFileName = file.getOriginalFilename();
-                outputFileName = outputFileName.replaceFirst("[.][^.]+$", "");
+            if (outputName.equals(null) || outputName.equals("")) {
+                outputName = file.getOriginalFilename();
+                outputName = outputName.replaceFirst("[.][^.]+$", "");
             }
             md5FileUploaded = Md5Checksum.getMd5(path.toString());
             videoParam.setMd5(md5);
@@ -117,7 +120,7 @@ public class VideoConverterController {
 
             if (md5FileUploaded.equals(md5FileFromClient)) {
                 videoParam.setOutputPathFile(convertedFile);
-                videoParam.setOutputFileName(outputFileName);
+                videoParam.setOutputName(outputName);
                 videoParam.setAspectRatio(aspectRatio);
                 videoParam.setFrameRate(frameRate);
                 videoParam.setWidth(width);
@@ -137,22 +140,22 @@ public class VideoConverterController {
                 throw new ConvertException(failMd5,this.getClass().getName());
             }
         } catch (ConvertException ex) {
-            errorResponse.setName(videoParam.getOutputFileName());
+            errorResponse.setName(videoParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
             errorResponse.setError(ex.toString());
             return errorResponse;
         } catch (CommandValueException cve) {
-            errorResponse.setName(videoParam.getOutputFileName());
+            errorResponse.setName(videoParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR400.getMessageResponse());
             errorResponse.setError(cve.toString());
             return errorResponse;
         } catch (IOException ex) {
-            errorResponse.setName(videoParam.getOutputFileName());
+            errorResponse.setName(videoParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
             errorResponse.setError(ex.toString());
             return errorResponse;
         } catch (Exception ex) {
-            errorResponse.setName(videoParam.getOutputFileName());
+            errorResponse.setName(videoParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
             errorResponse.setError(ex.toString());
             return errorResponse;

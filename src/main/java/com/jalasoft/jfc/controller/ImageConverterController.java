@@ -10,7 +10,7 @@
 package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.IConverter;
-import com.jalasoft.jfc.model.exception.MessageResponse;
+import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.ErrorResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.result.Response;
@@ -53,6 +53,9 @@ public class ImageConverterController {
     // Variable converted file path.
     private final String convertedFile;
 
+    /**
+     * It assigns paths of input and output
+     */
     ImageConverterController() {
         try {
             pathJfc = new PathJfc();
@@ -74,12 +77,13 @@ public class ImageConverterController {
      * @return Response it mean the result of the conversion.
      */
     @PostMapping()
+
     public Response imageConverter(
-            @RequestParam("file") MultipartFile file,  @RequestParam(defaultValue = " ") String md5,
-            @RequestParam String outputFileName, @RequestParam (defaultValue = ".png") String imageFormat,
-            @RequestParam (defaultValue = "false") boolean Thumbnail,  @RequestParam (defaultValue = "0")
-            int ImageWidth, @RequestParam (defaultValue = "0") int ImageHeight, @RequestParam (defaultValue = "0")
-            float degreesToRotate) {
+            @RequestParam("file") MultipartFile file,  @RequestParam String md5,
+            @RequestParam String outputName, @RequestParam (defaultValue = ".png") String imageFormat,
+            @RequestParam (defaultValue = "false") boolean Thumbnail, @RequestParam (defaultValue = "false")
+            boolean Grayscale,  @RequestParam (defaultValue = "0") int ImageWidth, @RequestParam (defaultValue = "0")
+            int ImageHeight, @RequestParam (defaultValue = "0") float degreesToRotate) throws CommandValueException {
 
         FileResponse fileResponse = new FileResponse();
         ErrorResponse errorResponse = new ErrorResponse();
@@ -93,9 +97,9 @@ public class ImageConverterController {
             Path path = Paths.get(uploadedFile + file.getOriginalFilename());
             Files.write(path, bytes);
             imageParam.setInputPathFile(path.toString());
-            if (outputFileName.equals(null) || outputFileName.equals("")) {
-                outputFileName = file.getOriginalFilename();
-                outputFileName = outputFileName.replaceFirst("[.][^.]+$", "");
+            if (outputName.equals(null) || outputName.equals("")) {
+                outputName = file.getOriginalFilename();
+                outputName = outputName.replaceFirst("[.][^.]+$", "");
             }
             String md5FileUploaded = Md5Checksum.getMd5(path.toString());
             imageParam.setMd5(md5);
@@ -104,8 +108,9 @@ public class ImageConverterController {
             if (md5FileUploaded.equals(md5FileFromClient)) {
                 imageParam.setOutputPathFile(convertedFile);
                 imageParam.setImageFormat(imageFormat);
-                imageParam.setOutputFileName(outputFileName);
+                imageParam.setOutputName(outputName);
                 imageParam.isThumbnail(Thumbnail);
+                imageParam.isGrayscale(Grayscale);
                 imageParam.setImageWidth(ImageWidth);
                 imageParam.setImageHeight(ImageHeight);
                 imageParam.setDegreesToRotate(degreesToRotate);
@@ -117,22 +122,22 @@ public class ImageConverterController {
             }
 
         } catch (ConvertException ex) {
-            errorResponse.setName(imageParam.getOutputFileName());
+            errorResponse.setName(imageParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
             errorResponse.setError(ex.toString());
             return errorResponse;
         } catch (CommandValueException cve) {
-            errorResponse.setName(imageParam.getOutputFileName());
+            errorResponse.setName(imageParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR400.getMessageResponse());
             errorResponse.setError(cve.toString());
             return errorResponse;
         } catch (IOException ex) {
-            errorResponse.setName(imageParam.getOutputFileName());
+            errorResponse.setName(imageParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
             errorResponse.setError(ex.toString());
             return errorResponse;
         } catch (Exception ex) {
-            errorResponse.setName(imageParam.getOutputFileName());
+            errorResponse.setName(imageParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
             errorResponse.setError(ex.toString());
             return errorResponse;

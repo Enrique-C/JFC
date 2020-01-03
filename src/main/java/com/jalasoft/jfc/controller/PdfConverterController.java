@@ -9,7 +9,7 @@
 
 package com.jalasoft.jfc.controller;
 
-import com.jalasoft.jfc.model.exception.MessageResponse;
+import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.ErrorResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.IConverter;
@@ -55,6 +55,9 @@ public class PdfConverterController {
     // Variable converted file path.
     private final String convertedFile;
 
+    /**
+     * It assigns paths of input and output
+     */
     PdfConverterController() {
         try {
             pathJfc = new PathJfc();
@@ -69,7 +72,7 @@ public class PdfConverterController {
     /**
      * This method receives a PDF to convert.
      * @param file contains the image file
-     * @param outputFileName contains name of output file.
+     * @param outputName contains name of output file.
      * @param rotate degrees of rotation.
      * @param scale contains input Scale 1-10.
      * @param imageFormat format of a image.
@@ -78,7 +81,7 @@ public class PdfConverterController {
     @PostMapping
     public Response pdfConverter(
             @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ") String md5,
-            @RequestParam String outputFileName,@RequestParam(defaultValue = "0") int rotate,
+            @RequestParam String outputName, @RequestParam(defaultValue = "0") int rotate,
             @RequestParam(defaultValue = "%") String scale, @RequestParam(defaultValue = "false") boolean thumbnail,
             @RequestParam(defaultValue = ".png") String imageFormat, @RequestParam(defaultValue = "0") int width,
             @RequestParam(defaultValue = "0") int height, @RequestParam(defaultValue = "") String pagesToConvert) {
@@ -98,9 +101,9 @@ public class PdfConverterController {
             PDDocument doc = PDDocument.load(new File(uploadedFile + file.getOriginalFilename()));
             quantityPages = doc.getNumberOfPages();
             pdfParam.setInputPathFile(path.toString());
-            if (outputFileName.equals(null) || outputFileName.equals("")) {
-                outputFileName = file.getOriginalFilename();
-                outputFileName = outputFileName.replaceFirst("[.][^.]+$", "");
+            if (outputName.equals(null) || outputName.equals("")) {
+                outputName = file.getOriginalFilename();
+                outputName = outputName.replaceFirst("[.][^.]+$", "");
             }
             String md5FileUploaded = Md5Checksum.getMd5(path.toString());
             pdfParam.setMd5(md5);
@@ -108,7 +111,7 @@ public class PdfConverterController {
 
             if (md5FileUploaded.equals(md5FileFromClient)) {
                 pdfParam.setOutputPathFile(convertedFile);
-                pdfParam.setOutputFileName(outputFileName);
+                pdfParam.setOutputName(outputName);
                 pdfParam.setImageFormat(imageFormat);
                 pdfParam.setPagesToConvert(pagesToConvert);
                 pdfParam.setQuantityOfPage(quantityPages);
@@ -126,22 +129,22 @@ public class PdfConverterController {
             }
 
         } catch (ConvertException ex) {
-            errorResponse.setName(pdfParam.getOutputFileName());
+            errorResponse.setName(pdfParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
             errorResponse.setError(ex.toString());
             return errorResponse;
         } catch (CommandValueException cve) {
-            errorResponse.setName(pdfParam.getOutputFileName());
+            errorResponse.setName(pdfParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR400.getMessageResponse());
             errorResponse.setError(cve.toString());
             return errorResponse;
         } catch (IOException ex) {
-            errorResponse.setName(pdfParam.getOutputFileName());
+            errorResponse.setName(pdfParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
             errorResponse.setError(ex.toString());
             return errorResponse;
         } catch (Exception ex) {
-            errorResponse.setName(pdfParam.getOutputFileName());
+            errorResponse.setName(pdfParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
             errorResponse.setError(ex.toString());
             return errorResponse;

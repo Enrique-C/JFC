@@ -22,14 +22,14 @@ public class Param {
   // It is the input of the file that wil be converted.
   private String inputPathFile;
 
-  // It is the folder name where the files will be saved.
-  private String folderName;
-
   // It is the output of the file that wil be converted.
   private String outputPathFile;
 
+  // It is the folder name where the files will be saved.
+  private String folderName;
+
   // Name the file that will be converted.
-  private String outputFileName;
+  private String outputName;
 
   // It is a Md5 code of a file.
   private String md5;
@@ -70,8 +70,8 @@ public class Param {
    * Gets outputFileName value.
    * @return outputFileName String value.
    */
-  public String getOutputFileName() {
-    return outputFileName;
+  public String getOutputName() {
+    return outputName;
   }
 
   /**
@@ -100,10 +100,10 @@ public class Param {
 
   /**
    * Sets outputFileName value.
-   * @param outputFileName for setting this.outputFileName.
+   * @param outputName for setting this.outputFileName.
    */
-  public void setOutputFileName(String outputFileName) {
-    this.outputFileName = outputFileName;
+  public void setOutputName(String outputName) {
+    this.outputName = outputName;
   }
 
   /**

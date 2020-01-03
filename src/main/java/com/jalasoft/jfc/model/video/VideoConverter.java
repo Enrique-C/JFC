@@ -9,6 +9,7 @@
 
 package com.jalasoft.jfc.model.video;
 
+import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
@@ -68,7 +69,7 @@ public class VideoConverter implements IConverter {
             list.add(new CommandVideoRotate(videoParam.getRotate()));
             list.add(new CommandVideoFrameRate(videoParam.getFrameRate()));
             list.add(new CommandOutputFilePath(videoParam.getOutputPathFile(), videoParam.getFolderName()));
-            list.add(new CommandOutputFileName(videoParam.getOutputFileName(), videoParam.getFolderName()));
+            list.add(new CommandOutputFileName(videoParam.getOutputName(), videoParam.getFolderName()));
             String stringCommand = getCommand(list);
             Process process = Runtime.getRuntime().exec(stringCommand);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
@@ -81,9 +82,9 @@ public class VideoConverter implements IConverter {
         } catch (NullPointerException e) {
             throw new NullPointerException();
         } finally {
-            fileResponse.setName(videoParam.getOutputFileName());
-            fileResponse.setStatus("Conversion Success!");
-            fileResponse.setDownload(videoParam.getOutputPathFile()+videoParam.getOutputFileName());
+            fileResponse.setName(videoParam.getOutputName());
+            fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
+            fileResponse.setDownload(videoParam.getOutputPathFile()+videoParam.getOutputName());
             return fileResponse;
         }
     }
