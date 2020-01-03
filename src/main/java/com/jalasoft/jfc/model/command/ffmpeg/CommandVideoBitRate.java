@@ -18,8 +18,7 @@ public class CommandVideoBitRate implements ICommandStrategy {
 
     /**
      * Creates a new CommandVideoBitRate object.
-     *
-     * @param commandValue, receive a value.
+     * @param commandValue receive a value.
      */
     public CommandVideoBitRate(String commandValue) {
         this.commandValue = commandValue;
@@ -27,8 +26,8 @@ public class CommandVideoBitRate implements ICommandStrategy {
 
     /**
      * This builds a command.
-     *
      * @return command concatenated.
+     * @throws CommandValueException when is a invalid command.
      */
     @Override
     public String command() throws CommandValueException {

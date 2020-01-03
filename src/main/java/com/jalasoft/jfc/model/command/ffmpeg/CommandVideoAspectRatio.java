@@ -9,12 +9,9 @@
 
 package com.jalasoft.jfc.model.command.ffmpeg;
 
-
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.video.VideoCommand;
-
-import java.io.File;
 
 /**
  * Class changes Aspect Ratio.

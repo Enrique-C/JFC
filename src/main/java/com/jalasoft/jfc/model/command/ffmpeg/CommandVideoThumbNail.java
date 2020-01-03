@@ -27,17 +27,16 @@ public class CommandVideoThumbNail implements ICommandStrategy {
     // Content value of two second to extract a thumbnail.
     private final String secondBegin = "00:00:02.000";
 
-    //Content number 4
+    //Content number 4.
     private final short second = 4;
 
-    //Content number 10
+    //Content number 10.
     private final short framePerSecond = 10;
 
-    //Content a thumbnail size
+    //Content a thumbnail size.
     private final String thumbnailSize = "128:128";
     /**
      * Creates a new CommandVideoRotate object.
-     *
      * @param commandValue, receive a boolean value.
      */
     public CommandVideoThumbNail(boolean commandValue) {
@@ -46,7 +45,6 @@ public class CommandVideoThumbNail implements ICommandStrategy {
 
     /**
      * This method builds a command.
-     *
      * @return command concatenated.
      */
     @Override

@@ -10,16 +10,14 @@
 package com.jalasoft.jfc.model.command.ffmpeg;
 
 import com.jalasoft.jfc.model.command.ICommandStrategy;
-
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.utility.PathJfc;
 import com.jalasoft.jfc.model.video.VideoCommand;
 
 import java.io.File;
-import java.io.IOException;
 
 /**
- * This Class has Command FFmpeg path.
+ * Has Command FFmpeg path.
  *
  * @version 0.1 23 Dic 2019.
  *

@@ -1,12 +1,13 @@
-package com.jalasoft.jfc.model.strategy;
+package com.jalasoft.jfc.model.command.ffmpeg;
 
+import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.video.VideoFormat;
 
 /**
  * This class verify a valid image format.
  *
- * @version 0.1 02 Ene 2020
+ * @version 0.1 02 Jan 2020
  *
  * @author Oscar Lopez
  */
