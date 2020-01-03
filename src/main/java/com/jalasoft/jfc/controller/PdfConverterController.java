@@ -74,10 +74,15 @@ public class PdfConverterController {
     /**
      * This method receives a PDF to convert.
      * @param file contains the image file
+     * @param md5 contains md5 value.
      * @param outputName contains name of output file.
      * @param rotate degrees of rotation.
      * @param scale contains input Scale 1-10.
+     * @param thumbnail contains boolean value.
      * @param imageFormat format of a image.
+     * @param width contains integer value.
+     * @param height contains integer value.
+     * @param pagesToConvert contains number of pdf file pages.
      * @param request contains client data.
      * @return Response it mean the result of the conversion.
      */
