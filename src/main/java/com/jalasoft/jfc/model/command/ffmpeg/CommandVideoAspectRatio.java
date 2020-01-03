@@ -1,13 +1,15 @@
 /*
  * Copyright (c) 2019 Jalasoft.
+ *
  * This software is the confidential and proprietary information of Jalasoft.
  * ("Confidential Information"). You shall not disclose such Confidential
  * Information and shall use it only in accordance with the terms of the
  * license agreement you entered into with Jalasoft.
  */
 
-package com.jalasoft.jfc.model.strategy;
+package com.jalasoft.jfc.model.command.ffmpeg;
 
+import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.video.VideoCommand;
 
 /**
@@ -17,7 +19,7 @@ import com.jalasoft.jfc.model.video.VideoCommand;
  *
  * @author Oscar Lopez.
  */
-public class CommandVideoAspectRatio implements ICommandStrategy{
+public class CommandVideoAspectRatio implements ICommandStrategy {
 
     // Content command value.
     private String commandValue;

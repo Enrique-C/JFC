@@ -26,6 +26,9 @@ public class ImageParam extends Param {
     // Contains a boolean value for building a Thumbnail.
     private boolean isThumbnail;
 
+    // Contains a boolean value for building a Thumbnail.
+    private boolean isGrayscale;
+
     // Contains width of Image.
     private int imageWidth;
 
@@ -44,12 +47,21 @@ public class ImageParam extends Param {
     }
 
     /**
-     * Gets getOutputPathThumbnail.
-     * @return getOutputPathThumbnail.
+     * Gets isThumbnail value.
+     * @return boolean value.
      */
     public boolean isThumbnail() {
         return isThumbnail;
     }
+
+    /**
+     * Gets isGrayscale.
+     * @return boolean value.
+     */
+    public boolean isGrayscale() {
+        return isGrayscale;
+    }
+
 
     /**
      * Gets widthOfFile.
@@ -85,10 +97,18 @@ public class ImageParam extends Param {
 
     /**
      * Sets ifThumbnail.
-     * @param ifThumbnail receives path.
+     * @param ifThumbnail receives boolean value.
      */
     public void isThumbnail(boolean ifThumbnail) {
         this.isThumbnail = ifThumbnail;
+    }
+
+    /**
+     * Sets isGrayscale.
+     * @param isGrayscale receives boolean value.
+     */
+    public void isGrayscale(boolean isGrayscale) {
+        this.isGrayscale = isGrayscale;
     }
 
     /**

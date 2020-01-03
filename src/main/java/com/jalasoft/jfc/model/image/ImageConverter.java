@@ -12,9 +12,20 @@ package com.jalasoft.jfc.model.image;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
+import com.jalasoft.jfc.model.command.imagick.CommandImageGrayscale;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ConvertException;
-import com.jalasoft.jfc.model.strategy.*;
+import com.jalasoft.jfc.model.command.imagick.CommandImageConverter;
+import com.jalasoft.jfc.model.command.imagick.CommandImageFormat;
+import com.jalasoft.jfc.model.command.imagick.CommandImageMagickPath;
+import com.jalasoft.jfc.model.command.imagick.CommandImageResize;
+import com.jalasoft.jfc.model.command.imagick.CommandImageRotate;
+import com.jalasoft.jfc.model.command.common.CommandInputFilePath;
+import com.jalasoft.jfc.model.command.common.CommandOutputFileName;
+import com.jalasoft.jfc.model.command.common.CommandOutputFilePath;
+import com.jalasoft.jfc.model.command.imagick.CommandThumbnail;
+import com.jalasoft.jfc.model.command.ContextStrategy;
+import com.jalasoft.jfc.model.command.ICommandStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +82,7 @@ public class ImageConverter implements IConverter {
             fileResponse.setStatus("Conversion Success!");
             fileResponse.setDownload(imageParam.getOutputPathFile()+imageParam.getOutputFileName());
         } catch (Exception e) {
-            throw new ConvertException("The conversion Image failed", "Command image converter");
+            throw new ConvertException("Error converting Image: " + e.getMessage(), this.getClass().getName());
         }
         return fileResponse;
     }
@@ -85,6 +96,7 @@ public class ImageConverter implements IConverter {
         commandImageList.add(new CommandImageMagickPath());
         commandImageList.add(new CommandImageConverter());
         commandImageList.add(new CommandInputFilePath(imageParam.getInputPathFile()));
+        commandImageList.add(new CommandImageGrayscale(imageParam.isGrayscale()));
         commandImageList.add(new CommandImageRotate(imageParam.getDegreesToRotate()));
         commandImageList.add(new CommandImageResize(imageParam.getImageWidth(), imageParam.getImageHeight()));
         commandImageList.add(new CommandOutputFilePath(imageParam.getOutputPathFile(), imageParam.getFolderName()));

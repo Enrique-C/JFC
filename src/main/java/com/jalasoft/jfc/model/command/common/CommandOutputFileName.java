@@ -7,11 +7,10 @@
  * license agreement you entered into with Jalasoft.
  */
 
-package com.jalasoft.jfc.model.strategy;
+package com.jalasoft.jfc.model.command.common;
 
+import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.exception.CommandValueException;
-
-import java.security.InvalidParameterException;
 
 /**
  * This class verify if outputFileName value.
