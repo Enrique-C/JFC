@@ -9,6 +9,7 @@
 
 package com.jalasoft.jfc.controller;
 
+import com.jalasoft.jfc.model.utility.PathJfc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.ServletContext;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -35,7 +37,6 @@ import java.nio.file.StandardCopyOption;
  *
  * @author Juan Martinez
  */
-
 @RestController
 public class DownloadController {
 
@@ -54,7 +55,7 @@ public class DownloadController {
     @GetMapping(path = "/download/{fileName:.+}")
     public ResponseEntity download(@PathVariable String fileName) throws Exception {
 
-        String fileBasePath = "C:/Users/Admin/IdeaProjects/JFC/files/input";
+        String fileBasePath = PathJfc.getPublicFilePath();
         MediaType mediaType;
         String mineType = servletContext.getMimeType(fileName);
 
@@ -82,7 +83,7 @@ public class DownloadController {
     @GetMapping("/generateLink")
     public ResponseEntity generateLink(@RequestParam("file") MultipartFile file) throws IOException {
 
-        String fileBasePath = "C:/Users/Admin/IdeaProjects/JFC/files/input/";
+        String fileBasePath = PathJfc.getPublicFilePath();
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         Path path = Paths.get(fileBasePath + fileName);
 
