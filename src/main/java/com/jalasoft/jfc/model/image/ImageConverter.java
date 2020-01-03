@@ -142,7 +142,8 @@ public class ImageConverter implements IConverter {
         File[] files = new File(imageParam.getOutputPathFile() + BACKSLASH + imageParam.getFolderName() +
                 BACKSLASH).listFiles();
 
-        File fileZip = new File( pathJfc.getPublicFilePath() + BACKSLASH + imageParam.getFolderName()+ ZIP_TAG);
+        File fileZip = new File(pathJfc.getPublicFilePath() + BACKSLASH + imageParam.getFolderName() +
+                ZIP_TAG);
 
 
         zip.zipFolderFile(files, fileZip);
