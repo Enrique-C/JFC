@@ -53,7 +53,7 @@ public class PdfConverter implements IConverter {
     // Variable of CommandStrategy.
     ContextStrategy contextStrategy;
 
-    // It assign the zip's Path.
+    // Assigns the zip's Path.
     private String zipPath;
 
     /**
