@@ -9,6 +9,7 @@
 
 package com.jalasoft.jfc.model.command.ffmpeg;
 
+import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.video.VideoCommand;
 
@@ -39,7 +40,14 @@ public class CommandVideoAspectRatio implements ICommandStrategy {
      * @return command concatenated.
      */
     @Override
-    public String command() {
-        return this.SPACE + VideoCommand.INFILE + this.SPACE + commandValue + this.SPACE;
+    public String command() throws CommandValueException {
+        try {
+            if (commandValue != "") {
+                return this.SPACE + VideoCommand.ASPECT_RATIO.getCommand() + this.SPACE + commandValue;
+            }
+            throw new CommandValueException("Can not change the Aspect ratio", this.getClass().getName());
+        } catch (CommandValueException cve) {
+            throw new CommandValueException(cve.getMessage(), this.getClass().getName());
+        }
     }
 }

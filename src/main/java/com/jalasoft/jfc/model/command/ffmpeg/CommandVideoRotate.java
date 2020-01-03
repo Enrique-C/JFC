@@ -9,6 +9,8 @@
 
 package com.jalasoft.jfc.model.command.ffmpeg;
 
+
+import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.video.VideoCommand;
 
@@ -24,14 +26,11 @@ public class CommandVideoRotate implements ICommandStrategy {
     // Content value to rotate.
     private short commandValue;
 
-    // Content value 90.
-    private final short degrees90 = 90;
+    // Content Comma value.
+    private final String COMMA = ", ";
 
-    // Content value 180.
-    private final short degrees180 = 180;
-
-    // Content value 270.
-    private final short degrees270 = 270;
+    // Content quotation mark value.
+    private final char quotationMark = '"';
     /**
      * Creates a new CommandVideoRotate object.
      *
@@ -47,11 +46,24 @@ public class CommandVideoRotate implements ICommandStrategy {
      * @return command concatenated.
      */
     @Override
-    public String command() {
-        if (commandValue == degrees90 || commandValue == degrees180 || commandValue == degrees270) {
-            return SPACE + VideoCommand.VF.getCommand() + SPACE + VideoCommand.ROTATE.getCommand() +
-                   SPACE + commandValue;
+    public String command() throws CommandValueException {
+        try {
+            switch (commandValue) {
+                case 90:
+                    return SPACE + VideoCommand.VF.getCommand() + SPACE + this.quotationMark +
+                            VideoCommand.ROTATE.getCommand() + this.quotationMark;
+                case 180:
+                    return SPACE + VideoCommand.VF.getCommand() + SPACE + this.quotationMark +
+                            VideoCommand.ROTATE.getCommand() + this.COMMA + VideoCommand.ROTATE.getCommand() +
+                            this.quotationMark;
+                case 270:
+                    return SPACE + VideoCommand.VF.getCommand() + SPACE + this.quotationMark +
+                            VideoCommand.ROTATE.getCommand() + this.COMMA + VideoCommand.ROTATE.getCommand() + this.COMMA +
+                            VideoCommand.ROTATE.getCommand() + this.quotationMark;
+            }
+            throw new CommandValueException("Can not rotate the video", this.getClass().getName());
+        } catch (CommandValueException e) {
+            throw new CommandValueException(e.getMessage(), this.getClass().getName());
         }
-        return null;
     }
 }

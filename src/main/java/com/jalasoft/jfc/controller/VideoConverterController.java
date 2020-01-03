@@ -88,20 +88,23 @@ public class VideoConverterController {
     @PostMapping
     public Response videoConverter(
             @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ") String md5,
-            @RequestParam String outputName, @RequestParam (defaultValue = "0.0") int aspectRatio,
+            @RequestParam String outputName, @RequestParam (defaultValue = "0.0") String aspectRatio,
             @RequestParam (defaultValue = "") String frameRate, @RequestParam (defaultValue = "0") int width,
             @RequestParam (defaultValue = "0") int height, @RequestParam (defaultValue = "") String videoCodec,
             @RequestParam (defaultValue = "") String audioCodec, @RequestParam (defaultValue = "") String videoBitRate,
             @RequestParam (defaultValue = "") String audioBitRate, @RequestParam (defaultValue = "-1") int quality,
             @RequestParam (defaultValue = "0") int channelsNumber, @RequestParam (defaultValue = "") String volume,
-            @RequestParam (defaultValue = "") short rotate) {
+            @RequestParam (defaultValue = "") short rotate, @RequestParam (defaultValue = "") boolean thumbnail)
+            throws CommandValueException {
 
-        Param param = new VideoParam("thirdparty\\FFmpeg\\bin\\ffmpeg.exe");
+        Md5Checksum md5Checksum = new Md5Checksum();
+        Param param = new VideoParam();
+
         FileResponse fileResponse = new FileResponse();
         ErrorResponse errorResponse = new ErrorResponse();
         VideoParam videoParam = (VideoParam) param;
-        String md5FileUploaded = "a";
-        String md5FileFromClient = "b";
+        String md5FileUploaded = "";
+        String md5FileFromClient = "";
         String failMd5 = "Md5 Error! binary is invalid.";
         IConverter videoConverter = new VideoConverter();
 
@@ -110,11 +113,14 @@ public class VideoConverterController {
             Path path = Paths.get(uploadedFile + file.getOriginalFilename());
             Files.write(path, bytes);
             videoParam.setInputPathFile(path.toString());
+            md5FileUploaded = md5Checksum.getMd5(path.toString());
+
             if (outputName.equals(null) || outputName.equals("")) {
                 outputName = file.getOriginalFilename();
                 outputName = outputName.replaceFirst("[.][^.]+$", "");
             }
             md5FileUploaded = Md5Checksum.getMd5(path.toString());
+
             videoParam.setMd5(md5);
             md5FileFromClient = videoParam.getMd5();
 
@@ -133,6 +139,8 @@ public class VideoConverterController {
                 videoParam.setAudioCodec(audioCodec);
                 videoParam.setVideoBitRate(videoBitRate);
                 videoParam.setAudioBitRate(audioBitRate);
+                videoParam.setThumbnail(thumbnail);
+                videoParam.setFolderName(md5FileUploaded);
 
                 fileResponse = videoConverter.convert(videoParam);
             }
