@@ -26,7 +26,7 @@ public class CommandImageFormat implements ICommandStrategy {
     private String commandValue;
 
     /**
-     * It Creates a new CommandImageFormat object.
+     * Creates a new CommandImageFormat object.
      * @param commandValue contains a value.
      */
     public CommandImageFormat(String commandValue) {
@@ -36,6 +36,7 @@ public class CommandImageFormat implements ICommandStrategy {
     /**
      * Builds a command.
      * @return String of a command.
+     * @throws CommandValueException generates a error message.
      */
     public String command() throws CommandValueException {
         for (ImageFormat image : ImageFormat.values()) {
