@@ -127,15 +127,25 @@ public class ImageConverter implements IConverter {
         commandThumbnailList.add(new CommandImageFormat(imageParam.getImageFormat()));
     }
 
+    /**
+     * Zips a folder of images.
+     * @param imageParam receives image params.
+     * @throws IOException when is a invalid file path.
+     */
     private void zipFile(ImageParam imageParam) throws IOException {
         PathJfc pathJfc = new PathJfc();
-
-        File[] files = new File(imageParam.getOutputPathFile() + "/" + imageParam.getFolderName() +
-                "/").listFiles();
-
-        File fileZip = new File( pathJfc.getPublicFilePath() + "/" + imageParam.getOutputName() + ".zip");
-
         ZipFolder zip = new ZipFolder();
+
+        final String BACKSLASH = "/";
+        final String ZIP_TAG = ".zip";
+
+        File[] files = new File(imageParam.getOutputPathFile() + BACKSLASH + imageParam.getFolderName() +
+                BACKSLASH).listFiles();
+
+        File fileZip = new File(pathJfc.getPublicFilePath() + BACKSLASH + imageParam.getFolderName() +
+                ZIP_TAG);
+
+
         zip.zipFolderFile(files, fileZip);
     }
 }
