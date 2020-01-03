@@ -47,6 +47,9 @@ public class ImageConverter implements IConverter {
     // Tag thumbnail.
     final String THUMBNAIL_TAG = "thumb";
 
+    // Absolute path of zip folder.
+    String zipPath;
+
     // List of image command.
     List<ICommandStrategy> commandImageList = new ArrayList<>();
 
@@ -90,7 +93,7 @@ public class ImageConverter implements IConverter {
 
             fileResponse.setName(imageParam.getOutputName());
             fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
-            fileResponse.setDownload(imageParam.getOutputPathFile()+imageParam.getOutputName());
+            fileResponse.setDownload(zipPath);
 
             zipFile(imageParam);
         } catch (Exception e) {
@@ -149,6 +152,7 @@ public class ImageConverter implements IConverter {
         File fileZip = new File(pathJfc.getPublicFilePath() + BACKSLASH + imageParam.getFolderName() +
                 ZIP_TAG);
 
+        zipPath = fileZip.getAbsolutePath();
 
         zip.zipFolderFile(files, fileZip);
     }
