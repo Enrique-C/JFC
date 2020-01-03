@@ -90,12 +90,11 @@ public class ImageConverter implements IConverter {
                 Process process2 = Runtime.getRuntime().exec(commandString);
                 process2.waitFor();
             }
+            zipFile(imageParam);
 
             fileResponse.setName(imageParam.getOutputName());
             fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
             fileResponse.setDownload(zipPath);
-
-            zipFile(imageParam);
         } catch (Exception e) {
             throw new ConvertException("Error converting Image: " + e.getMessage(), this.getClass().getName());
         }
