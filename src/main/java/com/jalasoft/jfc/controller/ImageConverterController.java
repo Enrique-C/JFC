@@ -54,7 +54,7 @@ public class ImageConverterController {
     private final String convertedFile;
 
     /**
-     * It assigns paths of input and output
+     * It assigns paths of input and output.
      */
     ImageConverterController() {
         try {
@@ -82,8 +82,8 @@ public class ImageConverterController {
             @RequestParam("file") MultipartFile file,  @RequestParam String md5,
             @RequestParam String outputName, @RequestParam (defaultValue = ".png") String imageFormat,
             @RequestParam (defaultValue = "false") boolean Thumbnail, @RequestParam (defaultValue = "false")
-            boolean Grayscale,  @RequestParam (defaultValue = "0") int ImageWidth, @RequestParam (defaultValue = "0")
-            int ImageHeight, @RequestParam (defaultValue = "0") float degreesToRotate) throws CommandValueException {
+            boolean Grayscale, @RequestParam (defaultValue = "0") int ImageWidth, @RequestParam (defaultValue = "0")
+            int ImageHeight, @RequestParam (defaultValue = "0") float degreesToRotate) {
 
         FileResponse fileResponse = new FileResponse();
         ErrorResponse errorResponse = new ErrorResponse();
@@ -120,7 +120,6 @@ public class ImageConverterController {
             else {
                 throw new ConvertException(failMd5,this.getClass().getName());
             }
-
         } catch (ConvertException ex) {
             errorResponse.setName(imageParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());

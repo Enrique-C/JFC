@@ -22,12 +22,12 @@ public enum MessageResponse {
     ERROR406("Error! 406 Not Acceptable"),
     SUCCESS200("Success! 200 file converted");
 
-    // Command variable
+    // Command variable.
     private String message;
 
     /**
      * This method is for setting message value.
-     * @param message String value
+     * @param message String value.
      */
     MessageResponse(String message) {
         this.message = message;
@@ -40,5 +40,4 @@ public enum MessageResponse {
     public String getMessageResponse(){
         return message;
     }
-
 }

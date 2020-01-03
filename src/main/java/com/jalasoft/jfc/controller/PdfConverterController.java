@@ -56,7 +56,7 @@ public class PdfConverterController {
     private final String convertedFile;
 
     /**
-     * It assigns paths of input and output
+     * It assigns paths of input and output.
      */
     PdfConverterController() {
         try {
