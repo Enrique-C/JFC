@@ -38,6 +38,7 @@ public class CommandFFMpegPath implements ICommandStrategy {
     /**
      * Generates a command.
      * @return exe of FFMpeg path.
+     * @throws CommandValueException when is a invalid file.
      */
     @Override
     public String command() throws CommandValueException {
