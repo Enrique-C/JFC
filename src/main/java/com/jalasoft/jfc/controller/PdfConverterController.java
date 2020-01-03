@@ -9,8 +9,12 @@
 
 package com.jalasoft.jfc.controller;
 
+import com.jalasoft.jfc.model.result.MessageResponse;
+import com.jalasoft.jfc.model.result.ErrorResponse;
+import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.IConverter;
-import com.jalasoft.jfc.model.Md5Checksum;
+import com.jalasoft.jfc.model.result.Response;
+import com.jalasoft.jfc.model.utility.Md5Checksum;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ConvertException;
@@ -51,6 +55,9 @@ public class PdfConverterController {
     // Variable converted file path.
     private final String convertedFile;
 
+    /**
+     * It assigns paths of input and output.
+     */
     PdfConverterController() {
         try {
             pathJfc = new PathJfc();
@@ -65,28 +72,26 @@ public class PdfConverterController {
     /**
      * This method receives a PDF to convert.
      * @param file contains the image file
-     * @param outputFileName contains name of output file.
+     * @param outputName contains name of output file.
      * @param rotate degrees of rotation.
      * @param scale contains input Scale 1-10.
      * @param imageFormat format of a image.
-     * @return the path of the upload file.
+     * @return Response it mean the result of the conversion.
      */
     @PostMapping
-    public String pdfConverter(
+    public Response pdfConverter(
             @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ") String md5,
-            @RequestParam String outputFileName,@RequestParam(defaultValue = "0") int rotate,
+            @RequestParam String outputName, @RequestParam(defaultValue = "0") int rotate,
             @RequestParam(defaultValue = "%") String scale, @RequestParam(defaultValue = "false") boolean thumbnail,
             @RequestParam(defaultValue = ".png") String imageFormat, @RequestParam(defaultValue = "0") int width,
             @RequestParam(defaultValue = "0") int height, @RequestParam(defaultValue = "") String pagesToConvert) {
 
-        Md5Checksum md5Checksum = new Md5Checksum();
         Param param = new PdfParam();
         PdfParam pdfParam = (PdfParam) param;
-        String md5FileUploaded = "a";
-        String md5FileFromClient = "b";
-        String sameMd5 = "Md5 Error! binary is invalid.";
+        FileResponse fileResponse = new FileResponse();
+        ErrorResponse errorResponse = new ErrorResponse();
+        String failMd5 = "Md5 Error! binary is invalid.";
         int quantityPages = 0;
-        String fileName;
         IConverter pdfConverter = new PdfConverter();
 
         try {
@@ -96,19 +101,17 @@ public class PdfConverterController {
             PDDocument doc = PDDocument.load(new File(uploadedFile + file.getOriginalFilename()));
             quantityPages = doc.getNumberOfPages();
             pdfParam.setInputPathFile(path.toString());
-            fileName = file.getOriginalFilename();
-            fileName = fileName.replaceFirst("[.][^.]+$", "");
-            pdfParam.setInputFileName(fileName);
-            md5FileUploaded = md5Checksum.getMd5(path.toString());
+            if (outputName.equals(null) || outputName.equals("")) {
+                outputName = file.getOriginalFilename();
+                outputName = outputName.replaceFirst("[.][^.]+$", "");
+            }
+            String md5FileUploaded = Md5Checksum.getMd5(path.toString());
             pdfParam.setMd5(md5);
-            md5FileFromClient = pdfParam.getMd5();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        try {
+            String md5FileFromClient = pdfParam.getMd5();
+
             if (md5FileUploaded.equals(md5FileFromClient)) {
                 pdfParam.setOutputPathFile(convertedFile);
-                pdfParam.setOutputFileName(outputFileName);
+                pdfParam.setOutputName(outputName);
                 pdfParam.setImageFormat(imageFormat);
                 pdfParam.setPagesToConvert(pagesToConvert);
                 pdfParam.setQuantityOfPage(quantityPages);
@@ -117,17 +120,35 @@ public class PdfConverterController {
                 pdfParam.setScale(scale);
                 pdfParam.setHeight(height);
                 pdfParam.setRotate(rotate);
+                pdfParam.setFolderName(md5FileUploaded);
 
-                sameMd5 = "convert " + pdfConverter.convert(pdfParam).toString();
+                fileResponse = pdfConverter.convert(pdfParam);
             }
-        }  catch (ConvertException ex) {
-            ex.printStackTrace();
+            else {
+                throw new ConvertException(failMd5,this.getClass().getName());
+            }
+
+        } catch (ConvertException ex) {
+            errorResponse.setName(pdfParam.getOutputName());
+            errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
+            errorResponse.setError(ex.toString());
+            return errorResponse;
         } catch (CommandValueException cve) {
-            cve.printStackTrace();
+            errorResponse.setName(pdfParam.getOutputName());
+            errorResponse.setStatus(MessageResponse.ERROR400.getMessageResponse());
+            errorResponse.setError(cve.toString());
+            return errorResponse;
+        } catch (IOException ex) {
+            errorResponse.setName(pdfParam.getOutputName());
+            errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
+            errorResponse.setError(ex.toString());
+            return errorResponse;
         } catch (Exception ex) {
-            ex.printStackTrace();
-            // response error result (400, 200)
+            errorResponse.setName(pdfParam.getOutputName());
+            errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
+            errorResponse.setError(ex.toString());
+            return errorResponse;
         }
-        return sameMd5;
+        return fileResponse;
     }
 }

@@ -9,30 +9,29 @@
 
 package com.jalasoft.jfc.model.video;
 
-import com.jalasoft.jfc.model.FileResult;
+import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoBitRate;
+import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoCodec;
+import com.jalasoft.jfc.model.result.MessageResponse;
+import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
-import com.jalasoft.jfc.model.pdf.PdfParam;
-import com.jalasoft.jfc.model.strategy.CommandFFMpegPath;
-import com.jalasoft.jfc.model.strategy.CommandInputFilePath;
-import com.jalasoft.jfc.model.strategy.CommandVideoAspectRatio;
-import com.jalasoft.jfc.model.strategy.CommandVideoBitRate;
-import com.jalasoft.jfc.model.strategy.CommandVideoCodec;
-import com.jalasoft.jfc.model.strategy.CommandVideoScale;
-import com.jalasoft.jfc.model.strategy.CommandVideoConverter;
-import com.jalasoft.jfc.model.strategy.CommandVideoThumbNail;
-import com.jalasoft.jfc.model.strategy.CommandVideoRotate;
-import com.jalasoft.jfc.model.strategy.CommandVideoFrameRate;
-import com.jalasoft.jfc.model.strategy.CommandOutputFilePath;
-import com.jalasoft.jfc.model.strategy.CommandOutputFileName;
-import com.jalasoft.jfc.model.strategy.ContextStrategy;
-import com.jalasoft.jfc.model.strategy.ICommandStrategy;
+import com.jalasoft.jfc.model.command.ffmpeg.CommandFFMpegPath;
+import com.jalasoft.jfc.model.command.common.CommandInputFilePath;
+import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoAspectRatio;
+import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoScale;
+import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoConverter;
+import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoThumbNail;
+import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoRotate;
+import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoFrameRate;
+import com.jalasoft.jfc.model.command.common.CommandOutputFilePath;
+import com.jalasoft.jfc.model.command.common.CommandOutputFileName;
+import com.jalasoft.jfc.model.command.ContextStrategy;
+import com.jalasoft.jfc.model.command.ICommandStrategy;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * This Class is used for convert videos.
@@ -43,8 +42,6 @@ import java.util.logging.Logger;
  */
 public class VideoConverter implements IConverter {
 
-    private final static Logger LOGGER = Logger.getLogger(VideoConverter.class.getName());
-
     /**
      * Runs string command.
      * @param stringCommand value of command.
@@ -54,7 +51,6 @@ public class VideoConverter implements IConverter {
         try {
             Process process = Runtime.getRuntime().exec(stringCommand);
             process.waitFor();
-            process.exitValue();
         } catch (InterruptedException | IOException e) {
             e.printStackTrace();
         }
@@ -66,22 +62,26 @@ public class VideoConverter implements IConverter {
      * @return FileResult object or null value.
      * @throws CommandValueException when is a invalid command.
      */
-    public FileResult convert(Param param) throws CommandValueException {
-        FileResult fileResult = new FileResult();
+    public FileResponse convert(Param param) throws CommandValueException {
+        FileResponse fileResponse = new FileResponse();
         VideoParam videoParam = (VideoParam)param;
-        StringBuilder stringCommand;
 
+        StringBuilder stringCommand;
         stringCommand = new StringBuilder();
         stringCommand.append(videoConvert(videoParam));
         runCommand(stringCommand.toString());
-        System.out.println(stringCommand);
+
         if (videoParam.getThumbnail()) {
             stringCommand = new StringBuilder();
             stringCommand.append(getThumbnail(videoParam));
             runCommand(stringCommand.toString());
+            System.out.println(stringCommand);
         }
-        System.out.println(stringCommand);
-        return fileResult;
+
+        fileResponse.setName(videoParam.getOutputName());
+        fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
+        fileResponse.setDownload(videoParam.getOutputPathFile()+videoParam.getOutputName());
+        return fileResponse;
     }
 
     /**
@@ -99,24 +99,28 @@ public class VideoConverter implements IConverter {
             list.add(new CommandVideoConverter());
             list.add(new CommandVideoAspectRatio(videoParam.getAspectRatio()));
             list.add(new CommandVideoScale(videoParam.getWidth(), videoParam.getHeight()));
+            list.add(new CommandVideoFrameRate(videoParam.getFrameRate()));
             list.add(new CommandVideoRotate(videoParam.getRotate()));
             list.add(new CommandVideoCodec(videoParam.getVideoCodec()));
             list.add(new CommandVideoBitRate(videoParam.getVideoBitRate()));
-            list.add(new CommandOutputFilePath(videoParam.getOutputPathFile(), videoParam.getInputFileName()));
-            list.add(new CommandOutputFileName(videoParam.getOutputFileName(), videoParam.getInputFileName()));
+            list.add(new CommandOutputFilePath(videoParam.getOutputPathFile(), videoParam.getFolderName()));
+            list.add(new CommandOutputFileName(videoParam.getOutputName(), videoParam.getFolderName()));
             ContextStrategy contextStrategy = new ContextStrategy(list);
             String result = contextStrategy.buildCommand();
             System.out.println(result);
             return result;
+
         } catch (CommandValueException cve) {
             throw new CommandValueException(cve.getMessage(), this.getClass().getName());
+        } catch (NullPointerException e) {
+            throw new NullPointerException();
         }
     }
 
     /**
      * It is for getting the string thumbnail command.
      * @param param value of command.
-     * @return command concatenated.
+     * Response it mean the result of the conversion.
      * @throws CommandValueException when is a invalid command.
      */
     public String getThumbnail(Param param) throws CommandValueException {
@@ -126,8 +130,8 @@ public class VideoConverter implements IConverter {
             list.add(new CommandFFMpegPath());
             list.add(new CommandInputFilePath(videoParam.getInputPathFile()));
             list.add(new CommandVideoThumbNail(videoParam.getThumbnail()));
-            list.add(new CommandOutputFilePath(videoParam.getOutputPathFile(), videoParam.getInputFileName()));
-            list.add(new CommandOutputFileName("thumbnail.gif", videoParam.getInputFileName()));
+            list.add(new CommandOutputFilePath(videoParam.getOutputPathFile(), videoParam.getFolderName()));
+            list.add(new CommandOutputFileName("thumbnail.gif", videoParam.getFolderName()));
             ContextStrategy contextStrategy = new ContextStrategy(list);
             String result = contextStrategy.buildCommand();
             return result;

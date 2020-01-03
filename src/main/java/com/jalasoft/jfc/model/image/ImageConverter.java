@@ -9,13 +9,28 @@
 
 package com.jalasoft.jfc.model.image;
 
-import com.jalasoft.jfc.model.FileResult;
+import com.jalasoft.jfc.model.result.MessageResponse;
+import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
+import com.jalasoft.jfc.model.command.imagick.CommandImageGrayscale;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ConvertException;
-import com.jalasoft.jfc.model.strategy.*;
+import com.jalasoft.jfc.model.command.imagick.CommandImageConverter;
+import com.jalasoft.jfc.model.command.imagick.CommandImageFormat;
+import com.jalasoft.jfc.model.command.imagick.CommandImageMagickPath;
+import com.jalasoft.jfc.model.command.imagick.CommandImageResize;
+import com.jalasoft.jfc.model.command.imagick.CommandImageRotate;
+import com.jalasoft.jfc.model.command.common.CommandInputFilePath;
+import com.jalasoft.jfc.model.command.common.CommandOutputFileName;
+import com.jalasoft.jfc.model.command.common.CommandOutputFilePath;
+import com.jalasoft.jfc.model.command.imagick.CommandThumbnail;
+import com.jalasoft.jfc.model.command.ContextStrategy;
+import com.jalasoft.jfc.model.command.ICommandStrategy;
+import com.jalasoft.jfc.model.utility.PathJfc;
+import com.jalasoft.jfc.model.utility.ZipFolder;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +43,9 @@ import java.util.List;
  * @author Oscar Lopez.
  * */
 public class ImageConverter implements IConverter {
+
+    // Tag thumbnail.
+    final String THUMBNAIL_TAG = "thumb";
 
     // List of image command.
     List<ICommandStrategy> commandImageList = new ArrayList<>();
@@ -42,10 +60,10 @@ public class ImageConverter implements IConverter {
      * @throws CommandValueException when is a invalid command.
      * @throws ConvertException when the conversion failed.
      */
-    public FileResult convert(Param param) throws ConvertException, CommandValueException {
+    public FileResponse convert(Param param) throws ConvertException, CommandValueException {
         ImageParam imageParam = (ImageParam) param;
 
-        FileResult fileResult;
+        FileResponse fileResponse = new FileResponse();
 
         String commandString;
 
@@ -67,12 +85,14 @@ public class ImageConverter implements IConverter {
                 Runtime.getRuntime().exec(commandString);
             }
 
-            fileResult = new FileResult();
-            fileResult.setPath(imageParam.getOutputPathFile());
+            fileResponse.setName(imageParam.getOutputName());
+            fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
+            fileResponse.setDownload(imageParam.getOutputPathFile()+imageParam.getOutputName());
+            zipFile(imageParam);
         } catch (Exception e) {
-            throw new ConvertException("The conversion Image failed", "Command image converter");
+            throw new ConvertException("Error converting Image: " + e.getMessage(), this.getClass().getName());
         }
-        return fileResult;
+        return fileResponse;
     }
 
     /**
@@ -84,10 +104,11 @@ public class ImageConverter implements IConverter {
         commandImageList.add(new CommandImageMagickPath());
         commandImageList.add(new CommandImageConverter());
         commandImageList.add(new CommandInputFilePath(imageParam.getInputPathFile()));
+        commandImageList.add(new CommandImageGrayscale(imageParam.isGrayscale()));
         commandImageList.add(new CommandImageRotate(imageParam.getDegreesToRotate()));
         commandImageList.add(new CommandImageResize(imageParam.getImageWidth(), imageParam.getImageHeight()));
-        commandImageList.add(new CommandOutputFilePath(imageParam.getOutputPathFile(), imageParam.getInputFileName()));
-        commandImageList.add(new CommandOutputFileName(imageParam.getOutputFileName(), imageParam.getInputFileName()));
+        commandImageList.add(new CommandOutputFilePath(imageParam.getOutputPathFile(), imageParam.getFolderName()));
+        commandImageList.add(new CommandOutputFileName(imageParam.getOutputName(), imageParam.getOutputName()));
         commandImageList.add(new CommandImageFormat(imageParam.getImageFormat()));
     }
 
@@ -97,14 +118,34 @@ public class ImageConverter implements IConverter {
      * @throws CommandValueException when is a invalid command.
      */
     private void generateThumbnail(ImageParam imageParam) throws CommandValueException {
-        final String THUMBNAIL_TAG = "thumb01";
-
         commandThumbnailList.add(new CommandImageMagickPath());
         commandThumbnailList.add(new CommandImageConverter());
         commandThumbnailList.add(new CommandInputFilePath(imageParam.getInputPathFile()));
         commandThumbnailList.add(new CommandThumbnail(imageParam.isThumbnail()));
-        commandThumbnailList.add(new CommandOutputFilePath(imageParam.getOutputPathFile(), imageParam.getInputFileName()));
-        commandThumbnailList.add(new CommandOutputFileName(THUMBNAIL_TAG, imageParam.getInputFileName()));
+        commandThumbnailList.add(new CommandOutputFilePath(imageParam.getOutputPathFile(), imageParam.getFolderName()));
+        commandThumbnailList.add(new CommandOutputFileName(THUMBNAIL_TAG, imageParam.getFolderName()));
         commandThumbnailList.add(new CommandImageFormat(imageParam.getImageFormat()));
+    }
+
+    /**
+     * Zips a folder of images.
+     * @param imageParam receives image params.
+     * @throws IOException when is a invalid file path.
+     */
+    private void zipFile(ImageParam imageParam) throws IOException {
+        PathJfc pathJfc = new PathJfc();
+        ZipFolder zip = new ZipFolder();
+
+        final String BACKSLASH = "/";
+        final String ZIP_TAG = ".zip";
+
+        File[] files = new File(imageParam.getOutputPathFile() + BACKSLASH + imageParam.getFolderName() +
+                BACKSLASH).listFiles();
+
+        File fileZip = new File(pathJfc.getPublicFilePath() + BACKSLASH + imageParam.getFolderName() +
+                ZIP_TAG);
+
+
+        zip.zipFolderFile(files, fileZip);
     }
 }
