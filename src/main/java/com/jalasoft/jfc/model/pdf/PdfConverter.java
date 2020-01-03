@@ -175,7 +175,6 @@ public class PdfConverter implements IConverter {
      * @throws IOException when is a invalid file path.
      */
     private void zipFile(PdfParam pdfParam) throws IOException {
-        PathJfc pathJfc = new PathJfc();
         ZipFolder zip = new ZipFolder();
 
         final String BACKSLASH = "/";
@@ -184,7 +183,7 @@ public class PdfConverter implements IConverter {
         File[] files = new File(pdfParam.getOutputPathFile() + BACKSLASH + pdfParam.getFolderName() +
                 "/").listFiles();
 
-        File fileZip = new File( pathJfc.getPublicFilePath() + pdfParam.getFolderName() + ZIP_TAG);
+        File fileZip = new File( PathJfc.getPublicFilePath() + pdfParam.getFolderName() + ZIP_TAG);
 
         zipPath = fileZip.getAbsolutePath();
         zip.zipFolderFile(files, fileZip);
