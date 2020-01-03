@@ -77,13 +77,12 @@ public class ImageConverterController {
      * @return Response it mean the result of the conversion.
      */
     @PostMapping()
-
     public Response imageConverter(
-            @RequestParam("file") MultipartFile file,  @RequestParam String md5,
-            @RequestParam String outputName, @RequestParam (defaultValue = ".png") String imageFormat,
-            @RequestParam (defaultValue = "false") boolean Thumbnail, @RequestParam (defaultValue = "false")
-            boolean Grayscale, @RequestParam (defaultValue = "0") int ImageWidth, @RequestParam (defaultValue = "0")
-            int ImageHeight, @RequestParam (defaultValue = "0") float degreesToRotate) {
+            @RequestParam("file") MultipartFile file, @RequestParam String md5, @RequestParam String outputName,
+            @RequestParam (defaultValue = ".png") String imageFormat, @RequestParam (defaultValue = "false")
+            boolean Thumbnail, @RequestParam (defaultValue = "false") boolean Grayscale,
+            @RequestParam (defaultValue = "0") int ImageWidth, @RequestParam (defaultValue = "0") int ImageHeight,
+            @RequestParam (defaultValue = "0") float degreesToRotate) {
 
         FileResponse fileResponse = new FileResponse();
         ErrorResponse errorResponse = new ErrorResponse();
@@ -114,6 +113,7 @@ public class ImageConverterController {
                 imageParam.setImageWidth(ImageWidth);
                 imageParam.setImageHeight(ImageHeight);
                 imageParam.setDegreesToRotate(degreesToRotate);
+                imageParam.setFolderName(md5FileFromClient);
 
                 fileResponse = imageConverter.convert(imageParam);
             }
