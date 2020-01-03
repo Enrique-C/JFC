@@ -12,22 +12,9 @@ package com.jalasoft.jfc.model.command.exiftool;
 import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 
-/**
- * This class generates a tagsfromfile command.
- *
- * @version 0.1 03 Jan 2020.
- *
- * @author Enrique Carrizales.
- */
-public class CommandTagsfromfile implements ICommandStrategy {
-
-    /**
-     * Generates a command.
-     * @return a command String.
-     * @throws CommandValueException generates an error message.
-     */
+public class CommandMetadataFormat implements ICommandStrategy {
     @Override
     public String command() throws CommandValueException {
-        return this.SPACE + ExiftoolCommand.TAGSFROMFILE.getCommand();
+        return null;
     }
 }
