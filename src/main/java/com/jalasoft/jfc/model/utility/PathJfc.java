@@ -37,6 +37,9 @@ public class PathJfc {
     // Constant variable of key FFmpeg path.
     private static final String FFMPEG_PATH = "path.ffmpeg";
 
+    // Constant variable of key Exiftool path.
+    private static final String EXIFTOOL_PATH = "path.exiftool";
+
     // Constant variable of key input files path.
     private static final String INPUT_FILES_PATH = "path.input.files";
 
@@ -70,6 +73,14 @@ public class PathJfc {
      */
     public static String getFfmpegPath() {
         return properties.getProperty(FFMPEG_PATH);
+    }
+
+    /**
+     * Gets Exiftool's path.
+     * @return Exiftool's path.
+     */
+    public static String getExiftoolPath() {
+        return EXIFTOOL_PATH;
     }
 
     /**
