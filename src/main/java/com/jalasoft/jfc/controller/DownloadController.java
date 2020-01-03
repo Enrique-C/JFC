@@ -9,15 +9,9 @@
 
 package com.jalasoft.jfc.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jalasoft.jfc.model.FileResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -26,12 +20,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -48,6 +39,9 @@ import java.nio.file.StandardCopyOption;
 @RestController
 public class DownloadController {
 
+    /**
+     * It is servletContext variable.
+     */
     @Autowired
     private ServletContext servletContext;
 
@@ -81,7 +75,7 @@ public class DownloadController {
     }
 
     /**
-     * Alloows to generate link for downloading zip file.
+     * Allows to generate link for downloading zip file.
      * @param file path.
      * @return ResponseEntity.
      */
