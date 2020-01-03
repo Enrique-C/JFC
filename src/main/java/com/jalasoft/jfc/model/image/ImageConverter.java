@@ -9,6 +9,7 @@
 
 package com.jalasoft.jfc.model.image;
 
+import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
@@ -62,7 +63,7 @@ public class ImageConverter implements IConverter {
     public FileResponse convert(Param param) throws ConvertException, CommandValueException {
         ImageParam imageParam = (ImageParam) param;
 
-        FileResponse fileResult;
+        FileResponse fileResponse = new FileResponse();
 
         String commandString;
 
@@ -84,15 +85,14 @@ public class ImageConverter implements IConverter {
                 Runtime.getRuntime().exec(commandString);
             }
 
-            fileResult = new FileResponse();
-
+            fileResponse.setName(imageParam.getOutputName());
+            fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
+            fileResponse.setDownload(imageParam.getOutputPathFile()+imageParam.getOutputName());
             zipFile(imageParam);
-
-            fileResult.setDownload(imageParam.getOutputPathFile());
         } catch (Exception e) {
             throw new ConvertException("Error converting Image: " + e.getMessage(), this.getClass().getName());
         }
-        return fileResult;
+        return fileResponse;
     }
 
     /**

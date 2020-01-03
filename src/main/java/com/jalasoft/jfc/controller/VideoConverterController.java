@@ -10,6 +10,10 @@
 package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.IConverter;
+import com.jalasoft.jfc.model.result.MessageResponse;
+import com.jalasoft.jfc.model.result.ErrorResponse;
+import com.jalasoft.jfc.model.result.FileResponse;
+import com.jalasoft.jfc.model.result.Response;
 import com.jalasoft.jfc.model.utility.Md5Checksum;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
@@ -49,6 +53,9 @@ public class VideoConverterController {
     // Variable converted file path.
     private final String convertedFile;
 
+    /**
+     * It assigns paths of input and output.
+     */
     VideoConverterController() {
         try {
             pathJfc = new PathJfc();
@@ -76,10 +83,10 @@ public class VideoConverterController {
      * @param channelsNumber contains number of output channels.
      * @param volume contains the level of sound.
      * @param rotate degrees of rotation.
-     * @return the path of the upload file.
+     * @return Response it mean the result of the conversion.
      */
     @PostMapping
-    public String videoConverter(
+    public Response videoConverter(
             @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ") String md5,
             @RequestParam String outputName, @RequestParam (defaultValue = "0.0") int aspectRatio,
             @RequestParam (defaultValue = "") String frameRate, @RequestParam (defaultValue = "0") int width,
@@ -87,13 +94,15 @@ public class VideoConverterController {
             @RequestParam (defaultValue = "") String audioCodec, @RequestParam (defaultValue = "") String videoBitRate,
             @RequestParam (defaultValue = "") String audioBitRate, @RequestParam (defaultValue = "-1") int quality,
             @RequestParam (defaultValue = "0") int channelsNumber, @RequestParam (defaultValue = "") String volume,
-            @RequestParam (defaultValue = "") short rotate) throws CommandValueException {
+            @RequestParam (defaultValue = "") short rotate) {
 
         Param param = new VideoParam("thirdparty\\FFmpeg\\bin\\ffmpeg.exe");
+        FileResponse fileResponse = new FileResponse();
+        ErrorResponse errorResponse = new ErrorResponse();
         VideoParam videoParam = (VideoParam) param;
         String md5FileUploaded = "a";
         String md5FileFromClient = "b";
-        String sameMd5 = "Md5 Error! binary is invalid.";
+        String failMd5 = "Md5 Error! binary is invalid.";
         IConverter videoConverter = new VideoConverter();
 
         try {
@@ -101,14 +110,14 @@ public class VideoConverterController {
             Path path = Paths.get(uploadedFile + file.getOriginalFilename());
             Files.write(path, bytes);
             videoParam.setInputPathFile(path.toString());
+            if (outputName.equals(null) || outputName.equals("")) {
+                outputName = file.getOriginalFilename();
+                outputName = outputName.replaceFirst("[.][^.]+$", "");
+            }
             md5FileUploaded = Md5Checksum.getMd5(path.toString());
             videoParam.setMd5(md5);
             md5FileFromClient = videoParam.getMd5();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
 
-        try {
             if (md5FileUploaded.equals(md5FileFromClient)) {
                 videoParam.setOutputPathFile(convertedFile);
                 videoParam.setOutputName(outputName);
@@ -125,15 +134,32 @@ public class VideoConverterController {
                 videoParam.setVideoBitRate(videoBitRate);
                 videoParam.setAudioBitRate(audioBitRate);
 
-                sameMd5 = "converted " + videoConverter.convert(videoParam).toString();
+                fileResponse = videoConverter.convert(videoParam);
+            }
+            else {
+                throw new ConvertException(failMd5,this.getClass().getName());
             }
         } catch (ConvertException ex) {
-            ex.printStackTrace();
+            errorResponse.setName(videoParam.getOutputName());
+            errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
+            errorResponse.setError(ex.toString());
+            return errorResponse;
         } catch (CommandValueException cve) {
-            cve.printStackTrace();
+            errorResponse.setName(videoParam.getOutputName());
+            errorResponse.setStatus(MessageResponse.ERROR400.getMessageResponse());
+            errorResponse.setError(cve.toString());
+            return errorResponse;
+        } catch (IOException ex) {
+            errorResponse.setName(videoParam.getOutputName());
+            errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
+            errorResponse.setError(ex.toString());
+            return errorResponse;
         } catch (Exception ex) {
-            ex.printStackTrace();
+            errorResponse.setName(videoParam.getOutputName());
+            errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
+            errorResponse.setError(ex.toString());
+            return errorResponse;
         }
-        return sameMd5;
+        return fileResponse;
     }
 }

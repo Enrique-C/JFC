@@ -18,8 +18,16 @@ package com.jalasoft.jfc.model.result;
  */
 public class FileResponse extends Response{
 
-    // Downolad link of the file.
+    // Download link of the file.
     String download;
+
+    /**
+     * Gets the download path.
+     * @return the download paht of the file.
+     */
+    public String getDownload() {
+        return download;
+    }
 
     /**
      * Sets the path to download.
