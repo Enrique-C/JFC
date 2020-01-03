@@ -8,6 +8,7 @@
  */
 package com.jalasoft.jfc.model.pdf;
 
+import com.jalasoft.jfc.model.image.ImageParam;
 import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.IConverter;
@@ -30,7 +31,10 @@ import com.jalasoft.jfc.model.command.common.CommandOutputFilePath;
 import com.jalasoft.jfc.model.command.common.CommandOutputFileName;
 import com.jalasoft.jfc.model.command.imagick.CommandImageFormat;
 import com.jalasoft.jfc.model.command.ContextStrategy;
+import com.jalasoft.jfc.model.utility.PathJfc;
+import com.jalasoft.jfc.model.utility.ZipFolder;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +61,7 @@ public class PdfConverter implements IConverter {
      * @throws CommandValueException when is a invalid command.
      * @throws ConvertException when the conversion was not completed.
      */
-    public FileResponse convert(Param param) throws CommandValueException, ConvertException {
+    public FileResponse convert(Param param) throws CommandValueException, ConvertException, IOException {
         FileResponse fileResponse = new FileResponse();
         PdfParam pdfParam = (PdfParam)param;
         StringBuilder stringCommand = new StringBuilder();
@@ -83,6 +87,7 @@ public class PdfConverter implements IConverter {
         fileResponse.setName(pdfParam.getOutputName());
         fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
         fileResponse.setDownload(pdfParam.getOutputPathFile()+pdfParam.getOutputName());
+        zipFile(pdfParam);
         return fileResponse;
     }
 
@@ -160,5 +165,17 @@ public class PdfConverter implements IConverter {
         } catch (InterruptedException | IOException e) {
             throw new ConvertException(e.getMessage(), this.getClass().getName());
         }
+    }
+
+    private void zipFile(PdfParam pdfParam) throws IOException {
+        PathJfc pathJfc = new PathJfc();
+        final String ZIP = ".zip";
+        File[] files = new File(pdfParam.getOutputPathFile() + "/" + pdfParam.getFolderName() +
+                "/").listFiles();
+
+        File fileZip = new File( pathJfc.getPublicFilePath() + "/" + pdfParam.getOutputName() + ZIP);
+
+        ZipFolder zip = new ZipFolder();
+        zip.zipFolderFile(files, fileZip);
     }
 }
