@@ -8,6 +8,7 @@
  */
 package com.jalasoft.jfc.model.pdf;
 
+import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
@@ -79,6 +80,9 @@ public class PdfConverter implements IConverter {
             generateMetadata(pdfParam);
         }
         System.out.println(stringCommand);
+        fileResponse.setName(pdfParam.getOutputName());
+        fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
+        fileResponse.setDownload(pdfParam.getOutputPathFile()+pdfParam.getOutputName());
         return fileResponse;
     }
 

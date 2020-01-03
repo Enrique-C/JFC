@@ -9,6 +9,7 @@
 
 package com.jalasoft.jfc.model.video;
 
+import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
@@ -54,7 +55,7 @@ public class VideoConverter implements IConverter {
     public FileResponse convert(Param param) {
 
         VideoParam videoParam = (VideoParam) param;
-        FileResponse fileResult = new FileResponse();
+        FileResponse fileResponse = new FileResponse();
 
         try {
             List<ICommandStrategy> list = new ArrayList<>();
@@ -81,7 +82,10 @@ public class VideoConverter implements IConverter {
         } catch (NullPointerException e) {
             throw new NullPointerException();
         } finally {
-            return fileResult;
+            fileResponse.setName(videoParam.getOutputName());
+            fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
+            fileResponse.setDownload(videoParam.getOutputPathFile()+videoParam.getOutputName());
+            return fileResponse;
         }
     }
 

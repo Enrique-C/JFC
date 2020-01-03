@@ -22,6 +22,14 @@ public class ErrorResponse extends Response {
     private String error;
 
     /**
+     * Gets the type of error.
+     * @return the error message.
+     */
+    public String getError() {
+        return error;
+    }
+
+    /**
      * Sets the type of error.
      * @param error receives the type of error.
      */
