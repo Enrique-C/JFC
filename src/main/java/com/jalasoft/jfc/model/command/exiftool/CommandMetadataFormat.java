@@ -7,43 +7,41 @@
  * license agreement you entered into with Jalasoft.
  */
 
-package com.jalasoft.jfc.model.command.imagick;
+package com.jalasoft.jfc.model.command.exiftool;
 
 import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.image.ImageFormat;
 
 /**
- * This class verify a valid image format.
+ * This class generates a command.
  *
- * @version 0.1 19 Dic 2019
+ * @version 0.1 03 Jan 2020.
  *
- * @author Juan Martinez
+ * @author Enrique Carrizales.
  */
-public class CommandImageFormat implements ICommandStrategy {
+public class CommandMetadataFormat implements ICommandStrategy {
 
     // Content command value.
     private String commandValue;
 
+    // Content format value.
+    private final String METADATA_FORMAT = ".xmp";
+
     /**
-     * Creates a new CommandImageFormat object.
-     * @param commandValue contains a value.
+     * Creates a new CommandMetadataFormat object.
      */
-    public CommandImageFormat(String commandValue) {
-        this.commandValue = commandValue;
+    public CommandMetadataFormat() {
+        this.commandValue = METADATA_FORMAT;
     }
 
     /**
-     * Builds a command.
-     * @return String of a command.
+     * Generates a extension file.
+     * @return a command String.
      * @throws CommandValueException generates a error message.
      */
+    @Override
     public String command() throws CommandValueException {
-        for (ImageFormat image : ImageFormat.values()) {
-            if (image.getImageFormat().equals(commandValue)) {
-                return commandValue;
-            }
-        }
-        throw new CommandValueException("Format is not valid", this.getClass().getName());
+        return commandValue;
     }
 }
