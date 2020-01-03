@@ -10,6 +10,7 @@
 package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.IConverter;
+import com.jalasoft.jfc.model.exception.MessageResponse;
 import com.jalasoft.jfc.model.result.ErrorResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.result.Response;
@@ -92,6 +93,10 @@ public class ImageConverterController {
             Path path = Paths.get(uploadedFile + file.getOriginalFilename());
             Files.write(path, bytes);
             imageParam.setInputPathFile(path.toString());
+            if (outputFileName.equals(null) || outputFileName.equals("")) {
+                outputFileName = file.getOriginalFilename();
+                outputFileName = outputFileName.replaceFirst("[.][^.]+$", "");
+            }
             String md5FileUploaded = Md5Checksum.getMd5(path.toString());
             imageParam.setMd5(md5);
             String md5FileFromClient = imageParam.getMd5();
@@ -113,25 +118,24 @@ public class ImageConverterController {
 
         } catch (ConvertException ex) {
             errorResponse.setName(imageParam.getOutputFileName());
-            errorResponse.setStatus("Error! 406 Not Acceptable");
+            errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
             errorResponse.setError(ex.toString());
             return errorResponse;
         } catch (CommandValueException cve) {
             errorResponse.setName(imageParam.getOutputFileName());
-            errorResponse.setStatus("Error! 400 Bad Request");
+            errorResponse.setStatus(MessageResponse.ERROR400.getMessageResponse());
             errorResponse.setError(cve.toString());
             return errorResponse;
         } catch (IOException ex) {
             errorResponse.setName(imageParam.getOutputFileName());
-            errorResponse.setStatus("Error! Bad Request");
+            errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
             errorResponse.setError(ex.toString());
             return errorResponse;
         } catch (Exception ex) {
             errorResponse.setName(imageParam.getOutputFileName());
-            errorResponse.setStatus("Error! 404 Not Found");
+            errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
             errorResponse.setError(ex.toString());
             return errorResponse;
-            // response error result (400, 200)
         }
         return fileResponse;
     }
