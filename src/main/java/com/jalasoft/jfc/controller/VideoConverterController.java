@@ -104,6 +104,7 @@ public class VideoConverterController {
             Files.write(path, bytes);
             videoParam.setInputPathFile(path.toString());
             md5FileUploaded = md5Checksum.getMd5(path.toString());
+            System.out.println(md5FileUploaded);
             videoParam.setMd5(md5);
             md5FileFromClient = videoParam.getMd5();
         } catch (IOException ex) {

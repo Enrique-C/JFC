@@ -62,7 +62,7 @@ public class VideoConverter implements IConverter {
 
     /**
      * It converts a Video to other format.
-     * @param param
+     * @param param value of command.
      * @return FileResult object or null value.
      * @throws CommandValueException when is a invalid command.
      */
@@ -86,7 +86,7 @@ public class VideoConverter implements IConverter {
 
     /**
      * It is for getting the string command.
-     * @param param
+     * @param param value of command.
      * @return command concatenated.
      * @throws CommandValueException when is a invalid command.
      */
@@ -96,9 +96,9 @@ public class VideoConverter implements IConverter {
             List<ICommandStrategy> list = new ArrayList<>();
             list.add(new CommandFFMpegPath());
             list.add(new CommandInputFilePath(videoParam.getInputPathFile()));
+            list.add(new CommandVideoConverter());
             list.add(new CommandVideoAspectRatio(videoParam.getAspectRatio()));
             list.add(new CommandVideoScale(videoParam.getWidth(), videoParam.getHeight()));
-            list.add(new CommandVideoConverter());
             list.add(new CommandVideoRotate(videoParam.getRotate()));
             list.add(new CommandVideoCodec(videoParam.getVideoCodec()));
             list.add(new CommandVideoBitRate(videoParam.getVideoBitRate()));
@@ -115,7 +115,7 @@ public class VideoConverter implements IConverter {
 
     /**
      * It is for getting the string thumbnail command.
-     * @param param
+     * @param param value of command.
      * @return command concatenated.
      * @throws CommandValueException when is a invalid command.
      */

@@ -47,8 +47,8 @@ public class CommandVideoConverter implements ICommandStrategy {
     @Override
     public String command() throws CommandValueException {
         try {
-            if (commandValue != "") {
-                return this.SPACE + commandValue + this.SPACE;
+            if (!commandValue.isEmpty()) {
+                return this.SPACE + commandValue;
             }
             throw new CommandValueException("Can not convert a video", this.getClass().getName());
         } catch (CommandValueException cve) {
