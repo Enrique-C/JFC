@@ -111,7 +111,7 @@ public class VideoConverterController {
         try {
             if (md5FileUploaded.equals(md5FileFromClient)) {
                 videoParam.setOutputPathFile(convertedFile);
-                videoParam.setOutputFileName(outputFileName);
+                videoParam.setOutputName(outputFileName);
                 videoParam.setAspectRatio(aspectRatio);
                 videoParam.setFrameRate(frameRate);
                 videoParam.setWidth(width);

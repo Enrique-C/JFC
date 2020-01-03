@@ -104,7 +104,7 @@ public class PdfConverterController {
 
             if (md5FileUploaded.equals(md5FileFromClient)) {
                 pdfParam.setOutputPathFile(convertedFile);
-                pdfParam.setOutputFileName(outputFileName);
+                pdfParam.setOutputName(outputFileName);
                 pdfParam.setImageFormat(imageFormat);
                 pdfParam.setPagesToConvert(pagesToConvert);
                 pdfParam.setQuantityOfPage(quantityPages);
