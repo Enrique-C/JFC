@@ -24,20 +24,20 @@ import java.io.IOException;
  */
 public class CommandFFMpegPath implements ICommandStrategy {
 
-    // Content command value.
+    // Content ffmpeg command value.
     private  String FFMpegPath;
 
     /**
      * This initialize PathJfc and gets the FfMpeg Path.
-     * @throws IOException when is a invalid file.
+     * @throws CommandValueException when is a invalid file.
      */
-    public CommandFFMpegPath() throws IOException {
+    public CommandFFMpegPath() throws CommandValueException {
         FFMpegPath = PathJfc.getFfmpegPath();
     }
 
     /**
      * Generates a command.
-     * @return exe of ImageMagick path.
+     * @return exe of FFMpeg path.
      */
     @Override
     public String command() throws CommandValueException {

@@ -43,8 +43,8 @@ public class CommandVideoScale implements ICommandStrategy {
 
     /**
      * This method builds a command.
-     *
      * @return command concatenated.
+     * @throws CommandValueException when is a invalid command.
      */
     @Override
     public String command() throws CommandValueException {

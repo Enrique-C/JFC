@@ -34,13 +34,13 @@ public class CommandVideoFrameRate implements ICommandStrategy {
 
     /**
      * This method builds a command.
-     *
      * @return command concatenated.
+     * @throws CommandValueException when is a invalid command.
      */
     @Override
     public String command() throws CommandValueException {
         try {
-            if (commandValue != "") {
+            if (!commandValue.isEmpty()) {
                 return this.SPACE + VideoCommand.FRAME_RATE.getCommand() + SPACE + commandValue;
             }
             throw new CommandValueException("Can not change the Frame rate", this.getClass().getName());

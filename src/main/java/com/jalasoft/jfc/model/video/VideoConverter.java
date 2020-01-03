@@ -50,27 +50,26 @@ public class VideoConverter implements IConverter {
      * @param stringCommand value of command.
      * @return 0 when the process was executed successfully.
      */
-    private int runCommand(String stringCommand){
-        int returnValue = -1;
+    private void runCommand(String stringCommand){
         try {
             Process process = Runtime.getRuntime().exec(stringCommand);
             process.waitFor();
-            returnValue = process.exitValue();
+            process.exitValue();
         } catch (InterruptedException | IOException e) {
             e.printStackTrace();
         }
-        return returnValue;
     }
 
     /**
-     * It is converts a Video to other format.
+     * It converts a Video to other format.
      * @param param
      * @return FileResult object or null value.
+     * @throws CommandValueException when is a invalid command.
      */
     public FileResult convert(Param param) throws CommandValueException {
         FileResult fileResult = new FileResult();
         VideoParam videoParam = (VideoParam)param;
-        StringBuilder stringCommand = new StringBuilder();
+        StringBuilder stringCommand;
 
         stringCommand = new StringBuilder();
         stringCommand.append(videoConvert(videoParam));
@@ -87,10 +86,9 @@ public class VideoConverter implements IConverter {
 
     /**
      * It is for getting the string command.
-     *
      * @param param
      * @return command concatenated.
-     * @throws CommandValueException
+     * @throws CommandValueException when is a invalid command.
      */
     public String videoConvert(Param param) throws CommandValueException {
         VideoParam videoParam = (VideoParam) param;
@@ -98,24 +96,29 @@ public class VideoConverter implements IConverter {
             List<ICommandStrategy> list = new ArrayList<>();
             list.add(new CommandFFMpegPath());
             list.add(new CommandInputFilePath(videoParam.getInputPathFile()));
-            //list.add(new CommandVideoAspectRatio(videoParam.getAspectRatio()));
-            //list.add(new CommandVideoScale(videoParam.getWidth(), videoParam.getHeight()));
-            //list.add(new CommandVideoConverter());
-            //list.add(new CommandVideoRotate(videoParam.getRotate()));
-            //list.add(new CommandVideoCodec(videoParam.getVideoCodec()));
+            list.add(new CommandVideoAspectRatio(videoParam.getAspectRatio()));
+            list.add(new CommandVideoScale(videoParam.getWidth(), videoParam.getHeight()));
+            list.add(new CommandVideoConverter());
+            list.add(new CommandVideoRotate(videoParam.getRotate()));
+            list.add(new CommandVideoCodec(videoParam.getVideoCodec()));
             list.add(new CommandVideoBitRate(videoParam.getVideoBitRate()));
             list.add(new CommandOutputFilePath(videoParam.getOutputPathFile(), videoParam.getInputFileName()));
             list.add(new CommandOutputFileName(videoParam.getOutputFileName(), videoParam.getInputFileName()));
             ContextStrategy contextStrategy = new ContextStrategy(list);
             String result = contextStrategy.buildCommand();
+            System.out.println(result);
             return result;
         } catch (CommandValueException cve) {
             throw new CommandValueException(cve.getMessage(), this.getClass().getName());
-        } catch (IOException e) {
-            throw new CommandValueException(e.getMessage(), this.getClass().getName());
         }
     }
 
+    /**
+     * It is for getting the string thumbnail command.
+     * @param param
+     * @return command concatenated.
+     * @throws CommandValueException when is a invalid command.
+     */
     public String getThumbnail(Param param) throws CommandValueException {
         VideoParam videoParam = (VideoParam) param;
         try {
@@ -130,8 +133,6 @@ public class VideoConverter implements IConverter {
             return result;
         } catch (CommandValueException cve) {
             throw new CommandValueException(cve.getMessage(), this.getClass().getName());
-        } catch (IOException e) {
-            throw new CommandValueException(e.getMessage(), this.getClass().getName());
         }
     }
 }

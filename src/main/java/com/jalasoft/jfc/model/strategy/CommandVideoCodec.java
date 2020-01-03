@@ -26,13 +26,12 @@ public class CommandVideoCodec implements ICommandStrategy {
 
     /**
      * This builds a command.
-     *
      * @return command concatenated.
      */
     @Override
     public String command() throws CommandValueException {
         try {
-            if (commandValue != "") {
+            if (!commandValue.isEmpty()) {
                 return this.SPACE + VideoCommand.VIDEO_CODEC.getCommand() + this.SPACE + commandValue;
             }
             throw new CommandValueException("Can not change the Video codec", this.getClass().getName());

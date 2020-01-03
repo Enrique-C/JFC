@@ -3,9 +3,9 @@ package com.jalasoft.jfc.model.video;
 /**
  * This enum is used for specify types of image formats.
  *
- * @version 0.1 16 Dic 2019
+ * @version 0.1 02 Jan 2020
  *
- * @author Alan Escalera
+ * @author Oscar Lopez
  */
 public enum VideoFormat {
     MKV(".mkv"),

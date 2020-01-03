@@ -282,7 +282,7 @@ public class VideoParam extends Param {
     }
 
     /**
-     * Sets thumbnail value.
+     * Sets thumbnail's value.
      * @param thumbnail time String value.
      */
     public void setThumbnail(boolean thumbnail) {

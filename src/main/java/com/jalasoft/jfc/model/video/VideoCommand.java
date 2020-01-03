@@ -34,7 +34,9 @@ public enum VideoCommand {
     COLON(":"),
     ASTERISK("*"),
     THUMBNAIL("-ss"),
-    V_FRAMES("-vframes");
+    V_FRAMES("-vframes"),
+    R("-r"),
+    T("-t");
 
     // Command variable.
     private String command;
