@@ -7,11 +7,10 @@
  * license agreement you entered into with Jalasoft.
  */
 
-package com.jalasoft.jfc.model.strategy;
+package com.jalasoft.jfc.model.command.common;
 
+import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.exception.CommandValueException;
-
-import java.security.InvalidParameterException;
 
 /**
  * This class verify if outputFileName value.
@@ -22,19 +21,19 @@ import java.security.InvalidParameterException;
  */
 public class CommandOutputFileName implements ICommandStrategy {
 
-    // Content command value.
-    private String commandValue;
+    // Content a output name.
+    private String outputName;
 
     // Content input file name without extension.
-    private String inputFileName;
+    private String inputName;
 
     /**
      * It Creates a new CommandOutputFileName object.
-     * @param commandValue contains a value.
+     * @param outputName contains a value.
      */
-    public CommandOutputFileName(String commandValue, String inputFileName) {
-        this.commandValue = commandValue;
-        this.inputFileName = inputFileName;
+    public CommandOutputFileName(String outputName, String inputName) {
+        this.outputName = outputName;
+        this.inputName = inputName;
     }
 
     /**
@@ -46,10 +45,10 @@ public class CommandOutputFileName implements ICommandStrategy {
         String regexRule = "[^a-zA-Z0-9]";
         String replaceValue = "";
 
-            if (commandValue.equals("_t") || commandValue.isEmpty()) {
-                commandValue = inputFileName;
+            if (outputName.equals("_t") || outputName.isEmpty()) {
+                outputName = inputName;
             }
-            commandValue = commandValue.replaceAll(regexRule, replaceValue);
-        return commandValue;
+            outputName = outputName.replaceAll(regexRule, replaceValue);
+        return outputName;
     }
 }

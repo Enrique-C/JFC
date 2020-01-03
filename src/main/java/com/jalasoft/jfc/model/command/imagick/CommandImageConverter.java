@@ -7,8 +7,9 @@
  * license agreement you entered into with Jalasoft.
  */
 
-package com.jalasoft.jfc.model.strategy;
+package com.jalasoft.jfc.model.command.imagick;
 
+import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
 
 /**
@@ -19,7 +20,7 @@ import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
  *
  * @author Enrique Carrizales.
  */
-public class CommandImageConverter implements ICommandStrategy{
+public class CommandImageConverter implements ICommandStrategy {
 
 
     /**

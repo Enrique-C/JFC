@@ -7,52 +7,44 @@
  * license agreement you entered into with Jalasoft.
  */
 
-package com.jalasoft.jfc.model.strategy;
+package com.jalasoft.jfc.model.command.common;
 
+import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.exception.CommandValueException;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 
 import java.io.File;
-import java.io.IOException;
 
 /**
- * Validates a output file path.
+ * Validates an input file path.
  *
  * @version 0.1 19 Dec 2019.
  *
  * @author Enrique Carrizales.
  */
-public class CommandOutputFilePath implements ICommandStrategy {
+public class CommandInputFilePath implements ICommandStrategy {
 
     // Content command value.
     private String commandValue;
 
-    // Content input file name without extension.
-    private String inputFileName;
-
     /**
-     * It Creates a new CommandOutputFilePath object.
+     * It Creates a new CommandInputFilePath object.
      * @param commandValue contains a value.
-     * @param inputFileName contains file name witout extension.
      */
-    public CommandOutputFilePath(String commandValue, String inputFileName) {
+    public CommandInputFilePath(String commandValue) {
         this.commandValue = commandValue;
-        this.inputFileName = inputFileName;
     }
 
     /**
-     * Generates a command.
-     * @return output path.
-     * @throws CommandValueException when is a invalid command.
+     * Generates a commands.
+     * @return input path.
+     * @throws CommandValueException
      */
     @Override
     public String command() throws CommandValueException {
         File file = new File(commandValue);
         try {
             if (file.exists()) {
-                file = new File(commandValue + inputFileName);
-                file.mkdir();
-                return this.SPACE + commandValue + inputFileName + "/";
+                return this.SPACE + commandValue;
             }
             throw new CommandValueException("Invalid input file path value\n", "File not found\n");
         } catch (NullPointerException nex) {

@@ -8,27 +8,27 @@
  */
 package com.jalasoft.jfc.model.pdf;
 
-import com.jalasoft.jfc.model.FileResult;
+import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ConvertException;
-import com.jalasoft.jfc.model.strategy.ICommandStrategy;
-import com.jalasoft.jfc.model.strategy.CommandImageMagickPath;
-import com.jalasoft.jfc.model.strategy.CommandImageConverter;
-import com.jalasoft.jfc.model.strategy.CommandImageDensity;
-import com.jalasoft.jfc.model.strategy.CommandImageAlpha;
-import com.jalasoft.jfc.model.strategy.CommandImageBackground;
-import com.jalasoft.jfc.model.strategy.CommandInputFilePath;
-import com.jalasoft.jfc.model.strategy.CommandPagesToConvert;
-import com.jalasoft.jfc.model.strategy.CommandImageResize;
-import com.jalasoft.jfc.model.strategy.CommandScale;
-import com.jalasoft.jfc.model.strategy.CommandThumbnail;
-import com.jalasoft.jfc.model.strategy.CommandImageRotate;
-import com.jalasoft.jfc.model.strategy.CommandOutputFilePath;
-import com.jalasoft.jfc.model.strategy.CommandOutputFileName;
-import com.jalasoft.jfc.model.strategy.CommandImageFormat;
-import com.jalasoft.jfc.model.strategy.ContextStrategy;
+import com.jalasoft.jfc.model.command.ICommandStrategy;
+import com.jalasoft.jfc.model.command.imagick.CommandImageMagickPath;
+import com.jalasoft.jfc.model.command.imagick.CommandImageConverter;
+import com.jalasoft.jfc.model.command.imagick.CommandImageDensity;
+import com.jalasoft.jfc.model.command.imagick.CommandImageAlpha;
+import com.jalasoft.jfc.model.command.imagick.CommandImageBackground;
+import com.jalasoft.jfc.model.command.common.CommandInputFilePath;
+import com.jalasoft.jfc.model.command.imagick.CommandPagesToConvert;
+import com.jalasoft.jfc.model.command.imagick.CommandImageResize;
+import com.jalasoft.jfc.model.command.common.CommandScale;
+import com.jalasoft.jfc.model.command.imagick.CommandThumbnail;
+import com.jalasoft.jfc.model.command.imagick.CommandImageRotate;
+import com.jalasoft.jfc.model.command.common.CommandOutputFilePath;
+import com.jalasoft.jfc.model.command.common.CommandOutputFileName;
+import com.jalasoft.jfc.model.command.imagick.CommandImageFormat;
+import com.jalasoft.jfc.model.command.ContextStrategy;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -56,8 +56,8 @@ public class PdfConverter implements IConverter {
      * @throws CommandValueException when is a invalid command.
      * @throws ConvertException when the conversion was not completed.
      */
-    public FileResult convert(Param param) throws CommandValueException, ConvertException {
-        FileResult fileResult = new FileResult();
+    public FileResponse convert(Param param) throws CommandValueException, ConvertException {
+        FileResponse fileResponse = new FileResponse();
         PdfParam pdfParam = (PdfParam)param;
         StringBuilder stringCommand = new StringBuilder();
         if (!pdfParam.isThumbnail() && !pdfParam.isMetadata()) {
@@ -79,7 +79,7 @@ public class PdfConverter implements IConverter {
             generateMetadata(pdfParam);
         }
         System.out.println(stringCommand);
-        return fileResult;
+        return fileResponse;
     }
 
     /**
@@ -101,7 +101,7 @@ public class PdfConverter implements IConverter {
         commandsList.add(new CommandScale(pdfParam.getScale()));
         commandsList.add(new CommandImageRotate(pdfParam.getRotate()));
         commandsList.add(new CommandOutputFilePath(pdfParam.getOutputPathFile(), pdfParam.getFolderName()));
-        commandsList.add(new CommandOutputFileName(pdfParam.getOutputFileName(), pdfParam.getFolderName()));
+        commandsList.add(new CommandOutputFileName(pdfParam.getOutputName(), pdfParam.getFolderName()));
         commandsList.add(new CommandImageFormat(pdfParam.getImageFormat()));
         contextStrategy = new ContextStrategy(commandsList);
         String result = contextStrategy.buildCommand();
@@ -125,7 +125,7 @@ public class PdfConverter implements IConverter {
         commandsList.add(new CommandPagesToConvert(pdfParam.getPagesToConvert(), pdfParam.getQuantityOfPage()));
         commandsList.add(new CommandThumbnail(pdfParam.isThumbnail()));
         commandsList.add(new CommandOutputFilePath(pdfParam.getOutputPathFile(), pdfParam.getFolderName()));
-        commandsList.add(new CommandOutputFileName(pdfParam.getOutputFileName() + "_t",
+        commandsList.add(new CommandOutputFileName(pdfParam.getOutputName() + "_t",
                 pdfParam.getFolderName() + "_t"));
         commandsList.add(new CommandImageFormat(pdfParam.getImageFormat()));
         contextStrategy = new ContextStrategy(commandsList);

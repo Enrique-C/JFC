@@ -7,33 +7,26 @@
  * license agreement you entered into with Jalasoft.
  */
 
-package com.jalasoft.jfc.model;
+package com.jalasoft.jfc.model.result;
 
 /**
- * This class is used in order to return the file converted.
+ * This class is used to return the success of the conversion.
  *
  * @version 0.1 17 Dic 2019
  *
  * @author Juan Martinez
  */
-public class FileResult {
+public class FileResponse extends Response{
 
-    // Content path of result file.
-    private String path;
-
-    /**
-     * Gets path value.
-     * @return path.
-     */
-    public String getPath() {
-        return path;
-    }
+    // Downolad link of the file.
+    String download;
 
     /**
-     * Sets path String value.
-     * @param path
+     * Sets the path to download.
+     * @param download receives the path to download.
      */
-    public void setPath(String path) {
-        this.path = path;
+    public void setDownload(String download) {
+        this.download = download;
     }
+
 }

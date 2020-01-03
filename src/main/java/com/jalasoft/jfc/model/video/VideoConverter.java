@@ -9,23 +9,23 @@
 
 package com.jalasoft.jfc.model.video;
 
-import com.jalasoft.jfc.model.FileResult;
+import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
-import com.jalasoft.jfc.model.strategy.CommandFFMpegPath;
-import com.jalasoft.jfc.model.strategy.CommandFFMpeg;
-import com.jalasoft.jfc.model.strategy.CommandInputFilePath;
-import com.jalasoft.jfc.model.strategy.CommandVideoAspectRatio;
-import com.jalasoft.jfc.model.strategy.CommandVideoScale;
-import com.jalasoft.jfc.model.strategy.CommandVideoConverter;
-import com.jalasoft.jfc.model.strategy.CommandVideoThumbNail;
-import com.jalasoft.jfc.model.strategy.CommandVideoRotate;
-import com.jalasoft.jfc.model.strategy.CommandVideoFrameRate;
-import com.jalasoft.jfc.model.strategy.CommandOutputFilePath;
-import com.jalasoft.jfc.model.strategy.CommandOutputFileName;
-import com.jalasoft.jfc.model.strategy.ContextStrategy;
-import com.jalasoft.jfc.model.strategy.ICommandStrategy;
+import com.jalasoft.jfc.model.command.ffmpeg.CommandFFMpegPath;
+import com.jalasoft.jfc.model.command.ffmpeg.CommandFFMpeg;
+import com.jalasoft.jfc.model.command.common.CommandInputFilePath;
+import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoAspectRatio;
+import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoScale;
+import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoConverter;
+import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoThumbNail;
+import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoRotate;
+import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoFrameRate;
+import com.jalasoft.jfc.model.command.common.CommandOutputFilePath;
+import com.jalasoft.jfc.model.command.common.CommandOutputFileName;
+import com.jalasoft.jfc.model.command.ContextStrategy;
+import com.jalasoft.jfc.model.command.ICommandStrategy;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -51,10 +51,10 @@ public class VideoConverter implements IConverter {
      * @return FileResult object or null value.
      * @throws IOException
      */
-    public FileResult convert(Param param) {
+    public FileResponse convert(Param param) {
 
         VideoParam videoParam = (VideoParam) param;
-        FileResult fileResult = new FileResult();
+        FileResponse fileResult = new FileResponse();
 
         try {
             List<ICommandStrategy> list = new ArrayList<>();
@@ -68,7 +68,7 @@ public class VideoConverter implements IConverter {
             list.add(new CommandVideoRotate(videoParam.getRotate()));
             list.add(new CommandVideoFrameRate(videoParam.getFrameRate()));
             list.add(new CommandOutputFilePath(videoParam.getOutputPathFile(), videoParam.getFolderName()));
-            list.add(new CommandOutputFileName(videoParam.getOutputFileName(), videoParam.getFolderName()));
+            list.add(new CommandOutputFileName(videoParam.getOutputName(), videoParam.getFolderName()));
             String stringCommand = getCommand(list);
             Process process = Runtime.getRuntime().exec(stringCommand);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
