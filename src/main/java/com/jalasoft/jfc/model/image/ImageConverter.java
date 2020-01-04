@@ -9,12 +9,28 @@
 
 package com.jalasoft.jfc.model.image;
 
-import com.jalasoft.jfc.model.FileResult;
+import com.jalasoft.jfc.model.result.MessageResponse;
+import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
+import com.jalasoft.jfc.model.command.imagick.CommandImageGrayscale;
+import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ConvertException;
-import com.jalasoft.jfc.model.strategy.*;
+import com.jalasoft.jfc.model.command.imagick.CommandImageConverter;
+import com.jalasoft.jfc.model.command.imagick.CommandImageFormat;
+import com.jalasoft.jfc.model.command.imagick.CommandImageMagickPath;
+import com.jalasoft.jfc.model.command.imagick.CommandImageResize;
+import com.jalasoft.jfc.model.command.imagick.CommandImageRotate;
+import com.jalasoft.jfc.model.command.common.CommandInputFilePath;
+import com.jalasoft.jfc.model.command.common.CommandOutputFileName;
+import com.jalasoft.jfc.model.command.common.CommandOutputFilePath;
+import com.jalasoft.jfc.model.command.imagick.CommandThumbnail;
+import com.jalasoft.jfc.model.command.ContextStrategy;
+import com.jalasoft.jfc.model.command.ICommandStrategy;
+import com.jalasoft.jfc.model.utility.PathJfc;
+import com.jalasoft.jfc.model.utility.ZipFolder;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,81 +44,108 @@ import java.util.List;
  * */
 public class ImageConverter implements IConverter {
 
-    // List of commands.
-    List<ICommandStrategy> commandStrategyList = new ArrayList<>();
+    // Tag thumbnail.
+    final String THUMBNAIL_TAG = "thumb";
+
+    // List of image command.
+    List<ICommandStrategy> commandImageList = new ArrayList<>();
+
+    // List of thumbnail commands.
+    List<ICommandStrategy> commandThumbnailList = new ArrayList<>();
 
     /**
      * Changes an Image format to another one.
      * @param param Image parameters.
      * @return Conversion status.
-     * @throws IOException when is a invalid file.
+     * @throws CommandValueException when is a invalid command.
      * @throws ConvertException when the conversion failed.
      */
-    public FileResult convert(Param param) throws ConvertException, IOException {
+    public FileResponse convert(Param param) throws ConvertException, CommandValueException {
         ImageParam imageParam = (ImageParam) param;
 
-        FileResult fileResult;
+        FileResponse fileResponse = new FileResponse();
 
         String commandString;
 
         if (imageParam.isThumbnail()) {
-            generateImage(imageParam);
             generateThumbnail(imageParam);
-        } else {
-            generateImage(imageParam);
         }
 
-        ContextStrategy comContext = new ContextStrategy(commandStrategyList);
+        generateImage(imageParam);
+        ContextStrategy commandImageContext = new ContextStrategy(commandImageList);
 
         try {
-            commandString = comContext.buildCommand();
+            commandString = commandImageContext.buildCommand();
 
             Runtime.getRuntime().exec(commandString);
-            fileResult = new FileResult();
-            fileResult.setPath(imageParam.getOutputPathFile());
+
+            if (!commandThumbnailList.isEmpty()) {
+                ContextStrategy commandThumbnailContext = new ContextStrategy(commandThumbnailList);
+                commandString = commandThumbnailContext.buildCommand();
+                Runtime.getRuntime().exec(commandString);
+            }
+
+            fileResponse.setName(imageParam.getOutputName());
+            fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
+            fileResponse.setDownload(imageParam.getOutputPathFile()+imageParam.getOutputName());
+            zipFile(imageParam);
         } catch (Exception e) {
-            throw new ConvertException("The conversion Image failed", "Command image converter");
+            throw new ConvertException("Error converting Image: " + e.getMessage(), this.getClass().getName());
         }
-        return fileResult;
+        return fileResponse;
     }
 
     /**
      * Generates a command to convert an image to another image.
      * @param imageParam receives image params.
-     * @throws IOException when is a invalid file.
+     * @throws CommandValueException when is a invalid command.
      */
-    private void generateImage(ImageParam imageParam) throws IOException {
-        commonCommandImage(imageParam);
-
-        commandStrategyList.add(new CommandImageRotate(imageParam.getDegreesToRotate()));
-        commandStrategyList.add(new CommandImageResize(imageParam.getImageWidth(), imageParam.getImageHeight()));
-        commandStrategyList.add(new CommandOutputFilePath(imageParam.getOutputPathFile()));
-        commandStrategyList.add(new CommandOutputFileName(imageParam.getOutputFileName()));
-        commandStrategyList.add(new CommandImageFormat(imageParam.getImageFormat()));
+    private void generateImage(ImageParam imageParam) throws CommandValueException {
+        commandImageList.add(new CommandImageMagickPath());
+        commandImageList.add(new CommandImageConverter());
+        commandImageList.add(new CommandInputFilePath(imageParam.getInputPathFile()));
+        commandImageList.add(new CommandImageGrayscale(imageParam.isGrayscale()));
+        commandImageList.add(new CommandImageRotate(imageParam.getDegreesToRotate()));
+        commandImageList.add(new CommandImageResize(imageParam.getImageWidth(), imageParam.getImageHeight()));
+        commandImageList.add(new CommandOutputFilePath(imageParam.getOutputPathFile(), imageParam.getFolderName()));
+        commandImageList.add(new CommandOutputFileName(imageParam.getOutputName(), imageParam.getOutputName()));
+        commandImageList.add(new CommandImageFormat(imageParam.getImageFormat()));
     }
 
     /**
      * Generates a command to convert an image to thumbnail.
      * @param imageParam receives image params.
-     * @throws IOException when is a invalid file.
+     * @throws CommandValueException when is a invalid command.
      */
-    private void generateThumbnail(ImageParam imageParam) throws IOException {
-        commonCommandImage(imageParam);
-
-        commandStrategyList.add(new CommandThumbnail(imageParam.isThumbnail()));
-        commandStrategyList.add(new CommandOutputFilePath(imageParam.getOutputPathFile()));
-        commandStrategyList.add(new CommandOutputFileName(imageParam.getOutputFileName()));
-        commandStrategyList.add(new CommandImageFormat(imageParam.getImageFormat()));
+    private void generateThumbnail(ImageParam imageParam) throws CommandValueException {
+        commandThumbnailList.add(new CommandImageMagickPath());
+        commandThumbnailList.add(new CommandImageConverter());
+        commandThumbnailList.add(new CommandInputFilePath(imageParam.getInputPathFile()));
+        commandThumbnailList.add(new CommandThumbnail(imageParam.isThumbnail()));
+        commandThumbnailList.add(new CommandOutputFilePath(imageParam.getOutputPathFile(), imageParam.getFolderName()));
+        commandThumbnailList.add(new CommandOutputFileName(THUMBNAIL_TAG, imageParam.getFolderName()));
+        commandThumbnailList.add(new CommandImageFormat(imageParam.getImageFormat()));
     }
 
     /**
-     * Generates a command common.
+     * Zips a folder of images.
      * @param imageParam receives image params.
-     * @throws IOException when is a invalid file.
+     * @throws IOException when is a invalid file path.
      */
-    private void commonCommandImage(ImageParam imageParam) throws IOException {
-        commandStrategyList.add(new CommandImageMagickPath());
-        commandStrategyList.add(new CommandImageConverter());
-        commandStrategyList.add(new CommandInputFilePath(imageParam.getInputPathFile()));
+    private void zipFile(ImageParam imageParam) throws IOException {
+        PathJfc pathJfc = new PathJfc();
+        ZipFolder zip = new ZipFolder();
+
+        final String BACKSLASH = "/";
+        final String ZIP_TAG = ".zip";
+
+        File[] files = new File(imageParam.getOutputPathFile() + BACKSLASH + imageParam.getFolderName() +
+                BACKSLASH).listFiles();
+
+        File fileZip = new File(pathJfc.getPublicFilePath() + BACKSLASH + imageParam.getFolderName() +
+                ZIP_TAG);
+
+
+        zip.zipFolderFile(files, fileZip);
     }
 }

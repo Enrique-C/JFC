@@ -22,23 +22,35 @@ import java.util.Properties;
  */
 public class PathJfc {
 
-    // This is a class properties.
-    private Properties properties;
+    // Properties type variable.
+    private static Properties properties;
 
-    // This is a InputStream.
+    // InputStream type variable.
     private InputStream inputPath;
 
-    // This is a constant variable to get application.properties file.
-    private final String APPLICATION_PROPERTIES = "application.properties";
+    // Constant variable to get application.properties file.
+    private static final String APPLICATION_PROPERTIES = "application.properties";
 
-    // This is a constant variable of the key imageMagick path.
-    private final String IMAGE_MAGICK_PATH = "path.magick";
+    // Constant variable of the key imageMagick path.
+    private static final String IMAGE_MAGICK_PATH = "path.magick";
 
-    // This is a constant variable of key FFmpeg path.
-    private final String FFMPEG_PATH = "path.ffmpeg";
+    // Constant variable of key FFmpeg path.
+    private static final String FFMPEG_PATH = "path.ffmpeg";
+
+    // Constant variable of key Exiftool path.
+    private static final String EXIFTOOL_PATH = "path.exiftool";
+
+    // Constant variable of key input files path.
+    private static final String INPUT_FILES_PATH = "path.input.files";
+
+    // Constant variable of key output files path.
+    private static final String OUTPUT_FILES_PATH = "path.output.files";
+
+    // Constant variable of key public files path.
+    private static final String PUBLIC_FILES_PATH = "path.public.files";
 
     /**
-     * This inizialize properties and inputPaht. Also load the inputPath in properties.
+     * Initializes properties and inputPath. Also load the inputPath in properties.
      * @throws IOException
      */
     public PathJfc() throws IOException {
@@ -48,18 +60,50 @@ public class PathJfc {
     }
 
     /**
-     * This method gets the path Magick.
-     * @return the Image Magick Path.
+     * Gets Image Magick's path.
+     * @return Image Magick's Path.
      */
-    public String getMagickPath(){
-        return  properties.getProperty(IMAGE_MAGICK_PATH);
+    public static String getMagickPath() {
+        return properties.getProperty(IMAGE_MAGICK_PATH);
     }
 
     /**
-     * This method gets the path.
-     * @return the FFmpeg path.
+     * Gets FFmpeg's path.
+     * @return FFmpeg's path.
      */
-    public String getFfmpegPath(){
-        return  properties.getProperty(FFMPEG_PATH);
+    public static String getFfmpegPath() {
+        return properties.getProperty(FFMPEG_PATH);
+    }
+
+    /**
+     * Gets Exiftool's path.
+     * @return Exiftool's path.
+     */
+    public static String getExiftoolPath() {
+        return EXIFTOOL_PATH;
+    }
+
+    /**
+     * Gets Input Files's path.
+     * @return Input files Path's path.
+     */
+    public static String getInputFilePath() {
+        return properties.getProperty(INPUT_FILES_PATH);
+    }
+
+    /**
+     * Gets Output Files's path.
+     * @return Output files Path's path.
+     */
+    public static String getOutputFilePath() {
+        return properties.getProperty(OUTPUT_FILES_PATH);
+    }
+
+    /**
+     * Gets Public files's path.
+     * @return Public files Path's path.
+     */
+    public static String getPublicFilePath() {
+        return properties.getProperty(PUBLIC_FILES_PATH);
     }
 }

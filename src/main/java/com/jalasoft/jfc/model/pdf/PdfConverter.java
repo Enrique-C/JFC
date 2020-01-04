@@ -8,26 +8,33 @@
  */
 package com.jalasoft.jfc.model.pdf;
 
-import com.jalasoft.jfc.model.FileResult;
+import com.jalasoft.jfc.model.result.MessageResponse;
+import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
-import com.jalasoft.jfc.model.strategy.CommandImageMagickPath;
-import com.jalasoft.jfc.model.strategy.ICommandStrategy;
-import com.jalasoft.jfc.model.strategy.CommandInputFilePath;
-import com.jalasoft.jfc.model.strategy.CommandPagesToConvert;
-import com.jalasoft.jfc.model.strategy.CommandImageResize;
-import com.jalasoft.jfc.model.strategy.CommandScale;
-import com.jalasoft.jfc.model.strategy.CommandThumbnail;
-import com.jalasoft.jfc.model.strategy.CommandImageRotate;
-import com.jalasoft.jfc.model.strategy.CommandOutputFilePath;
-import com.jalasoft.jfc.model.strategy.CommandOutputFileName;
-import com.jalasoft.jfc.model.strategy.CommandImageFormat;
-import com.jalasoft.jfc.model.strategy.ContextStrategy;
-import com.jalasoft.jfc.model.strategy.CommandImageConverter;
+import com.jalasoft.jfc.model.exception.ConvertException;
+import com.jalasoft.jfc.model.command.ICommandStrategy;
+import com.jalasoft.jfc.model.command.imagick.CommandImageMagickPath;
+import com.jalasoft.jfc.model.command.imagick.CommandImageConverter;
+import com.jalasoft.jfc.model.command.imagick.CommandImageDensity;
+import com.jalasoft.jfc.model.command.imagick.CommandImageAlpha;
+import com.jalasoft.jfc.model.command.imagick.CommandImageBackground;
+import com.jalasoft.jfc.model.command.common.CommandInputFilePath;
+import com.jalasoft.jfc.model.command.imagick.CommandPagesToConvert;
+import com.jalasoft.jfc.model.command.imagick.CommandImageResize;
+import com.jalasoft.jfc.model.command.common.CommandScale;
+import com.jalasoft.jfc.model.command.imagick.CommandThumbnail;
+import com.jalasoft.jfc.model.command.imagick.CommandImageRotate;
+import com.jalasoft.jfc.model.command.common.CommandOutputFilePath;
+import com.jalasoft.jfc.model.command.common.CommandOutputFileName;
+import com.jalasoft.jfc.model.command.imagick.CommandImageFormat;
+import com.jalasoft.jfc.model.command.ContextStrategy;
+import com.jalasoft.jfc.model.utility.PathJfc;
+import com.jalasoft.jfc.model.utility.ZipFolder;
 
+import java.io.File;
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,57 +47,145 @@ import java.util.List;
  */
 public class PdfConverter implements IConverter {
 
+    // List of commands.
+    List<ICommandStrategy> commandsList;
+
+    // Variable of CommandStrategy.
+    ContextStrategy contextStrategy;
+
+    // Assigns the zip's Path.
+    private String zipPath;
+
     /**
      * This method converts a PDF to Image.
      * @param param
      * @return FileResult object or null value.
+     * @throws CommandValueException when is a invalid command.
+     * @throws ConvertException when the conversion was not completed.
      */
-    public FileResult convert(Param param) throws CommandValueException, IOException {
-        FileResult fileResult = new FileResult();
-        String stringCommand = getCommand(param);
-        int value = runCommand(stringCommand);
-        return fileResult;
+    public FileResponse convert(Param param) throws CommandValueException, ConvertException, IOException {
+        FileResponse fileResponse = new FileResponse();
+        PdfParam pdfParam = (PdfParam)param;
+        StringBuilder stringCommand = new StringBuilder();
+        if (!pdfParam.isThumbnail() && !pdfParam.isMetadata()) {
+            stringCommand.append(generateImage(pdfParam));
+            runCommand(stringCommand.toString());
+        }
+        if (pdfParam.isThumbnail()) {
+            stringCommand = new StringBuilder();
+            stringCommand.append(generateImage(pdfParam));
+            runCommand(stringCommand.toString());
+            stringCommand = new StringBuilder();
+            stringCommand.append(generateThumbnail(pdfParam));
+            runCommand(stringCommand.toString());
+        }
+        if (pdfParam.isMetadata()) {
+            stringCommand = new StringBuilder();
+            stringCommand.append(generateImage(pdfParam));
+            runCommand(stringCommand.toString());
+            generateMetadata(pdfParam);
+        }
+        System.out.println(stringCommand);
+        zipFile(pdfParam);
+        fileResponse.setName(pdfParam.getOutputName());
+        fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
+        fileResponse.setDownload(zipPath);
+        return fileResponse;
     }
 
     /**
-     * This method is for getting the string command.
-     * @param param
+     * This method is for generate image string command.
+     * @param pdfParam
      * @return command concatenated.
      * @throws CommandValueException
      */
-    public String getCommand(Param param) throws CommandValueException, IOException {
-        PdfParam pdfParam = (PdfParam)param;
-        List<ICommandStrategy> list = new ArrayList<>();
-        list.add(new CommandImageMagickPath());
-        list.add(new CommandImageConverter());
-        list.add(new CommandInputFilePath(pdfParam.getInputPathFile()));
-        list.add(new CommandPagesToConvert(pdfParam.getPagesToConvert()));
-        list.add(new CommandImageResize(pdfParam.getWidth(), pdfParam.getHeight()));
-        list.add(new CommandScale(pdfParam.getScale()));
-        list.add(new CommandThumbnail(pdfParam.getThumbnail()));
-        list.add(new CommandImageRotate(pdfParam.getRotate()));
-        list.add(new CommandOutputFilePath(pdfParam.getOutputPathFile()));
-        list.add(new CommandOutputFileName(pdfParam.getOutputFileName()));
-        list.add(new CommandImageFormat(pdfParam.getImageFormat()));
-        ContextStrategy contextStrategy = new ContextStrategy(list);
+    private String generateImage(PdfParam pdfParam) throws CommandValueException {
+        commandsList = new ArrayList<>();
+        commandsList.add(new CommandImageMagickPath());
+        commandsList.add(new CommandImageConverter());
+        commandsList.add(new CommandImageDensity());
+        commandsList.add(new CommandImageAlpha());
+        commandsList.add(new CommandImageBackground());
+        commandsList.add(new CommandInputFilePath(pdfParam.getInputPathFile()));
+        commandsList.add(new CommandPagesToConvert(pdfParam.getPagesToConvert(), pdfParam.getQuantityOfPage()));
+        commandsList.add(new CommandImageResize(pdfParam.getWidth(), pdfParam.getHeight()));
+        commandsList.add(new CommandScale(pdfParam.getScale()));
+        commandsList.add(new CommandImageRotate(pdfParam.getRotate()));
+        commandsList.add(new CommandOutputFilePath(pdfParam.getOutputPathFile(), pdfParam.getFolderName()));
+        commandsList.add(new CommandOutputFileName(pdfParam.getOutputName(), pdfParam.getFolderName()));
+        commandsList.add(new CommandImageFormat(pdfParam.getImageFormat()));
+        contextStrategy = new ContextStrategy(commandsList);
         String result = contextStrategy.buildCommand();
         return result;
+    }
+
+    /**
+     * This method is for generate thumbnail string command.
+     * @param pdfParam
+     * @return command concatenated.
+     * @throws CommandValueException
+     */
+    private String generateThumbnail(PdfParam pdfParam) throws CommandValueException {
+        commandsList = new ArrayList<>();
+        commandsList.add(new CommandImageMagickPath());
+        commandsList.add(new CommandImageConverter());
+        commandsList.add(new CommandImageDensity());
+        commandsList.add(new CommandImageAlpha());
+        commandsList.add(new CommandImageBackground());
+        commandsList.add(new CommandInputFilePath(pdfParam.getInputPathFile()));
+        commandsList.add(new CommandPagesToConvert(pdfParam.getPagesToConvert(), pdfParam.getQuantityOfPage()));
+        commandsList.add(new CommandThumbnail(pdfParam.isThumbnail()));
+        commandsList.add(new CommandOutputFilePath(pdfParam.getOutputPathFile(), pdfParam.getFolderName()));
+        commandsList.add(new CommandOutputFileName(pdfParam.getOutputName() + "_t",
+                pdfParam.getFolderName() + "_t"));
+        commandsList.add(new CommandImageFormat(pdfParam.getImageFormat()));
+        contextStrategy = new ContextStrategy(commandsList);
+        String result = contextStrategy.buildCommand();
+        return result;
+    }
+
+    /**
+     * This method generate metadata of input file.
+     * @param pdfParam
+     */
+    private void generateMetadata(PdfParam pdfParam) {
+        commandsList = new ArrayList<>();
+        commandsList.add(new CommandInputFilePath(pdfParam.getInputPathFile()));
+        // execute XMP or use XMP.
     }
 
     /**
      * Runs string command.
      * @param stringCommand value of command.
      * @return 0 when the process was executed successfully.
+     * @throws ConvertException when the conversion was not completed.
      */
-    private int runCommand(String stringCommand){
-        int returnValue = -1;
+    private void runCommand(String stringCommand) throws ConvertException {
         try {
             Process process = Runtime.getRuntime().exec(stringCommand);
             process.waitFor();
-            returnValue = process.exitValue();
         } catch (InterruptedException | IOException e) {
-            e.printStackTrace();
+            throw new ConvertException(e.getMessage(), this.getClass().getName());
         }
-        return returnValue;
+    }
+
+    /**
+     * Zips a list of files.
+     * @param pdfParam receives pdfParam.
+     * @throws IOException when is a invalid file path.
+     */
+    private void zipFile(PdfParam pdfParam) throws IOException {
+        ZipFolder zip = new ZipFolder();
+
+        final String BACKSLASH = "/";
+        final String ZIP_TAG = ".zip";
+
+        File[] files = new File(pdfParam.getOutputPathFile() + BACKSLASH + pdfParam.getFolderName() +
+                "/").listFiles();
+
+        File fileZip = new File( PathJfc.getPublicFilePath() + pdfParam.getFolderName() + ZIP_TAG);
+
+        zipPath = fileZip.getAbsolutePath();
+        zip.zipFolderFile(files, fileZip);
     }
 }

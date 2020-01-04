@@ -11,6 +11,7 @@ package com.jalasoft.jfc.model;
 
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ConvertException;
+import com.jalasoft.jfc.model.result.FileResponse;
 
 import java.io.IOException;
 
@@ -30,8 +31,8 @@ public interface IConverter {
      * @return state of conversion.
      * @throws IOException when is a invalid file.
      * @throws CommandValueException this.
-     * @throws ConvertException this.
+     * @throws ConvertException when the convert process is not completed.
      */
 
-    FileResult convert(Param param) throws ConvertException , IOException, CommandValueException;
+    FileResponse convert(Param param) throws ConvertException, CommandValueException, IOException;
 }

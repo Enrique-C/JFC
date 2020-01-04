@@ -9,20 +9,29 @@
 
 package com.jalasoft.jfc.controller;
 
+import com.jalasoft.jfc.model.result.MessageResponse;
+import com.jalasoft.jfc.model.result.ErrorResponse;
+import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.IConverter;
-import com.jalasoft.jfc.model.Md5Checksum;
+import com.jalasoft.jfc.model.result.Response;
+import com.jalasoft.jfc.model.utility.Md5Checksum;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ConvertException;
 import com.jalasoft.jfc.model.pdf.PdfConverter;
 import com.jalasoft.jfc.model.pdf.PdfParam;
+import com.jalasoft.jfc.model.utility.PathJfc;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -39,68 +48,116 @@ import java.nio.file.Paths;
 @RequestMapping(path = "/pdfConverter")
 public class PdfConverterController {
 
-    // Constant upload file.
-    private static final String UPLOADED_FOLDER = "src/main/java/com/jalasoft/jfc/resource/";
+    // Variable PathJfc type.
+    private PathJfc pathJfc;
 
-    // Constant path converted file.
-    private static final String CONVERTED_FILE = "src/main/java/com/jalasoft/jfc/resource/";
+    // Variable upload file.
+    private final String uploadedFile;
+
+    // Variable converted file path.
+    private final String convertedFile;
+
+    /**
+     * It assigns paths of input and output.
+     */
+    PdfConverterController() {
+        try {
+            pathJfc = new PathJfc();
+        }
+        catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        uploadedFile = pathJfc.getInputFilePath();
+        convertedFile = pathJfc.getOutputFilePath();
+    }
 
     /**
      * This method receives a PDF to convert.
-     * @param outputPathFile contains the output path of file converted.
      * @param file contains the image file
-     * @param outputFileName contains name of output file.
+     * @param md5 contains md5 value.
+     * @param outputName contains name of output file.
      * @param rotate degrees of rotation.
      * @param scale contains input Scale 1-10.
+     * @param thumbnail contains boolean value.
      * @param imageFormat format of a image.
-     * @return the path of the upload file.
+     * @param width contains integer value.
+     * @param height contains integer value.
+     * @param pagesToConvert contains number of pdf file pages.
+     * @param request contains client data.
+     * @return Response it mean the result of the conversion.
      */
     @PostMapping
-    public String pdfConverter(
+    public Response pdfConverter(
             @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ") String md5,
-            @RequestParam (defaultValue = CONVERTED_FILE) String outputPathFile, @RequestParam String outputFileName,
-            @RequestParam(defaultValue = "0") int rotate, @RequestParam(defaultValue = "100%") String scale,
-            @RequestParam(defaultValue = "false") boolean thumbnail, @RequestParam(defaultValue = ".png")
-            String imageFormat, @RequestParam(defaultValue = "0") int width, @RequestParam(defaultValue = "0")
-            int height, @RequestParam String pagesToConvert) throws CommandValueException {
+            @RequestParam String outputName, @RequestParam(defaultValue = "0") int rotate,
+            @RequestParam(defaultValue = "%") String scale, @RequestParam(defaultValue = "false") boolean thumbnail,
+            @RequestParam(defaultValue = ".png") String imageFormat, @RequestParam(defaultValue = "0") int width,
+            @RequestParam(defaultValue = "0") int height, @RequestParam(defaultValue = "") String pagesToConvert,
+            HttpServletRequest request) {
 
-        Md5Checksum md5Checksum = new Md5Checksum();
         Param param = new PdfParam();
         PdfParam pdfParam = (PdfParam) param;
-        String md5FileUploaded = "a";
-        String md5FileFromClient = "b";
-        String sameMd5 = "Md5 Error! binary is invalid.";
+        FileResponse fileResponse = new FileResponse();
+        ErrorResponse errorResponse = new ErrorResponse();
+        String failMd5 = "Md5 Error! binary is invalid.";
+        int quantityPages = 0;
         IConverter pdfConverter = new PdfConverter();
 
         try {
             byte[] bytes = file.getBytes();
-            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
+            Path path = Paths.get(uploadedFile + file.getOriginalFilename());
             Files.write(path, bytes);
+            PDDocument doc = PDDocument.load(new File(uploadedFile + file.getOriginalFilename()));
+            quantityPages = doc.getNumberOfPages();
             pdfParam.setInputPathFile(path.toString());
-            md5FileUploaded = md5Checksum.getMd5(path.toString());
+            if (outputName.equals(null) || outputName.equals("")) {
+                outputName = file.getOriginalFilename();
+                outputName = outputName.replaceFirst("[.][^.]+$", "");
+            }
+            String md5FileUploaded = Md5Checksum.getMd5(path.toString());
             pdfParam.setMd5(md5);
-            md5FileFromClient = pdfParam.getMd5();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        try {
+            String md5FileFromClient = pdfParam.getMd5();
+
             if (md5FileUploaded.equals(md5FileFromClient)) {
-                pdfParam.setOutputPathFile(outputPathFile);
-                pdfParam.setOutputFileName(outputFileName);
+                pdfParam.setOutputPathFile(convertedFile);
+                pdfParam.setOutputName(outputName);
                 pdfParam.setImageFormat(imageFormat);
                 pdfParam.setPagesToConvert(pagesToConvert);
+                pdfParam.setQuantityOfPage(quantityPages);
                 pdfParam.setThumbnail(thumbnail);
                 pdfParam.setWidth(width);
                 pdfParam.setScale(scale);
                 pdfParam.setHeight(height);
+                pdfParam.setRotate(rotate);
+                pdfParam.setFolderName(md5FileUploaded);
 
-                sameMd5 = "convert " + pdfConverter.convert(pdfParam).toString();
+                fileResponse = pdfConverter.convert(pdfParam);
             }
-        } catch (IOException ex) {
-            ex.printStackTrace();
+            else {
+                throw new ConvertException(failMd5,this.getClass().getName());
+            }
+
         } catch (ConvertException ex) {
-            ex.printStackTrace();
+            errorResponse.setName(pdfParam.getOutputName());
+            errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
+            errorResponse.setError(ex.toString());
+            return errorResponse;
+        } catch (CommandValueException cve) {
+            errorResponse.setName(pdfParam.getOutputName());
+            errorResponse.setStatus(MessageResponse.ERROR400.getMessageResponse());
+            errorResponse.setError(cve.toString());
+            return errorResponse;
+        } catch (IOException ex) {
+            errorResponse.setName(pdfParam.getOutputName());
+            errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
+            errorResponse.setError(ex.toString());
+            return errorResponse;
+        } catch (Exception ex) {
+            errorResponse.setName(pdfParam.getOutputName());
+            errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
+            errorResponse.setError(ex.toString());
+            return errorResponse;
         }
-        return sameMd5;
+        return fileResponse;
     }
 }

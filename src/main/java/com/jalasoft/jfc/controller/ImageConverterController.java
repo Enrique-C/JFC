@@ -10,15 +10,22 @@
 package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.IConverter;
-import com.jalasoft.jfc.model.Md5Checksum;
+import com.jalasoft.jfc.model.result.MessageResponse;
+import com.jalasoft.jfc.model.result.ErrorResponse;
+import com.jalasoft.jfc.model.result.FileResponse;
+import com.jalasoft.jfc.model.result.Response;
+import com.jalasoft.jfc.model.utility.Md5Checksum;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.image.ImageConverter;
-import com.jalasoft.jfc.model.image.ImageFormat;
 import com.jalasoft.jfc.model.image.ImageParam;
 import com.jalasoft.jfc.model.exception.ConvertException;
+import com.jalasoft.jfc.model.utility.PathJfc;
 
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Files;
@@ -37,66 +44,103 @@ import java.io.IOException;
 @RequestMapping(path = "/imageConverter")
 public class ImageConverterController {
 
-    // Constant upload file.
-    private static final String UPLOADED_FOLDER = "src/main/java/com/jalasoft/jfc/resource/";
+    // Variable PathJfc type.
+    private PathJfc pathJfc;
 
-    // Constant path converted file.
-    private static final String CONVERTED_FILE = "src/main/java/com/jalasoft/jfc/resource/";
+    // Variable upload file.
+    private final String uploadedFile;
+
+    // Variable converted file path.
+    private final String convertedFile;
+
+    /**
+     * It assigns paths of input and output.
+     */
+    ImageConverterController() {
+        try {
+            pathJfc = new PathJfc();
+        }
+        catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        uploadedFile = pathJfc.getInputFilePath();
+        convertedFile = pathJfc.getOutputFilePath();
+    }
 
     /**
      * This method receives an image to convert.
      * @param file contains the image file.
-     * @param outputPathFile contains the output path of image converted.
      * @param Thumbnail contains the output path of thumbnail converted.
      * @param ImageWidth number of image width.
      * @param ImageHeight number of image height.
      * @param degreesToRotate degrees of rotate.
-     * @return the path of the upload file.
+     * @return Response it mean the result of the conversion.
      */
     @PostMapping()
-    public String imageConverter(
-            @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ") String md5,
-            @RequestParam (defaultValue = CONVERTED_FILE) String outputPathFile, @RequestParam String outputFileName,
+    public Response imageConverter(
+            @RequestParam("file") MultipartFile file, @RequestParam String md5, @RequestParam String outputName,
             @RequestParam (defaultValue = ".png") String imageFormat, @RequestParam (defaultValue = "false")
-            boolean Thumbnail,  @RequestParam (defaultValue = "0") int ImageWidth, @RequestParam (defaultValue = "0")
-            int ImageHeight, @RequestParam (defaultValue = "0") float degreesToRotate) throws CommandValueException {
+            boolean Thumbnail, @RequestParam (defaultValue = "false") boolean Grayscale,
+            @RequestParam (defaultValue = "0") int ImageWidth, @RequestParam (defaultValue = "0") int ImageHeight,
+            @RequestParam (defaultValue = "0") float degreesToRotate) {
 
-        Md5Checksum md5Checksum = new Md5Checksum();
+        FileResponse fileResponse = new FileResponse();
+        ErrorResponse errorResponse = new ErrorResponse();
         Param param = new ImageParam();
         ImageParam imageParam = (ImageParam) param;
-        String md5FileUploaded = "a";
-        String md5FileFromClient = "b";
-        String sameMd5 = "Md5 Error! binary is invalid.";
+        String failMd5 = "Md5 Error! binary is invalid.";
         IConverter imageConverter = new ImageConverter();
 
         try {
             byte[] bytes = file.getBytes();
-            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
+            Path path = Paths.get(uploadedFile + file.getOriginalFilename());
             Files.write(path, bytes);
             imageParam.setInputPathFile(path.toString());
-            md5FileUploaded = md5Checksum.getMd5(path.toString());
+            if (outputName.equals(null) || outputName.equals("")) {
+                outputName = file.getOriginalFilename();
+                outputName = outputName.replaceFirst("[.][^.]+$", "");
+            }
+            String md5FileUploaded = Md5Checksum.getMd5(path.toString());
             imageParam.setMd5(md5);
-            md5FileFromClient = imageParam.getMd5();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        try {
+            String md5FileFromClient = imageParam.getMd5();
+
             if (md5FileUploaded.equals(md5FileFromClient)) {
-                imageParam.setOutputPathFile(outputPathFile);
+                imageParam.setOutputPathFile(convertedFile);
                 imageParam.setImageFormat(imageFormat);
-                imageParam.setOutputFileName(outputFileName);
+                imageParam.setOutputName(outputName);
                 imageParam.isThumbnail(Thumbnail);
+                imageParam.isGrayscale(Grayscale);
                 imageParam.setImageWidth(ImageWidth);
                 imageParam.setImageHeight(ImageHeight);
                 imageParam.setDegreesToRotate(degreesToRotate);
+                imageParam.setFolderName(md5FileFromClient);
 
-                sameMd5 = "convert" + imageConverter.convert(imageParam).toString();
+                fileResponse = imageConverter.convert(imageParam);
             }
-        } catch (IOException ex) {
-            ex.printStackTrace();
+            else {
+                throw new ConvertException(failMd5,this.getClass().getName());
+            }
         } catch (ConvertException ex) {
-            ex.printStackTrace();
+            errorResponse.setName(imageParam.getOutputName());
+            errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
+            errorResponse.setError(ex.toString());
+            return errorResponse;
+        } catch (CommandValueException cve) {
+            errorResponse.setName(imageParam.getOutputName());
+            errorResponse.setStatus(MessageResponse.ERROR400.getMessageResponse());
+            errorResponse.setError(cve.toString());
+            return errorResponse;
+        } catch (IOException ex) {
+            errorResponse.setName(imageParam.getOutputName());
+            errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
+            errorResponse.setError(ex.toString());
+            return errorResponse;
+        } catch (Exception ex) {
+            errorResponse.setName(imageParam.getOutputName());
+            errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
+            errorResponse.setError(ex.toString());
+            return errorResponse;
         }
-        return sameMd5;
+        return fileResponse;
     }
 }

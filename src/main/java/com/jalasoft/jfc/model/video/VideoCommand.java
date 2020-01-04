@@ -27,14 +27,16 @@ public enum VideoCommand {
     AUDIO_BITRATE("-b:a"),
     VF("-vf"),
     SCALE("scale="),
-    ROTATE("-filter:v"),
+    ROTATE("transpose=0"),
     CHANNELS("-ac"),
     VOLUME("-vol"),
     EMPTY(""),
     COLON(":"),
     ASTERISK("*"),
     THUMBNAIL("-ss"),
-    V_FRAMES("-vframes");
+    V_FRAMES("-vframes"),
+    R("-r"),
+    T("-t");
 
     // Command variable.
     private String command;
