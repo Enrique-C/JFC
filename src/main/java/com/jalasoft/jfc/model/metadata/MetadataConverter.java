@@ -46,7 +46,7 @@ public class MetadataConverter implements IConverter {
      * Generates a metadata.
      * @param param receives a file param.
      */
-    public void generateMetadata(Param param) {
+    private void generateMetadata(Param param) {
         commandMetadataList.add(new CommandExiftoolPath());
         commandMetadataList.add(new CommandMetadataTagsfromfile());
         commandMetadataList.add(new CommandInputFilePath(param.getInputPathFile()));
@@ -75,7 +75,8 @@ public class MetadataConverter implements IConverter {
         try {
             commandString = commandMetadataContext.buildCommand();
 
-            Runtime.getRuntime().exec(commandString);
+            Process metadataConvertProcess = Runtime.getRuntime().exec(commandString);
+            metadataConvertProcess.waitFor();
         } catch (Exception e) {
             throw new ConvertException("Error converting File to Metadata: " + e.getMessage(), this.getClass().getName());
         }

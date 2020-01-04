@@ -9,6 +9,7 @@
 
 package com.jalasoft.jfc.model.image;
 
+import com.jalasoft.jfc.model.metadata.MetadataConverter;
 import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.IConverter;
@@ -90,6 +91,12 @@ public class ImageConverter implements IConverter {
                 Process thumbnailConvertProcess = Runtime.getRuntime().exec(commandString);
                 thumbnailConvertProcess.waitFor();
             }
+
+            if (param.isMetadata()) {
+                MetadataConverter metadataConverter = new MetadataConverter();
+                metadataConverter.convert(param);
+            }
+
             zipFile(imageParam);
 
             fileResponse.setName(imageParam.getOutputName());

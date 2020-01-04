@@ -45,7 +45,7 @@ public class CommandExiftoolPath implements ICommandStrategy {
             if (file.exists()) {
                 return exiftoolPath;
             }
-            throw new CommandValueException("Exiftool doesn't exist\n", "Exiftool not found\n");
+            throw new CommandValueException("Exiftool doesn't exist\n", "Exiftool not found\n: " + exiftoolPath);
         } catch (CommandValueException cve) {
             throw new CommandValueException(cve.getMessage(), this.getClass().getName());
         }

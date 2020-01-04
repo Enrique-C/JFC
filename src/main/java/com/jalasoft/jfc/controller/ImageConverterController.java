@@ -80,9 +80,9 @@ public class ImageConverterController {
     public Response imageConverter(
             @RequestParam("file") MultipartFile file, @RequestParam String md5, @RequestParam String outputName,
             @RequestParam (defaultValue = ".png") String imageFormat, @RequestParam (defaultValue = "false")
-            boolean Thumbnail, @RequestParam (defaultValue = "false") boolean Grayscale,
-            @RequestParam (defaultValue = "0") int ImageWidth, @RequestParam (defaultValue = "0") int ImageHeight,
-            @RequestParam (defaultValue = "0") float degreesToRotate) {
+            boolean Thumbnail, @RequestParam (defaultValue = "false") boolean isMetadata,
+            @RequestParam (defaultValue = "false") boolean Grayscale, @RequestParam (defaultValue = "0") int ImageWidth,
+            @RequestParam (defaultValue = "0") int ImageHeight, @RequestParam (defaultValue = "0") float degreesToRotate) {
 
         FileResponse fileResponse = new FileResponse();
         ErrorResponse errorResponse = new ErrorResponse();
@@ -109,6 +109,7 @@ public class ImageConverterController {
                 imageParam.setImageFormat(imageFormat);
                 imageParam.setOutputName(outputName);
                 imageParam.isThumbnail(Thumbnail);
+                imageParam.isMetadata(isMetadata);
                 imageParam.isGrayscale(Grayscale);
                 imageParam.setImageWidth(ImageWidth);
                 imageParam.setImageHeight(ImageHeight);
