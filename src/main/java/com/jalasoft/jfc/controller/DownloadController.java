@@ -54,17 +54,18 @@ public class DownloadController {
 
         try {
             mediaType = MediaType.parseMediaType(mineType);
+            File file = new File(PathJfc.getPublicFilePath() + fileName);
+            InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getName())
+                    .contentType(mediaType)
+                    .contentLength(file.length())
+                    .body(resource);
         } catch (Exception e) {
-            throw new Exception("APPLICATION_OCTET_STREAM");
+            return ResponseEntity.badRequest().header(HttpHeaders.CONTENT_DISPOSITION,
+                    "attachment;filename=" + fileName).body(e.getCause());
         }
 
-        File file = new File(PathJfc.getPublicFilePath() + fileName);
-        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
 
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getName())
-                .contentType(mediaType)
-                .contentLength(file.length())
-                .body(resource);
     }
 }
