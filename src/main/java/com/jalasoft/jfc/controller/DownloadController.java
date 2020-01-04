@@ -10,25 +10,20 @@
 package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.utility.PathJfc;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletContext;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 
 /**
  * This class allows to download zip file.
@@ -54,49 +49,23 @@ public class DownloadController {
      */
     @GetMapping(path = "/download/{fileName:.+}")
     public ResponseEntity download(@PathVariable String fileName) throws Exception {
-
-        String fileBasePath = PathJfc.getPublicFilePath();
         MediaType mediaType;
         String mineType = servletContext.getMimeType(fileName);
 
         try {
             mediaType = MediaType.parseMediaType(mineType);
+            File file = new File(PathJfc.getPublicFilePath() + fileName);
+            InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getName())
+                    .contentType(mediaType)
+                    .contentLength(file.length())
+                    .body(resource);
         } catch (Exception e) {
-            throw new Exception("APPLICATION_OCTET_STREAM");
+            return ResponseEntity.badRequest().header(HttpHeaders.CONTENT_DISPOSITION,
+                    "attachment;filename=" + fileName).body(e.getCause());
         }
 
-        File file = new File(fileBasePath + "/" + fileName);
-        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
 
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getName())
-                .contentType(mediaType)
-                .contentLength(file.length())
-                .body(resource);
-    }
-
-    /**
-     * Allows to generate link for downloading zip file.
-     * @param file path.
-     * @return ResponseEntity.
-     */
-    @GetMapping("/generateLink")
-    public ResponseEntity generateLink(@RequestParam("file") MultipartFile file) throws IOException {
-
-        String fileBasePath = PathJfc.getPublicFilePath();
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        Path path = Paths.get(fileBasePath + fileName);
-
-        try {
-            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            throw new IOException(e.getMessage());
-        }
-
-        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/download/")
-                .path(fileName)
-                .toUriString();
-        return ResponseEntity.ok(fileDownloadUri);
     }
 }
