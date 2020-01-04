@@ -10,7 +10,7 @@
 package com.jalasoft.jfc.model.exception;
 
 /**
- * Class of manage exception of commands value.
+ * Class of manage exception of zip.
  *
  * @version 0.1 03 Jan 2020.
  *
@@ -22,7 +22,7 @@ public class ZipJfcException extends Exception {
     String message;
 
     /**
-     * Manages Value Exceptions.
+     * Manages Exceptions of zip.
      * @param param parameter of file.
      * @param message of error.
      */

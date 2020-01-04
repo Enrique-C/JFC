@@ -9,7 +9,7 @@
 package com.jalasoft.jfc.model.exception;
 
 /**
- * Class of manage exception of commands value.
+ * Class of manage exception of conversion.
  *
  * @version 0.1 20 Dic 2019.
  *
@@ -17,7 +17,7 @@ package com.jalasoft.jfc.model.exception;
  */
 public class ConvertException extends Exception {
 
-    // Returns a message error
+    // Returns a message error.
     String message;
 
     /**

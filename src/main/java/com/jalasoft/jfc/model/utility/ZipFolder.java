@@ -49,6 +49,7 @@ public class ZipFolder {
      * This method compress files.
      * @param files content a list of files.
      * @param pathZipFileName content path name of zip file.
+     * @throws ZipJfcException when is a invalid file path.
      */
     public void zipFolderFile(final File [] files, final File pathZipFileName) throws ZipJfcException {
 
