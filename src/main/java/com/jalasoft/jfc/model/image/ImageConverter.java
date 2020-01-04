@@ -80,15 +80,15 @@ public class ImageConverter implements IConverter {
         try {
             commandString = commandImageContext.buildCommand();
 
-            Process process1 = Runtime.getRuntime().exec(commandString);
-            process1.waitFor();
+            Process imageConvertProcess = Runtime.getRuntime().exec(commandString);
+            imageConvertProcess.waitFor();
 
 
             if (!commandThumbnailList.isEmpty()) {
                 ContextStrategy commandThumbnailContext = new ContextStrategy(commandThumbnailList);
                 commandString = commandThumbnailContext.buildCommand();
-                Process process2 = Runtime.getRuntime().exec(commandString);
-                process2.waitFor();
+                Process thumbnailConvertProcess = Runtime.getRuntime().exec(commandString);
+                thumbnailConvertProcess.waitFor();
             }
             zipFile(imageParam);
 
