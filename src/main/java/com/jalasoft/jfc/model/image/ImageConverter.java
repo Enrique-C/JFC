@@ -47,6 +47,9 @@ public class ImageConverter implements IConverter {
     // Tag thumbnail.
     final String THUMBNAIL_TAG = "thumb";
 
+    // Absolute path of zip folder.
+    String zipPath;
+
     // List of image command.
     List<ICommandStrategy> commandImageList = new ArrayList<>();
 
@@ -77,18 +80,21 @@ public class ImageConverter implements IConverter {
         try {
             commandString = commandImageContext.buildCommand();
 
-            Runtime.getRuntime().exec(commandString);
+            Process imageConvertProcess = Runtime.getRuntime().exec(commandString);
+            imageConvertProcess.waitFor();
+
 
             if (!commandThumbnailList.isEmpty()) {
                 ContextStrategy commandThumbnailContext = new ContextStrategy(commandThumbnailList);
                 commandString = commandThumbnailContext.buildCommand();
-                Runtime.getRuntime().exec(commandString);
+                Process thumbnailConvertProcess = Runtime.getRuntime().exec(commandString);
+                thumbnailConvertProcess.waitFor();
             }
+            zipFile(imageParam);
 
             fileResponse.setName(imageParam.getOutputName());
             fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
-            fileResponse.setDownload(imageParam.getOutputPathFile()+imageParam.getOutputName());
-            zipFile(imageParam);
+            fileResponse.setDownload(zipPath);
         } catch (Exception e) {
             throw new ConvertException("Error converting Image: " + e.getMessage(), this.getClass().getName());
         }
@@ -145,6 +151,7 @@ public class ImageConverter implements IConverter {
         File fileZip = new File(pathJfc.getPublicFilePath() + BACKSLASH + imageParam.getFolderName() +
                 ZIP_TAG);
 
+        zipPath = fileZip.getAbsolutePath();
 
         zip.zipFolderFile(files, fileZip);
     }
