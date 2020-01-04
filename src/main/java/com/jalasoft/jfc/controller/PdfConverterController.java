@@ -14,6 +14,7 @@ import com.jalasoft.jfc.model.result.ErrorResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.result.Response;
+import com.jalasoft.jfc.model.utility.LinkGenerator;
 import com.jalasoft.jfc.model.utility.Md5Checksum;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
@@ -132,6 +133,9 @@ public class PdfConverterController {
                 pdfParam.setFolderName(md5FileUploaded);
 
                 fileResponse = pdfConverter.convert(pdfParam);
+                LinkGenerator linkGenerator = new LinkGenerator();
+                fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
+
             }
             else {
                 throw new ConvertException(failMd5,this.getClass().getName());
