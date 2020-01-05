@@ -34,6 +34,9 @@ public class Param {
   // It is a Md5 code of a file.
   private String md5;
 
+  // Contains a confirmation of metadata.
+  private boolean isMetadata;
+
   /**
    * Gets the checksum value.
    * @return md5 String value.
@@ -75,6 +78,14 @@ public class Param {
   }
 
   /**
+   * Gets confirmation of a metadata.
+   * @return boolean value.
+   */
+  public boolean isMetadata() {
+    return isMetadata;
+  }
+
+  /**
    * setInputPathFile sets inputPathFile value.
    * @param inputPathFile for setting in this.inputPathFile.
    */
@@ -112,5 +123,13 @@ public class Param {
    */
   public void setMd5(String md5) {
     this.md5 = md5;
+  }
+
+  /**
+   * Sets metadata value.
+   * @param metadata receives a metadata confirmation.
+   */
+  public void isMetadata(boolean metadata) {
+    isMetadata = metadata;
   }
 }

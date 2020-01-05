@@ -80,7 +80,7 @@ public class PathJfc {
      * @return Exiftool's path.
      */
     public static String getExiftoolPath() {
-        return EXIFTOOL_PATH;
+        return properties.getProperty(EXIFTOOL_PATH);
     }
 
     /**
