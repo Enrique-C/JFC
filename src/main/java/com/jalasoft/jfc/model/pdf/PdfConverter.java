@@ -70,30 +70,22 @@ public class PdfConverter implements IConverter {
     public FileResponse convert(Param param) throws CommandValueException, ConvertException, ZipJfcException, IOException {
         FileResponse fileResponse = new FileResponse();
         PdfParam pdfParam = (PdfParam)param;
+
         StringBuilder stringCommand = new StringBuilder();
-        if (!pdfParam.isThumbnail() && !pdfParam.isMetadata()) {
-            stringCommand.append(generateImage(pdfParam));
-            runCommand(stringCommand.toString());
-        }
+        stringCommand.append(generateImage(pdfParam));
+        runCommand(stringCommand.toString());
+
         if (pdfParam.isThumbnail()) {
-            stringCommand = new StringBuilder();
-            stringCommand.append(generateImage(pdfParam));
-            runCommand(stringCommand.toString());
             stringCommand = new StringBuilder();
             stringCommand.append(generateThumbnail(pdfParam));
             runCommand(stringCommand.toString());
         }
-        if (pdfParam.isMetadata()) {
-            stringCommand = new StringBuilder();
-            stringCommand.append(generateImage(pdfParam));
-            runCommand(stringCommand.toString());
-            generateMetadata(pdfParam);
-        }
+
         if (param.isMetadata()) {
             MetadataConverter metadataConverter = new MetadataConverter();
             metadataConverter.convert(param);
         }
-        System.out.println(stringCommand);
+
         zipFile(pdfParam);
         fileResponse.setName(pdfParam.getOutputName());
         fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
@@ -150,16 +142,6 @@ public class PdfConverter implements IConverter {
         contextStrategy = new ContextStrategy(commandsList);
         String result = contextStrategy.buildCommand();
         return result;
-    }
-
-    /**
-     * This method generate metadata of input file.
-     * @param pdfParam
-     */
-    private void generateMetadata(PdfParam pdfParam) {
-        commandsList = new ArrayList<>();
-        commandsList.add(new CommandInputFilePath(pdfParam.getInputPathFile()));
-        // execute XMP or use XMP.
     }
 
     /**
