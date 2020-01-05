@@ -9,6 +9,7 @@
 
 package com.jalasoft.jfc.model.image;
 
+import com.jalasoft.jfc.model.exception.ZipJfcException;
 import com.jalasoft.jfc.model.metadata.MetadataConverter;
 import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
@@ -145,7 +146,8 @@ public class ImageConverter implements IConverter {
      * @param imageParam receives image params.
      * @throws IOException when is a invalid file path.
      */
-    private void zipFile(ImageParam imageParam) throws IOException {
+
+    private void zipFile(ImageParam imageParam) throws ZipJfcException {
         ZipFolder zip = new ZipFolder();
 
         final String BACKSLASH = "/";
