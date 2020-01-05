@@ -10,14 +10,14 @@ import java.nio.file.Paths;
 /**
  * Writes and verifies the name of file.
  *
- * @version 0.1 05 Jan 2020
+ * @version 0.1 05 Jan 2020.
  *
- * @author Alan Escalera
+ * @author Alan Escalera.
  */
 public class FileController {
 
     /**
-     * Write the file uploaded.
+     * Writes the file uploaded.
      * @param pathFile receive the file path.
      * @param file receive the file uploaded.
      * @return the path of the file uploaded.
@@ -31,17 +31,16 @@ public class FileController {
     }
 
     /**
-     * Assigns new name if it changed.
+     * Assigns a new name if it changed.
      * @param outputName receives the new name if it there is.
      * @param file receive the file uploaded.
      * @return Original name without special characters.
      */
-    public static String isOriginalName(String outputName, MultipartFile file) {
+    public static String setName(String outputName, MultipartFile file) {
         if (outputName.equals(null) || outputName.isEmpty()) {
             outputName = file.getOriginalFilename();
             outputName = outputName.replaceFirst("[.][^.]+$", "");
         }
         return outputName;
     }
-
 }

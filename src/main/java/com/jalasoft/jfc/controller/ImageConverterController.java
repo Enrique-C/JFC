@@ -17,7 +17,6 @@ import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.result.Response;
 import com.jalasoft.jfc.model.utility.FileController;
 import com.jalasoft.jfc.model.utility.Md5Checksum;
-import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.image.ImageConverter;
 import com.jalasoft.jfc.model.image.ImageParam;
@@ -30,17 +29,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.io.IOException;
 
 /**
  * Manage ImageConverter Requests.
  *
- * @author Enrique Carrizales.
- *
  * @version 0.1 13 Dic 2019.
+ *
+ * @author Enrique Carrizales.
  */
 @RestController
 @RequestMapping(path = "/imageConverter")
@@ -72,10 +68,13 @@ public class ImageConverterController {
     /**
      * This method receives an image to convert.
      * @param file contains the image file.
-     * @param Thumbnail contains the output path of thumbnail converted.
+     * @param Thumbnail boolean of thumbnail.
      * @param ImageWidth number of image width.
      * @param ImageHeight number of image height.
      * @param degreesToRotate degrees of rotate.
+     * @param md5 contains the checksum of the file uploaded.
+     * @param imageFormat contains the type of format.
+     * @param isMetadata boolean of metadata.
      * @return Response it mean the result of the conversion.
      */
     @PostMapping()
@@ -84,7 +83,8 @@ public class ImageConverterController {
             @RequestParam (defaultValue = ".png") String imageFormat, @RequestParam (defaultValue = "false")
             boolean Thumbnail, @RequestParam (defaultValue = "false") boolean isMetadata,
             @RequestParam (defaultValue = "false") boolean Grayscale, @RequestParam (defaultValue = "0") int ImageWidth,
-            @RequestParam (defaultValue = "0") int ImageHeight, @RequestParam (defaultValue = "0") float degreesToRotate) {
+            @RequestParam (defaultValue = "0") int ImageHeight, @RequestParam (defaultValue = "0")
+            float degreesToRotate) {
 
         FileResponse fileResponse = new FileResponse();
         ErrorResponse errorResponse = new ErrorResponse();
@@ -93,7 +93,7 @@ public class ImageConverterController {
         IConverter imageConverter = new ImageConverter();
 
         try {
-            String fileUploadedPath = FileController.writeFile(uploadedFile + file.getOriginalFilename(),file);
+            String fileUploadedPath = FileController.writeFile(uploadedFile + file.getOriginalFilename(), file);
             imageParam.setInputPathFile(fileUploadedPath);
             String md5FileUploaded = Md5Checksum.getMd5(fileUploadedPath);
             imageParam.setMd5(md5);
@@ -102,7 +102,7 @@ public class ImageConverterController {
             if (md5FileUploaded.equals(md5FileFromClient)) {
                 imageParam.setOutputPathFile(convertedFile);
                 imageParam.setImageFormat(imageFormat);
-                imageParam.setOutputName(FileController.isOriginalName(outputName,file));
+                imageParam.setOutputName(FileController.setName(outputName, file));
                 imageParam.isThumbnail(Thumbnail);
                 imageParam.isMetadata(isMetadata);
                 imageParam.isGrayscale(Grayscale);
