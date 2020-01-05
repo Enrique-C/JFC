@@ -24,7 +24,10 @@ import com.jalasoft.jfc.model.pdf.PdfConverter;
 import com.jalasoft.jfc.model.pdf.PdfParam;
 import com.jalasoft.jfc.model.utility.PathJfc;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.pdfbox.pdmodel.PDDocument;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,8 +49,10 @@ import java.nio.file.Paths;
  *
  * @version 0.1 14 Dic 2019.
  */
+@Api(value = "PdfConverterController", description = "REST API related to PdfParam Entity")
 @RestController
-@RequestMapping(path = "/pdfConverter")
+@RequestMapping("/api")
+//@RequestMapping(path = "/pdfConverter")
 public class PdfConverterController {
 
     // Variable PathJfc type.
@@ -88,7 +93,9 @@ public class PdfConverterController {
      * @param request contains client data.
      * @return Response it mean the result of the conversion.
      */
-    @PostMapping
+    @PostMapping("/ ")
+    @ApiOperation(value = "Pdf specifications", notes = "provide values for converting Pdf file to Image",
+            response = Response.class)
     public Response pdfConverter(
             @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ") String md5,
             @RequestParam String outputName, @RequestParam(defaultValue = "0") int rotate,
