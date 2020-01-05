@@ -24,6 +24,9 @@ import com.jalasoft.jfc.model.image.ImageParam;
 import com.jalasoft.jfc.model.exception.ConvertException;
 import com.jalasoft.jfc.model.utility.PathJfc;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+
 import java.io.IOException;
 
 /**
@@ -40,8 +44,9 @@ import java.io.IOException;
  *
  * @author Enrique Carrizales.
  */
+@Api(value = "ImageConverterController", description = "REST API related to ImageParam Entity")
 @RestController
-@RequestMapping(path = "/imageConverter")
+@RequestMapping("/api")
 public class ImageConverterController {
 
     // Variable PathJfc type.
@@ -82,7 +87,9 @@ public class ImageConverterController {
      * @param request contains client request data.
      * @return Response it mean the result of the conversion.
      */
-    @PostMapping()
+    @PostMapping("/imageConverter")
+    @ApiOperation(value = "Image specifications", notes = "provide values for converting Image file to other one",
+            response = Response.class)
     public Response imageConverter(
             @RequestParam("file") MultipartFile file, @RequestParam String md5, @RequestParam String outputName,
             @RequestParam(defaultValue = ".png") String imageFormat, @RequestParam(defaultValue = "false")
