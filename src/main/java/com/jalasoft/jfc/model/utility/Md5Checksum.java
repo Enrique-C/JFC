@@ -30,7 +30,7 @@ public class Md5Checksum {
 
     /**
      * Returns a boolean after to compare checksums.
-     * @param file receives the path to get md5.
+     * @param file receives the path to get its md5.
      * @return a boolean after to compare.
      * @throws IOException when is a invalid file.
      */
