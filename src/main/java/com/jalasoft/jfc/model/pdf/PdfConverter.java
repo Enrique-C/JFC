@@ -67,7 +67,8 @@ public class PdfConverter implements IConverter {
      * @throws ConvertException when the conversion was not completed.
      * @throws ZipJfcException when is a invalid file path.
      */
-    public FileResponse convert(Param param) throws CommandValueException, ConvertException, ZipJfcException, IOException {
+    public FileResponse convert(Param param) throws CommandValueException, ConvertException, ZipJfcException,
+            IOException {
         FileResponse fileResponse = new FileResponse();
         PdfParam pdfParam = (PdfParam)param;
 
