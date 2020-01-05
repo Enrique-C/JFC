@@ -94,12 +94,10 @@ public class ImageConverterController {
 
         try {
             String fileUploadedPath = FileController.writeFile(uploadedFile + file.getOriginalFilename(), file);
-            imageParam.setInputPathFile(fileUploadedPath);
-            String md5FileUploaded = Md5Checksum.getMd5(fileUploadedPath);
-            imageParam.setMd5(md5);
-            String md5FileFromClient = imageParam.getMd5();
 
-            if (md5FileUploaded.equals(md5FileFromClient)) {
+            if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
+                imageParam.setMd5(md5);
+                imageParam.setInputPathFile(fileUploadedPath);
                 imageParam.setOutputPathFile(convertedFile);
                 imageParam.setImageFormat(imageFormat);
                 imageParam.setOutputName(FileController.setName(outputName, file));
@@ -109,7 +107,7 @@ public class ImageConverterController {
                 imageParam.setImageWidth(ImageWidth);
                 imageParam.setImageHeight(ImageHeight);
                 imageParam.setDegreesToRotate(degreesToRotate);
-                imageParam.setFolderName(md5FileFromClient);
+                imageParam.setFolderName(md5);
 
                 fileResponse = imageConverter.convert(imageParam);
             }

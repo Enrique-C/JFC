@@ -108,11 +108,9 @@ public class PdfConverterController {
             String fileUploadedPath = FileController.writeFile(uploadedFile + file.getOriginalFilename(), file);
             PDDocument doc = PDDocument.load(new File(fileUploadedPath));
             int quantityPages = doc.getNumberOfPages();
-            String md5FileUploaded = Md5Checksum.getMd5(fileUploadedPath);
-            pdfParam.setMd5(md5);
-            String md5FileFromClient = pdfParam.getMd5();
 
-            if (md5FileUploaded.equals(md5FileFromClient)) {
+            if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
+                pdfParam.setMd5(md5);
                 pdfParam.setInputPathFile(fileUploadedPath);
                 pdfParam.setOutputPathFile(convertedFile);
                 pdfParam.setOutputName(FileController.setName(outputName, file));
@@ -125,7 +123,7 @@ public class PdfConverterController {
                 pdfParam.setScale(scale);
                 pdfParam.setHeight(height);
                 pdfParam.setRotate(rotate);
-                pdfParam.setFolderName(md5FileUploaded);
+                pdfParam.setFolderName(md5);
 
                 fileResponse = pdfConverter.convert(pdfParam);
                 LinkGenerator linkGenerator = new LinkGenerator();
