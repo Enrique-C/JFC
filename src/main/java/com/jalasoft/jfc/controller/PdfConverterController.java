@@ -25,7 +25,6 @@ import com.jalasoft.jfc.model.pdf.PdfParam;
 import com.jalasoft.jfc.model.utility.PathJfc;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -90,12 +89,12 @@ public class PdfConverterController {
      */
     @PostMapping
     public Response pdfConverter(
-            @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ") String md5,
+            @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = " ") String md5,
             @RequestParam String outputName, @RequestParam(defaultValue = "0") int rotate,
             @RequestParam(defaultValue = "%") String scale, @RequestParam(defaultValue = "false") boolean thumbnail,
-            @RequestParam(defaultValue = ".png") String imageFormat, @RequestParam(defaultValue = "0") int width,
-            @RequestParam(defaultValue = "0") int height, @RequestParam(defaultValue = "") String pagesToConvert,
-            HttpServletRequest request) {
+            @RequestParam(defaultValue = "false") boolean isMetadata, @RequestParam(defaultValue = ".png")
+            String imageFormat, @RequestParam(defaultValue = "0") int width, @RequestParam(defaultValue = "0")
+            int height, @RequestParam(defaultValue = "") String pagesToConvert, HttpServletRequest request) {
 
         Param param = new PdfParam();
         PdfParam pdfParam = (PdfParam) param;
@@ -127,6 +126,7 @@ public class PdfConverterController {
                 pdfParam.setPagesToConvert(pagesToConvert);
                 pdfParam.setQuantityOfPage(quantityPages);
                 pdfParam.setThumbnail(thumbnail);
+                pdfParam.isMetadata(isMetadata);
                 pdfParam.setWidth(width);
                 pdfParam.setScale(scale);
                 pdfParam.setHeight(height);

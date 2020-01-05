@@ -68,7 +68,7 @@ public class ImageConverterController {
     /**
      * This method receives an image to convert.
      * @param file contains the image file.
-     * @param Thumbnail boolean of thumbnail.
+     * @param isThumbnail boolean of thumbnail.
      * @param ImageWidth number of image width.
      * @param ImageHeight number of image height.
      * @param degreesToRotate degrees of rotate.
@@ -80,10 +80,10 @@ public class ImageConverterController {
     @PostMapping()
     public Response imageConverter(
             @RequestParam("file") MultipartFile file, @RequestParam String md5, @RequestParam String outputName,
-            @RequestParam (defaultValue = ".png") String imageFormat, @RequestParam (defaultValue = "false")
-            boolean Thumbnail, @RequestParam (defaultValue = "false") boolean isMetadata,
-            @RequestParam (defaultValue = "false") boolean Grayscale, @RequestParam (defaultValue = "0") int ImageWidth,
-            @RequestParam (defaultValue = "0") int ImageHeight, @RequestParam (defaultValue = "0")
+            @RequestParam(defaultValue = ".png") String imageFormat, @RequestParam(defaultValue = "false")
+            boolean isThumbnail, @RequestParam(defaultValue = "false") boolean isMetadata,
+            @RequestParam(defaultValue = "false") boolean Grayscale, @RequestParam(defaultValue = "0") int ImageWidth,
+            @RequestParam(defaultValue = "0") int ImageHeight, @RequestParam(defaultValue = "0")
             float degreesToRotate) {
 
         FileResponse fileResponse = new FileResponse();
@@ -103,7 +103,7 @@ public class ImageConverterController {
                 imageParam.setOutputPathFile(convertedFile);
                 imageParam.setImageFormat(imageFormat);
                 imageParam.setOutputName(FileController.setName(outputName, file));
-                imageParam.isThumbnail(Thumbnail);
+                imageParam.isThumbnail(isThumbnail);
                 imageParam.isMetadata(isMetadata);
                 imageParam.isGrayscale(Grayscale);
                 imageParam.setImageWidth(ImageWidth);

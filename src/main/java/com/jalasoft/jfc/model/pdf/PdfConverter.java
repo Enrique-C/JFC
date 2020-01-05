@@ -9,6 +9,7 @@
 package com.jalasoft.jfc.model.pdf;
 
 import com.jalasoft.jfc.model.exception.ZipJfcException;
+import com.jalasoft.jfc.model.metadata.MetadataConverter;
 import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.IConverter;
@@ -66,7 +67,7 @@ public class PdfConverter implements IConverter {
      * @throws ConvertException when the conversion was not completed.
      * @throws ZipJfcException when is a invalid file path.
      */
-    public FileResponse convert(Param param) throws CommandValueException, ConvertException, ZipJfcException {
+    public FileResponse convert(Param param) throws CommandValueException, ConvertException, ZipJfcException, IOException {
         FileResponse fileResponse = new FileResponse();
         PdfParam pdfParam = (PdfParam)param;
         StringBuilder stringCommand = new StringBuilder();
@@ -87,6 +88,10 @@ public class PdfConverter implements IConverter {
             stringCommand.append(generateImage(pdfParam));
             runCommand(stringCommand.toString());
             generateMetadata(pdfParam);
+        }
+        if (param.isMetadata()) {
+            MetadataConverter metadataConverter = new MetadataConverter();
+            metadataConverter.convert(param);
         }
         System.out.println(stringCommand);
         zipFile(pdfParam);

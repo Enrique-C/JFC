@@ -11,6 +11,8 @@ package com.jalasoft.jfc.model.video;
 
 import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoBitRate;
 import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoCodec;
+import com.jalasoft.jfc.model.exception.ConvertException;
+import com.jalasoft.jfc.model.metadata.MetadataConverter;
 import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.IConverter;
@@ -62,7 +64,7 @@ public class VideoConverter implements IConverter {
      * @return FileResult object or null value.
      * @throws CommandValueException when is a invalid command.
      */
-    public FileResponse convert(Param param) throws CommandValueException {
+    public FileResponse convert(Param param) throws CommandValueException, ConvertException, IOException {
         FileResponse fileResponse = new FileResponse();
         VideoParam videoParam = (VideoParam)param;
 
@@ -76,6 +78,11 @@ public class VideoConverter implements IConverter {
             stringCommand.append(getThumbnail(videoParam));
             runCommand(stringCommand.toString());
             System.out.println(stringCommand);
+        }
+
+        if (param.isMetadata()) {
+            MetadataConverter metadataConverter = new MetadataConverter();
+            metadataConverter.convert(param);
         }
 
         fileResponse.setName(videoParam.getOutputName());
