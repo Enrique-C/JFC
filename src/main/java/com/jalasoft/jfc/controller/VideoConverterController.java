@@ -15,6 +15,7 @@ import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.ErrorResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.result.Response;
+import com.jalasoft.jfc.model.utility.FileController;
 import com.jalasoft.jfc.model.utility.Md5Checksum;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
@@ -99,35 +100,27 @@ public class VideoConverterController {
             @RequestParam(defaultValue = "false") boolean isMetadata) {
 
         Md5Checksum md5Checksum = new Md5Checksum();
-        Param param = new VideoParam();
-
         FileResponse fileResponse = new FileResponse();
         ErrorResponse errorResponse = new ErrorResponse();
-        VideoParam videoParam = (VideoParam) param;
-        String md5FileUploaded = "";
-        String md5FileFromClient = "";
+        VideoParam videoParam = new VideoParam();
         String failMd5 = "Md5 Error! binary is invalid.";
         IConverter videoConverter = new VideoConverter();
 
         try {
-            byte[] bytes = file.getBytes();
-            Path path = Paths.get(uploadedFile + file.getOriginalFilename());
-            Files.write(path, bytes);
-            videoParam.setInputPathFile(path.toString());
-            md5FileUploaded = md5Checksum.getMd5(path.toString());
+            String fileUploadedPath = FileController.writeFile(uploadedFile + file.getOriginalFilename(), file);
+            videoParam.setInputPathFile(fileUploadedPath);
 
             if (outputName.equals(null) || outputName.equals("")) {
                 outputName = file.getOriginalFilename();
                 outputName = outputName.replaceFirst("[.][^.]+$", "");
             }
-            md5FileUploaded = Md5Checksum.getMd5(path.toString());
-
+            String md5FileUploaded = Md5Checksum.getMd5(fileUploadedPath);
             videoParam.setMd5(md5);
-            md5FileFromClient = videoParam.getMd5();
+            String md5FileFromClient = videoParam.getMd5();
 
             if (md5FileUploaded.equals(md5FileFromClient)) {
                 videoParam.setOutputPathFile(convertedFile);
-                videoParam.setOutputName(outputName);
+                videoParam.setOutputName(FileController.setName(outputName, file));
                 videoParam.setAspectRatio(aspectRatio);
                 videoParam.setFrameRate(frameRate);
                 videoParam.setWidth(width);
