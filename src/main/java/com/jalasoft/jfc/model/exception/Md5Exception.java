@@ -7,7 +7,6 @@ package com.jalasoft.jfc.model.exception;
  *
  * @author Alan Escalera.
  */
-
 public class Md5Exception extends Exception {
 
         // Returns a message error.
