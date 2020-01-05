@@ -15,6 +15,7 @@ import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.ErrorResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.result.Response;
+import com.jalasoft.jfc.model.utility.FileController;
 import com.jalasoft.jfc.model.utility.Md5Checksum;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
@@ -87,28 +88,21 @@ public class ImageConverterController {
 
         FileResponse fileResponse = new FileResponse();
         ErrorResponse errorResponse = new ErrorResponse();
-        Param param = new ImageParam();
-        ImageParam imageParam = (ImageParam) param;
-        String failMd5 = "Md5 Error! binary is invalid.";
+        ImageParam imageParam = new ImageParam();
+        String FAILMD5 = "Md5 Error! binary is invalid.";
         IConverter imageConverter = new ImageConverter();
 
         try {
-            byte[] bytes = file.getBytes();
-            Path path = Paths.get(uploadedFile + file.getOriginalFilename());
-            Files.write(path, bytes);
-            imageParam.setInputPathFile(path.toString());
-            if (outputName.equals(null) || outputName.equals("")) {
-                outputName = file.getOriginalFilename();
-                outputName = outputName.replaceFirst("[.][^.]+$", "");
-            }
-            String md5FileUploaded = Md5Checksum.getMd5(path.toString());
+            String fileUploadedPath = FileController.writeFile(uploadedFile + file.getOriginalFilename(),file);
+            imageParam.setInputPathFile(fileUploadedPath);
+            String md5FileUploaded = Md5Checksum.getMd5(fileUploadedPath);
             imageParam.setMd5(md5);
             String md5FileFromClient = imageParam.getMd5();
 
             if (md5FileUploaded.equals(md5FileFromClient)) {
                 imageParam.setOutputPathFile(convertedFile);
                 imageParam.setImageFormat(imageFormat);
-                imageParam.setOutputName(outputName);
+                imageParam.setOutputName(FileController.isOriginalName(outputName,file));
                 imageParam.isThumbnail(Thumbnail);
                 imageParam.isMetadata(isMetadata);
                 imageParam.isGrayscale(Grayscale);
@@ -120,7 +114,7 @@ public class ImageConverterController {
                 fileResponse = imageConverter.convert(imageParam);
             }
             else {
-                throw new Md5Exception(failMd5, imageParam.getMd5());
+                throw new Md5Exception(FAILMD5, imageParam.getMd5());
             }
         } catch (ConvertException ex) {
             errorResponse.setName(imageParam.getOutputName());
