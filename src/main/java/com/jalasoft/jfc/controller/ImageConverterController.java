@@ -68,7 +68,7 @@ public class ImageConverterController {
     }
 
     /**
-     * This method receives an image to convert.
+     * Receives an image to convert.
      * @param file contains the image file.
      * @param md5 contains the checksum of the file uploaded.
      * @param outputName contains output file name.
