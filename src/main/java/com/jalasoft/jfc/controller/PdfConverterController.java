@@ -86,7 +86,7 @@ public class PdfConverterController {
      * @param height contains integer value.
      * @param pagesToConvert contains number of pdf file pages.
      * @param request contains client data.
-     * @param isMetadata boolean of thumbnail.
+     * @param isMetadata boolean of metadata.
      * @return Response it mean the result of the conversion.
      */
     @PostMapping
