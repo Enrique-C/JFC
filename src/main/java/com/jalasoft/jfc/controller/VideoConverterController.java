@@ -85,6 +85,8 @@ public class VideoConverterController {
      * @param channelsNumber contains number of output channels.
      * @param volume contains the level of sound.
      * @param rotate degrees of rotation.
+     * @param isThumbnail boolean of thumbnail.
+     * @param isMetadata boolean of metadata.
      * @return Response it mean the result of the conversion.
      */
     @PostMapping
@@ -96,10 +98,9 @@ public class VideoConverterController {
             @RequestParam(defaultValue = "") String audioCodec, @RequestParam(defaultValue = "") String videoBitRate,
             @RequestParam(defaultValue = "") String audioBitRate, @RequestParam(defaultValue = "-1") int quality,
             @RequestParam(defaultValue = "0") int channelsNumber, @RequestParam(defaultValue = "") String volume,
-            @RequestParam(defaultValue = "") short rotate, @RequestParam(defaultValue = "") boolean thumbnail,
+            @RequestParam(defaultValue = "") short rotate, @RequestParam(defaultValue = "") boolean isThumbnail,
             @RequestParam(defaultValue = "false") boolean isMetadata) {
 
-        Md5Checksum md5Checksum = new Md5Checksum();
         FileResponse fileResponse = new FileResponse();
         ErrorResponse errorResponse = new ErrorResponse();
         VideoParam videoParam = new VideoParam();
@@ -133,7 +134,7 @@ public class VideoConverterController {
                 videoParam.setAudioCodec(audioCodec);
                 videoParam.setVideoBitRate(videoBitRate);
                 videoParam.setAudioBitRate(audioBitRate);
-                videoParam.setThumbnail(thumbnail);
+                videoParam.setThumbnail(isThumbnail);
                 videoParam.isMetadata(isMetadata);
                 videoParam.setFolderName(md5FileUploaded);
 
