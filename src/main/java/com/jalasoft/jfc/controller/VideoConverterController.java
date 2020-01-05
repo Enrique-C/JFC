@@ -110,11 +110,6 @@ public class VideoConverterController {
         try {
             String fileUploadedPath = FileController.writeFile(uploadedFile + file.getOriginalFilename(), file);
             videoParam.setInputPathFile(fileUploadedPath);
-
-            if (outputName.equals(null) || outputName.equals("")) {
-                outputName = file.getOriginalFilename();
-                outputName = outputName.replaceFirst("[.][^.]+$", "");
-            }
             String md5FileUploaded = Md5Checksum.getMd5(fileUploadedPath);
             videoParam.setMd5(md5);
             String md5FileFromClient = videoParam.getMd5();
