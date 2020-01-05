@@ -10,6 +10,7 @@
 package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.IConverter;
+import com.jalasoft.jfc.model.exception.Md5Exception;
 import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.ErrorResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
@@ -94,8 +95,7 @@ public class VideoConverterController {
             @RequestParam (defaultValue = "") String audioCodec, @RequestParam (defaultValue = "") String videoBitRate,
             @RequestParam (defaultValue = "") String audioBitRate, @RequestParam (defaultValue = "-1") int quality,
             @RequestParam (defaultValue = "0") int channelsNumber, @RequestParam (defaultValue = "") String volume,
-            @RequestParam (defaultValue = "") short rotate, @RequestParam (defaultValue = "") boolean thumbnail)
-            throws CommandValueException {
+            @RequestParam (defaultValue = "") short rotate, @RequestParam (defaultValue = "") boolean thumbnail) {
 
         Md5Checksum md5Checksum = new Md5Checksum();
         Param param = new VideoParam();
@@ -145,7 +145,7 @@ public class VideoConverterController {
                 fileResponse = videoConverter.convert(videoParam);
             }
             else {
-                throw new ConvertException(failMd5,this.getClass().getName());
+                throw new Md5Exception(failMd5, videoParam.getMd5());
             }
         } catch (ConvertException ex) {
             errorResponse.setName(videoParam.getOutputName());
@@ -160,6 +160,11 @@ public class VideoConverterController {
         } catch (IOException ex) {
             errorResponse.setName(videoParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
+            errorResponse.setError(ex.toString());
+            return errorResponse;
+        } catch (Md5Exception ex) {
+            errorResponse.setName(videoParam.getOutputName());
+            errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
             errorResponse.setError(ex.toString());
             return errorResponse;
         } catch (Exception ex) {
