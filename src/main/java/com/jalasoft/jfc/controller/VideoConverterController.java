@@ -88,14 +88,15 @@ public class VideoConverterController {
      */
     @PostMapping
     public Response videoConverter(
-            @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ") String md5,
-            @RequestParam String outputName, @RequestParam (defaultValue = "0.0") String aspectRatio,
-            @RequestParam (defaultValue = "") String frameRate, @RequestParam (defaultValue = "0") int width,
-            @RequestParam (defaultValue = "0") int height, @RequestParam (defaultValue = "") String videoCodec,
-            @RequestParam (defaultValue = "") String audioCodec, @RequestParam (defaultValue = "") String videoBitRate,
-            @RequestParam (defaultValue = "") String audioBitRate, @RequestParam (defaultValue = "-1") int quality,
-            @RequestParam (defaultValue = "0") int channelsNumber, @RequestParam (defaultValue = "") String volume,
-            @RequestParam (defaultValue = "") short rotate, @RequestParam (defaultValue = "") boolean thumbnail) {
+            @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = " ") String md5,
+            @RequestParam String outputName, @RequestParam(defaultValue = "0.0") String aspectRatio,
+            @RequestParam(defaultValue = "") String frameRate, @RequestParam(defaultValue = "0") int width,
+            @RequestParam(defaultValue = "0") int height, @RequestParam(defaultValue = "") String videoCodec,
+            @RequestParam(defaultValue = "") String audioCodec, @RequestParam(defaultValue = "") String videoBitRate,
+            @RequestParam(defaultValue = "") String audioBitRate, @RequestParam(defaultValue = "-1") int quality,
+            @RequestParam(defaultValue = "0") int channelsNumber, @RequestParam(defaultValue = "") String volume,
+            @RequestParam(defaultValue = "") short rotate, @RequestParam(defaultValue = "") boolean thumbnail,
+            @RequestParam(defaultValue = "false") boolean isMetadata) {
 
         Md5Checksum md5Checksum = new Md5Checksum();
         Param param = new VideoParam();
@@ -140,6 +141,7 @@ public class VideoConverterController {
                 videoParam.setVideoBitRate(videoBitRate);
                 videoParam.setAudioBitRate(audioBitRate);
                 videoParam.setThumbnail(thumbnail);
+                videoParam.isMetadata(isMetadata);
                 videoParam.setFolderName(md5FileUploaded);
 
                 fileResponse = videoConverter.convert(videoParam);
