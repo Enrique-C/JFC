@@ -109,12 +109,10 @@ public class VideoConverterController {
 
         try {
             String fileUploadedPath = FileController.writeFile(uploadedFile + file.getOriginalFilename(), file);
-            videoParam.setInputPathFile(fileUploadedPath);
-            String md5FileUploaded = Md5Checksum.getMd5(fileUploadedPath);
-            videoParam.setMd5(md5);
-            String md5FileFromClient = videoParam.getMd5();
 
-            if (md5FileUploaded.equals(md5FileFromClient)) {
+            if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
+                videoParam.setMd5(md5);
+                videoParam.setInputPathFile(fileUploadedPath);
                 videoParam.setOutputPathFile(convertedFile);
                 videoParam.setOutputName(FileController.setName(outputName, file));
                 videoParam.setAspectRatio(aspectRatio);
@@ -131,7 +129,7 @@ public class VideoConverterController {
                 videoParam.setAudioBitRate(audioBitRate);
                 videoParam.setThumbnail(isThumbnail);
                 videoParam.isMetadata(isMetadata);
-                videoParam.setFolderName(md5FileUploaded);
+                videoParam.setFolderName(md5);
 
                 fileResponse = videoConverter.convert(videoParam);
             }
