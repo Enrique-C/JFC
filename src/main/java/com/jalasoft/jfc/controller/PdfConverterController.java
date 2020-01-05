@@ -102,7 +102,6 @@ public class PdfConverterController {
         FileResponse fileResponse = new FileResponse();
         ErrorResponse errorResponse = new ErrorResponse();
         String failMd5 = "Md5 Error! binary is invalid.";
-
         IConverter pdfConverter = new PdfConverter();
 
         try {
