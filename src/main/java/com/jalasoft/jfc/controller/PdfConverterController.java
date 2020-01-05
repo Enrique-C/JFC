@@ -39,9 +39,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /**
  * Manage PdfConverter Requests.
@@ -53,7 +50,6 @@ import java.nio.file.Paths;
 @Api(value = "PdfConverterController", description = "REST API related to PdfParam Entity")
 @RestController
 @RequestMapping("/api")
-//@RequestMapping(path = "/pdfConverter")
 public class PdfConverterController {
 
     // Variable PathJfc type.
@@ -95,7 +91,7 @@ public class PdfConverterController {
      * @param isMetadata boolean of metadata.
      * @return Response it mean the result of the conversion.
      */
-    @PostMapping("/ ")
+    @PostMapping("/pdfConverter")
     @ApiOperation(value = "Pdf specifications", notes = "provide values for converting Pdf file to Image",
             response = Response.class)
     public Response pdfConverter(
@@ -138,12 +134,10 @@ public class PdfConverterController {
                 fileResponse = pdfConverter.convert(pdfParam);
                 LinkGenerator linkGenerator = new LinkGenerator();
                 fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
-
             }
             else {
                 throw new Md5Exception(failMd5, pdfParam.getMd5());
             }
-
         } catch (ConvertException ex) {
             errorResponse.setName(pdfParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
