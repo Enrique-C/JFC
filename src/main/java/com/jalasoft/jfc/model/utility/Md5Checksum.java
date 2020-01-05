@@ -33,7 +33,7 @@ public class Md5Checksum {
      * @return String
      * @throws IOException when is a invalid file.
      */
-    public static String getMd5(String file) throws IOException {
+    public static boolean getMd5(String file, String md5Client) throws IOException {
         String checksum = null;
         try {
             checksum = DigestUtils.md5Hex(new FileInputStream(file));
@@ -41,6 +41,6 @@ public class Md5Checksum {
             logger.log(Level.SEVERE, null, ex);
             throw new IOException("This is a invalid file");
         }
-        return checksum;
+        return checksum.equals(md5Client);
     }
 }
