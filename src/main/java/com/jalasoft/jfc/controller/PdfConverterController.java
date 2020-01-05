@@ -93,8 +93,8 @@ public class PdfConverterController {
             @RequestParam String outputName, @RequestParam(defaultValue = "0") int rotate,
             @RequestParam(defaultValue = "%") String scale, @RequestParam(defaultValue = "false") boolean thumbnail,
             @RequestParam(defaultValue = "false") boolean isMetadata, @RequestParam(defaultValue = ".png")
-                    String imageFormat, @RequestParam(defaultValue = "0") int width, @RequestParam(defaultValue = "0")
-                    int height, @RequestParam(defaultValue = "") String pagesToConvert, HttpServletRequest request) {
+            String imageFormat, @RequestParam(defaultValue = "0") int width, @RequestParam(defaultValue = "0")
+            int height, @RequestParam(defaultValue = "") String pagesToConvert, HttpServletRequest request) {
 
         Param param = new PdfParam();
         PdfParam pdfParam = (PdfParam) param;
