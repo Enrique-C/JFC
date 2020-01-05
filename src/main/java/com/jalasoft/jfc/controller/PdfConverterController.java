@@ -15,9 +15,9 @@ import com.jalasoft.jfc.model.result.ErrorResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.result.Response;
+import com.jalasoft.jfc.model.utility.FileController;
 import com.jalasoft.jfc.model.utility.LinkGenerator;
 import com.jalasoft.jfc.model.utility.Md5Checksum;
-import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ConvertException;
 import com.jalasoft.jfc.model.pdf.PdfConverter;
@@ -86,55 +86,49 @@ public class PdfConverterController {
      * @param outputName contains name of output file.
      * @param rotate degrees of rotation.
      * @param scale contains input Scale 1-10.
-     * @param thumbnail contains boolean value.
+     * @param isThumbnail boolean of thumbnail.
      * @param imageFormat format of a image.
      * @param width contains integer value.
      * @param height contains integer value.
      * @param pagesToConvert contains number of pdf file pages.
      * @param request contains client data.
+     * @param isMetadata boolean of metadata.
      * @return Response it mean the result of the conversion.
      */
     @PostMapping("/ ")
     @ApiOperation(value = "Pdf specifications", notes = "provide values for converting Pdf file to Image",
             response = Response.class)
     public Response pdfConverter(
-            @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ") String md5,
+            @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = " ") String md5,
             @RequestParam String outputName, @RequestParam(defaultValue = "0") int rotate,
-            @RequestParam(defaultValue = "%") String scale, @RequestParam(defaultValue = "false") boolean thumbnail,
-            @RequestParam(defaultValue = ".png") String imageFormat, @RequestParam(defaultValue = "0") int width,
-            @RequestParam(defaultValue = "0") int height, @RequestParam(defaultValue = "") String pagesToConvert,
-            HttpServletRequest request) {
+            @RequestParam(defaultValue = "%") String scale, @RequestParam(defaultValue = "false") boolean isThumbnail,
+            @RequestParam(defaultValue = "false") boolean isMetadata, @RequestParam(defaultValue = ".png")
+            String imageFormat, @RequestParam(defaultValue = "0") int width, @RequestParam(defaultValue = "0")
+            int height, @RequestParam(defaultValue = "") String pagesToConvert, HttpServletRequest request) {
 
-        Param param = new PdfParam();
-        PdfParam pdfParam = (PdfParam) param;
+        PdfParam pdfParam = new PdfParam();
         FileResponse fileResponse = new FileResponse();
         ErrorResponse errorResponse = new ErrorResponse();
         String failMd5 = "Md5 Error! binary is invalid.";
-        int quantityPages = 0;
         IConverter pdfConverter = new PdfConverter();
 
         try {
-            byte[] bytes = file.getBytes();
-            Path path = Paths.get(uploadedFile + file.getOriginalFilename());
-            Files.write(path, bytes);
-            PDDocument doc = PDDocument.load(new File(uploadedFile + file.getOriginalFilename()));
-            quantityPages = doc.getNumberOfPages();
-            pdfParam.setInputPathFile(path.toString());
-            if (outputName.equals(null) || outputName.equals("")) {
-                outputName = file.getOriginalFilename();
-                outputName = outputName.replaceFirst("[.][^.]+$", "");
-            }
-            String md5FileUploaded = Md5Checksum.getMd5(path.toString());
+            String fileUploadedPath = FileController.writeFile(uploadedFile + file.getOriginalFilename(), file);
+            PDDocument doc = PDDocument.load(new File(fileUploadedPath));
+            int quantityPages = doc.getNumberOfPages();
+            String md5FileUploaded = Md5Checksum.getMd5(fileUploadedPath);
             pdfParam.setMd5(md5);
             String md5FileFromClient = pdfParam.getMd5();
 
             if (md5FileUploaded.equals(md5FileFromClient)) {
+                pdfParam.setInputPathFile(fileUploadedPath);
                 pdfParam.setOutputPathFile(convertedFile);
-                pdfParam.setOutputName(outputName);
+                pdfParam.setOutputName(FileController.setName(outputName, file));
                 pdfParam.setImageFormat(imageFormat);
                 pdfParam.setPagesToConvert(pagesToConvert);
                 pdfParam.setQuantityOfPage(quantityPages);
-                pdfParam.setThumbnail(thumbnail);
+                pdfParam.setThumbnail(isThumbnail);
+                pdfParam.isMetadata(isMetadata);
                 pdfParam.setWidth(width);
                 pdfParam.setScale(scale);
                 pdfParam.setHeight(height);
