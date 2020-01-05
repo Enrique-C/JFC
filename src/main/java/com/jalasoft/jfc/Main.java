@@ -50,7 +50,7 @@ public class Main {
     @Bean
     public Docket swaggerConfiguration() {
         return new Docket(DocumentationType.SWAGGER_2).select().paths(PathSelectors.ant("/api/*"))
-                .apis(RequestHandlerSelectors.basePackage("controller")).build().apiInfo(apiDetails());
+                .apis(RequestHandlerSelectors.basePackage("com.jalasoft.jfc")).build().apiInfo(apiDetails());
     }
 
     /**
