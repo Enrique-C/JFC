@@ -17,7 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *  This class contend the attributes in common of Class PdfParam, VideoParam, ImageParam.
+ *  This class evaluate the md5 of the client and the file uploaded.
  *
  * @version 1.0 18 Dic 2019
  *
@@ -28,13 +28,13 @@ public class Md5Checksum {
     private static final Logger logger = Logger.getLogger(Md5Checksum.class.getName());
 
     /**
-     *  This method return a Md5 checksum from a file.
-     * @param file
-     * @return String
+     *  This method return a boolean after to compare checksums.
+     * @param file receive the path of a file to get md5.
+     * @return a boolean after to compare.
      * @throws IOException when is a invalid file.
      */
     public static boolean getMd5(String file, String md5Client) throws IOException {
-        String checksum = null;
+        String checksum;
         try {
             checksum = DigestUtils.md5Hex(new FileInputStream(file));
         } catch (IOException ex) {
