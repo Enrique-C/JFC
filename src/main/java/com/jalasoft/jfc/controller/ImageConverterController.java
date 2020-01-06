@@ -50,29 +50,6 @@ import java.io.IOException;
 @RequestMapping("/api")
 public class ImageConverterController {
 
-    // PathJfc type variable.
-    private PathJfc pathJfc;
-
-    // Upload file Variable.
-    private final String uploadedFile;
-
-    // Converted file path Variable.
-    private final String convertedFile;
-
-    /**
-     * Assigns paths of input and output.
-     */
-    ImageConverterController() {
-        try {
-            pathJfc = new PathJfc();
-        }
-        catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        uploadedFile = pathJfc.getInputFilePath();
-        convertedFile = pathJfc.getOutputFilePath();
-    }
-
     /**
      * Receives an image to convert.
      * @param file contains the image file.
@@ -105,12 +82,13 @@ public class ImageConverterController {
         IConverter imageConverter = new ImageConverter();
 
         try {
-            String fileUploadedPath = FileServiceController.writeFile(uploadedFile + file.getOriginalFilename(), file);
+            String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
+                    getOriginalFilename(), file);
 
             if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
                 imageParam.setMd5(md5);
                 imageParam.setInputPathFile(fileUploadedPath);
-                imageParam.setOutputPathFile(convertedFile);
+                imageParam.setOutputPathFile(PathJfc.getOutputFilePath());
                 imageParam.setImageFormat(imageFormat);
                 imageParam.setOutputName(FileServiceController.setName(outputName, file));
                 imageParam.isThumbnail(isThumbnail);
