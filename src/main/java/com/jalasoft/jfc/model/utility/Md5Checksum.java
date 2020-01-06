@@ -9,6 +9,7 @@
 
 package com.jalasoft.jfc.model.utility;
 
+import com.jalasoft.jfc.model.exception.Md5Exception;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.FileInputStream;
@@ -17,7 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *  This class contend the attributes in common of Class PdfParam, VideoParam, ImageParam.
+ * Evaluates the md5 of the client and the file uploaded.
  *
  * @version 1.0 18 Dic 2019
  *
@@ -28,19 +29,19 @@ public class Md5Checksum {
     private static final Logger logger = Logger.getLogger(Md5Checksum.class.getName());
 
     /**
-     *  This method return a Md5 checksum from a file.
-     * @param file
-     * @return String
+     * Returns a boolean after to compare checksums.
+     * @param file receives the path to get md5.
+     * @return a boolean after to compare.
      * @throws IOException when is a invalid file.
      */
-    public static String getMd5(String file) throws IOException {
-        String checksum = null;
+    public static boolean getMd5(String file, String md5Client) throws Md5Exception {
+        String checksum;
         try {
             checksum = DigestUtils.md5Hex(new FileInputStream(file));
         } catch (IOException ex) {
             logger.log(Level.SEVERE, null, ex);
-            throw new IOException("This is a invalid file");
+            throw new Md5Exception("This is a invalid file", "Md5Checksum");
         }
-        return checksum;
+        return checksum.equals(md5Client);
     }
 }

@@ -8,6 +8,8 @@
  */
 package com.jalasoft.jfc.model.pdf;
 
+import com.jalasoft.jfc.model.exception.ZipJfcException;
+import com.jalasoft.jfc.model.metadata.MetadataConverter;
 import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.IConverter;
@@ -37,6 +39,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.ZipException;
 
 /**
  * This class converts PDF to Image
@@ -62,30 +65,28 @@ public class PdfConverter implements IConverter {
      * @return FileResult object or null value.
      * @throws CommandValueException when is a invalid command.
      * @throws ConvertException when the conversion was not completed.
+     * @throws ZipJfcException when is a invalid file path.
      */
-    public FileResponse convert(Param param) throws CommandValueException, ConvertException, IOException {
+    public FileResponse convert(Param param) throws CommandValueException, ConvertException, ZipJfcException,
+            IOException {
         FileResponse fileResponse = new FileResponse();
         PdfParam pdfParam = (PdfParam)param;
+
         StringBuilder stringCommand = new StringBuilder();
-        if (!pdfParam.isThumbnail() && !pdfParam.isMetadata()) {
-            stringCommand.append(generateImage(pdfParam));
-            runCommand(stringCommand.toString());
-        }
+        stringCommand.append(generateImage(pdfParam));
+        runCommand(stringCommand.toString());
+
         if (pdfParam.isThumbnail()) {
-            stringCommand = new StringBuilder();
-            stringCommand.append(generateImage(pdfParam));
-            runCommand(stringCommand.toString());
             stringCommand = new StringBuilder();
             stringCommand.append(generateThumbnail(pdfParam));
             runCommand(stringCommand.toString());
         }
-        if (pdfParam.isMetadata()) {
-            stringCommand = new StringBuilder();
-            stringCommand.append(generateImage(pdfParam));
-            runCommand(stringCommand.toString());
-            generateMetadata(pdfParam);
+
+        if (param.isMetadata()) {
+            MetadataConverter metadataConverter = new MetadataConverter();
+            metadataConverter.convert(param);
         }
-        System.out.println(stringCommand);
+
         zipFile(pdfParam);
         fileResponse.setName(pdfParam.getOutputName());
         fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
@@ -145,16 +146,6 @@ public class PdfConverter implements IConverter {
     }
 
     /**
-     * This method generate metadata of input file.
-     * @param pdfParam
-     */
-    private void generateMetadata(PdfParam pdfParam) {
-        commandsList = new ArrayList<>();
-        commandsList.add(new CommandInputFilePath(pdfParam.getInputPathFile()));
-        // execute XMP or use XMP.
-    }
-
-    /**
      * Runs string command.
      * @param stringCommand value of command.
      * @return 0 when the process was executed successfully.
@@ -172,9 +163,9 @@ public class PdfConverter implements IConverter {
     /**
      * Zips a list of files.
      * @param pdfParam receives pdfParam.
-     * @throws IOException when is a invalid file path.
+     * @throws ZipJfcException when is a invalid file path.
      */
-    private void zipFile(PdfParam pdfParam) throws IOException {
+    private void zipFile(PdfParam pdfParam) throws ZipJfcException {
         ZipFolder zip = new ZipFolder();
 
         final String BACKSLASH = "/";

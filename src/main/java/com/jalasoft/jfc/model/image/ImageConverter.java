@@ -9,6 +9,8 @@
 
 package com.jalasoft.jfc.model.image;
 
+import com.jalasoft.jfc.model.exception.ZipJfcException;
+import com.jalasoft.jfc.model.metadata.MetadataConverter;
 import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.IConverter;
@@ -47,6 +49,9 @@ public class ImageConverter implements IConverter {
     // Tag thumbnail.
     final String THUMBNAIL_TAG = "thumb";
 
+    // Absolute path of zip folder.
+    String zipPath;
+
     // List of image command.
     List<ICommandStrategy> commandImageList = new ArrayList<>();
 
@@ -77,18 +82,27 @@ public class ImageConverter implements IConverter {
         try {
             commandString = commandImageContext.buildCommand();
 
-            Runtime.getRuntime().exec(commandString);
+            Process imageConvertProcess = Runtime.getRuntime().exec(commandString);
+            imageConvertProcess.waitFor();
+
 
             if (!commandThumbnailList.isEmpty()) {
                 ContextStrategy commandThumbnailContext = new ContextStrategy(commandThumbnailList);
                 commandString = commandThumbnailContext.buildCommand();
-                Runtime.getRuntime().exec(commandString);
+                Process thumbnailConvertProcess = Runtime.getRuntime().exec(commandString);
+                thumbnailConvertProcess.waitFor();
             }
+
+            if (param.isMetadata()) {
+                MetadataConverter metadataConverter = new MetadataConverter();
+                metadataConverter.convert(param);
+            }
+
+            zipFile(imageParam);
 
             fileResponse.setName(imageParam.getOutputName());
             fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
-            fileResponse.setDownload(imageParam.getOutputPathFile()+imageParam.getOutputName());
-            zipFile(imageParam);
+            fileResponse.setDownload(zipPath);
         } catch (Exception e) {
             throw new ConvertException("Error converting Image: " + e.getMessage(), this.getClass().getName());
         }
@@ -132,8 +146,7 @@ public class ImageConverter implements IConverter {
      * @param imageParam receives image params.
      * @throws IOException when is a invalid file path.
      */
-    private void zipFile(ImageParam imageParam) throws IOException {
-        PathJfc pathJfc = new PathJfc();
+    private void zipFile(ImageParam imageParam) throws ZipJfcException {
         ZipFolder zip = new ZipFolder();
 
         final String BACKSLASH = "/";
@@ -142,9 +155,10 @@ public class ImageConverter implements IConverter {
         File[] files = new File(imageParam.getOutputPathFile() + BACKSLASH + imageParam.getFolderName() +
                 BACKSLASH).listFiles();
 
-        File fileZip = new File(pathJfc.getPublicFilePath() + BACKSLASH + imageParam.getFolderName() +
+        File fileZip = new File(PathJfc.getPublicFilePath() + BACKSLASH + imageParam.getFolderName() +
                 ZIP_TAG);
 
+        zipPath = fileZip.getAbsolutePath();
 
         zip.zipFolderFile(files, fileZip);
     }

@@ -10,17 +10,22 @@
 package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.IConverter;
+import com.jalasoft.jfc.model.exception.Md5Exception;
 import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.ErrorResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.result.Response;
+import com.jalasoft.jfc.model.utility.FileController;
+import com.jalasoft.jfc.model.utility.LinkGenerator;
 import com.jalasoft.jfc.model.utility.Md5Checksum;
-import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.image.ImageConverter;
 import com.jalasoft.jfc.model.image.ImageParam;
 import com.jalasoft.jfc.model.exception.ConvertException;
 import com.jalasoft.jfc.model.utility.PathJfc;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,20 +33,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import javax.servlet.http.HttpServletRequest;
+
 import java.io.IOException;
 
 /**
  * Manage ImageConverter Requests.
  *
- * @author Enrique Carrizales.
- *
  * @version 0.1 13 Dic 2019.
+ *
+ * @author Enrique Carrizales.
  */
+@Api(value = "ImageConverterController", description = "REST API related to ImageParam Entity")
 @RestController
-@RequestMapping(path = "/imageConverter")
+@RequestMapping("/api")
 public class ImageConverterController {
 
     // Variable PathJfc type.
@@ -68,57 +73,60 @@ public class ImageConverterController {
     }
 
     /**
-     * This method receives an image to convert.
+     * Receives an image to convert.
      * @param file contains the image file.
-     * @param Thumbnail contains the output path of thumbnail converted.
+     * @param md5 contains the checksum of the file uploaded.
+     * @param outputName contains output file name.
+     * @param imageFormat contains the type of format.
+     * @param isThumbnail boolean of thumbnail.
+     * @param isMetadata boolean of metadata.
+     * @param Grayscale boolean of grayscale.
      * @param ImageWidth number of image width.
      * @param ImageHeight number of image height.
      * @param degreesToRotate degrees of rotate.
+     * @param request contains client request data.
      * @return Response it mean the result of the conversion.
      */
-    @PostMapping()
+    @PostMapping("/imageConverter")
+    @ApiOperation(value = "Image specifications", notes = "provide values for converting Image file to other one",
+            response = Response.class)
     public Response imageConverter(
             @RequestParam("file") MultipartFile file, @RequestParam String md5, @RequestParam String outputName,
-            @RequestParam (defaultValue = ".png") String imageFormat, @RequestParam (defaultValue = "false")
-            boolean Thumbnail, @RequestParam (defaultValue = "false") boolean Grayscale,
-            @RequestParam (defaultValue = "0") int ImageWidth, @RequestParam (defaultValue = "0") int ImageHeight,
-            @RequestParam (defaultValue = "0") float degreesToRotate) {
+            @RequestParam(defaultValue = ".png") String imageFormat, @RequestParam(defaultValue = "false")
+            boolean isThumbnail, @RequestParam(defaultValue = "false") boolean isMetadata,
+            @RequestParam(defaultValue = "false") boolean Grayscale, @RequestParam(defaultValue = "0") int ImageWidth,
+            @RequestParam(defaultValue = "0") int ImageHeight, @RequestParam(defaultValue = "0")
+            float degreesToRotate, HttpServletRequest request) {
 
         FileResponse fileResponse = new FileResponse();
         ErrorResponse errorResponse = new ErrorResponse();
-        Param param = new ImageParam();
-        ImageParam imageParam = (ImageParam) param;
-        String failMd5 = "Md5 Error! binary is invalid.";
+        ImageParam imageParam = new ImageParam();
+        String FAILMD5 = "Md5 Error! binary is invalid.";
         IConverter imageConverter = new ImageConverter();
 
         try {
-            byte[] bytes = file.getBytes();
-            Path path = Paths.get(uploadedFile + file.getOriginalFilename());
-            Files.write(path, bytes);
-            imageParam.setInputPathFile(path.toString());
-            if (outputName.equals(null) || outputName.equals("")) {
-                outputName = file.getOriginalFilename();
-                outputName = outputName.replaceFirst("[.][^.]+$", "");
-            }
-            String md5FileUploaded = Md5Checksum.getMd5(path.toString());
-            imageParam.setMd5(md5);
-            String md5FileFromClient = imageParam.getMd5();
+            String fileUploadedPath = FileController.writeFile(uploadedFile + file.getOriginalFilename(), file);
 
-            if (md5FileUploaded.equals(md5FileFromClient)) {
+            if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
+                imageParam.setMd5(md5);
+                imageParam.setInputPathFile(fileUploadedPath);
                 imageParam.setOutputPathFile(convertedFile);
                 imageParam.setImageFormat(imageFormat);
-                imageParam.setOutputName(outputName);
-                imageParam.isThumbnail(Thumbnail);
+                imageParam.setOutputName(FileController.setName(outputName, file));
+                imageParam.isThumbnail(isThumbnail);
+                imageParam.isMetadata(isMetadata);
                 imageParam.isGrayscale(Grayscale);
                 imageParam.setImageWidth(ImageWidth);
                 imageParam.setImageHeight(ImageHeight);
                 imageParam.setDegreesToRotate(degreesToRotate);
-                imageParam.setFolderName(md5FileFromClient);
+                imageParam.setFolderName(md5);
 
                 fileResponse = imageConverter.convert(imageParam);
+                LinkGenerator linkGenerator = new LinkGenerator();
+                fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
             }
             else {
-                throw new ConvertException(failMd5,this.getClass().getName());
+                throw new Md5Exception(FAILMD5, imageParam.getMd5());
             }
         } catch (ConvertException ex) {
             errorResponse.setName(imageParam.getOutputName());
@@ -133,6 +141,11 @@ public class ImageConverterController {
         } catch (IOException ex) {
             errorResponse.setName(imageParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
+            errorResponse.setError(ex.toString());
+            return errorResponse;
+        } catch (Md5Exception ex) {
+            errorResponse.setName(imageParam.getOutputName());
+            errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
             errorResponse.setError(ex.toString());
             return errorResponse;
         } catch (Exception ex) {

@@ -9,8 +9,11 @@
 
 package com.jalasoft.jfc.model.utility;
 
+import com.jalasoft.jfc.model.exception.ZipJfcException;
+
 import java.io.*;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
 import java.util.zip.ZipOutputStream;
 
 /**
@@ -46,8 +49,9 @@ public class ZipFolder {
      * This method compress files.
      * @param files content a list of files.
      * @param pathZipFileName content path name of zip file.
+     * @throws ZipJfcException when is a invalid file path.
      */
-    public void zipFolderFile(final File [] files, final File pathZipFileName) throws IOException {
+    public void zipFolderFile(final File [] files, final File pathZipFileName) throws ZipJfcException {
 
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(pathZipFileName);
@@ -61,7 +65,10 @@ public class ZipFolder {
             zipOutputStream.close();
             fileOutputStream.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            throw new ZipJfcException(e.getMessage(), this.getClass().getName());
+        } catch (IOException ex){
+            throw new ZipJfcException(ex.getMessage(), this.getClass().getName());
         }
+
     }
 }

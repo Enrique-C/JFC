@@ -10,17 +10,22 @@
 package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.IConverter;
+import com.jalasoft.jfc.model.exception.Md5Exception;
 import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.ErrorResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.result.Response;
+import com.jalasoft.jfc.model.utility.FileController;
+import com.jalasoft.jfc.model.utility.LinkGenerator;
 import com.jalasoft.jfc.model.utility.Md5Checksum;
-import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.utility.PathJfc;
 import com.jalasoft.jfc.model.video.VideoConverter;
 import com.jalasoft.jfc.model.video.VideoParam;
 import com.jalasoft.jfc.model.exception.ConvertException;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,10 +33,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /**
  * Manage VideoConverter Requests.
@@ -40,8 +44,9 @@ import java.nio.file.Paths;
  *
  * @version 0.1 13 Dic 2019.
  */
+@Api(value = "VideoConverterController", description = "REST API related to VideoParam Entity")
 @RestController
-@RequestMapping(path = "/videoConverter")
+@RequestMapping("/api")
 public class VideoConverterController {
 
     // Variable PathJfc type.
@@ -83,50 +88,39 @@ public class VideoConverterController {
      * @param channelsNumber contains number of output channels.
      * @param volume contains the level of sound.
      * @param rotate degrees of rotation.
+     * @param isThumbnail boolean of thumbnail.
+     * @param isMetadata boolean of metadata.
+     * @param request contains client request data.
      * @return Response it mean the result of the conversion.
      */
-    @PostMapping
+    @PostMapping("/videoConverter")
+    @ApiOperation(value = "Video specifications", notes = "provide values for converting Video file to other one.",
+            response = Response.class)
     public Response videoConverter(
-            @RequestParam("file") MultipartFile file,  @RequestParam (defaultValue = " ") String md5,
-            @RequestParam String outputName, @RequestParam (defaultValue = "0.0") String aspectRatio,
-            @RequestParam (defaultValue = "") String frameRate, @RequestParam (defaultValue = "0") int width,
-            @RequestParam (defaultValue = "0") int height, @RequestParam (defaultValue = "") String videoCodec,
-            @RequestParam (defaultValue = "") String audioCodec, @RequestParam (defaultValue = "") String videoBitRate,
-            @RequestParam (defaultValue = "") String audioBitRate, @RequestParam (defaultValue = "-1") int quality,
-            @RequestParam (defaultValue = "0") int channelsNumber, @RequestParam (defaultValue = "") String volume,
-            @RequestParam (defaultValue = "") short rotate, @RequestParam (defaultValue = "") boolean thumbnail)
-            throws CommandValueException {
-
-        Md5Checksum md5Checksum = new Md5Checksum();
-        Param param = new VideoParam();
+            @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = " ") String md5,
+            @RequestParam String outputName, @RequestParam(defaultValue = "0.0") String aspectRatio,
+            @RequestParam(defaultValue = "") String frameRate, @RequestParam(defaultValue = "0") int width,
+            @RequestParam(defaultValue = "0") int height, @RequestParam(defaultValue = "") String videoCodec,
+            @RequestParam(defaultValue = "") String audioCodec, @RequestParam(defaultValue = "") String videoBitRate,
+            @RequestParam(defaultValue = "") String audioBitRate, @RequestParam(defaultValue = "-1") int quality,
+            @RequestParam(defaultValue = "0") int channelsNumber, @RequestParam(defaultValue = "") String volume,
+            @RequestParam(defaultValue = "") short rotate, @RequestParam(defaultValue = "") boolean isThumbnail,
+            @RequestParam(defaultValue = "false") boolean isMetadata, HttpServletRequest request) {
 
         FileResponse fileResponse = new FileResponse();
         ErrorResponse errorResponse = new ErrorResponse();
-        VideoParam videoParam = (VideoParam) param;
-        String md5FileUploaded = "";
-        String md5FileFromClient = "";
+        VideoParam videoParam = new VideoParam();
         String failMd5 = "Md5 Error! binary is invalid.";
         IConverter videoConverter = new VideoConverter();
 
         try {
-            byte[] bytes = file.getBytes();
-            Path path = Paths.get(uploadedFile + file.getOriginalFilename());
-            Files.write(path, bytes);
-            videoParam.setInputPathFile(path.toString());
-            md5FileUploaded = md5Checksum.getMd5(path.toString());
+            String fileUploadedPath = FileController.writeFile(uploadedFile + file.getOriginalFilename(), file);
 
-            if (outputName.equals(null) || outputName.equals("")) {
-                outputName = file.getOriginalFilename();
-                outputName = outputName.replaceFirst("[.][^.]+$", "");
-            }
-            md5FileUploaded = Md5Checksum.getMd5(path.toString());
-
-            videoParam.setMd5(md5);
-            md5FileFromClient = videoParam.getMd5();
-
-            if (md5FileUploaded.equals(md5FileFromClient)) {
+            if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
+                videoParam.setMd5(md5);
+                videoParam.setInputPathFile(fileUploadedPath);
                 videoParam.setOutputPathFile(convertedFile);
-                videoParam.setOutputName(outputName);
+                videoParam.setOutputName(FileController.setName(outputName, file));
                 videoParam.setAspectRatio(aspectRatio);
                 videoParam.setFrameRate(frameRate);
                 videoParam.setWidth(width);
@@ -139,13 +133,16 @@ public class VideoConverterController {
                 videoParam.setAudioCodec(audioCodec);
                 videoParam.setVideoBitRate(videoBitRate);
                 videoParam.setAudioBitRate(audioBitRate);
-                videoParam.setThumbnail(thumbnail);
-                videoParam.setFolderName(md5FileUploaded);
+                videoParam.setThumbnail(isThumbnail);
+                videoParam.isMetadata(isMetadata);
+                videoParam.setFolderName(md5);
 
                 fileResponse = videoConverter.convert(videoParam);
+                LinkGenerator linkGenerator = new LinkGenerator();
+                fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
             }
             else {
-                throw new ConvertException(failMd5,this.getClass().getName());
+                throw new Md5Exception(failMd5, videoParam.getMd5());
             }
         } catch (ConvertException ex) {
             errorResponse.setName(videoParam.getOutputName());
@@ -160,6 +157,11 @@ public class VideoConverterController {
         } catch (IOException ex) {
             errorResponse.setName(videoParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
+            errorResponse.setError(ex.toString());
+            return errorResponse;
+        } catch (Md5Exception ex) {
+            errorResponse.setName(videoParam.getOutputName());
+            errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
             errorResponse.setError(ex.toString());
             return errorResponse;
         } catch (Exception ex) {
