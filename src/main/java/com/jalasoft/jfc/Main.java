@@ -9,6 +9,7 @@
 
 package com.jalasoft.jfc;
 
+import com.jalasoft.jfc.model.utility.PathJfc;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -40,6 +41,7 @@ public class Main {
      */
     public static void main(String[] args) {
         System.out.println("Welcome to JFC");
+        PathJfc pathJfc = new PathJfc();
         SpringApplication.run(Main.class, args);
     }
 

@@ -12,7 +12,6 @@ package com.jalasoft.jfc.model.command;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 
 /**
- *
  * Defines behavior to Commands classes.
  *
  * @version 0.1 18 Dic 2019.
@@ -26,7 +25,7 @@ public interface ICommandStrategy {
     /**
      * Builds a command.
      * @return String of a command.
-     * @throws CommandValueException when is a invalid command.
+     * @throws CommandValueException when there is an invalid command.
      */
     String command() throws CommandValueException;
 }

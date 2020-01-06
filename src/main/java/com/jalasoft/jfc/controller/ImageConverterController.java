@@ -10,12 +10,13 @@
 package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.IConverter;
+import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.exception.Md5Exception;
 import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.ErrorResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.result.Response;
-import com.jalasoft.jfc.model.utility.FileController;
+import com.jalasoft.jfc.model.utility.FileServiceController;
 import com.jalasoft.jfc.model.utility.LinkGenerator;
 import com.jalasoft.jfc.model.utility.Md5Checksum;
 import com.jalasoft.jfc.model.exception.CommandValueException;
@@ -49,29 +50,6 @@ import java.io.IOException;
 @RequestMapping("/api")
 public class ImageConverterController {
 
-    // PathJfc type variable.
-    private PathJfc pathJfc;
-
-    // Upload file Variable.
-    private final String uploadedFile;
-
-    // Converted file path Variable.
-    private final String convertedFile;
-
-    /**
-     * Assigns paths of input and output.
-     */
-    ImageConverterController() {
-        try {
-            pathJfc = new PathJfc();
-        }
-        catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        uploadedFile = pathJfc.getInputFilePath();
-        convertedFile = pathJfc.getOutputFilePath();
-    }
-
     /**
      * Receives an image to convert.
      * @param file contains the image file.
@@ -101,18 +79,18 @@ public class ImageConverterController {
         FileResponse fileResponse = new FileResponse();
         ErrorResponse errorResponse = new ErrorResponse();
         ImageParam imageParam = new ImageParam();
-        String FAILMD5 = "Md5 Error! binary is invalid.";
         IConverter imageConverter = new ImageConverter();
 
         try {
-            String fileUploadedPath = FileController.writeFile(uploadedFile + file.getOriginalFilename(), file);
+            String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
+                    getOriginalFilename(), file);
 
             if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
                 imageParam.setMd5(md5);
                 imageParam.setInputPathFile(fileUploadedPath);
-                imageParam.setOutputPathFile(convertedFile);
+                imageParam.setOutputPathFile(PathJfc.getOutputFilePath());
                 imageParam.setImageFormat(imageFormat);
-                imageParam.setOutputName(FileController.setName(outputName, file));
+                imageParam.setOutputName(FileServiceController.setName(outputName, file));
                 imageParam.isThumbnail(isThumbnail);
                 imageParam.isMetadata(isMetadata);
                 imageParam.isGrayscale(Grayscale);
@@ -126,7 +104,7 @@ public class ImageConverterController {
                 fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
             }
             else {
-                throw new Md5Exception(FAILMD5, imageParam.getMd5());
+                throw new Md5Exception(ErrorMessageJfc.MD5_ERROR.getErrorMessageJfc(), imageParam.getMd5());
             }
         } catch (ConvertException ex) {
             errorResponse.setName(imageParam.getOutputName());

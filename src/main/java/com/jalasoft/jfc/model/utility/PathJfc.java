@@ -56,10 +56,14 @@ public class PathJfc {
      * Initializes properties and inputPath. Also load the inputPath in properties.
      * @throws IOException
      */
-    public PathJfc() throws IOException {
+    public PathJfc() {
         properties = new Properties();
         inputPath = PathJfc.class.getClassLoader().getResourceAsStream(APPLICATION_PROPERTIES);
-        properties.load(inputPath);
+        try {
+            properties.load(inputPath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
