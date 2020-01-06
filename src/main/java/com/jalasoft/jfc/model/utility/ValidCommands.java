@@ -7,9 +7,9 @@ import java.io.IOException;
 /**
  * Compares valid commands.
  *
- * @version 0.1 06 Jan 2020
+ * @version 0.1 06 Jan 2020.
  *
- * @author Oscar Lopez
+ * @author Oscar Lopez.
  */
 public class ValidCommands {
 
