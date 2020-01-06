@@ -10,20 +10,20 @@
 package com.jalasoft.jfc.model.exception;
 
 /**
- * Used for specify types of messages of throw new exceptions.
+ * Contains messages of throw new exceptions.
  *
  * @version 0.1 06 Jan 2020
  *
  * @author Alan Escalera
  */
 public enum ErrorMessageJfc {
-    INVALID_PATH("Invalid input file path value\n"),
+    INVALID_INPUT_PATH("Invalid input file path value\n"),
     FILE_NO_FOUND("File not found\n"),
     PAGES_NULL("Pages to convert value is NULL "),
     INVALID_SCALE("Invalid input file path value\n"),
     COMMAND_NULL("Command value is NULL "),
     COMMAND_INVALID("command value is invalid\n");
-    
+
     // Command variable.
     private String message;
 
