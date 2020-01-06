@@ -43,7 +43,6 @@ public class Main {
         System.out.println("Welcome to JFC");
         PathJfc pathJfc = new PathJfc();
         SpringApplication.run(Main.class, args);
-
     }
 
     /**
