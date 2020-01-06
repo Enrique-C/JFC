@@ -33,7 +33,7 @@ public class CommandVideoBitRate implements ICommandStrategy {
     @Override
     public String command() throws CommandValueException {
         try {
-            if (commandValue != "") {
+            if (!commandValue.isEmpty() && Integer.parseInt(commandValue) > 200 ) {
                 System.out.println(this.SPACE + VideoCommand.VIDEO_BITRATE.getCommand() + this.SPACE + commandValue);
                 return this.SPACE + VideoCommand.VIDEO_BITRATE.getCommand() + this.SPACE + commandValue;
             }
