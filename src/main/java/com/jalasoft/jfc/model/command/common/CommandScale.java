@@ -11,6 +11,7 @@ package com.jalasoft.jfc.model.command.common;
 
 import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.exception.CommandValueException;
+import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
 import java.util.regex.Pattern;
 
@@ -27,7 +28,7 @@ public class CommandScale implements ICommandStrategy {
     private String commandValue;
 
     /**
-     * It Creates a new CommandScale object.
+     * Creates a new CommandScale object.
      * @param commandValue contains a value.
      */
     public CommandScale(String commandValue) {
@@ -35,7 +36,7 @@ public class CommandScale implements ICommandStrategy {
     }
 
     /**
-     * This method builds a command.
+     * Builds a command.
      * @return command concatenated.
      * @throws CommandValueException when is a invalid command.
      */
@@ -48,9 +49,11 @@ public class CommandScale implements ICommandStrategy {
             if (pattern.matcher(commandValue).matches()) {
                 return SPACE + ImageMagickCommand.SCALE.getCommand() + SPACE + commandValue;
             }
-            throw new CommandValueException("Invalid scale value\n", "command value is invalid\n");
+            throw new CommandValueException(ErrorMessageJfc.INVALID_SCALE.getErrorMessageJfc(), ErrorMessageJfc
+                    .COMMAND_INVALID.getErrorMessageJfc());
         } catch (NullPointerException nex) {
-            throw  new CommandValueException("Command value is NULL ", this.getClass().getName());
+            throw new CommandValueException(ErrorMessageJfc.COMMAND_NULL.getErrorMessageJfc(), this.getClass()
+                    .getName());
         }
     }
 }

@@ -28,7 +28,7 @@ public class CommandOutputFileName implements ICommandStrategy {
     private String inputName;
 
     /**
-     * It Creates a new CommandOutputFileName object.
+     * Creates a new CommandOutputFileName object.
      * @param outputName contains a value.
      */
     public CommandOutputFileName(String outputName, String inputName) {
@@ -37,7 +37,7 @@ public class CommandOutputFileName implements ICommandStrategy {
     }
 
     /**
-     * Build command.
+     * Builds command.
      * @return string of command.
      * @throws CommandValueException
      */
