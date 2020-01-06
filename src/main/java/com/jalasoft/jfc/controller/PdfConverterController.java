@@ -9,6 +9,7 @@
 
 package com.jalasoft.jfc.controller;
 
+import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.exception.Md5Exception;
 import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.ErrorResponse;
@@ -105,7 +106,6 @@ public class PdfConverterController {
         PdfParam pdfParam = new PdfParam();
         FileResponse fileResponse = new FileResponse();
         ErrorResponse errorResponse = new ErrorResponse();
-        String failMd5 = "Md5 Error! binary is invalid.";
         IConverter pdfConverter = new PdfConverter();
 
         try {
@@ -134,7 +134,7 @@ public class PdfConverterController {
                 fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
             }
             else {
-                throw new Md5Exception(failMd5, pdfParam.getMd5());
+                throw new Md5Exception(ErrorMessageJfc.MD5_ERROR.getErrorMessageJfc(), pdfParam.getMd5());
             }
         } catch (ConvertException ex) {
             errorResponse.setName(pdfParam.getOutputName());

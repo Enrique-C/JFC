@@ -10,6 +10,7 @@
 package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.IConverter;
+import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.exception.Md5Exception;
 import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.ErrorResponse;
@@ -101,7 +102,6 @@ public class ImageConverterController {
         FileResponse fileResponse = new FileResponse();
         ErrorResponse errorResponse = new ErrorResponse();
         ImageParam imageParam = new ImageParam();
-        String FAILMD5 = "Md5 Error! binary is invalid.";
         IConverter imageConverter = new ImageConverter();
 
         try {
@@ -126,7 +126,7 @@ public class ImageConverterController {
                 fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
             }
             else {
-                throw new Md5Exception(FAILMD5, imageParam.getMd5());
+                throw new Md5Exception(ErrorMessageJfc.MD5_ERROR.getErrorMessageJfc(), imageParam.getMd5());
             }
         } catch (ConvertException ex) {
             errorResponse.setName(imageParam.getOutputName());
