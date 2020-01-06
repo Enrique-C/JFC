@@ -27,7 +27,7 @@ public class ContextStrategy {
 
     /**
      * Allows to instantiate Context.
-     * @param commands receives.
+     * @param commands receives a list of commands.
      */
     public ContextStrategy(List<ICommandStrategy> commands){
         this.commands = commands;
