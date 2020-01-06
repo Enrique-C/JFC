@@ -17,13 +17,14 @@ import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.result.Response;
 import com.jalasoft.jfc.model.utility.FileController;
 import com.jalasoft.jfc.model.utility.Md5Checksum;
-import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.utility.PathJfc;
 import com.jalasoft.jfc.model.video.VideoConverter;
 import com.jalasoft.jfc.model.video.VideoParam;
 import com.jalasoft.jfc.model.exception.ConvertException;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,9 +32,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /**
  * Manage VideoConverter Requests.
@@ -42,8 +40,10 @@ import java.nio.file.Paths;
  *
  * @version 0.1 13 Dic 2019.
  */
+@Api(value = "VideoConverterController", description = "REST API related to VideoParam Entity")
 @RestController
-@RequestMapping(path = "/videoConverter")
+@RequestMapping("/api")
+//@RequestMapping(path = "/videoConverter")
 public class VideoConverterController {
 
     // Variable PathJfc type.
@@ -89,7 +89,9 @@ public class VideoConverterController {
      * @param isMetadata boolean of metadata.
      * @return Response it mean the result of the conversion.
      */
-    @PostMapping
+    @PostMapping("/videoConverter")
+    @ApiOperation(value = "Video specifications", notes = "provide values for converting Video file to other one.",
+            response = Response.class)
     public Response videoConverter(
             @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = " ") String md5,
             @RequestParam String outputName, @RequestParam(defaultValue = "0.0") String aspectRatio,
