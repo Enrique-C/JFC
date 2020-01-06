@@ -14,7 +14,7 @@ import java.nio.file.Paths;
  *
  * @author Alan Escalera.
  */
-public class FileController {
+public class FileServiceController {
 
     /**
      * Writes the file uploaded.

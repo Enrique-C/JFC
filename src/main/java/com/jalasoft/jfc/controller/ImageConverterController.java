@@ -15,7 +15,7 @@ import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.ErrorResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.result.Response;
-import com.jalasoft.jfc.model.utility.FileController;
+import com.jalasoft.jfc.model.utility.FileServiceController;
 import com.jalasoft.jfc.model.utility.LinkGenerator;
 import com.jalasoft.jfc.model.utility.Md5Checksum;
 import com.jalasoft.jfc.model.exception.CommandValueException;
@@ -105,14 +105,14 @@ public class ImageConverterController {
         IConverter imageConverter = new ImageConverter();
 
         try {
-            String fileUploadedPath = FileController.writeFile(uploadedFile + file.getOriginalFilename(), file);
+            String fileUploadedPath = FileServiceController.writeFile(uploadedFile + file.getOriginalFilename(), file);
 
             if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
                 imageParam.setMd5(md5);
                 imageParam.setInputPathFile(fileUploadedPath);
                 imageParam.setOutputPathFile(convertedFile);
                 imageParam.setImageFormat(imageFormat);
-                imageParam.setOutputName(FileController.setName(outputName, file));
+                imageParam.setOutputName(FileServiceController.setName(outputName, file));
                 imageParam.isThumbnail(isThumbnail);
                 imageParam.isMetadata(isMetadata);
                 imageParam.isGrayscale(Grayscale);

@@ -15,7 +15,7 @@ import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.ErrorResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.result.Response;
-import com.jalasoft.jfc.model.utility.FileController;
+import com.jalasoft.jfc.model.utility.FileServiceController;
 import com.jalasoft.jfc.model.utility.LinkGenerator;
 import com.jalasoft.jfc.model.utility.Md5Checksum;
 import com.jalasoft.jfc.model.exception.CommandValueException;
@@ -114,13 +114,13 @@ public class VideoConverterController {
         IConverter videoConverter = new VideoConverter();
 
         try {
-            String fileUploadedPath = FileController.writeFile(uploadedFile + file.getOriginalFilename(), file);
+            String fileUploadedPath = FileServiceController.writeFile(uploadedFile + file.getOriginalFilename(), file);
 
             if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
                 videoParam.setMd5(md5);
                 videoParam.setInputPathFile(fileUploadedPath);
                 videoParam.setOutputPathFile(convertedFile);
-                videoParam.setOutputName(FileController.setName(outputName, file));
+                videoParam.setOutputName(FileServiceController.setName(outputName, file));
                 videoParam.setAspectRatio(aspectRatio);
                 videoParam.setFrameRate(frameRate);
                 videoParam.setWidth(width);
