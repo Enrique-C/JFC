@@ -83,7 +83,6 @@ public class ImageConverterController {
      * @param Grayscale boolean of grayscale.
      * @param ImageWidth number of image width.
      * @param ImageHeight number of image height.
-     * @param degreesToRotate degrees of rotate.
      * @param request contains client request data.
      * @return Response it mean the result of the conversion.
      */

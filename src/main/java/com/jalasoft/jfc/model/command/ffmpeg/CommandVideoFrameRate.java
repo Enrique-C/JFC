@@ -12,7 +12,11 @@ package com.jalasoft.jfc.model.command.ffmpeg;
 import com.jalasoft.jfc.model.command.ICommandStrategy;
 
 import com.jalasoft.jfc.model.exception.CommandValueException;
+import com.jalasoft.jfc.model.utility.PathJfc;
+import com.jalasoft.jfc.model.utility.ValidCommands;
 import com.jalasoft.jfc.model.video.VideoCommand;
+
+import java.io.IOException;
 
 /**
  * This Class changes the Frame Rate of a video.
@@ -25,6 +29,9 @@ public class CommandVideoFrameRate implements ICommandStrategy {
 
     // Content command value.
     private String commandValue;
+
+    // Contents the name the file of Aspect Video commands
+    private String pathFileFrameRateCommands = "\\videoFrameRate.dat";
 
     /**
      * Creates a new CommandVideoFrameRate object.
@@ -43,11 +50,11 @@ public class CommandVideoFrameRate implements ICommandStrategy {
     @Override
     public String command() throws CommandValueException {
         try {
-            if (!commandValue.isEmpty()) {
+            if (ValidCommands.getsValidCommand(PathJfc.getPublicVideoCommandsPath()+pathFileFrameRateCommands, commandValue)) {
                 return this.SPACE + VideoCommand.FRAME_RATE.getCommand() + SPACE + commandValue;
             }
             throw new CommandValueException("Can not change the Frame rate", this.getClass().getName());
-        } catch (CommandValueException cve) {
+        } catch (CommandValueException | IOException cve) {
             throw new CommandValueException(cve.getMessage(), this.getClass().getName());
         }
     }

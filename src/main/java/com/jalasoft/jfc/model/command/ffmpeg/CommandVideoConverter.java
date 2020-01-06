@@ -24,7 +24,7 @@ import com.jalasoft.jfc.model.video.VideoCommand;
 public class CommandVideoConverter implements ICommandStrategy {
 
     // Content command value.
-    private String commandValue = "";
+    private String commandValue = " ";
 
     /**
      * Creates a new CommandVideoConverter object.

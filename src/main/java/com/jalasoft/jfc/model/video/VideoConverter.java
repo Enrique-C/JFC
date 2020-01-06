@@ -118,6 +118,7 @@ public class VideoConverter implements IConverter {
             list.add(new CommandInputFilePath(videoParam.getInputPathFile()));
             list.add(new CommandVideoConverter());
             list.add(new CommandVideoAspectRatio(videoParam.getAspectRatio()));
+            list.add(new CommandVideoCodec(videoParam.getVideoCodec()));
             list.add(new CommandVideoScale(videoParam.getWidth(), videoParam.getHeight()));
             list.add(new CommandVideoFrameRate(videoParam.getFrameRate()));
             list.add(new CommandVideoCodec(videoParam.getVideoCodec()));
