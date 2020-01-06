@@ -23,6 +23,14 @@ public enum ErrorMessageJfc {
     INVALID_SCALE("Invalid input file path value\n"),
     EXIFTOOL_NOT_EXIST("Exiftool doesn't exist\n"),
     EXIFTOOL_NOT_FOUND("Exiftool not found\n: "),
+    FFMPEG_NOT_EXIST("FFMepg doesn't exist\n"),
+    ASPECTRATIO_NOT_CHANGE("Can not change the Aspect ratio"),
+    VIDEOBITRATE_NOT_CHANGE("Can not change the Video Bit rate"),
+    VIDEOCODEC_NOT_CHANGE("Can not change the Video codec"),
+    VIDEO_NOT_CONVERTED("Can not convert a video"),
+    FORMTAT_INVALID("Format is invalid"),
+    FRAMERATE_NOT_CHANGE("Can not change the Frame rate"),
+    SCALE_NOT_CHANGE("Can not change the Scale"),
     COMMAND_NULL("Command value is NULL "),
     COMMAND_INVALID("command value is invalid\n");
 

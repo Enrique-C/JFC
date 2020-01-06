@@ -15,7 +15,7 @@ import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.video.VideoCommand;
 
 /**
- * This Class contains Command Video Rotate.
+ * Contains Command Video Rotate.
  *
  * @version 0.1 23 Dic 2019.
  *
@@ -23,18 +23,17 @@ import com.jalasoft.jfc.model.video.VideoCommand;
  */
 public class CommandVideoRotate implements ICommandStrategy {
 
-    // Content value to rotate.
+    // Contents value to rotate.
     private short commandValue;
 
-    // Content Comma value.
+    // Contents Comma value.
     private final String COMMA = ", ";
 
-    // Content quotation mark value.
+    // Contents quotation mark value.
     private final char quotationMark = '"';
     /**
      * Creates a new CommandVideoRotate object.
-     *
-     * @param commandValue, receive a value.
+     * @param commandValue receives a value.
      */
     public CommandVideoRotate(short commandValue) {
         this.commandValue = commandValue;
@@ -42,7 +41,6 @@ public class CommandVideoRotate implements ICommandStrategy {
 
     /**
      * This method builds a command.
-     *
      * @return command concatenated.
      */
     @Override

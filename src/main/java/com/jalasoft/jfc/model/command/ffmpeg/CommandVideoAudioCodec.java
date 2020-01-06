@@ -13,7 +13,7 @@ import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.video.VideoCommand;
 
 /**
- * Class changes Command Video Audio Codec.
+ * Changes Command Video Audio Codec.
  *
  * @version 0.1 23 Dic 2019.
  *
@@ -21,12 +21,11 @@ import com.jalasoft.jfc.model.video.VideoCommand;
  */
 public class CommandVideoAudioCodec implements ICommandStrategy {
 
-    // Content command value.
+    // Contents command value.
     private String commandValue;
 
     /**
      * Creates a new CommandVideoAudioCodec object.
-     *
      * @param commandValue, receive a value.
      */
     public CommandVideoAudioCodec(String commandValue) {
@@ -34,8 +33,7 @@ public class CommandVideoAudioCodec implements ICommandStrategy {
     }
 
     /**
-     * This method builds a command.
-     *
+     * Builds a command.
      * @return command concatenated.
      */
     @Override
