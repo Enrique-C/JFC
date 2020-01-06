@@ -10,12 +10,13 @@
 package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.IConverter;
+import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.exception.Md5Exception;
 import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.ErrorResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.result.Response;
-import com.jalasoft.jfc.model.utility.FileController;
+import com.jalasoft.jfc.model.utility.FileServiceController;
 import com.jalasoft.jfc.model.utility.LinkGenerator;
 import com.jalasoft.jfc.model.utility.Md5Checksum;
 import com.jalasoft.jfc.model.exception.CommandValueException;
@@ -86,18 +87,17 @@ public class VideoConverterController {
         FileResponse fileResponse = new FileResponse();
         ErrorResponse errorResponse = new ErrorResponse();
         VideoParam videoParam = new VideoParam();
-        String failMd5 = "Md5 Error! binary is invalid.";
         IConverter videoConverter = new VideoConverter();
 
         try {
-            String fileUploadedPath = FileController.writeFile(PathJfc.getInputFilePath() + file
+            String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file
                     .getOriginalFilename(), file);
 
             if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
                 videoParam.setMd5(md5);
                 videoParam.setInputPathFile(fileUploadedPath);
                 videoParam.setOutputPathFile(PathJfc.getOutputFilePath());
-                videoParam.setOutputName(FileController.setName(outputName, file));
+                videoParam.setOutputName(FileServiceController.setName(outputName, file));
                 videoParam.setAspectRatio(aspectRatio);
                 videoParam.setFrameRate(frameRate);
                 videoParam.setWidth(width);
@@ -119,7 +119,7 @@ public class VideoConverterController {
                 fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
             }
             else {
-                throw new Md5Exception(failMd5, videoParam.getMd5());
+                throw new Md5Exception(ErrorMessageJfc.MD5_ERROR.getErrorMessageJfc(), videoParam.getMd5());
             }
         } catch (ConvertException ex) {
             errorResponse.setName(videoParam.getOutputName());

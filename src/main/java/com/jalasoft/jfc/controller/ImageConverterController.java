@@ -10,12 +10,13 @@
 package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.IConverter;
+import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.exception.Md5Exception;
 import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.ErrorResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.result.Response;
-import com.jalasoft.jfc.model.utility.FileController;
+import com.jalasoft.jfc.model.utility.FileServiceController;
 import com.jalasoft.jfc.model.utility.LinkGenerator;
 import com.jalasoft.jfc.model.utility.Md5Checksum;
 import com.jalasoft.jfc.model.exception.CommandValueException;
@@ -78,11 +79,10 @@ public class ImageConverterController {
         FileResponse fileResponse = new FileResponse();
         ErrorResponse errorResponse = new ErrorResponse();
         ImageParam imageParam = new ImageParam();
-        String FAILMD5 = "Md5 Error! binary is invalid.";
         IConverter imageConverter = new ImageConverter();
 
         try {
-            String fileUploadedPath = FileController.writeFile(PathJfc.getInputFilePath() + file.
+            String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
                     getOriginalFilename(), file);
 
             if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
@@ -90,7 +90,7 @@ public class ImageConverterController {
                 imageParam.setInputPathFile(fileUploadedPath);
                 imageParam.setOutputPathFile(PathJfc.getOutputFilePath());
                 imageParam.setImageFormat(imageFormat);
-                imageParam.setOutputName(FileController.setName(outputName, file));
+                imageParam.setOutputName(FileServiceController.setName(outputName, file));
                 imageParam.isThumbnail(isThumbnail);
                 imageParam.isMetadata(isMetadata);
                 imageParam.isGrayscale(Grayscale);
@@ -104,7 +104,7 @@ public class ImageConverterController {
                 fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
             }
             else {
-                throw new Md5Exception(FAILMD5, imageParam.getMd5());
+                throw new Md5Exception(ErrorMessageJfc.MD5_ERROR.getErrorMessageJfc(), imageParam.getMd5());
             }
         } catch (ConvertException ex) {
             errorResponse.setName(imageParam.getOutputName());
