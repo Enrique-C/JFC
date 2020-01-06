@@ -9,11 +9,11 @@
 
 package com.jalasoft.jfc.model.command.ffmpeg;
 
-import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.command.ICommandStrategy;
+import com.jalasoft.jfc.model.exception.CommandValueException;
+import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.utility.PathJfc;
 import com.jalasoft.jfc.model.utility.ValidCommands;
-import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.video.VideoCommand;
 
 import java.io.IOException;
@@ -30,7 +30,7 @@ public class CommandVideoAspectRatio implements ICommandStrategy {
     // Contents command value.
     private String commandValue;
 
-    // Contents the name the file of Aspect Video commands
+    // Contents the name the file of commands Aspect Video.
     private String PathCommandsAspectRatio = "\\videoCommand.dat";
 
     /**
@@ -42,14 +42,13 @@ public class CommandVideoAspectRatio implements ICommandStrategy {
     }
 
     /**
-     * This method builds a command.
      * Builds a command.
      * @return command concatenated.
      */
     @Override
     public String command() throws CommandValueException {
         try {
-            if (ValidCommands.getsValidCommand(PathJfc.getPublicVideoCommandsPath()+PathCommandsAspectRatio, commandValue)) {
+            if (ValidCommands.getsValidCommand(PathJfc.getPublicVideoCommandsPath() + PathCommandsAspectRatio, commandValue)) {
                 return this.SPACE + VideoCommand.ASPECT_RATIO.getCommand() + this.SPACE + commandValue;
             }
             throw new CommandValueException(ErrorMessageJfc.ASPECTRATIO_NOT_CHANGE.getErrorMessageJfc(), this.
@@ -58,6 +57,4 @@ public class CommandVideoAspectRatio implements ICommandStrategy {
             throw new CommandValueException(cve.getMessage(), this.getClass().getName());
         }
     }
-
-
 }

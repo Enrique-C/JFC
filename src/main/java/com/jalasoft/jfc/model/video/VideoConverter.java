@@ -33,6 +33,7 @@ import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoConverter;
 import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoThumbNail;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 
+import com.jalasoft.jfc.model.utility.FolderRemover;
 import com.jalasoft.jfc.model.utility.PathJfc;
 import com.jalasoft.jfc.model.utility.ZipFolder;
 
@@ -98,6 +99,9 @@ public class VideoConverter implements IConverter {
         }
 
         zipFile(videoParam);
+
+        FolderRemover.removeFolder(videoParam.getOutputPathFile() + videoParam.getFolderName());
+
         fileResponse.setName(videoParam.getOutputName());
         fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
         fileResponse.setDownload(zipPath);
