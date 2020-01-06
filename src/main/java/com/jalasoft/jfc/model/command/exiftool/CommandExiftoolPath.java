@@ -11,6 +11,7 @@ package com.jalasoft.jfc.model.command.exiftool;
 
 import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.exception.CommandValueException;
+import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.utility.PathJfc;
 
 import java.io.File;
@@ -45,7 +46,8 @@ public class CommandExiftoolPath implements ICommandStrategy {
             if (file.exists()) {
                 return exiftoolPath;
             }
-            throw new CommandValueException("Exiftool doesn't exist\n", "Exiftool not found\n: " + exiftoolPath);
+            throw new CommandValueException(ErrorMessageJfc.EXIFTOOL_NOT_EXIST.getErrorMessageJfc(), ErrorMessageJfc
+                    .EXIFTOOL_NOT_FOUND.getErrorMessageJfc()+ exiftoolPath);
         } catch (CommandValueException cve) {
             throw new CommandValueException(cve.getMessage(), this.getClass().getName());
         }

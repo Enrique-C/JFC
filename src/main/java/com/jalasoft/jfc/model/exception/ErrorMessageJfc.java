@@ -21,6 +21,8 @@ public enum ErrorMessageJfc {
     FILE_NO_FOUND("File not found\n"),
     PAGES_NULL("Pages to convert value is NULL "),
     INVALID_SCALE("Invalid input file path value\n"),
+    EXIFTOOL_NOT_EXIST("Exiftool doesn't exist\n"),
+    EXIFTOOL_NOT_FOUND("Exiftool not found\n: "),
     COMMAND_NULL("Command value is NULL "),
     COMMAND_INVALID("command value is invalid\n");
 
