@@ -15,5 +15,5 @@
  * @author Enrique Carrizales.
  */
 public class ImageConverterTest {
-    //Todo
+    //Todo implementation
 }
