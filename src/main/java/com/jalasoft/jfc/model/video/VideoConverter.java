@@ -14,8 +14,10 @@ import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoBitRate;
 import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoCodec;
+import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoFormat;
 import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoFrameRate;
 import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoScale;
+import com.jalasoft.jfc.model.command.imagick.CommandImageFormat;
 import com.jalasoft.jfc.model.exception.ConvertException;
 import com.jalasoft.jfc.model.exception.ZipJfcException;
 import com.jalasoft.jfc.model.metadata.MetadataConverter;
@@ -128,6 +130,7 @@ public class VideoConverter implements IConverter {
             list.add(new CommandVideoBitRate(videoParam.getVideoBitRate()));
             list.add(new CommandOutputFilePath(videoParam.getOutputPathFile(), videoParam.getFolderName()));
             list.add(new CommandOutputFileName(videoParam.getOutputName(), videoParam.getFolderName()));
+            list.add(new CommandVideoFormat(videoParam.getVideoFormat()));
             ContextStrategy contextStrategy = new ContextStrategy(list);
             String result = contextStrategy.buildCommand();
             System.out.println(result);
