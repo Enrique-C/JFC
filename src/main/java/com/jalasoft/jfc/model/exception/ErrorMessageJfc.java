@@ -23,6 +23,7 @@ public enum ErrorMessageJfc {
     INVALID_SCALE("Invalid input file path value\n"),
     COMMAND_NULL("Command value is NULL "),
     COMMAND_INVALID("command value is invalid\n");
+    
     // Command variable.
     private String message;
 
