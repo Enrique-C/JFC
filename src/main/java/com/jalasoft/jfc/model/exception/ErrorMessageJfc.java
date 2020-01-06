@@ -39,7 +39,8 @@ public enum ErrorMessageJfc {
     IMAGE_ROTATE_INVALID("Invalid Image rotate value\n"),
     COMMAND_NULL("Command value is NULL"),
     COMMAND_INVALID("Command value is invalid\n"),
-    MD5_ERROR("Md5 Error! binary is invalid");
+    MD5_ERROR("Md5 Error! binary is invalid"),
+    IMAGE_CONVERT_ERROR_MESSAGE("Error converting Image");
 
     // Command variable.
     private String message;
