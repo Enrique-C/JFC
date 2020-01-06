@@ -31,7 +31,7 @@ public class CommandOutputFilePath implements ICommandStrategy {
     private String inputFileName;
 
     /**
-     * It Creates a new CommandOutputFilePath object.
+     * Creates a new CommandOutputFilePath object.
      * @param commandValue contains a value.
      * @param inputFileName contains file name witout extension.
      */

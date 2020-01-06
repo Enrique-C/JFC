@@ -28,7 +28,7 @@ public class CommandScale implements ICommandStrategy {
     private String commandValue;
 
     /**
-     * It Creates a new CommandScale object.
+     * Creates a new CommandScale object.
      * @param commandValue contains a value.
      */
     public CommandScale(String commandValue) {
@@ -36,7 +36,7 @@ public class CommandScale implements ICommandStrategy {
     }
 
     /**
-     * This method builds a command.
+     * Builds a command.
      * @return command concatenated.
      * @throws CommandValueException when is a invalid command.
      */
