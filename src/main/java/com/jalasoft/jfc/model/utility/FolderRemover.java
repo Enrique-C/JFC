@@ -28,9 +28,12 @@ public class FolderRemover {
         File file = new File(pathFile);
 
         String[]entries = file.list();
-        for(String s: entries){
-            File currentFile = new File(file.getPath(),s);
-            currentFile.delete();
+
+        if (entries != null) {
+            for (String s : entries) {
+                File currentFile = new File(file.getPath(), s);
+                currentFile.delete();
+            }
         }
         file.delete();
     }
