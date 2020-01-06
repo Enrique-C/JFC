@@ -10,11 +10,14 @@
 package com.jalasoft.jfc.model.pdf;
 
 import com.jalasoft.jfc.controller.PdfConverterController;
+import com.jalasoft.jfc.model.utility.PathJfc;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -36,9 +39,21 @@ public class PdfConverterTest {
     }
 
     @Test
-    public void convertPdfFileToImage() throws Exception {
+    public void convertPdfFileToImage() {
+        PdfConverter pdfConverter = new PdfConverter();
         PdfParam pdfParam = new PdfParam();
         pdfParam.setInputPathFile("src/test/resources/pdf.pdf");
 //        pdfParam.setOutputPathFile();
+    }
+
+    private PdfParam generatePdfParamObject() {
+        PathJfc pathJfc = new PathJfc();
+        String pathOfUploadedFile = "src/test/resources/pdf.pdf";
+        File fileUploaded = new File(pathOfUploadedFile);
+        String outputPath = "src/test/resources/";
+        String outputName = "fileone";
+        String imageFormat = ".jpg";
+        String pagesToConvert = "2";
+
     }
 }
