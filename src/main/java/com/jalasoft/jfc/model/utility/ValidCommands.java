@@ -4,11 +4,18 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * Compares valid commands.
+ *
+ * @version 0.1 23 Dic 2019
+ *
+ * @author Alan Escalera
+ */
 public class ValidCommands {
 
     /**
      * Returns true or false after compare to valid commands.
-     * @param file, file is path of command values.
+     * @param file is path of command values.
      * @param commandValue video command value.
      * @throws IOException when is an invalid path.
      */
