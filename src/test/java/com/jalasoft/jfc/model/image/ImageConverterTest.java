@@ -11,9 +11,7 @@ package com.jalasoft.jfc.model.image;
 
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ConvertException;
-import com.jalasoft.jfc.model.utility.FileController;
 import com.jalasoft.jfc.model.utility.PathJfc;
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.File;
@@ -38,7 +36,7 @@ public class ImageConverterTest {
 
     @Test
     public void convert_ImagePNBToJPGAndThumbnailAndMetadata() {
-        
+        //Todo
     }
 
     private ImageParam generateOnlyImageJPG() {
