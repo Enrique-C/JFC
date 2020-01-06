@@ -49,29 +49,6 @@ import java.io.IOException;
 @RequestMapping("/api")
 public class VideoConverterController {
 
-    // Variable PathJfc type.
-    private PathJfc pathJfc;
-
-    // Variable upload file.
-    private final String uploadedFile;
-
-    // Variable converted file path.
-    private final String convertedFile;
-
-    /**
-     * It assigns paths of input and output.
-     */
-    VideoConverterController() {
-        try {
-            pathJfc = new PathJfc();
-        }
-        catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        uploadedFile = pathJfc.getInputFilePath();
-        convertedFile = pathJfc.getOutputFilePath();
-    }
-
     /**
      * This method receives an video to convert
      * @param file contains the video file.
@@ -113,12 +90,13 @@ public class VideoConverterController {
         IConverter videoConverter = new VideoConverter();
 
         try {
-            String fileUploadedPath = FileController.writeFile(uploadedFile + file.getOriginalFilename(), file);
+            String fileUploadedPath = FileController.writeFile(PathJfc.getInputFilePath() + file
+                    .getOriginalFilename(), file);
 
             if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
                 videoParam.setMd5(md5);
                 videoParam.setInputPathFile(fileUploadedPath);
-                videoParam.setOutputPathFile(convertedFile);
+                videoParam.setOutputPathFile(PathJfc.getOutputFilePath());
                 videoParam.setOutputName(FileController.setName(outputName, file));
                 videoParam.setAspectRatio(aspectRatio);
                 videoParam.setFrameRate(frameRate);

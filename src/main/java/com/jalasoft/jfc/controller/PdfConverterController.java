@@ -52,29 +52,6 @@ import java.io.IOException;
 @RequestMapping("/api")
 public class PdfConverterController {
 
-    // PathJfc type variable.
-    private PathJfc pathJfc;
-
-    // Upload file Variable.
-    private final String uploadedFile;
-
-    // Converted file path Variable.
-    private final String convertedFile;
-
-    /**
-     * Assigns paths of input and output.
-     */
-    public PdfConverterController() {
-        try {
-            pathJfc = new PathJfc();
-        }
-        catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        uploadedFile = pathJfc.getInputFilePath();
-        convertedFile = pathJfc.getOutputFilePath();
-    }
-
     /**
      * This method receives a PDF to convert.
      * @param file contains the image file
@@ -109,14 +86,15 @@ public class PdfConverterController {
         IConverter pdfConverter = new PdfConverter();
 
         try {
-            String fileUploadedPath = FileController.writeFile(uploadedFile + file.getOriginalFilename(), file);
+            String fileUploadedPath = FileController.writeFile(PathJfc.getInputFilePath() + file.
+                    getOriginalFilename(), file);
             PDDocument doc = PDDocument.load(new File(fileUploadedPath));
             int quantityPages = doc.getNumberOfPages();
 
             if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
                 pdfParam.setMd5(md5);
                 pdfParam.setInputPathFile(fileUploadedPath);
-                pdfParam.setOutputPathFile(convertedFile);
+                pdfParam.setOutputPathFile(PathJfc.getOutputFilePath());
                 pdfParam.setOutputName(FileController.setName(outputName, file));
                 pdfParam.setImageFormat(imageFormat);
                 pdfParam.setPagesToConvert(pagesToConvert);
