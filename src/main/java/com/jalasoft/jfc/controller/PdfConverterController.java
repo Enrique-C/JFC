@@ -9,13 +9,14 @@
 
 package com.jalasoft.jfc.controller;
 
+import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.exception.Md5Exception;
 import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.ErrorResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.result.Response;
-import com.jalasoft.jfc.model.utility.FileController;
+import com.jalasoft.jfc.model.utility.FileServiceController;
 import com.jalasoft.jfc.model.utility.LinkGenerator;
 import com.jalasoft.jfc.model.utility.Md5Checksum;
 import com.jalasoft.jfc.model.exception.CommandValueException;
@@ -105,11 +106,10 @@ public class PdfConverterController {
         PdfParam pdfParam = new PdfParam();
         FileResponse fileResponse = new FileResponse();
         ErrorResponse errorResponse = new ErrorResponse();
-        String failMd5 = "Md5 Error! binary is invalid.";
         IConverter pdfConverter = new PdfConverter();
 
         try {
-            String fileUploadedPath = FileController.writeFile(uploadedFile + file.getOriginalFilename(), file);
+            String fileUploadedPath = FileServiceController.writeFile(uploadedFile + file.getOriginalFilename(), file);
             PDDocument doc = PDDocument.load(new File(fileUploadedPath));
             int quantityPages = doc.getNumberOfPages();
 
@@ -117,7 +117,7 @@ public class PdfConverterController {
                 pdfParam.setMd5(md5);
                 pdfParam.setInputPathFile(fileUploadedPath);
                 pdfParam.setOutputPathFile(convertedFile);
-                pdfParam.setOutputName(FileController.setName(outputName, file));
+                pdfParam.setOutputName(FileServiceController.setName(outputName, file));
                 pdfParam.setImageFormat(imageFormat);
                 pdfParam.setPagesToConvert(pagesToConvert);
                 pdfParam.setQuantityOfPage(quantityPages);
@@ -134,7 +134,7 @@ public class PdfConverterController {
                 fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
             }
             else {
-                throw new Md5Exception(failMd5, pdfParam.getMd5());
+                throw new Md5Exception(ErrorMessageJfc.MD5_ERROR.getErrorMessageJfc(), pdfParam.getMd5());
             }
         } catch (ConvertException ex) {
             errorResponse.setName(pdfParam.getOutputName());
