@@ -11,22 +11,23 @@ package com.jalasoft.jfc.model.command.imagick;
 
 import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.exception.CommandValueException;
+import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
 
 /**
  * Rotates an image.
  *
- * @version 0.1 19 Dic 2019
+ * @version 0.1 19 Dic 2019.
  *
- * @author Enrique Carrizales
+ * @author Enrique Carrizales.
  */
 public class CommandImageRotate implements ICommandStrategy {
 
-    // Content command value.
+    // Contents command value.
     private float commandValue;
 
     /**
-     * It creates a new CommandImageRotate object.
+     * Creates a new CommandImageRotate object.
      * @param commandValue contains a value.
      */
     public CommandImageRotate(float commandValue) {
@@ -34,9 +35,9 @@ public class CommandImageRotate implements ICommandStrategy {
     }
 
     /**
-     * It builds a command.
+     * Builds a command.
      * @return String of a command.
-     * @throws CommandValueException when is a invalid command.
+     * @throws CommandValueException when there is an invalid command.
      */
     @Override
     public String command() throws CommandValueException {
@@ -47,9 +48,11 @@ public class CommandImageRotate implements ICommandStrategy {
             if (commandValue > 0.0) {
                 return this.SPACE + ImageMagickCommand.ROTATE.getCommand() + this.SPACE + commandValue;
             }
-            throw new CommandValueException("Invalid Image rotate value\n", "command value is invalid\n");
+            throw new CommandValueException(ErrorMessageJfc.IMAGE_ROTATE_INVALID.getErrorMessageJfc(), ErrorMessageJfc
+                    .COMMAND_INVALID.getErrorMessageJfc());
         } catch (NullPointerException nex) {
-            throw  new CommandValueException("Command value is NULL ", this.getClass().getName());
+            throw  new CommandValueException(ErrorMessageJfc.COMMAND_NULL.getErrorMessageJfc(), this.getClass()
+                    .getName());
         }
     }
 }

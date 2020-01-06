@@ -17,9 +17,10 @@ package com.jalasoft.jfc.model.exception;
  * @author Alan Escalera
  */
 public enum ErrorMessageJfc {
-    INVALID_INPUT_PATH("Invalid input file path value\n"),
+    INVALID_INPUT_PATH("Invalid file path input\n"),
     FILE_NO_FOUND("File not found\n"),
-    PAGES_NULL("Pages to convert value is NULL "),
+    PAGES_NULL("Value of pages to convert is NULL"),
+    PAGES_NUMBER_NOT_EXIST("Number of page doesn't exist"),
     INVALID_SCALE("Invalid input file path value\n"),
     EXIFTOOL_NOT_EXIST("Exiftool doesn't exist\n"),
     EXIFTOOL_NOT_FOUND("Exiftool not found\n: "),
@@ -31,8 +32,13 @@ public enum ErrorMessageJfc {
     FORMTAT_INVALID("Format is invalid"),
     FRAMERATE_NOT_CHANGE("Can not change the Frame rate"),
     SCALE_NOT_CHANGE("Can not change the Scale"),
-    COMMAND_NULL("Command value is NULL "),
-    COMMAND_INVALID("command value is invalid\n");
+    IMAGEMAGICK_NOT_EXIST("Image magick doesn't exist\n"),
+    IMAGEMAGICK_NOT_FOUND("Image magick not found\n"),
+    RESIZE_INVALID("Invalid resize values\n"),
+    WIDTH_HEIGHT_INVALID("Width or height are invalid\n"),
+    IMAGE_ROTATE_INVALID("Invalid Image rotate value\n"),
+    COMMAND_NULL("Command value is NULL"),
+    COMMAND_INVALID("Command value is invalid\n");
 
     // Command variable.
     private String message;
