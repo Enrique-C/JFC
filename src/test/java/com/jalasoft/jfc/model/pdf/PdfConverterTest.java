@@ -10,7 +10,12 @@
 package com.jalasoft.jfc.model.pdf;
 
 import com.jalasoft.jfc.controller.PdfConverterController;
+import org.junit.Before;
 import org.junit.Test;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.io.InputStream;
 
 /**
  * Executes pdfConvert's unit tests.
@@ -21,9 +26,19 @@ import org.junit.Test;
  */
 public class PdfConverterTest {
 
+    private InputStream is;
+    private MockMvc mockMvc;
+    private PdfConverterController controller = new PdfConverterController();
+    @Before
+    public void init() {
+        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+        is = controller.getClass().getClassLoader().getResourceAsStream("excel.xlsx");
+    }
+
     @Test
-    public void convertPdfFileToImage() {
-        PdfConverterController pdfController = new PdfConverterController();
-        //In process
+    public void convertPdfFileToImage() throws Exception {
+        PdfParam pdfParam = new PdfParam();
+        pdfParam.setInputPathFile("src/test/resources/pdf.pdf");
+//        pdfParam.setOutputPathFile();
     }
 }
