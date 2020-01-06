@@ -13,19 +13,19 @@ import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
 
 /**
- * This class allows to use density of image.
+ * Allows to use density of image.
  *
- * @version 0.1 28 Dic 2019
+ * @version 0.1 28 Dic 2019.
  *
- * @author Juan Martinez
+ * @author Juan Martinez.
  */
 public class CommandImageDensity implements ICommandStrategy {
 
-    // Content density value.
+    // Contents density value.
     private final int COMMAND_VALUE = 200;
     /**
      * Builds a density command.
-     * @return command concatenated.
+     * @return concatenated command.
      */
     @Override
     public String command() {

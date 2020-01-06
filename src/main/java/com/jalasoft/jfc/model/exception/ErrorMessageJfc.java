@@ -31,6 +31,10 @@ public enum ErrorMessageJfc {
     FORMTAT_INVALID("Format is invalid"),
     FRAMERATE_NOT_CHANGE("Can not change the Frame rate"),
     SCALE_NOT_CHANGE("Can not change the Scale"),
+    IMAGEMAGICK_NOT_EXIST("Image magick doesn't exist\n"),
+    IMAGEMAGICK_NOT_FOUND("Image magick not found\n"),
+    RESIZE_INVALID("Invalid resize values\n"),
+    WIDTH_HEIGHT_INVALID("width or height are invalid\n"),
     COMMAND_NULL("Command value is NULL "),
     COMMAND_INVALID("command value is invalid\n");
 

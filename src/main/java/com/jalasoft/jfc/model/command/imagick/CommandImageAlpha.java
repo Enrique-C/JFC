@@ -13,20 +13,20 @@ import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
 
 /**
- * This class allows to use alpha of image.
+ * Allows to use alpha of image.
  *
- * @version 0.1 28 Dic 2019
+ * @version 0.1 28 Dic 2019.
  *
- * @author Juan Martinez
+ * @author Juan Martinez.
  */
 public class CommandImageAlpha implements ICommandStrategy {
 
-    // Content alpha value.
+    // Contents alpha value.
     private final String COMMAND_VALUE = "remove";
 
     /**
-     * Builds a alpha command.
-     * @return command concatenated.
+     * Builds an alpha command.
+     * @return concatenated command.
      */
     @Override
     public String command() {

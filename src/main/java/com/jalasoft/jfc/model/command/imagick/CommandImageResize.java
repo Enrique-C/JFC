@@ -11,6 +11,7 @@ package com.jalasoft.jfc.model.command.imagick;
 
 import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.exception.CommandValueException;
+import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
 
 /**
@@ -39,8 +40,8 @@ public class CommandImageResize implements ICommandStrategy {
     }
 
     /**
-     * This method builds a command.
-     * @return command concatenated.
+     * Builds a command.
+     * @return concatenated command.
      * @throws CommandValueException when is a invalid command.
      */
     public String command() throws CommandValueException {
@@ -52,7 +53,8 @@ public class CommandImageResize implements ICommandStrategy {
                 return SPACE + ImageMagickCommand.RESIZE.getCommand() +
                         SPACE + width + ImageMagickCommand.ASTERISK.getCommand() + height;
             }
-            throw new CommandValueException("Invalid resize values\n", "width and height are invalid\n");
+            throw new CommandValueException(ErrorMessageJfc.RESIZE_INVALID.getErrorMessageJfc(), ErrorMessageJfc
+                    .WIDTH_HEIGHT_INVALID.getErrorMessageJfc());
         } catch (NullPointerException nex) {
             throw  new CommandValueException("Command value is NULL ", this.getClass().getName());
         }

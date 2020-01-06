@@ -14,15 +14,15 @@ import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
 
 /**
- * This class generates a image with grayscale.
+ * Generates a image with grayscale.
  *
- * @version 0.1 02 Jan 2020
+ * @version 0.1 02 Jan 2020.
  *
- * @author  Enrique Carrizales
+ * @author  Enrique Carrizales.
  */
 public class CommandImageGrayscale implements ICommandStrategy {
 
-    // Content command value.
+    // Contents command value.
     private boolean commandValue;
 
     /**
@@ -35,7 +35,7 @@ public class CommandImageGrayscale implements ICommandStrategy {
 
     /**
      * Builds a command.
-     * @return command concatenated.
+     * @return concatenated command.
      * @throws CommandValueException generates a error message.
      */
     @Override
