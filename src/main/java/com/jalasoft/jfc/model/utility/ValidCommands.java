@@ -7,9 +7,9 @@ import java.io.IOException;
 /**
  * Compares valid commands.
  *
- * @version 0.1 23 Dic 2019
+ * @version 0.1 06 Jan 2020
  *
- * @author Alan Escalera
+ * @author Oscar Lopez
  */
 public class ValidCommands {
 
@@ -21,20 +21,18 @@ public class ValidCommands {
      */
     public static boolean getsValidCommand(String file, String commandValue) throws IOException {
         String line;
-        FileReader f = new FileReader(file);
-        BufferedReader b = new BufferedReader(f);
-        line = b.readLine();
+        FileReader fileReader = new FileReader(file);
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        line = bufferedReader.readLine();
         String[] parts = line.split(",");
 
-        for (short i = 0; i < parts.length; i++) {
-            System.out.println(parts[i]);
-            System.out.println(commandValue);
-            if (commandValue.equals(parts[i].toString())) {
-                b.close();
+        for (short index = 0; index < parts.length; index++) {
+            if (commandValue.equals(parts[index].toString())) {
+                bufferedReader.close();
                 return true;
             }
         }
-        b.close();
+        bufferedReader.close();
         return false;
     }
 }
