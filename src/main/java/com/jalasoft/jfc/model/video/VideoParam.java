@@ -38,26 +38,11 @@ public class VideoParam extends Param {
     // Content videoCodec value.
     private String videoCodec;
 
-    // Content audioCodec value.
-    private String audioCodec;
-
     // Content videoBitRate value.
     private String videoBitRate;
 
-    // Content audioBitRate value.
-    private String audioBitRate;
-
     // Content quality of video.
     private int quality;
-
-    // Content number of audio channels.
-    private int channelsNumber;
-
-    // Content audio volume value.
-    private String volume;
-
-    // Content rotate value.
-    private short rotate;
 
     // Content a specific time.
     private boolean thumbnail;
@@ -114,27 +99,11 @@ public class VideoParam extends Param {
     }
 
     /**
-     * Gets audioCodec value.
-     * @return audioCodec String value.
-     */
-    public String getAudioCodec() {
-        return audioCodec;
-    }
-
-    /**
      * Gets videoBitRate value.
      * @return videoBitRate String value.
      */
     public String getVideoBitRate() {
         return videoBitRate;
-    }
-
-    /**
-     * Gets audioBitRate value.
-     * @return audioBitRate String value.
-     */
-    public String getAudioBitRate() {
-        return audioBitRate;
     }
 
     /**
@@ -146,43 +115,11 @@ public class VideoParam extends Param {
     }
 
     /**
-     * Gets channelsNumber value.
-     * @return channelsNumber value in bytes.
-     */
-    public int getChannelsNumber() {
-        return channelsNumber;
-    }
-
-    /**
-     * Gets volume value.
-     * @return volume value.
-     */
-    public String getVolume() {
-        return volume;
-    }
-
-    /**
-     * Gets rotate value.
-     * @return degrees of rotation.
-     */
-    public short getRotate() {
-        return rotate;
-    }
-
-    /**
      * Gets thumbnail value.
      * @return value of thumbnail.
      */
     public boolean getThumbnail() {
         return thumbnail;
-    }
-
-    /**
-     * Gets videoFrame value.
-     * @return videoFrame value.
-     */
-    public byte getVideoFrame() {
-        return videoFrame;
     }
 
     /**
@@ -226,14 +163,6 @@ public class VideoParam extends Param {
     }
 
     /**
-     * Sets audioCodec value.
-     * @param audioCodec for setting this.audioCodec.
-     */
-    public void setAudioCodec(String audioCodec) {
-        this.audioCodec = audioCodec;
-    }
-
-    /**
      * Sets videoBitRate value.
      * @param videoBitRate for setting this.videoBitRate.
      */
@@ -242,43 +171,11 @@ public class VideoParam extends Param {
     }
 
     /**
-     * Sets audioBitRate value.
-     * @param audioBitRate for setting this.audioBitRate.
-     */
-    public void setAudioBitRate(String audioBitRate) {
-        this.audioBitRate = audioBitRate;
-    }
-
-    /**
      * Sets quality value.
      * @param quality for setting this.quality.
      */
     public void setQuality(int quality) {
         this.quality = quality;
-    }
-
-    /**
-     * Sets channelsNumber value.
-     * @param channelsNumber for setting this.channelsNumber.
-     */
-    public void setChannelsNumber(int channelsNumber) {
-        this.channelsNumber = channelsNumber;
-    }
-
-    /**
-     * Sets volume value.
-     * @param volume for setting this.volume.
-     */
-    public void setVolume(String volume) {
-        this.volume = volume;
-    }
-
-    /**
-     * Sets rotate value.
-     * @param rotate for setting this.rotate.
-     */
-    public void setRotate(short rotate) {
-        this.rotate = rotate;
     }
 
     /**
