@@ -21,7 +21,6 @@ public enum ErrorMessageJfc {
     FILE_NO_FOUND("File not found\n"),
     PAGES_NULL("Pages to convert value is NULL "),
     INVALID_SCALE("Invalid input file path value\n"),
-
     COMMAND_NULL("Command value is NULL "),
     COMMAND_INVALID("command value is invalid\n");
     // Command variable.
