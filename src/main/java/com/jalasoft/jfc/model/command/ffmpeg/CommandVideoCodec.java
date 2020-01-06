@@ -2,10 +2,11 @@ package com.jalasoft.jfc.model.command.ffmpeg;
 
 import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.exception.CommandValueException;
+import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.video.VideoCommand;
 
 /**
- * Class changes Aspect Ratio.
+ * Changes Aspect Ratio.
  *
  * @version 0.1 02 Ene 2020.
  *
@@ -13,12 +14,11 @@ import com.jalasoft.jfc.model.video.VideoCommand;
  */
 public class CommandVideoCodec implements ICommandStrategy {
 
-    // Content command value.
+    // Contents command value.
     private String commandValue;
 
     /**
      * Creates a new CommandVideoCodec object.
-     *
      * @param commandValue, receive a value.
      */
     public CommandVideoCodec(String commandValue) {
@@ -26,7 +26,7 @@ public class CommandVideoCodec implements ICommandStrategy {
     }
 
     /**
-     * This builds a command.
+     * Builds a command.
      *
      * @return command concatenated.
      */
@@ -36,7 +36,8 @@ public class CommandVideoCodec implements ICommandStrategy {
             if (!commandValue.isEmpty()) {
                 return this.SPACE + VideoCommand.VIDEO_CODEC.getCommand() + this.SPACE + commandValue;
             }
-            throw new CommandValueException("Can not change the Video codec", this.getClass().getName());
+            throw new CommandValueException(ErrorMessageJfc.VIDEOCODEC_NOT_CHANGE.getErrorMessageJfc(), this.
+                    getClass().getName());
         } catch (CommandValueException cve) {
             throw new CommandValueException(cve.getMessage(), this.getClass().getName());
         }

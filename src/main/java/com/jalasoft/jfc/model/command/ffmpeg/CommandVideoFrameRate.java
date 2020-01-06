@@ -12,10 +12,11 @@ package com.jalasoft.jfc.model.command.ffmpeg;
 import com.jalasoft.jfc.model.command.ICommandStrategy;
 
 import com.jalasoft.jfc.model.exception.CommandValueException;
+import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.video.VideoCommand;
 
 /**
- * This Class changes the Frame Rate of a video.
+ * Changes the Frame Rate of a video.
  *
  * @version 0.1 20 Dic 2019.
  *
@@ -23,12 +24,11 @@ import com.jalasoft.jfc.model.video.VideoCommand;
  */
 public class CommandVideoFrameRate implements ICommandStrategy {
 
-    // Content command value.
+    // Contents command value.
     private String commandValue;
 
     /**
      * Creates a new CommandVideoFrameRate object.
-     *
      * @param commandValue, receive a value.
      */
     public CommandVideoFrameRate(String commandValue) {
@@ -36,7 +36,7 @@ public class CommandVideoFrameRate implements ICommandStrategy {
     }
 
     /**
-     * This method builds a command.
+     * Builds a command.
      * @return command concatenated.
      * @throws CommandValueException when is a invalid command.
      */
@@ -46,7 +46,8 @@ public class CommandVideoFrameRate implements ICommandStrategy {
             if (!commandValue.isEmpty()) {
                 return this.SPACE + VideoCommand.FRAME_RATE.getCommand() + SPACE + commandValue;
             }
-            throw new CommandValueException("Can not change the Frame rate", this.getClass().getName());
+            throw new CommandValueException(ErrorMessageJfc.FRAMERATE_NOT_CHANGE.getErrorMessageJfc(), this.getClass()
+                    .getName());
         } catch (CommandValueException cve) {
             throw new CommandValueException(cve.getMessage(), this.getClass().getName());
         }
