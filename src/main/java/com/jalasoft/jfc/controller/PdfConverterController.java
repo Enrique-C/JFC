@@ -64,7 +64,7 @@ public class PdfConverterController {
     /**
      * It assigns paths of input and output.
      */
-    PdfConverterController() {
+    public PdfConverterController() {
         try {
             pathJfc = new PathJfc();
         }

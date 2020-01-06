@@ -23,7 +23,7 @@ public enum ExiftoolCommand {
     private String command;
 
     /**
-     * This method sets command value.
+     * Sets command value.
      * @param command String value
      */
     ExiftoolCommand(String command) {
@@ -31,7 +31,7 @@ public enum ExiftoolCommand {
     }
 
     /**
-     * This method gets command value.
+     * Gets command value.
      * @return String value.
      */
     public String getCommand(){

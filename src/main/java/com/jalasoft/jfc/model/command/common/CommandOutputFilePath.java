@@ -11,6 +11,7 @@ package com.jalasoft.jfc.model.command.common;
 
 import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.exception.CommandValueException;
+import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 
 import java.io.File;
 
@@ -30,7 +31,7 @@ public class CommandOutputFilePath implements ICommandStrategy {
     private String inputFileName;
 
     /**
-     * It Creates a new CommandOutputFilePath object.
+     * Creates a new CommandOutputFilePath object.
      * @param commandValue contains a value.
      * @param inputFileName contains file name witout extension.
      */
@@ -53,9 +54,11 @@ public class CommandOutputFilePath implements ICommandStrategy {
                 file.mkdir();
                 return this.SPACE + commandValue + inputFileName + "/";
             }
-            throw new CommandValueException("Invalid input file path value\n", "File not found\n");
+            throw new CommandValueException(ErrorMessageJfc.INVALID_INPUT_PATH.getErrorMessageJfc(), ErrorMessageJfc
+                    .FILE_NO_FOUND.getErrorMessageJfc());
         } catch (NullPointerException nex) {
-            throw  new CommandValueException("Pages to convert value is NULL ", this.getClass().getName());
+            throw new CommandValueException(ErrorMessageJfc.PAGES_NULL.getErrorMessageJfc(), this.getClass()
+                    .getName());
         }
     }
 }

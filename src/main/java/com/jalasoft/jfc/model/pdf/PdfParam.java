@@ -52,9 +52,6 @@ public class PdfParam extends Param {
     // Content alpha value.
     private String alpha;
 
-    // Content metadata value.
-    private boolean metadata;
-
     /**
      * It gets magick value.
      * @return magick.
@@ -144,14 +141,6 @@ public class PdfParam extends Param {
     }
 
     /**
-     * Gets metadata value.
-     * @return metadata.
-     */
-    public boolean isMetadata() {
-        return metadata;
-    }
-
-    /**
      * It sets magick value.
      * @param magick value.
      */
@@ -221,13 +210,5 @@ public class PdfParam extends Param {
      */
     public void setRotate(int rotate) {
         this.rotate = rotate;
-    }
-
-    /**
-     * Sets metadata value.
-     * @param metadata value.
-     */
-    public void setMetadata(boolean metadata) {
-        this.metadata = metadata;
     }
 }

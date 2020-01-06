@@ -12,10 +12,11 @@ package com.jalasoft.jfc.model.command.ffmpeg;
 
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.command.ICommandStrategy;
+import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.video.VideoCommand;
 
 /**
- * This Class change Command Video Scale of a video.
+ * Changes Command Video Scale of a video.
  *
  * @version 0.1 23 Dic 2019.
  *
@@ -23,18 +24,17 @@ import com.jalasoft.jfc.model.video.VideoCommand;
  */
 public class CommandVideoScale implements ICommandStrategy {
 
-    // Content width value.
+    // Contents width value.
     private int width;
 
-    // Content height value.
+    // Contents height value.
     private int height;
 
-    //Content number 0
+    //Contents number 0.
     private final short numberZero = 0;
 
     /**
      * Creates a new CommandVideoScale object.
-     *
      * @param width, receive a value.
      * @param height, receive a value.
      */
@@ -44,7 +44,7 @@ public class CommandVideoScale implements ICommandStrategy {
     }
 
     /**
-     * This method builds a command.
+     * Builds a command.
      * @return command concatenated.
      * @throws CommandValueException when is a invalid command.
      */
@@ -55,7 +55,8 @@ public class CommandVideoScale implements ICommandStrategy {
                 return this.SPACE + VideoCommand.VF.getCommand() + this.SPACE + VideoCommand.SCALE.getCommand() +
                         width + VideoCommand.COLON.getCommand() + height;
             }
-            throw new CommandValueException("Can not change the Frame rate", this.getClass().getName());
+            throw new CommandValueException(ErrorMessageJfc.SCALE_NOT_CHANGE.getErrorMessageJfc(), this.getClass()
+                    .getName());
         } catch (CommandValueException cve) {
             throw new CommandValueException(cve.getMessage(), this.getClass().getName());
         }

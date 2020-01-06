@@ -13,14 +13,13 @@ import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.utility.PathJfc;
 import com.jalasoft.jfc.model.utility.ValidCommands;
+import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.video.VideoCommand;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 
 /**
- * Class changes Aspect Ratio.
+ * Changes Aspect Ratio.
  *
  * @version 0.1 20 Dic 2019.
  *
@@ -28,7 +27,7 @@ import java.io.IOException;
  */
 public class CommandVideoAspectRatio implements ICommandStrategy {
 
-    // Content command value.
+    // Contents command value.
     private String commandValue;
 
     // Contents the name the file of Aspect Video commands
@@ -36,7 +35,6 @@ public class CommandVideoAspectRatio implements ICommandStrategy {
 
     /**
      * Creates a new CommandVideoAspectRatio object.
-     *
      * @param commandValue, receive a value.
      */
     public CommandVideoAspectRatio(String commandValue) {
@@ -45,6 +43,7 @@ public class CommandVideoAspectRatio implements ICommandStrategy {
 
     /**
      * This method builds a command.
+     * Builds a command.
      * @return command concatenated.
      */
     @Override
@@ -53,7 +52,8 @@ public class CommandVideoAspectRatio implements ICommandStrategy {
             if (ValidCommands.getsValidCommand(PathJfc.getPublicVideoCommandsPath()+PathCommandsAspectRatio, commandValue)) {
                 return this.SPACE + VideoCommand.ASPECT_RATIO.getCommand() + this.SPACE + commandValue;
             }
-            throw new CommandValueException("Can not change the Aspect ratio", this.getClass().getName());
+            throw new CommandValueException(ErrorMessageJfc.ASPECTRATIO_NOT_CHANGE.getErrorMessageJfc(), this.
+                    getClass().getName());
         } catch (CommandValueException | IOException cve) {
             throw new CommandValueException(cve.getMessage(), this.getClass().getName());
         }
