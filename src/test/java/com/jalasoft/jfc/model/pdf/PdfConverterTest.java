@@ -15,11 +15,12 @@ import org.junit.Test;
 /**
  * Executes pdfConvert's unit tests.
  *
- * @version 0.1 06 Jan 2020
+ * @version 0.1 06 Jan 2020.
  *
- * @author Juan Martinez
+ * @author Juan Martinez.
  */
 public class PdfConverterTest {
+    
     @Test
     public void convertPdfFileToImage() {
         PdfConverterController pdfController = new PdfConverterController();
