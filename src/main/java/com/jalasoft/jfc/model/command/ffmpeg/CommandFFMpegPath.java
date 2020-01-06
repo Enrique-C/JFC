@@ -11,6 +11,7 @@ package com.jalasoft.jfc.model.command.ffmpeg;
 
 import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.exception.CommandValueException;
+import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.utility.PathJfc;
 import com.jalasoft.jfc.model.video.VideoCommand;
 
@@ -25,14 +26,14 @@ import java.io.File;
  */
 public class CommandFFMpegPath implements ICommandStrategy {
 
-    // Content ffmpeg command value.
+    // Contents ffmpeg command value.
     private  String FFMpegPath;
 
     /**
-     * This initialize PathJfc and gets the FfMpeg Path.
+     * Initializes PathJfc and gets the FfMpeg Path.
      * @throws CommandValueException when is a invalid file.
      */
-    public CommandFFMpegPath() throws CommandValueException {
+    public CommandFFMpegPath() {
         FFMpegPath = PathJfc.getFfmpegPath();
     }
 
@@ -49,7 +50,8 @@ public class CommandFFMpegPath implements ICommandStrategy {
             if (file.exists()) {
                 return this.SPACE + FFMpegPath + this.SPACE + VideoCommand.INFILE.getCommand();
             }
-            throw new CommandValueException("FFMepg doesn't exist\n", this.getClass().getName());
+            throw new CommandValueException(ErrorMessageJfc.FFMPEG_NOT_EXIST.getErrorMessageJfc(), this.getClass()
+                    .getName());
         } catch (CommandValueException cve){
             throw new CommandValueException(cve.getMessage(), this.getClass().getName());
         }

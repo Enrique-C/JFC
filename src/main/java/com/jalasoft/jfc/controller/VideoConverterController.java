@@ -10,12 +10,13 @@
 package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.IConverter;
+import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.exception.Md5Exception;
 import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.ErrorResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.result.Response;
-import com.jalasoft.jfc.model.utility.FileController;
+import com.jalasoft.jfc.model.utility.FileServiceController;
 import com.jalasoft.jfc.model.utility.LinkGenerator;
 import com.jalasoft.jfc.model.utility.Md5Checksum;
 import com.jalasoft.jfc.model.exception.CommandValueException;
@@ -49,33 +50,10 @@ import java.io.IOException;
 @RequestMapping("/api")
 public class VideoConverterController {
 
-    // Variable PathJfc type.
-    private PathJfc pathJfc;
-
-    // Variable upload file.
-    private final String uploadedFile;
-
-    // Variable converted file path.
-    private final String convertedFile;
-
-    /**
-     * It assigns paths of input and output.
-     */
-    VideoConverterController() {
-        try {
-            pathJfc = new PathJfc();
-        }
-        catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        uploadedFile = pathJfc.getInputFilePath();
-        convertedFile = pathJfc.getOutputFilePath();
-    }
-
     /**
      * This method receives an video to convert
      * @param file contains the video file.
-     * @param outputName contains name of converted file.
+     * @param outputName contains the name of converted file.
      * @param aspectRatio contains aspect ratio value.
      * @param frameRate contains the number of images per second.
      * @param width contains video's width.
@@ -87,14 +65,13 @@ public class VideoConverterController {
      * @param quality contains quality of video.
      * @param channelsNumber contains number of output channels.
      * @param volume contains the level of sound.
-     * @param rotate degrees of rotation.
      * @param isThumbnail boolean of thumbnail.
      * @param isMetadata boolean of metadata.
      * @param request contains client request data.
-     * @return Response it mean the result of the conversion.
+     * @return Response is the result of the conversion.
      */
     @PostMapping("/videoConverter")
-    @ApiOperation(value = "Video specifications", notes = "provide values for converting Video file to other one.",
+    @ApiOperation(value = "Video specifications", notes = "Provides values for converting Video file to other one.",
             response = Response.class)
     public Response videoConverter(
             @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = " ") String md5,
@@ -110,17 +87,17 @@ public class VideoConverterController {
         FileResponse fileResponse = new FileResponse();
         ErrorResponse errorResponse = new ErrorResponse();
         VideoParam videoParam = new VideoParam();
-        String failMd5 = "Md5 Error! binary is invalid.";
         IConverter videoConverter = new VideoConverter();
 
         try {
-            String fileUploadedPath = FileController.writeFile(uploadedFile + file.getOriginalFilename(), file);
+            String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file
+                    .getOriginalFilename(), file);
 
             if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
                 videoParam.setMd5(md5);
                 videoParam.setInputPathFile(fileUploadedPath);
-                videoParam.setOutputPathFile(convertedFile);
-                videoParam.setOutputName(FileController.setName(outputName, file));
+                videoParam.setOutputPathFile(PathJfc.getOutputFilePath());
+                videoParam.setOutputName(FileServiceController.setName(outputName, file));
                 videoParam.setAspectRatio(aspectRatio);
                 videoParam.setFrameRate(frameRate);
                 videoParam.setWidth(width);
@@ -142,7 +119,7 @@ public class VideoConverterController {
                 fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
             }
             else {
-                throw new Md5Exception(failMd5, videoParam.getMd5());
+                throw new Md5Exception(ErrorMessageJfc.MD5_ERROR.getErrorMessageJfc(), videoParam.getMd5());
             }
         } catch (ConvertException ex) {
             errorResponse.setName(videoParam.getOutputName());

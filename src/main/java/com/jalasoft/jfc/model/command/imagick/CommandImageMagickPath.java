@@ -11,6 +11,7 @@ package com.jalasoft.jfc.model.command.imagick;
 
 import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.exception.CommandValueException;
+import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.utility.PathJfc;
 
 import java.io.File;
@@ -24,7 +25,7 @@ import java.io.File;
  */
 public class CommandImageMagickPath implements ICommandStrategy {
 
-    // Content Image Magick Path value.
+    // Contents Image Magick Path value.
     private  String imageMagickPath;
 
     /**
@@ -37,7 +38,7 @@ public class CommandImageMagickPath implements ICommandStrategy {
     /**
      * Generates a command.
      * @return exe of ImageMagick path.
-     * @throws CommandValueException when is a invalid command.
+     * @throws CommandValueException when there is an invalid command.
      */
     @Override
     public String command() throws CommandValueException {
@@ -47,7 +48,8 @@ public class CommandImageMagickPath implements ICommandStrategy {
             if (file.exists()) {
                 return imageMagickPath;
             }
-            throw new CommandValueException("Image magick doesn't exist\n", "Image magick not found\n");
+            throw new CommandValueException(ErrorMessageJfc.IMAGEMAGICK_NOT_EXIST.getErrorMessageJfc(), ErrorMessageJfc
+                    .IMAGEMAGICK_NOT_FOUND.getErrorMessageJfc());
         } catch (CommandValueException cve) {
             throw new CommandValueException(cve.getMessage(), this.getClass().getName());
         }
