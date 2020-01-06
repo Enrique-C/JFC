@@ -7,8 +7,8 @@ import java.io.IOException;
 public class ValidCommands {
 
     /**
-     * Returns true or false after compare valid commands.
-     * @param file, path of file of command values.
+     * Returns true or false after compare to valid commands.
+     * @param file, file path of command values.
      * @param commandValue video command value.
      * @throws IOException when is an invalid path.
      */

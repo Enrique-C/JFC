@@ -30,7 +30,7 @@ public class CommandVideoFrameRate implements ICommandStrategy {
     // Contents command value.
     private String commandValue;
 
-    // Contents the name of file of commands Frame Rate.
+    // Contents file name of frame rate command.
     private String pathFileFrameRateCommands = "\\videoFrameRate.dat";
 
     /**

@@ -49,7 +49,7 @@ public class PathJfc {
     // Constant variable of key public files path.
     private static final String PUBLIC_FILES_PATH = "path.public.files";
 
-    // Constant variable of files path of video commands.
+    // Constant file path of video commands.
     private static final String PUBLIC_VIDEOCOMMANDS_PATH = "path.commands.video";
 
     /**
@@ -111,8 +111,8 @@ public class PathJfc {
     }
 
     /**
-     * Gets Video Commands  path.
-     * @return Video Commands path.
+     * Gets Video Commands path.
+     * @return Video video command's path.
      */
     public static String getPublicVideoCommandsPath() {
         return properties.getProperty(PUBLIC_VIDEOCOMMANDS_PATH);
