@@ -9,34 +9,40 @@
 
 package com.jalasoft.jfc.model.video;
 
+
+import com.jalasoft.jfc.model.IConverter;
+import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoBitRate;
 import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoCodec;
+import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoFrameRate;
+import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoScale;
 import com.jalasoft.jfc.model.exception.ConvertException;
+import com.jalasoft.jfc.model.exception.ZipJfcException;
 import com.jalasoft.jfc.model.metadata.MetadataConverter;
 import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
-import com.jalasoft.jfc.model.IConverter;
-import com.jalasoft.jfc.model.Param;
-import com.jalasoft.jfc.model.exception.CommandValueException;
-import com.jalasoft.jfc.model.command.ffmpeg.CommandFFMpegPath;
-import com.jalasoft.jfc.model.command.common.CommandInputFilePath;
-import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoAspectRatio;
-import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoScale;
-import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoConverter;
-import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoThumbNail;
-import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoRotate;
-import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoFrameRate;
-import com.jalasoft.jfc.model.command.common.CommandOutputFilePath;
-import com.jalasoft.jfc.model.command.common.CommandOutputFileName;
+
 import com.jalasoft.jfc.model.command.ContextStrategy;
 import com.jalasoft.jfc.model.command.ICommandStrategy;
+import com.jalasoft.jfc.model.command.common.CommandInputFilePath;
+import com.jalasoft.jfc.model.command.common.CommandOutputFileName;
+import com.jalasoft.jfc.model.command.common.CommandOutputFilePath;
+import com.jalasoft.jfc.model.command.ffmpeg.CommandFFMpegPath;
+import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoAspectRatio;
+import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoConverter;
+import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoThumbNail;
+import com.jalasoft.jfc.model.exception.CommandValueException;
 
+import com.jalasoft.jfc.model.utility.PathJfc;
+import com.jalasoft.jfc.model.utility.ZipFolder;
+
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This Class is used for convert videos.
+ * Uses for convert videos.
  *
  * @author Juan Martinez
  *
@@ -44,12 +50,15 @@ import java.util.List;
  */
 public class VideoConverter implements IConverter {
 
+    // Assigns the zip's Path.
+    private String zipPath;
+
     /**
      * Runs string command.
      * @param stringCommand value of command.
      * @return 0 when the process was executed successfully.
      */
-    private void runCommand(String stringCommand){
+    private void runCommand(String stringCommand) {
         try {
             Process process = Runtime.getRuntime().exec(stringCommand);
             process.waitFor();
@@ -63,10 +72,13 @@ public class VideoConverter implements IConverter {
      * @param param value of command.
      * @return FileResult object or null value.
      * @throws CommandValueException when is a invalid command.
+     * @throws ConvertException when converts fail.
+     * @throws ZipJfcException when  a zipFile is invalid.
      */
-    public FileResponse convert(Param param) throws CommandValueException, ConvertException, IOException {
+    @Override
+    public FileResponse convert(Param param) throws ConvertException, CommandValueException, IOException, ZipJfcException {
         FileResponse fileResponse = new FileResponse();
-        VideoParam videoParam = (VideoParam)param;
+        VideoParam videoParam = (VideoParam) param;
 
         StringBuilder stringCommand;
         stringCommand = new StringBuilder();
@@ -85,20 +97,21 @@ public class VideoConverter implements IConverter {
             metadataConverter.convert(param);
         }
 
+        zipFile(videoParam);
         fileResponse.setName(videoParam.getOutputName());
         fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
-        fileResponse.setDownload(videoParam.getOutputPathFile()+videoParam.getOutputName());
+        fileResponse.setDownload(zipPath);
         return fileResponse;
     }
 
     /**
-     * It is for getting the string command.
+     * Gets the string command.
      * @param param value of command.
      * @return command concatenated.
      * @throws CommandValueException when is a invalid command.
      */
     public String videoConvert(Param param) throws CommandValueException {
-        VideoParam videoParam = (VideoParam) param;
+        VideoParam videoParam = (VideoParam)param;
         try {
             List<ICommandStrategy> list = new ArrayList<>();
             list.add(new CommandFFMpegPath());
@@ -107,7 +120,6 @@ public class VideoConverter implements IConverter {
             list.add(new CommandVideoAspectRatio(videoParam.getAspectRatio()));
             list.add(new CommandVideoScale(videoParam.getWidth(), videoParam.getHeight()));
             list.add(new CommandVideoFrameRate(videoParam.getFrameRate()));
-            list.add(new CommandVideoRotate(videoParam.getRotate()));
             list.add(new CommandVideoCodec(videoParam.getVideoCodec()));
             list.add(new CommandVideoBitRate(videoParam.getVideoBitRate()));
             list.add(new CommandOutputFilePath(videoParam.getOutputPathFile(), videoParam.getFolderName()));
@@ -125,9 +137,8 @@ public class VideoConverter implements IConverter {
     }
 
     /**
-     * It is for getting the string thumbnail command.
+     * Gets the string thumbnail command.
      * @param param value of command.
-     * Response it mean the result of the conversion.
      * @throws CommandValueException when is a invalid command.
      */
     public String getThumbnail(Param param) throws CommandValueException {
@@ -145,5 +156,26 @@ public class VideoConverter implements IConverter {
         } catch (CommandValueException cve) {
             throw new CommandValueException(cve.getMessage(), this.getClass().getName());
         }
+    }
+
+    /**
+     * Zips a list of files.
+     * @param videoParam receives videoParam.
+     * @throws ZipJfcException when is a invalid file path.
+     */
+    private void zipFile(VideoParam videoParam) throws ZipJfcException {
+        ZipFolder zip = new ZipFolder();
+
+        final String BACKSLASH = "/";
+        final String ZIP_TAG = ".zip";
+
+        File[] files = new File(videoParam.getOutputPathFile() + BACKSLASH + videoParam.getFolderName() +
+                "/").listFiles();
+
+        File fileZip = new File(PathJfc.getPublicFilePath() + videoParam.getFolderName() + ZIP_TAG);
+
+        zipPath = fileZip.getAbsolutePath();
+        zip.zipFolderFile(files, fileZip);
+
     }
 }
