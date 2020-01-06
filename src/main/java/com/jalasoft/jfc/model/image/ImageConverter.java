@@ -39,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Converts a image type to another.
+ * Converts an image type to another.
  *
  * @version 0.1 11 Dec 2019.
  *
