@@ -21,12 +21,12 @@ import com.jalasoft.jfc.model.exception.CommandValueException;
  */
 public class CommandFFMpeg implements ICommandStrategy {
 
-    //Contents ffmpeg value;
+    // Contents ffmpeg value;
     private final String commandValue = "ffmpeg ";
 
     /**
      * Builds a command.
-     * @return command concatenated.
+     * @return concatenated command.
      */
     @Override
     public String command() throws CommandValueException {

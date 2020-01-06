@@ -25,7 +25,7 @@ public class CommandVideoThumbNail implements ICommandStrategy {
     private boolean commandValue;
 
     // Contents value of two second to extract a thumbnail.
-    private final String SECOND_BEGINS = "00:00:02.000";
+    private final String BEGIN_SECONDS = "00:00:02.000";
 
     //Contents number 4.
     private final short second = 4;
@@ -38,7 +38,7 @@ public class CommandVideoThumbNail implements ICommandStrategy {
 
     /**
      * Creates a new CommandVideoRotate object.
-     * @param commandValue, receive a boolean value.
+     * @param commandValue receives a boolean value.
      */
     public CommandVideoThumbNail(boolean commandValue) {
         this.commandValue = commandValue;
@@ -46,12 +46,12 @@ public class CommandVideoThumbNail implements ICommandStrategy {
 
     /**
      * Builds a command.
-     * @return command concatenated.
+     * @return concatenated command.
      */
     @Override
     public String command() {
         if (commandValue) {
-            return this.SPACE + VideoCommand.THUMBNAIL.getCommand() + this.SPACE + SECOND_BEGINS + this.SPACE +
+            return this.SPACE + VideoCommand.THUMBNAIL.getCommand() + this.SPACE + BEGIN_SECONDS + this.SPACE +
                   VideoCommand.VF.getCommand() + this.SPACE + VideoCommand.SCALE.getCommand() + THUMBNAIL_SIZE +
                   this.SPACE + VideoCommand.T.getCommand() + this.SPACE + second + this.SPACE +
                   VideoCommand.R.getCommand() + this.SPACE + framePerSecond;

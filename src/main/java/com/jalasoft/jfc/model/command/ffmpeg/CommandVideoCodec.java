@@ -19,7 +19,7 @@ public class CommandVideoCodec implements ICommandStrategy {
 
     /**
      * Creates a new CommandVideoCodec object.
-     * @param commandValue, receive a value.
+     * @param commandValue receives a value.
      */
     public CommandVideoCodec(String commandValue) {
         this.commandValue = commandValue;
@@ -27,8 +27,7 @@ public class CommandVideoCodec implements ICommandStrategy {
 
     /**
      * Builds a command.
-     *
-     * @return command concatenated.
+     * @return concatenated command.
      */
     @Override
     public String command() throws CommandValueException {

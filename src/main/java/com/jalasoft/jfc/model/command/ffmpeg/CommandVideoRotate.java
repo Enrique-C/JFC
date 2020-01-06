@@ -33,7 +33,7 @@ public class CommandVideoRotate implements ICommandStrategy {
     private final char quotationMark = '"';
     /**
      * Creates a new CommandVideoRotate object.
-     * @param commandValue, receive a value.
+     * @param commandValue receives a value.
      */
     public CommandVideoRotate(short commandValue) {
         this.commandValue = commandValue;
