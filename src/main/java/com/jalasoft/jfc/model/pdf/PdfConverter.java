@@ -91,7 +91,7 @@ public class PdfConverter implements IConverter {
         zipFile(pdfParam);
 
         FolderRemover.removeFolder(pdfParam.getOutputPathFile() + pdfParam.getFolderName());
-        
+
         fileResponse.setName(pdfParam.getOutputName());
         fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
         fileResponse.setDownload(zipPath);
