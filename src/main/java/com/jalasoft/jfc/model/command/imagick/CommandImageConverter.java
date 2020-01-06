@@ -13,7 +13,6 @@ import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
 
 /**
- *
  * Builds a command to convert an image.
  *
  * @version 0.1 18 Dic 2019.
@@ -21,7 +20,6 @@ import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
  * @author Enrique Carrizales.
  */
 public class CommandImageConverter implements ICommandStrategy {
-
 
     /**
      * Builds a convert command.

@@ -13,20 +13,20 @@ import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
 
 /**
- * This class allows to use background of image.
+ * Allows to use background of image.
  *
- * @version 0.1 28 Dic 2019
+ * @version 0.1 28 Dic 2019.
  *
- * @author Juan Martinez
+ * @author Juan Martinez.
  */
 public class CommandImageBackground implements ICommandStrategy {
 
-    // Content background value.
+    // Contents background value.
     private final String COMMAND_VALUE = "white";
 
     /**
      * Builds a background command.
-     * @return command concatenated.
+     * @return concatenated command.
      */
     @Override
     public String command() {

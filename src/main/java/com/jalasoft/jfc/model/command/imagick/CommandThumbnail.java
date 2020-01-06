@@ -21,7 +21,7 @@ import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
  */
 public class CommandThumbnail implements ICommandStrategy {
 
-    // Content command value.
+    // Contents command value.
     private boolean commandValue;
 
     // Constant size Thumbnail.
@@ -36,8 +36,8 @@ public class CommandThumbnail implements ICommandStrategy {
     }
 
     /**
-     * This method builds a command.
-     * @return command concatenated.
+     * Builds a command.
+     * @return concatenated command.
      */
     public String command() {
             if (commandValue) {
