@@ -52,7 +52,7 @@ public class CommandScale implements ICommandStrategy {
             throw new CommandValueException(ErrorMessageJfc.INVALID_SCALE.getErrorMessageJfc(), ErrorMessageJfc
                     .COMMAND_INVALID.getErrorMessageJfc());
         } catch (NullPointerException nex) {
-            throw  new CommandValueException(ErrorMessageJfc.COMMAND_NULL.getErrorMessageJfc(), this.getClass()
+            throw new CommandValueException(ErrorMessageJfc.COMMAND_NULL.getErrorMessageJfc(), this.getClass()
                     .getName());
         }
     }

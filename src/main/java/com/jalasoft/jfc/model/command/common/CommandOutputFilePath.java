@@ -57,7 +57,7 @@ public class CommandOutputFilePath implements ICommandStrategy {
             throw new CommandValueException(ErrorMessageJfc.INVALID_INPUT_PATH.getErrorMessageJfc(), ErrorMessageJfc
                     .FILE_NO_FOUND.getErrorMessageJfc());
         } catch (NullPointerException nex) {
-            throw  new CommandValueException(ErrorMessageJfc.PAGES_NULL.getErrorMessageJfc(), this.getClass()
+            throw new CommandValueException(ErrorMessageJfc.PAGES_NULL.getErrorMessageJfc(), this.getClass()
                     .getName());
         }
     }
