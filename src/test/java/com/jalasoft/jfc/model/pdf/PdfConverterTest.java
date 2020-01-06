@@ -20,7 +20,7 @@ import org.junit.Test;
  * @author Juan Martinez.
  */
 public class PdfConverterTest {
-    
+
     @Test
     public void convertPdfFileToImage() {
         PdfConverterController pdfController = new PdfConverterController();
