@@ -47,7 +47,7 @@ public class CommandExiftoolPath implements ICommandStrategy {
                 return exiftoolPath;
             }
             throw new CommandValueException(ErrorMessageJfc.EXIFTOOL_NOT_EXIST.getErrorMessageJfc(), ErrorMessageJfc
-                    .EXIFTOOL_NOT_FOUND.getErrorMessageJfc()+ exiftoolPath);
+                    .EXIFTOOL_NOT_FOUND.getErrorMessageJfc() + exiftoolPath);
         } catch (CommandValueException cve) {
             throw new CommandValueException(cve.getMessage(), this.getClass().getName());
         }
