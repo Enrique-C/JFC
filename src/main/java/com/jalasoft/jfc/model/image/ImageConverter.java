@@ -85,8 +85,7 @@ public class ImageConverter implements IConverter {
 
             Process imageConvertProcess = Runtime.getRuntime().exec(commandString);
             imageConvertProcess.waitFor();
-
-
+            
             if (!commandThumbnailList.isEmpty()) {
                 ContextStrategy commandThumbnailContext = new ContextStrategy(commandThumbnailList);
                 commandString = commandThumbnailContext.buildCommand();
