@@ -9,10 +9,14 @@
 
 package com.jalasoft.jfc.model.command.ffmpeg;
 
-import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.command.ICommandStrategy;
+import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
+import com.jalasoft.jfc.model.utility.PathJfc;
+import com.jalasoft.jfc.model.utility.ValidCommands;
 import com.jalasoft.jfc.model.video.VideoCommand;
+
+import java.io.IOException;
 
 /**
  * Changes Aspect Ratio.
@@ -25,6 +29,9 @@ public class CommandVideoAspectRatio implements ICommandStrategy {
 
     // Contents command value.
     private String commandValue;
+
+    // Contents file name of aspect ratio command.
+    private String PathCommandsAspectRatio = "\\videoCommand.dat";
 
     /**
      * Creates a new CommandVideoAspectRatio object.
@@ -41,12 +48,12 @@ public class CommandVideoAspectRatio implements ICommandStrategy {
     @Override
     public String command() throws CommandValueException {
         try {
-            if (commandValue != "") {
+            if (ValidCommands.getsValidCommand(PathJfc.getPublicVideoCommandsPath() + PathCommandsAspectRatio, commandValue)) {
                 return this.SPACE + VideoCommand.ASPECT_RATIO.getCommand() + this.SPACE + commandValue;
             }
             throw new CommandValueException(ErrorMessageJfc.ASPECTRATIO_NOT_CHANGE.getErrorMessageJfc(), this.
                     getClass().getName());
-        } catch (CommandValueException cve) {
+        } catch (CommandValueException | IOException cve) {
             throw new CommandValueException(cve.getMessage(), this.getClass().getName());
         }
     }

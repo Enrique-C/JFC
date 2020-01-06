@@ -3,7 +3,11 @@ package com.jalasoft.jfc.model.command.ffmpeg;
 import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
+import com.jalasoft.jfc.model.utility.PathJfc;
+import com.jalasoft.jfc.model.utility.ValidCommands;
 import com.jalasoft.jfc.model.video.VideoCommand;
+
+import java.io.IOException;
 
 /**
  * Changes Aspect Ratio.
@@ -16,6 +20,9 @@ public class CommandVideoCodec implements ICommandStrategy {
 
     // Contents command value.
     private String commandValue;
+
+    // Contents file name of video codec.
+    private String pathVideoCodec = "\\videoCodec.dat";
 
     /**
      * Creates a new CommandVideoCodec object.
@@ -32,12 +39,12 @@ public class CommandVideoCodec implements ICommandStrategy {
     @Override
     public String command() throws CommandValueException {
         try {
-            if (!commandValue.isEmpty()) {
+            if (ValidCommands.getsValidCommand(PathJfc.getPublicVideoCommandsPath() + pathVideoCodec, commandValue)) {
                 return this.SPACE + VideoCommand.VIDEO_CODEC.getCommand() + this.SPACE + commandValue;
             }
             throw new CommandValueException(ErrorMessageJfc.VIDEOCODEC_NOT_CHANGE.getErrorMessageJfc(), this.
                     getClass().getName());
-        } catch (CommandValueException cve) {
+        } catch (CommandValueException | IOException cve) {
             throw new CommandValueException(cve.getMessage(), this.getClass().getName());
         }
     }
