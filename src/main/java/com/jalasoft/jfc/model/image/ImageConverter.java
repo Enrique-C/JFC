@@ -29,6 +29,7 @@ import com.jalasoft.jfc.model.command.common.CommandOutputFilePath;
 import com.jalasoft.jfc.model.command.imagick.CommandThumbnail;
 import com.jalasoft.jfc.model.command.ContextStrategy;
 import com.jalasoft.jfc.model.command.ICommandStrategy;
+import com.jalasoft.jfc.model.utility.FolderRemover;
 import com.jalasoft.jfc.model.utility.PathJfc;
 import com.jalasoft.jfc.model.utility.ZipFolder;
 
@@ -99,6 +100,8 @@ public class ImageConverter implements IConverter {
             }
 
             zipFile(imageParam);
+
+            FolderRemover.removeFolder(imageParam.getOutputPathFile() + imageParam.getFolderName());
 
             fileResponse.setName(imageParam.getOutputName());
             fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
