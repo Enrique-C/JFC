@@ -11,6 +11,7 @@ package com.jalasoft.jfc.model.command.imagick;
 
 import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.exception.CommandValueException;
+import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
 
 import java.util.regex.Pattern;
@@ -18,20 +19,20 @@ import java.util.regex.Pattern;
 /**
  * This class verify valid pages of pdf file.
  *
- * @version 0.1 19 Dic 2019
+ * @version 0.1 19 Dic 2019.
  *
- * @author Juan Martinez
+ * @author Juan Martinez.
  */
 public class CommandPagesToConvert implements ICommandStrategy {
 
-    // Content command value.
+    // Contents command value.
     private String commandValue;
 
-    // Content quantity of pdf file pages.
+    // Contents quantity of pdf file pages.
     private int quantityOfPages;
 
     /**
-     * It Creates a new CommandPagesToConvert object.
+     * Creates a new CommandPagesToConvert object.
      * @param commandValue contains value of command.
      * @param quantityOfPages contains value of pages.
      */
@@ -43,7 +44,7 @@ public class CommandPagesToConvert implements ICommandStrategy {
     /**
      * Build a command.
      * @return String of pages to convert.
-     * @throws CommandValueException when is a invalid command.
+     * @throws CommandValueException when there is an invalid command.
      */
     public String command() throws CommandValueException {
         final Pattern pattern = Pattern.compile("^(?:\\d+(?:-\\d+)?(?:,|$))+$");
@@ -56,7 +57,8 @@ public class CommandPagesToConvert implements ICommandStrategy {
             int first;
             int second;
             if (!pattern.matcher(commandValue).matches()) {
-                throw new CommandValueException("Invalid command value", this.getClass().getName());
+                throw new CommandValueException(ErrorMessageJfc.COMMAND_INVALID.getErrorMessageJfc(), this.getClass()
+                        .getName());
             }
             String[] splitNumber = commandValue.split("[-,]");
             if (splitNumber.length == 1) {
@@ -65,7 +67,8 @@ public class CommandPagesToConvert implements ICommandStrategy {
                     return ImageMagickCommand.OPEN_BRACKET.getCommand() + commandValue +
                            ImageMagickCommand.CLOSE_BRACKET.getCommand();
                 }
-                throw new CommandValueException("Number of page doesn't exist", this.getClass().getName());
+                throw new CommandValueException(ErrorMessageJfc.PAGES_NUMBER_NOT_EXIST.getErrorMessageJfc(), this
+                        .getClass().getName());
             } else {
                 first = Integer.parseInt(splitNumber[firstValue]);
                 second = Integer.parseInt(splitNumber[secondValue]);
@@ -73,10 +76,11 @@ public class CommandPagesToConvert implements ICommandStrategy {
                     return ImageMagickCommand.OPEN_BRACKET.getCommand() + commandValue +
                            ImageMagickCommand.CLOSE_BRACKET.getCommand();
                 }
-                throw new CommandValueException("Number of pages doesn't exist", this.getClass().getName());
+                throw new CommandValueException(ErrorMessageJfc.PAGES_NUMBER_NOT_EXIST.getErrorMessageJfc(), this.getClass().getName());
             }
         } catch (NullPointerException nex) {
-            throw  new CommandValueException("Pages to convert value is NULL ", this.getClass().getName());
+            throw  new CommandValueException(ErrorMessageJfc.PAGES_NULL.getErrorMessageJfc(), this.getClass()
+                    .getName());
         }
     }
 }

@@ -11,18 +11,19 @@ package com.jalasoft.jfc.model.command.imagick;
 
 import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.exception.CommandValueException;
+import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.image.ImageFormat;
 
 /**
- * This class verify a valid image format.
+ * Verifies a valid image format.
  *
- * @version 0.1 19 Dic 2019
+ * @version 0.1 19 Dic 2019.
  *
- * @author Juan Martinez
+ * @author Juan Martinez.
  */
 public class CommandImageFormat implements ICommandStrategy {
 
-    // Content command value.
+    // Contents command value.
     private String commandValue;
 
     /**
@@ -36,7 +37,7 @@ public class CommandImageFormat implements ICommandStrategy {
     /**
      * Builds a command.
      * @return String of a command.
-     * @throws CommandValueException generates a error message.
+     * @throws CommandValueException generates an error message.
      */
     public String command() throws CommandValueException {
         for (ImageFormat image : ImageFormat.values()) {
@@ -44,6 +45,7 @@ public class CommandImageFormat implements ICommandStrategy {
                 return commandValue;
             }
         }
-        throw new CommandValueException("Format is not valid", this.getClass().getName());
+        throw new CommandValueException(ErrorMessageJfc.FORMTAT_INVALID.getErrorMessageJfc(), this.getClass()
+                .getName());
     }
 }

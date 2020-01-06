@@ -33,6 +33,7 @@ import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoConverter;
 import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoThumbNail;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 
+import com.jalasoft.jfc.model.utility.FolderRemover;
 import com.jalasoft.jfc.model.utility.PathJfc;
 import com.jalasoft.jfc.model.utility.ZipFolder;
 
@@ -98,6 +99,9 @@ public class VideoConverter implements IConverter {
         }
 
         zipFile(videoParam);
+
+        FolderRemover.removeFolder(videoParam.getOutputPathFile() + videoParam.getFolderName());
+
         fileResponse.setName(videoParam.getOutputName());
         fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
         fileResponse.setDownload(zipPath);
@@ -117,11 +121,12 @@ public class VideoConverter implements IConverter {
             list.add(new CommandFFMpegPath());
             list.add(new CommandInputFilePath(videoParam.getInputPathFile()));
             list.add(new CommandVideoConverter());
-            list.add(new CommandVideoAspectRatio(videoParam.getAspectRatio()));
-            list.add(new CommandVideoScale(videoParam.getWidth(), videoParam.getHeight()));
-            list.add(new CommandVideoFrameRate(videoParam.getFrameRate()));
             list.add(new CommandVideoCodec(videoParam.getVideoCodec()));
-            list.add(new CommandVideoBitRate(videoParam.getVideoBitRate()));
+            list.add(new CommandVideoAspectRatio(videoParam.getAspectRatio()));
+            //list.add(new CommandVideoScale(videoParam.getWidth(), videoParam.getHeight()));
+            list.add(new CommandVideoFrameRate(videoParam.getFrameRate()));
+            //list.add(new CommandVideoCodec(videoParam.getVideoCodec()));
+            //list.add(new CommandVideoBitRate(videoParam.getVideoBitRate()));
             list.add(new CommandOutputFilePath(videoParam.getOutputPathFile(), videoParam.getFolderName()));
             list.add(new CommandOutputFileName(videoParam.getOutputName(), videoParam.getFolderName()));
             ContextStrategy contextStrategy = new ContextStrategy(list);

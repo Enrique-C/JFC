@@ -11,27 +11,28 @@ package com.jalasoft.jfc.model.command.imagick;
 
 import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.exception.CommandValueException;
+import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
 
 /**
  * This class validates width and height.
  *
- * @version 0.1 19 Dic 2019
+ * @version 0.1 19 Dic 2019.
  *
- * @author Juan Martinez
+ * @author Juan Martinez.
  */
 public class CommandImageResize implements ICommandStrategy {
 
-    // Content width value.
+    // Contents width value.
     private int width;
 
-    // Content height value.
+    // Contents height value.
     private int height;
 
     /**
      * Allows to instantiate CommandResize.
      * @param width, height receive a value.
-     * @return command concatenated.
+     * @return concatenated command.
      */
     public CommandImageResize(int width, int height) {
         this.width = width;
@@ -39,9 +40,9 @@ public class CommandImageResize implements ICommandStrategy {
     }
 
     /**
-     * This method builds a command.
-     * @return command concatenated.
-     * @throws CommandValueException when is a invalid command.
+     * Builds a command.
+     * @return concatenated command.
+     * @throws CommandValueException when there is an invalid command.
      */
     public String command() throws CommandValueException {
         try {
@@ -52,9 +53,11 @@ public class CommandImageResize implements ICommandStrategy {
                 return SPACE + ImageMagickCommand.RESIZE.getCommand() +
                         SPACE + width + ImageMagickCommand.ASTERISK.getCommand() + height;
             }
-            throw new CommandValueException("Invalid resize values\n", "width and height are invalid\n");
+            throw new CommandValueException(ErrorMessageJfc.RESIZE_INVALID.getErrorMessageJfc(), ErrorMessageJfc
+                    .WIDTH_HEIGHT_INVALID.getErrorMessageJfc());
         } catch (NullPointerException nex) {
-            throw  new CommandValueException("Command value is NULL ", this.getClass().getName());
+            throw  new CommandValueException(ErrorMessageJfc.COMMAND_NULL.getErrorMessageJfc(), this.getClass()
+                    .getName());
         }
     }
 }

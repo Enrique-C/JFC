@@ -9,13 +9,14 @@
 
 package com.jalasoft.jfc.controller;
 
+import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.exception.Md5Exception;
 import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.ErrorResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.result.Response;
-import com.jalasoft.jfc.model.utility.FileController;
+import com.jalasoft.jfc.model.utility.FileServiceController;
 import com.jalasoft.jfc.model.utility.LinkGenerator;
 import com.jalasoft.jfc.model.utility.Md5Checksum;
 import com.jalasoft.jfc.model.exception.CommandValueException;
@@ -52,35 +53,12 @@ import java.io.IOException;
 @RequestMapping("/api")
 public class PdfConverterController {
 
-    // Variable PathJfc type.
-    private PathJfc pathJfc;
-
-    // Variable upload file.
-    private final String uploadedFile;
-
-    // Variable converted file path.
-    private final String convertedFile;
-
-    /**
-     * It assigns paths of input and output.
-     */
-    public PdfConverterController() {
-        try {
-            pathJfc = new PathJfc();
-        }
-        catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        uploadedFile = pathJfc.getInputFilePath();
-        convertedFile = pathJfc.getOutputFilePath();
-    }
-
     /**
      * This method receives a PDF to convert.
      * @param file contains the image file
      * @param md5 contains md5 value.
-     * @param outputName contains name of output file.
-     * @param rotate degrees of rotation.
+     * @param outputName contains the name of output file.
+     * @param rotate degrees to rotate.
      * @param scale contains input Scale 1-10.
      * @param isThumbnail boolean of thumbnail.
      * @param imageFormat format of a image.
@@ -89,10 +67,10 @@ public class PdfConverterController {
      * @param pagesToConvert contains number of pdf file pages.
      * @param request contains client data.
      * @param isMetadata boolean of metadata.
-     * @return Response it mean the result of the conversion.
+     * @return Response is the result of the conversion.
      */
     @PostMapping("/pdfConverter")
-    @ApiOperation(value = "Pdf specifications", notes = "provide values for converting Pdf file to Image",
+    @ApiOperation(value = "Pdf specifications", notes = "Provides values for converting Pdf file to Image",
             response = Response.class)
     public Response pdfConverter(
             @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = " ") String md5,
@@ -105,19 +83,19 @@ public class PdfConverterController {
         PdfParam pdfParam = new PdfParam();
         FileResponse fileResponse = new FileResponse();
         ErrorResponse errorResponse = new ErrorResponse();
-        String failMd5 = "Md5 Error! binary is invalid.";
         IConverter pdfConverter = new PdfConverter();
 
         try {
-            String fileUploadedPath = FileController.writeFile(uploadedFile + file.getOriginalFilename(), file);
+            String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
+                    getOriginalFilename(), file);
             PDDocument doc = PDDocument.load(new File(fileUploadedPath));
             int quantityPages = doc.getNumberOfPages();
 
             if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
                 pdfParam.setMd5(md5);
                 pdfParam.setInputPathFile(fileUploadedPath);
-                pdfParam.setOutputPathFile(convertedFile);
-                pdfParam.setOutputName(FileController.setName(outputName, file));
+                pdfParam.setOutputPathFile(PathJfc.getOutputFilePath());
+                pdfParam.setOutputName(FileServiceController.setName(outputName, file));
                 pdfParam.setImageFormat(imageFormat);
                 pdfParam.setPagesToConvert(pagesToConvert);
                 pdfParam.setQuantityOfPage(quantityPages);
@@ -134,7 +112,7 @@ public class PdfConverterController {
                 fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
             }
             else {
-                throw new Md5Exception(failMd5, pdfParam.getMd5());
+                throw new Md5Exception(ErrorMessageJfc.MD5_ERROR.getErrorMessageJfc(), pdfParam.getMd5());
             }
         } catch (ConvertException ex) {
             errorResponse.setName(pdfParam.getOutputName());
