@@ -112,7 +112,7 @@ public class PathJfc {
 
     /**
      * Gets Video Commands path.
-     * @return Video video command's path.
+     * @return Video Video command's path.
      */
     public static String getPublicVideoCommandsPath() {
         return properties.getProperty(PUBLIC_VIDEOCOMMANDS_PATH);

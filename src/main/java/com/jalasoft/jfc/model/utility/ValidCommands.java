@@ -8,7 +8,7 @@ public class ValidCommands {
 
     /**
      * Returns true or false after compare to valid commands.
-     * @param file, file path of command values.
+     * @param file, file is path of command values.
      * @param commandValue video command value.
      * @throws IOException when is an invalid path.
      */

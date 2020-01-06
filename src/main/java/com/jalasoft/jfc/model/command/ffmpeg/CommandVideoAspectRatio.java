@@ -31,7 +31,6 @@ public class CommandVideoAspectRatio implements ICommandStrategy {
     private String commandValue;
 
     // Contents file name of aspect ratio command.
-
     private String PathCommandsAspectRatio = "\\videoCommand.dat";
 
     /**
