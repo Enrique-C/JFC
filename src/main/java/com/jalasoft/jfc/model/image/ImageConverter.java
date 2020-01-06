@@ -29,6 +29,7 @@ import com.jalasoft.jfc.model.command.common.CommandOutputFilePath;
 import com.jalasoft.jfc.model.command.imagick.CommandThumbnail;
 import com.jalasoft.jfc.model.command.ContextStrategy;
 import com.jalasoft.jfc.model.command.ICommandStrategy;
+import com.jalasoft.jfc.model.utility.FolderRemover;
 import com.jalasoft.jfc.model.utility.PathJfc;
 import com.jalasoft.jfc.model.utility.ZipFolder;
 
@@ -38,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Converts a image type to another.
+ * Converts an image type to another.
  *
  * @version 0.1 11 Dec 2019.
  *
@@ -84,8 +85,7 @@ public class ImageConverter implements IConverter {
 
             Process imageConvertProcess = Runtime.getRuntime().exec(commandString);
             imageConvertProcess.waitFor();
-
-
+            
             if (!commandThumbnailList.isEmpty()) {
                 ContextStrategy commandThumbnailContext = new ContextStrategy(commandThumbnailList);
                 commandString = commandThumbnailContext.buildCommand();
@@ -99,6 +99,8 @@ public class ImageConverter implements IConverter {
             }
 
             zipFile(imageParam);
+
+            FolderRemover.removeFolder(imageParam.getOutputPathFile() + imageParam.getFolderName());
 
             fileResponse.setName(imageParam.getOutputName());
             fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
