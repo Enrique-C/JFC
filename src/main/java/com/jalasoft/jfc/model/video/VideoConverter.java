@@ -42,7 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This Class is used for convert videos.
+ * Uses for convert videos.
  *
  * @author Juan Martinez
  *
@@ -55,7 +55,6 @@ public class VideoConverter implements IConverter {
 
     /**
      * Runs string command.
-     *
      * @param stringCommand value of command.
      * @return 0 when the process was executed successfully.
      */
@@ -70,12 +69,11 @@ public class VideoConverter implements IConverter {
 
     /**
      * It converts a Video to other format.
-     *
      * @param param value of command.
      * @return FileResult object or null value.
      * @throws CommandValueException when is a invalid command.
-     * @throws ConvertException      when converts fail.
-     * @throws ZipJfcException       when  a zipFile is invalid.
+     * @throws ConvertException when converts fail.
+     * @throws ZipJfcException when  a zipFile is invalid.
      */
     @Override
     public FileResponse convert(Param param) throws ConvertException, CommandValueException, IOException, ZipJfcException {
@@ -107,14 +105,13 @@ public class VideoConverter implements IConverter {
     }
 
     /**
-     * It is for getting the string command.
-     *
+     * Gets the string command.
      * @param param value of command.
      * @return command concatenated.
      * @throws CommandValueException when is a invalid command.
      */
     public String videoConvert(Param param) throws CommandValueException {
-        VideoParam videoParam = (VideoParam) param;
+        VideoParam videoParam = (VideoParam)param;
         try {
             List<ICommandStrategy> list = new ArrayList<>();
             list.add(new CommandFFMpegPath());
@@ -140,10 +137,8 @@ public class VideoConverter implements IConverter {
     }
 
     /**
-     * It is for getting the string thumbnail command.
-     *
+     * Gets the string thumbnail command.
      * @param param value of command.
-     *              Response it mean the result of the conversion.
      * @throws CommandValueException when is a invalid command.
      */
     public String getThumbnail(Param param) throws CommandValueException {
@@ -165,9 +160,8 @@ public class VideoConverter implements IConverter {
 
     /**
      * Zips a list of files.
-     *
      * @param videoParam receives videoParam.
-     * @throws IOException when is a invalid file path.
+     * @throws ZipJfcException when is a invalid file path.
      */
     private void zipFile(VideoParam videoParam) throws ZipJfcException {
         ZipFolder zip = new ZipFolder();
