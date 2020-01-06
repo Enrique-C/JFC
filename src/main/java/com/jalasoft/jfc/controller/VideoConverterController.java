@@ -16,6 +16,7 @@ import com.jalasoft.jfc.model.result.ErrorResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.result.Response;
 import com.jalasoft.jfc.model.utility.FileController;
+import com.jalasoft.jfc.model.utility.LinkGenerator;
 import com.jalasoft.jfc.model.utility.Md5Checksum;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -87,6 +89,7 @@ public class VideoConverterController {
      * @param rotate degrees of rotation.
      * @param isThumbnail boolean of thumbnail.
      * @param isMetadata boolean of metadata.
+     * @param request contains client request data.
      * @return Response it mean the result of the conversion.
      */
     @PostMapping
@@ -99,7 +102,7 @@ public class VideoConverterController {
             @RequestParam(defaultValue = "") String audioBitRate, @RequestParam(defaultValue = "-1") int quality,
             @RequestParam(defaultValue = "0") int channelsNumber, @RequestParam(defaultValue = "") String volume,
             @RequestParam(defaultValue = "") short rotate, @RequestParam(defaultValue = "") boolean isThumbnail,
-            @RequestParam(defaultValue = "false") boolean isMetadata) {
+            @RequestParam(defaultValue = "false") boolean isMetadata, HttpServletRequest request) {
 
         FileResponse fileResponse = new FileResponse();
         ErrorResponse errorResponse = new ErrorResponse();
@@ -132,6 +135,8 @@ public class VideoConverterController {
                 videoParam.setFolderName(md5);
 
                 fileResponse = videoConverter.convert(videoParam);
+                LinkGenerator linkGenerator = new LinkGenerator();
+                fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
             }
             else {
                 throw new Md5Exception(failMd5, videoParam.getMd5());
