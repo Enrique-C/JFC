@@ -38,7 +38,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
- * Manage ImageConverter Requests.
+ * Manages ImageConverter Requests.
  *
  * @version 0.1 13 Dic 2019.
  *
@@ -49,17 +49,17 @@ import java.io.IOException;
 @RequestMapping("/api")
 public class ImageConverterController {
 
-    // Variable PathJfc type.
+    // PathJfc type variable.
     private PathJfc pathJfc;
 
-    // Variable upload file.
+    // Upload file Variable.
     private final String uploadedFile;
 
-    // Variable converted file path.
+    // Converted file path Variable.
     private final String convertedFile;
 
     /**
-     * It assigns paths of input and output.
+     * Assigns paths of input and output.
      */
     ImageConverterController() {
         try {
@@ -76,19 +76,19 @@ public class ImageConverterController {
      * Receives an image to convert.
      * @param file contains the image file.
      * @param md5 contains the checksum of the file uploaded.
-     * @param outputName contains output file name.
+     * @param outputName contains the output file name.
      * @param imageFormat contains the type of format.
      * @param isThumbnail boolean of thumbnail.
      * @param isMetadata boolean of metadata.
      * @param Grayscale boolean of grayscale.
      * @param ImageWidth number of image width.
      * @param ImageHeight number of image height.
-     * @param degreesToRotate degrees of rotate.
+     * @param degreesToRotate degrees to rotate.
      * @param request contains client request data.
-     * @return Response it mean the result of the conversion.
+     * @return Response is the result of the conversion.
      */
     @PostMapping("/imageConverter")
-    @ApiOperation(value = "Image specifications", notes = "provide values for converting Image file to other one",
+    @ApiOperation(value = "Image specifications", notes = "Provides values for converting Image file to other one",
             response = Response.class)
     public Response imageConverter(
             @RequestParam("file") MultipartFile file, @RequestParam String md5, @RequestParam String outputName,

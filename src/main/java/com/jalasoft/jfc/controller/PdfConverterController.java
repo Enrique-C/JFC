@@ -52,17 +52,17 @@ import java.io.IOException;
 @RequestMapping("/api")
 public class PdfConverterController {
 
-    // Variable PathJfc type.
+    // PathJfc type variable.
     private PathJfc pathJfc;
 
-    // Variable upload file.
+    // Upload file Variable.
     private final String uploadedFile;
 
-    // Variable converted file path.
+    // Converted file path Variable.
     private final String convertedFile;
 
     /**
-     * It assigns paths of input and output.
+     * Assigns paths of input and output.
      */
     public PdfConverterController() {
         try {
@@ -79,8 +79,8 @@ public class PdfConverterController {
      * This method receives a PDF to convert.
      * @param file contains the image file
      * @param md5 contains md5 value.
-     * @param outputName contains name of output file.
-     * @param rotate degrees of rotation.
+     * @param outputName contains the name of output file.
+     * @param rotate degrees to rotate.
      * @param scale contains input Scale 1-10.
      * @param isThumbnail boolean of thumbnail.
      * @param imageFormat format of a image.
@@ -89,10 +89,10 @@ public class PdfConverterController {
      * @param pagesToConvert contains number of pdf file pages.
      * @param request contains client data.
      * @param isMetadata boolean of metadata.
-     * @return Response it mean the result of the conversion.
+     * @return Response is the result of the conversion.
      */
     @PostMapping("/pdfConverter")
-    @ApiOperation(value = "Pdf specifications", notes = "provide values for converting Pdf file to Image",
+    @ApiOperation(value = "Pdf specifications", notes = "Provides values for converting Pdf file to Image",
             response = Response.class)
     public Response pdfConverter(
             @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = " ") String md5,
