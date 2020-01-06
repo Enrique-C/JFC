@@ -42,11 +42,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Uses for convert videos.
- *
- * @author Juan Martinez
+ * Used to convert videos.
  *
  * @version 0.1 13 Dic 2019
+ *
+ * @author Juan Martinez
  */
 public class VideoConverter implements IConverter {
 
@@ -56,7 +56,6 @@ public class VideoConverter implements IConverter {
     /**
      * Runs string command.
      * @param stringCommand value of command.
-     * @return 0 when the process was executed successfully.
      */
     private void runCommand(String stringCommand) {
         try {
@@ -68,10 +67,10 @@ public class VideoConverter implements IConverter {
     }
 
     /**
-     * It converts a Video to other format.
+     * Converts a Video to another format.
      * @param param value of command.
      * @return FileResult object or null value.
-     * @throws CommandValueException when is a invalid command.
+     * @throws CommandValueException when there is an invalid command.
      * @throws ConvertException when converts fail.
      * @throws ZipJfcException when  a zipFile is invalid.
      */
@@ -107,8 +106,8 @@ public class VideoConverter implements IConverter {
     /**
      * Gets the string command.
      * @param param value of command.
-     * @return command concatenated.
-     * @throws CommandValueException when is a invalid command.
+     * @return concatenated command.
+     * @throws CommandValueException when there is an invalid command.
      */
     public String videoConvert(Param param) throws CommandValueException {
         VideoParam videoParam = (VideoParam)param;
@@ -139,7 +138,7 @@ public class VideoConverter implements IConverter {
     /**
      * Gets the string thumbnail command.
      * @param param value of command.
-     * @throws CommandValueException when is a invalid command.
+     * @throws CommandValueException when there is an invalid command.
      */
     public String getThumbnail(Param param) throws CommandValueException {
         VideoParam videoParam = (VideoParam) param;
@@ -161,7 +160,7 @@ public class VideoConverter implements IConverter {
     /**
      * Zips a list of files.
      * @param videoParam receives videoParam.
-     * @throws ZipJfcException when is a invalid file path.
+     * @throws ZipJfcException when there is an invalid file path.
      */
     private void zipFile(VideoParam videoParam) throws ZipJfcException {
         ZipFolder zip = new ZipFolder();

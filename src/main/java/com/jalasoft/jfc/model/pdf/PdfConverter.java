@@ -39,7 +39,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.ZipException;
 
 /**
  * This class converts PDF to Image
@@ -60,12 +59,12 @@ public class PdfConverter implements IConverter {
     private String zipPath;
 
     /**
-     * This method converts a PDF to Image.
+     * Converts a PDF to Image.
      * @param param
      * @return FileResult object or null value.
-     * @throws CommandValueException when is a invalid command.
+     * @throws CommandValueException when there is an invalid command.
      * @throws ConvertException when the conversion was not completed.
-     * @throws ZipJfcException when is a invalid file path.
+     * @throws ZipJfcException when there is an invalid file path.
      */
     public FileResponse convert(Param param) throws CommandValueException, ConvertException, ZipJfcException,
             IOException {
@@ -95,9 +94,9 @@ public class PdfConverter implements IConverter {
     }
 
     /**
-     * This method is for generate image string command.
+     * Generates image string commands.
      * @param pdfParam
-     * @return command concatenated.
+     * @return concatenated command.
      * @throws CommandValueException
      */
     private String generateImage(PdfParam pdfParam) throws CommandValueException {
@@ -121,9 +120,9 @@ public class PdfConverter implements IConverter {
     }
 
     /**
-     * This method is for generate thumbnail string command.
+     * Generates thumbnail string command.
      * @param pdfParam
-     * @return command concatenated.
+     * @return concatenated command.
      * @throws CommandValueException
      */
     private String generateThumbnail(PdfParam pdfParam) throws CommandValueException {
@@ -148,8 +147,7 @@ public class PdfConverter implements IConverter {
     /**
      * Runs string command.
      * @param stringCommand value of command.
-     * @return 0 when the process was executed successfully.
-     * @throws ConvertException when the conversion was not completed.
+     * @throws ConvertException when the command was not executed.
      */
     private void runCommand(String stringCommand) throws ConvertException {
         try {
@@ -163,7 +161,7 @@ public class PdfConverter implements IConverter {
     /**
      * Zips a list of files.
      * @param pdfParam receives pdfParam.
-     * @throws ZipJfcException when is a invalid file path.
+     * @throws ZipJfcException when there is an invalid path file.
      */
     private void zipFile(PdfParam pdfParam) throws ZipJfcException {
         ZipFolder zip = new ZipFolder();
