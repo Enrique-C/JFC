@@ -13,7 +13,7 @@ import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 
 /**
- * This Class has fFmpeg Command.
+ * Has fFmpeg Command.
  *
  * @version 0.1 23 Dic 2019.
  *
@@ -21,12 +21,12 @@ import com.jalasoft.jfc.model.exception.CommandValueException;
  */
 public class CommandFFMpeg implements ICommandStrategy {
 
-    //Content ffmpeg value;
+    // Contents ffmpeg value;
     private final String commandValue = "ffmpeg ";
 
     /**
-     * This method builds a command.
-     * @return command concatenated.
+     * Builds a command.
+     * @return concatenated command.
      */
     @Override
     public String command() throws CommandValueException {
