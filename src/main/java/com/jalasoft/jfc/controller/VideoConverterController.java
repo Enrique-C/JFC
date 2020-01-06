@@ -26,6 +26,7 @@ import com.jalasoft.jfc.model.exception.ConvertException;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+
 import java.io.IOException;
 
 /**
@@ -45,7 +47,6 @@ import java.io.IOException;
 @Api(value = "VideoConverterController", description = "REST API related to VideoParam Entity")
 @RestController
 @RequestMapping("/api")
-//@RequestMapping(path = "/videoConverter")
 public class VideoConverterController {
 
     // Variable PathJfc type.
