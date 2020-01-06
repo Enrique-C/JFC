@@ -25,7 +25,7 @@ import java.io.File;
  */
 public class CommandImageMagickPath implements ICommandStrategy {
 
-    // Content Image Magick Path value.
+    // Contents Image Magick Path value.
     private  String imageMagickPath;
 
     /**

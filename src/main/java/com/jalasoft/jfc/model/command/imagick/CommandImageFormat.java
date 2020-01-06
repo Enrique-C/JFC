@@ -15,7 +15,7 @@ import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.image.ImageFormat;
 
 /**
- * Verify a valid image format.
+ * Verifies a valid image format.
  *
  * @version 0.1 19 Dic 2019.
  *
