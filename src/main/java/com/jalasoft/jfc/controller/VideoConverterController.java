@@ -75,7 +75,7 @@ public class VideoConverterController {
     /**
      * This method receives an video to convert
      * @param file contains the video file.
-     * @param outputName contains name of converted file.
+     * @param outputName contains the name of converted file.
      * @param aspectRatio contains aspect ratio value.
      * @param frameRate contains the number of images per second.
      * @param width contains video's width.
@@ -87,14 +87,13 @@ public class VideoConverterController {
      * @param quality contains quality of video.
      * @param channelsNumber contains number of output channels.
      * @param volume contains the level of sound.
-     * @param rotate degrees of rotation.
      * @param isThumbnail boolean of thumbnail.
      * @param isMetadata boolean of metadata.
      * @param request contains client request data.
-     * @return Response it mean the result of the conversion.
+     * @return Response is the result of the conversion.
      */
     @PostMapping("/videoConverter")
-    @ApiOperation(value = "Video specifications", notes = "provide values for converting Video file to other one.",
+    @ApiOperation(value = "Video specifications", notes = "Provides values for converting Video file to other one.",
             response = Response.class)
     public Response videoConverter(
             @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = " ") String md5,
