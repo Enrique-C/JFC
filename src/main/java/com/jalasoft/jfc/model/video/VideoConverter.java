@@ -62,7 +62,8 @@ public class VideoConverter implements IConverter {
      */
     private void runCommand(String stringCommand) {
         try {
-            Process process = Runtime.getRuntime().exec(stringCommand + VideoCommand.COMFIRM.getCommand());
+            Process process = Runtime.getRuntime().exec(stringCommand + VideoCommand.LOG_LEVEL_QUIET
+                    .getCommand());
             process.waitFor();
         } catch (InterruptedException | IOException e) {
             e.printStackTrace();
