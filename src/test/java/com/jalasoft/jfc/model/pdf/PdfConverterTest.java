@@ -66,7 +66,7 @@ public class PdfConverterTest {
         assertTrue(expected);
     }
 
-    @Test(expected = CommandValueException.class)
+    @Test(expected = ConvertException.class)
     public void convertPdfFileToImageWithNullObjectValue() throws ConvertException, ZipJfcException,
             CommandValueException, IOException {
             PdfConverter pdfConverter = new PdfConverter();

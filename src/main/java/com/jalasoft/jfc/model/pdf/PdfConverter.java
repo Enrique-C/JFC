@@ -70,7 +70,7 @@ public class PdfConverter implements IConverter {
     public FileResponse convert(Param param) throws CommandValueException, ConvertException, ZipJfcException,
             IOException {
         if (param == null) {
-            throw new CommandValueException("Parameter param is null", this.getClass().getName());
+            throw new ConvertException("Parameter param is null", this.getClass().getName());
         }
 
         FileResponse fileResponse = new FileResponse();
