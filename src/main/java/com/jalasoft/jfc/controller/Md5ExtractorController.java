@@ -14,6 +14,7 @@ import com.jalasoft.jfc.model.utility.FileServiceController;
 import com.jalasoft.jfc.model.utility.Md5Checksum;
 import com.jalasoft.jfc.model.utility.PathJfc;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,11 +30,18 @@ import java.io.IOException;
 @RestController
 public class Md5ExtractorController {
 
-    @PostMapping(path = "/extractMd5")
-    public String extractMd5(MultipartFile file) throws Md5Exception, IOException {
-        String fileUploaded = FileServiceController.writeFile(PathJfc.getInputFilePath() +
-                file.getOriginalFilename(), file);
-        String md5String = Md5Checksum.getMd5(fileUploaded);
-        return  md5String;
+    @PostMapping("/extractMd5")
+    public String extractMd5(@RequestParam("file") MultipartFile file) throws Md5Exception {
+        String md5String = "";
+        PathJfc pathJfc = new PathJfc();
+
+        try {
+            String fileUploaded = FileServiceController.writeFile(pathJfc.getInputFilePath() +
+            file.getOriginalFilename(), file);
+            md5String = Md5Checksum.getMd5(fileUploaded);
+        } catch (IOException ioe) {
+            throw new Md5Exception(ioe.getMessage(), this.getClass().getName());
+        }
+        return md5String;
     }
 }
