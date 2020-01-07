@@ -62,7 +62,7 @@ public class VideoConverter implements IConverter {
      */
     private void runCommand(String stringCommand) {
         try {
-            Process process = Runtime.getRuntime().exec(stringCommand);
+            Process process = Runtime.getRuntime().exec(stringCommand + VideoCommand.COMFIRM.getCommand());
             process.waitFor();
         } catch (InterruptedException | IOException e) {
             e.printStackTrace();
@@ -131,7 +131,6 @@ public class VideoConverter implements IConverter {
             list.add(new CommandVideoFormat(videoParam.getVideoFormat()));
             ContextStrategy contextStrategy = new ContextStrategy(list);
             String result = contextStrategy.buildCommand();
-            System.out.println(result);
             return result;
 
         } catch (CommandValueException cve) {
