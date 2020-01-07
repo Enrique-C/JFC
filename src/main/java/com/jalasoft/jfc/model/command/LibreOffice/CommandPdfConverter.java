@@ -10,7 +10,7 @@
 package com.jalasoft.jfc.model.command.LibreOffice;
 
 /**
- * Builds a command to convert an pptx.
+ * Builds a command to convert an pptx file.
  *
  * @version 0.1 07 Jan 2020.
  *

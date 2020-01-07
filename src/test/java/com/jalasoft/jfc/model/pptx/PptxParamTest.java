@@ -9,13 +9,17 @@
 
 package com.jalasoft.jfc.model.pptx;
 
-import com.jalasoft.jfc.model.exception.CommandValueException;
-import com.jalasoft.jfc.model.exception.ConvertException;
-import com.jalasoft.jfc.model.exception.ZipJfcException;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
+/**
+ * Executes PptxParams's unit tests.
+ *
+ * @version 0.1 07 Jan 2020.
+ *
+ * @author Alan Escalera.
+ */
 public class PptxParamTest {
 
     @Test
