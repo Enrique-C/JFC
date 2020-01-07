@@ -60,7 +60,6 @@ public class VideoConverterTest {
         videoParam.setFrameRate("25");
         videoParam.setWidth(1024);
         videoParam.setHeight(720);
-        videoParam.setQuality(-1);
         videoParam.setVideoCodec("mpeg4");
         videoParam.setVideoBitRate("300");
         videoParam.setThumbnail(isThumbnail);
