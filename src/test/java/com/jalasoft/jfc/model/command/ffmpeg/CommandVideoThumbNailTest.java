@@ -16,13 +16,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Executes Command video thumbnail's unit test.
- *
- * @version 0.1 07 Jan 2020.
- *
- * @author Oscar Lopez.
- */
 public class CommandVideoThumbNailTest {
 
     @Test
