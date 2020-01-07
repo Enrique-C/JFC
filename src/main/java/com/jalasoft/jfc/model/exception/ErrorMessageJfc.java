@@ -27,6 +27,7 @@ public enum ErrorMessageJfc {
     FFMPEG_NOT_EXIST("FFMepg doesn't exist\n"),
     ASPECTRATIO_NOT_CHANGE("Can not change the Aspect ratio"),
     VIDEOBITRATE_NOT_CHANGE("Can not change the Video Bit rate"),
+    AUDIOBITRATE_NOT_CHANGE("Can not change the Audio Bit rate"),
     VIDEOCODEC_NOT_CHANGE("Can not change the Video codec"),
     VIDEO_NOT_CONVERTED("Can not convert a video"),
     FORMTAT_INVALID("Format is invalid"),
@@ -40,7 +41,8 @@ public enum ErrorMessageJfc {
     COMMAND_NULL("Command value is NULL"),
     COMMAND_INVALID("Command value is invalid\n"),
     MD5_ERROR("Md5 Error! binary is invalid"),
-    IMAGE_CONVERT_ERROR_MESSAGE("Error converting Image");
+    IMAGE_CONVERT_ERROR_MESSAGE("Error converting an Image"),
+    AUDIO_CONVERT_ERROR_MESSAGE("Error converting an Audio");
 
     // Command variable.
     private String message;
