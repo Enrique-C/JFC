@@ -60,6 +60,5 @@ public class CommandVideoScale implements ICommandStrategy {
         } catch (CommandValueException cve) {
             throw new CommandValueException(cve.getMessage(), this.getClass().getName());
         }
-
     }
 }

@@ -20,9 +20,6 @@ import com.jalasoft.jfc.model.Param;
  */
 public class VideoParam extends Param {
 
-    // Binary variable of FFmpeg.
-    private String fFmpeg;
-
     // Content aspect ratio value.
     private String aspectRatio;
 
@@ -52,14 +49,6 @@ public class VideoParam extends Param {
 
     //Contains format of an Video.
     private String videoFormat;
-
-    /**
-     * Gets fFmpeg value.
-     * @return fFmpeg String value.
-     */
-    public String getfFmpeg() {
-        return fFmpeg;
-    }
 
     /**
      * Gets aspectRatio value.
