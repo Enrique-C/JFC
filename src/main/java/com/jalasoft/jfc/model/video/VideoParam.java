@@ -38,16 +38,10 @@ public class VideoParam extends Param {
     // Content videoBitRate value.
     private String videoBitRate;
 
-    // Content quality of video.
-    private int quality;
-
     // Content a specific time.
     private boolean thumbnail;
 
-    // Number of video frames to output.
-    private byte videoFrame;
-
-    //Contains format of an Video.
+    // Contains format of an Video.
     private String videoFormat;
 
     /**
@@ -96,14 +90,6 @@ public class VideoParam extends Param {
      */
     public String getVideoBitRate() {
         return videoBitRate;
-    }
-
-    /**
-     * Gets quality value.
-     * @return quality value in bytes.
-     */
-    public int getQuality() {
-        return quality;
     }
 
     /**
@@ -171,27 +157,11 @@ public class VideoParam extends Param {
     }
 
     /**
-     * Sets quality value.
-     * @param quality for setting this.quality.
-     */
-    public void setQuality(int quality) {
-        this.quality = quality;
-    }
-
-    /**
      * Sets thumbnail's value.
      * @param thumbnail time String value.
      */
     public void setThumbnail(boolean thumbnail) {
         this.thumbnail = thumbnail;
-    }
-
-    /**
-     * Sets videoFrame value.
-     * @param videoFrame value.
-     */
-    public void setVideoFrame(byte videoFrame) {
-        this.videoFrame = videoFrame;
     }
 
     /**

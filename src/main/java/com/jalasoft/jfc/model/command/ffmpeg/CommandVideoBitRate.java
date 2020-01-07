@@ -34,11 +34,16 @@ public class CommandVideoBitRate implements ICommandStrategy {
     public String command() throws CommandValueException {
         try {
             int MINIMUM_VALUE = 200;
-            if (!commandValue.isEmpty() && Integer.parseInt(commandValue) > MINIMUM_VALUE ) {
-                return this.SPACE + VideoCommand.VIDEO_BITRATE.getCommand() + this.SPACE + commandValue;
+            if (commandValue.isEmpty()) {
+                return VideoCommand.EMPTY.getCommand();
             }
-            throw new CommandValueException(ErrorMessageJfc.VIDEOBITRATE_NOT_CHANGE.getErrorMessageJfc(), this.
-                    getClass().getName());
+            else {
+                if (!commandValue.isEmpty() && Integer.parseInt(commandValue) > MINIMUM_VALUE) {
+                    return this.SPACE + VideoCommand.VIDEO_BITRATE.getCommand() + this.SPACE + commandValue;
+                }
+                throw new CommandValueException(ErrorMessageJfc.VIDEOBITRATE_NOT_CHANGE.getErrorMessageJfc(), this.
+                        getClass().getName());
+            }
         } catch (CommandValueException cve) {
             throw new CommandValueException(cve.getMessage(), this.getClass().getName());
         }
