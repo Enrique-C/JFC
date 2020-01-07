@@ -9,6 +9,7 @@
 
 package com.jalasoft.jfc.model.image;
 
+import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.exception.ZipJfcException;
 import com.jalasoft.jfc.model.metadata.MetadataConverter;
 import com.jalasoft.jfc.model.result.MessageResponse;
@@ -67,6 +68,10 @@ public class ImageConverter implements IConverter {
      * @throws ConvertException when the conversion failed.
      */
     public FileResponse convert(Param param) throws ConvertException, CommandValueException {
+        if (param == null) {
+            throw new ConvertException(ErrorMessageJfc.IMAGE_CONVERT_ERROR_MESSAGE.getErrorMessageJfc(), this.getClass().getName());
+        }
+
         ImageParam imageParam = (ImageParam) param;
 
         FileResponse fileResponse = new FileResponse();

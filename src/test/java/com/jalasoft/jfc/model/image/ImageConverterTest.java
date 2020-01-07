@@ -38,7 +38,7 @@ public class ImageConverterTest {
     }
 
     @Test
-    public void convert_ImagePNBToJPGAndThumbnailAndMetadata() throws ConvertException, CommandValueException {
+    public void convert_ImagePNBToJPGAndThumbnailAndMetadata_Zip() throws ConvertException, CommandValueException {
         File fileUpload = new File("fileUploadedPath");
 
         ImageConverter imageConverter = new ImageConverter();
@@ -55,6 +55,22 @@ public class ImageConverterTest {
         assertTrue(expected);
     }
 
+    @Test(expected = ConvertException.class)
+    public void convert_ImageParamNull_ConvertExeption() throws ConvertException, CommandValueException {
+        ImageConverter imageConverter = new ImageConverter();
+        ImageParam imageParam = null;
+
+        imageConverter.convert(imageParam);
+    }
+
+    @Test(expected = ConvertException.class)
+    public void convert_ImageParamImageFormatEmpty_ConvertExeption() throws ConvertException, CommandValueException {
+        ImageConverter imageConverter = new ImageConverter();
+        ImageParam imageParam = generateOnlyImageJPG();
+        imageParam.setImageFormat("");
+
+        imageConverter.convert(imageParam);
+    }
     private ImageParam generateOnlyImageJPG() {
         PathJfc pathJfc = new PathJfc();
 
@@ -87,7 +103,7 @@ public class ImageConverterTest {
 
         return imageParam;
     }
-
+    
     private ImageParam generateImageJPGAndThumbnailAndMetadata() {
         PathJfc pathJfc = new PathJfc();
 
