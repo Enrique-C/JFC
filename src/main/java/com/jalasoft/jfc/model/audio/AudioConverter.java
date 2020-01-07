@@ -32,9 +32,9 @@ public class AudioConverter implements IConverter {
      * @param param it receives file params.
      * @return FileResponse object.
      * @throws ConvertException when the conversion failed.
-     * @throws CommandValueException when is a invalid command.
-     * @throws IOException when is a wrong input.
-     * @throws ZipJfcException when zip process is wrong.
+     * @throws CommandValueException when is an invalid command.
+     * @throws IOException when there is a wrong input.
+     * @throws ZipJfcException when zip process was wrong.
      */
     @Override
     public FileResponse convert(Param param) throws ConvertException, CommandValueException, IOException, ZipJfcException {

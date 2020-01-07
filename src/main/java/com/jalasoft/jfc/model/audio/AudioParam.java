@@ -19,4 +19,15 @@ import com.jalasoft.jfc.model.Param;
  * @author Enrique Carrizales.
  */
 public class AudioParam extends Param {
+
+    // Content audioBitRate value.
+    private String audioBitRate;
+
+    public String getAudioBitRate() {
+        return audioBitRate;
+    }
+
+    public void setAudioBitRate(String audioBitRate) {
+        this.audioBitRate = audioBitRate;
+    }
 }
