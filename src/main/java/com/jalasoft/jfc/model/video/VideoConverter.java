@@ -30,7 +30,6 @@ import com.jalasoft.jfc.model.command.common.CommandOutputFileName;
 import com.jalasoft.jfc.model.command.common.CommandOutputFilePath;
 import com.jalasoft.jfc.model.command.ffmpeg.CommandFFMpegPath;
 import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoAspectRatio;
-import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoConverter;
 import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoThumbNail;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 

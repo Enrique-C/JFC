@@ -70,7 +70,7 @@ public class VideoConverterController {
             response = Response.class)
     public Response videoConverter(
             @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = " ") String md5,
-            @RequestParam String outputName, @RequestParam(defaultValue = "0.0") String aspectRatio,
+            @RequestParam String outputName, @RequestParam(defaultValue = "") String aspectRatio,
             @RequestParam(defaultValue = "") String frameRate, @RequestParam(defaultValue = "0") int width,
             @RequestParam(defaultValue = "0") int height, @RequestParam(defaultValue = "") String videoCodec,
             @RequestParam(defaultValue = "") String videoBitRate, @RequestParam(defaultValue = "") boolean isThumbnail,
