@@ -121,7 +121,6 @@ public class VideoConverter implements IConverter {
             List<ICommandStrategy> list = new ArrayList<>();
             list.add(new CommandFFMpegPath());
             list.add(new CommandInputFilePath(videoParam.getInputPathFile()));
-            list.add(new CommandVideoConverter());
             list.add(new CommandVideoCodec(videoParam.getVideoCodec()));
             list.add(new CommandVideoAspectRatio(videoParam.getAspectRatio()));
             list.add(new CommandVideoScale(videoParam.getWidth(), videoParam.getHeight()));
