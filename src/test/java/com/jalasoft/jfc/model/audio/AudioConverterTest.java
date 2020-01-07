@@ -51,7 +51,7 @@ public class AudioConverterTest {
 
         String fileUploadedPath = "src/test/resources/audio.wav";
 
-        String md5 = "";
+        String md5 = "2559480156e9cddf65ed3125521b9922";
         String outputPath = "src/test/resources/";
         String outputName = "AUD";
         String audioFormat = ".mp3";
