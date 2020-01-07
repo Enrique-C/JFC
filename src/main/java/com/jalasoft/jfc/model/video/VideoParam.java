@@ -41,7 +41,7 @@ public class VideoParam extends Param {
     // Content a specific time.
     private boolean thumbnail;
 
-   //Contains format of an Video.
+    //Contains format of an Video.
     private String videoFormat;
 
     /**
