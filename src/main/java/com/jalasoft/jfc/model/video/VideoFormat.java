@@ -11,7 +11,7 @@ public enum VideoFormat {
     MKV(".mkv"),
     MP4(".mp4"),
     MPG(".mpg"),
-    avi(".avi"),
+    AVI(".avi"),
     FLV(".flv"),
     MPEG(".mpeg"),
     GP3(".3gp"),

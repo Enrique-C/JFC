@@ -50,6 +50,9 @@ public class VideoParam extends Param {
     // Number of video frames to output.
     private byte videoFrame;
 
+    //Contains format of an Video.
+    private String videoFormat;
+
     /**
      * Gets fFmpeg value.
      * @return fFmpeg String value.
@@ -123,6 +126,14 @@ public class VideoParam extends Param {
     }
 
     /**
+     * Gets Video Format.
+     * @return value of Video format.
+     */
+    public String getVideoFormat() {
+        return videoFormat;
+    }
+
+    /**
      * Sets aspectRatio value.
      * @param aspectRatio for setting this.aspectRatio.
      */
@@ -192,5 +203,13 @@ public class VideoParam extends Param {
      */
     public void setVideoFrame(byte videoFrame) {
         this.videoFrame = videoFrame;
+    }
+
+    /**
+     * Sets videoFormat value.
+     * @param videoFormat value.
+     */
+    public void setVideoFormat(String videoFormat) {
+        this.videoFormat = videoFormat;
     }
 }
