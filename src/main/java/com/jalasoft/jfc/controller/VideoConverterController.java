@@ -60,7 +60,6 @@ public class VideoConverterController {
      * @param height contains video's height.
      * @param videoCodec contains videoCodec value.
      * @param videoBitRate contains videoBitRate value.
-     * @param quality contains quality of video.
      * @param isThumbnail boolean of thumbnail.
      * @param isMetadata boolean of metadata.
      * @param request contains client request data.
@@ -74,9 +73,9 @@ public class VideoConverterController {
             @RequestParam String outputName, @RequestParam(defaultValue = "0.0") String aspectRatio,
             @RequestParam(defaultValue = "") String frameRate, @RequestParam(defaultValue = "0") int width,
             @RequestParam(defaultValue = "0") int height, @RequestParam(defaultValue = "") String videoCodec,
-            @RequestParam(defaultValue = "") String videoBitRate, @RequestParam(defaultValue = "-1") int quality,
-            @RequestParam(defaultValue = "") boolean isThumbnail, @RequestParam(defaultValue = "false")
-            boolean isMetadata, HttpServletRequest request, @RequestParam(defaultValue = ".avi") String videoFormat) {
+            @RequestParam(defaultValue = "") String videoBitRate, @RequestParam(defaultValue = "") boolean isThumbnail,
+            @RequestParam(defaultValue = "false") boolean isMetadata, HttpServletRequest request,
+            @RequestParam(defaultValue = ".avi") String videoFormat) {
 
         FileResponse fileResponse = new FileResponse();
         ErrorResponse errorResponse = new ErrorResponse();
@@ -96,7 +95,6 @@ public class VideoConverterController {
                 videoParam.setFrameRate(frameRate);
                 videoParam.setWidth(width);
                 videoParam.setHeight(height);
-                videoParam.setQuality(quality);
                 videoParam.setVideoCodec(videoCodec);
                 videoParam.setVideoBitRate(videoBitRate);
                 videoParam.setThumbnail(isThumbnail);

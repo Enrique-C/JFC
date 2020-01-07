@@ -39,11 +39,16 @@ public class CommandVideoCodec implements ICommandStrategy {
     @Override
     public String command() throws CommandValueException {
         try {
-            if (ValidCommands.getsValidCommand(PathJfc.getPublicVideoCommandsPath() + pathVideoCodec, commandValue)) {
-                return this.SPACE + VideoCommand.VIDEO_CODEC.getCommand() + this.SPACE + commandValue;
+            if (commandValue.isEmpty()) {
+                return "";
             }
-            throw new CommandValueException(ErrorMessageJfc.VIDEOCODEC_NOT_CHANGE.getErrorMessageJfc(), this.
-                    getClass().getName());
+            else {
+                if (ValidCommands.getsValidCommand(PathJfc.getPublicVideoCommandsPath() + pathVideoCodec, commandValue)) {
+                    return this.SPACE + VideoCommand.VIDEO_CODEC.getCommand() + this.SPACE + commandValue;
+                }
+                throw new CommandValueException(ErrorMessageJfc.VIDEOCODEC_NOT_CHANGE.getErrorMessageJfc(), this.
+                        getClass().getName());
+            }
         } catch (CommandValueException | IOException cve) {
             throw new CommandValueException(cve.getMessage(), this.getClass().getName());
         }

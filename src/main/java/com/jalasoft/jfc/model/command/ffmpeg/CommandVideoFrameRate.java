@@ -49,11 +49,16 @@ public class CommandVideoFrameRate implements ICommandStrategy {
     @Override
     public String command() throws CommandValueException {
         try {
-            if (ValidCommands.getsValidCommand(PathJfc.getPublicVideoCommandsPath() + pathFileFrameRateCommands, commandValue)) {
-                return this.SPACE + VideoCommand.FRAME_RATE.getCommand() + SPACE + commandValue;
+            if (commandValue.isEmpty()) {
+                return "";
             }
-            throw new CommandValueException(ErrorMessageJfc.FRAMERATE_NOT_CHANGE.getErrorMessageJfc(), this.getClass()
-                    .getName());
+            else {
+                if (ValidCommands.getsValidCommand(PathJfc.getPublicVideoCommandsPath() + pathFileFrameRateCommands, commandValue)) {
+                    return this.SPACE + VideoCommand.FRAME_RATE.getCommand() + SPACE + commandValue;
+                }
+                throw new CommandValueException(ErrorMessageJfc.FRAMERATE_NOT_CHANGE.getErrorMessageJfc(), this.getClass()
+                        .getName());
+            }
         } catch (CommandValueException | IOException cve) {
             throw new CommandValueException(cve.getMessage(), this.getClass().getName());
         }
