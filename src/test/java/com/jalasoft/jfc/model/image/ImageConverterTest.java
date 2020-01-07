@@ -36,6 +36,7 @@ public class ImageConverterTest {
 
         assertTrue(expected);
     }
+
     @Test
     public void convert_ImagePNBToJPGAndThumbnailAndMetadata_Zip() throws ConvertException, CommandValueException {
         File fileUpload = new File("fileUploadedPath");
@@ -53,6 +54,7 @@ public class ImageConverterTest {
 
         assertTrue(expected);
     }
+
     @Test(expected = ConvertException.class)
     public void convert_ImageParamNull_ConvertExeption() throws ConvertException, CommandValueException {
         ImageConverter imageConverter = new ImageConverter();
@@ -60,6 +62,7 @@ public class ImageConverterTest {
 
         imageConverter.convert(imageParam);
     }
+
     @Test(expected = ConvertException.class)
     public void convert_ImageParamImageFormatEmpty_ConvertExeption() throws ConvertException, CommandValueException {
         ImageConverter imageConverter = new ImageConverter();
@@ -100,6 +103,7 @@ public class ImageConverterTest {
 
         return imageParam;
     }
+    
     private ImageParam generateImageJPGAndThumbnailAndMetadata() {
         PathJfc pathJfc = new PathJfc();
 
