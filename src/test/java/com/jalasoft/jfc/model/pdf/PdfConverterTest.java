@@ -13,7 +13,6 @@ import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ConvertException;
 import com.jalasoft.jfc.model.exception.ZipJfcException;
 import com.jalasoft.jfc.model.utility.PathJfc;
-import org.junit.Assert;
 import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
@@ -63,7 +62,7 @@ public class PdfConverterTest {
         final int EMPTY_BYTES = 0;
         File zipFileGenerated = new File(zipPdfFile);
         boolean expected = zipFileGenerated.exists() && zipFileGenerated.getTotalSpace() > EMPTY_BYTES;
-        
+
         assertTrue(expected);
     }
 
@@ -76,6 +75,10 @@ public class PdfConverterTest {
             String zipPdfFile = pdfConverter.convert(pdfParam).getDownload();
     }
 
+    /**
+     * Generates complete pdf param object.
+     * @return PdfParam object.
+     */
     private PdfParam generatePdfParamObject() {
         PathJfc pathJfc = new PathJfc();
         String pathOfUploadedFile = "src/test/resources/pdf.pdf";
@@ -110,6 +113,10 @@ public class PdfConverterTest {
         return pdfParam;
     }
 
+    /**
+     * Generates pdf param object with thumbnail.
+     * @return PdfParam object.
+     */
     private PdfParam generatePdfParamObjectThumbnail() {
         PathJfc pathJfc = new PathJfc();
         String pathOfUploadedFile = "src/test/resources/pdf.pdf";
@@ -144,6 +151,10 @@ public class PdfConverterTest {
         return pdfParam;
     }
 
+    /**
+     * Generates pdf param object with metadata.
+     * @return PdfParam object.
+     */
     private PdfParam generatePdfParamObjectMetadata() {
         PathJfc pathJfc = new PathJfc();
         String pathOfUploadedFile = "src/test/resources/pdf.pdf";
@@ -177,7 +188,7 @@ public class PdfConverterTest {
         pdfParam.isMetadata(isMetadata);
         return pdfParam;
     }
-
+    
     private PdfParam generatePdfParamObjectNull() {
         PathJfc pathJfc = new PathJfc();
         String pathOfUploadedFile = null;
