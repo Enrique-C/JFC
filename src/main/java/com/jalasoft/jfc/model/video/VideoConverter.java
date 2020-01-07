@@ -14,7 +14,6 @@ import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoBitRate;
 import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoCodec;
-import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoFormat;
 import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoFrameRate;
 import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoScale;
 import com.jalasoft.jfc.model.exception.ConvertException;
@@ -121,15 +120,14 @@ public class VideoConverter implements IConverter {
             List<ICommandStrategy> list = new ArrayList<>();
             list.add(new CommandFFMpegPath());
             list.add(new CommandInputFilePath(videoParam.getInputPathFile()));
-            /*list.add(new CommandVideoConverter());
-            //list.add(new CommandVideoCodec(videoParam.getVideoCodec()));
-            //list.add(new CommandVideoAspectRatio(videoParam.getAspectRatio()));
+            list.add(new CommandVideoConverter());
+            list.add(new CommandVideoCodec(videoParam.getVideoCodec()));
+            list.add(new CommandVideoAspectRatio(videoParam.getAspectRatio()));
             list.add(new CommandVideoScale(videoParam.getWidth(), videoParam.getHeight()));
             list.add(new CommandVideoFrameRate(videoParam.getFrameRate()));
-            list.add(new CommandVideoBitRate(videoParam.getVideoBitRate()));*/
+            list.add(new CommandVideoBitRate(videoParam.getVideoBitRate()));
             list.add(new CommandOutputFilePath(videoParam.getOutputPathFile(), videoParam.getFolderName()));
             list.add(new CommandOutputFileName(videoParam.getOutputName(), videoParam.getFolderName()));
-            list.add(new CommandVideoFormat(videoParam.getVideoFormat()));
             ContextStrategy contextStrategy = new ContextStrategy(list);
             String result = contextStrategy.buildCommand();
             System.out.println(result);

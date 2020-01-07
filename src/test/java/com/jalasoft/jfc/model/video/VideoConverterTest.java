@@ -50,8 +50,8 @@ public class VideoConverterTest {
 
             String md5 = "af738d53637a29f531fa0c2bf1eb1516";
             String outputPath = "src/test/resources/";
-            String outputName = "video_Test.avi";
-            //String imageFormat = ".jpg";
+            String outputName = "video_Test";
+            String videoFormat = ".mp4";
             boolean isThumbnail = false;
             boolean isMetadata = false;
 
@@ -61,7 +61,7 @@ public class VideoConverterTest {
             videoParam.setInputPathFile(fileUploadedPath);
             videoParam.setOutputPathFile(outputPath);
             videoParam.setOutputName(outputName);
-            videoParam.setAspectRatio("16:9");
+            videoParam.setAspectRatio("21:9");
             videoParam.setFrameRate("25");
             videoParam.setWidth(1024);
             videoParam.setHeight(720);
@@ -70,10 +70,8 @@ public class VideoConverterTest {
             videoParam.setVideoBitRate("300");
             videoParam.setThumbnail(isThumbnail);
             videoParam.isMetadata(isMetadata);
+            videoParam.setVideoFormat(videoFormat);
             videoParam.setFolderName(md5);
-
-
-
 
             return videoParam;
     }
