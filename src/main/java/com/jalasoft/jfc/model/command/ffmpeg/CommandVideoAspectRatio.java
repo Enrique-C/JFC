@@ -48,11 +48,16 @@ public class CommandVideoAspectRatio implements ICommandStrategy {
     @Override
     public String command() throws CommandValueException {
         try {
-            if (ValidCommands.getsValidCommand(PathJfc.getPublicVideoCommandsPath() + PathCommandsAspectRatio, commandValue)) {
-                return this.SPACE + VideoCommand.ASPECT_RATIO.getCommand() + this.SPACE + commandValue;
+            if (commandValue.isEmpty()) {
+                return VideoCommand.EMPTY.getCommand();
             }
-            throw new CommandValueException(ErrorMessageJfc.ASPECTRATIO_NOT_CHANGE.getErrorMessageJfc(), this.
-                    getClass().getName());
+            else {
+                if (ValidCommands.getsValidCommand(PathJfc.getPublicVideoCommandsPath() + PathCommandsAspectRatio, commandValue)) {
+                    return this.SPACE + VideoCommand.ASPECT_RATIO.getCommand() + this.SPACE + commandValue;
+                }
+                throw new CommandValueException(ErrorMessageJfc.ASPECTRATIO_NOT_CHANGE.getErrorMessageJfc(), this.
+                        getClass().getName());
+            }
         } catch (CommandValueException | IOException cve) {
             throw new CommandValueException(cve.getMessage(), this.getClass().getName());
         }
