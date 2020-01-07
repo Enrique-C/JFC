@@ -52,7 +52,7 @@ public class CommandVideoScale implements ICommandStrategy {
     public String command() throws CommandValueException {
         try {
             if (width == numberZero || height == numberZero) {
-                return "";
+                return VideoCommand.EMPTY.getCommand();
             }
             else {
                 if (width > numberZero && height > numberZero) {

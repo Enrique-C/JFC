@@ -35,7 +35,7 @@ public class CommandVideoBitRate implements ICommandStrategy {
         try {
             int MINIMUM_VALUE = 200;
             if (commandValue.isEmpty()) {
-                return "";
+                return VideoCommand.EMPTY.getCommand();
             }
             else {
                 if (!commandValue.isEmpty() && Integer.parseInt(commandValue) > MINIMUM_VALUE) {

@@ -41,10 +41,7 @@ public class VideoParam extends Param {
     // Content a specific time.
     private boolean thumbnail;
 
-    // Number of video frames to output.
-    private byte videoFrame;
-
-    //Contains format of an Video.
+   //Contains format of an Video.
     private String videoFormat;
 
     /**
@@ -165,14 +162,6 @@ public class VideoParam extends Param {
      */
     public void setThumbnail(boolean thumbnail) {
         this.thumbnail = thumbnail;
-    }
-
-    /**
-     * Sets videoFrame value.
-     * @param videoFrame value.
-     */
-    public void setVideoFrame(byte videoFrame) {
-        this.videoFrame = videoFrame;
     }
 
     /**

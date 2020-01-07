@@ -49,7 +49,7 @@ public class CommandVideoAspectRatio implements ICommandStrategy {
     public String command() throws CommandValueException {
         try {
             if (commandValue.isEmpty()) {
-                return "";
+                return VideoCommand.EMPTY.getCommand();
             }
             else {
                 if (ValidCommands.getsValidCommand(PathJfc.getPublicVideoCommandsPath() + PathCommandsAspectRatio, commandValue)) {
