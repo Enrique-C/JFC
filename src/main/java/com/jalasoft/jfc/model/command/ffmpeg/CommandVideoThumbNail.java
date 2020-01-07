@@ -21,7 +21,7 @@ import com.jalasoft.jfc.model.video.VideoCommand;
  */
 public class CommandVideoThumbNail implements ICommandStrategy {
 
-    // Contents value to get thumbnail.
+    // Contents boolean to generate thumbnail.
     private boolean commandValue;
 
     // Contents value of two second to extract a thumbnail.
