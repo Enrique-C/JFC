@@ -10,7 +10,7 @@
 package com.jalasoft.jfc.model.pptx;
 
 /**
- * This enum is used for specify LibreOffice commands.
+ * Used for specify LibreOffice commands.
  *
  * @version 0.1 07 Jan 2020
  *

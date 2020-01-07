@@ -10,7 +10,7 @@
 package com.jalasoft.jfc.model.pptx;
 
 /**
- * This class converts pptx to pdf.
+ * Converts pptx to pdf.
  *
  * @version 0.1 07 Jan 2020.
  *

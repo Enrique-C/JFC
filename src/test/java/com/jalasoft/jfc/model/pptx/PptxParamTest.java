@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
 public class PptxParamTest {
 
     @Test
-    public void Param_PptxParamSetInputPathFile_getInputPathFile() throws ZipJfcException, CommandValueException, ConvertException {
+    public void Param_PptxParamSetInputPathFile_getInputPathFile() {
         PptxParam pptxParam = new PptxParam();
         String InputPathFile = "src/test/resources/Designpatters.pptx";
         pptxParam.setInputPathFile(InputPathFile);
