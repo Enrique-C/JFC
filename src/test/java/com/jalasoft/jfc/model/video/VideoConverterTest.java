@@ -12,14 +12,14 @@ package com.jalasoft.jfc.model.video;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ConvertException;
 import com.jalasoft.jfc.model.exception.ZipJfcException;
-import com.jalasoft.jfc.model.utility.FileServiceController;
 import com.jalasoft.jfc.model.utility.PathJfc;
+
 import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class VideoConverterTest {
 
@@ -36,11 +36,6 @@ public class VideoConverterTest {
             boolean expected = zipFile.exists() && zipFile.getTotalSpace() > EMPTY_BYTES;
 
             assertTrue(expected);
-        }
-
-        @Test
-        public void convert_ImagePNBToJPGAndThumbnailAndMetadata() {
-            //Todo
         }
 
         private VideoParam getParamsVideo() {

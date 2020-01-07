@@ -33,7 +33,8 @@ public class CommandVideoBitRate implements ICommandStrategy {
     @Override
     public String command() throws CommandValueException {
         try {
-            if (!commandValue.isEmpty() && Integer.parseInt(commandValue) > 200 ) {
+            int MINIMUM_VALUE = 200;
+            if (!commandValue.isEmpty() && Integer.parseInt(commandValue) > MINIMUM_VALUE ) {
                 return this.SPACE + VideoCommand.VIDEO_BITRATE.getCommand() + this.SPACE + commandValue;
             }
             throw new CommandValueException(ErrorMessageJfc.VIDEOBITRATE_NOT_CHANGE.getErrorMessageJfc(), this.
