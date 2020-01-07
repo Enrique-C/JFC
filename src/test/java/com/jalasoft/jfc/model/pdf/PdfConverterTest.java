@@ -66,7 +66,7 @@ public class PdfConverterTest {
         assertTrue(expected);
     }
 
-    @Test(expected = Exception.class)
+    @Test(expected = CommandValueException.class)
     public void convertPdfFileToImageWithNullObjectValue() throws ConvertException, ZipJfcException,
             CommandValueException, IOException {
             PdfConverter pdfConverter = new PdfConverter();
@@ -188,7 +188,7 @@ public class PdfConverterTest {
         pdfParam.isMetadata(isMetadata);
         return pdfParam;
     }
-    
+
     private PdfParam generatePdfParamObjectNull() {
         PathJfc pathJfc = new PathJfc();
         String pathOfUploadedFile = null;
