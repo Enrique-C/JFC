@@ -17,7 +17,6 @@ import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoCodec;
 import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoFormat;
 import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoFrameRate;
 import com.jalasoft.jfc.model.command.ffmpeg.CommandVideoScale;
-import com.jalasoft.jfc.model.command.imagick.CommandImageFormat;
 import com.jalasoft.jfc.model.exception.ConvertException;
 import com.jalasoft.jfc.model.exception.ZipJfcException;
 import com.jalasoft.jfc.model.metadata.MetadataConverter;

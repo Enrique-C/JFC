@@ -206,7 +206,7 @@ public class VideoParam extends Param {
     }
 
     /**
-     * Sets videoFrame value.
+     * Sets videoFormat value.
      * @param videoFormat value.
      */
     public void setVideoFormat(String videoFormat) {
