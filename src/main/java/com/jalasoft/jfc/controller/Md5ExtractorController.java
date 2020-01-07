@@ -13,6 +13,7 @@ import com.jalasoft.jfc.model.exception.Md5Exception;
 import com.jalasoft.jfc.model.utility.FileServiceController;
 import com.jalasoft.jfc.model.utility.Md5Checksum;
 import com.jalasoft.jfc.model.utility.PathJfc;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,7 +33,8 @@ public class Md5ExtractorController {
 
     @PostMapping("/extractMd5")
     public String extractMd5(@RequestParam("file") MultipartFile file) throws Md5Exception {
-        String md5String = "";
+        final String EMPTY_VALUE = "";
+        String md5String = EMPTY_VALUE;
         PathJfc pathJfc = new PathJfc();
 
         try {

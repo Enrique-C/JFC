@@ -10,10 +10,12 @@
 package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.Main;
+
 import org.apache.pdfbox.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -44,12 +46,13 @@ public class Md5ExtractorControllerTest {
 
     @Test
     public void extract_Md5OfFile_md5String() throws Exception {
-        File filePath = new File("C:/Users/Admin/IdeaProjects/JFC/src/test/resources/pdf.pdf");
+        String srcFilePath = "C:/Users/Admin/IdeaProjects/JFC/src/test/resources/pdf.pdf";
+        File filePath = new File(srcFilePath);
         FileInputStream input = new FileInputStream(filePath);
 
         String expected = "8bd6509aba6eafe623392995b08c7047";
 
-        MockMultipartFile file = new MockMultipartFile("file",filePath.getName(),
+        MockMultipartFile file = new MockMultipartFile("file", filePath.getName(),
                 MediaType.APPLICATION_PDF_VALUE, IOUtils.toByteArray(input));
         mockMvc.perform(MockMvcRequestBuilders.fileUpload("/extractMd5/").file(file)
                 .characterEncoding("UTF-8")).andExpect(MockMvcResultMatchers.content().string(expected));

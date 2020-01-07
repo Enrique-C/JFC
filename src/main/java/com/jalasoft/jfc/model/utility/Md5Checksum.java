@@ -47,7 +47,8 @@ public class Md5Checksum {
     }
 
     public static String getMd5(String file) throws Md5Exception {
-        String checksum = "";
+        final String EMPTY_VALUE = "";
+        String checksum = EMPTY_VALUE;
         try {
             checksum = DigestUtils.md5Hex(new FileInputStream(file));
         } catch (FileNotFoundException e) {
