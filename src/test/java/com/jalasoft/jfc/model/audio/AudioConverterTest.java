@@ -35,10 +35,10 @@ public class AudioConverterTest {
         AudioConverter audioConverter = new AudioConverter();
         AudioParam audioParam = generateOnlyAudioWAV();
 
-        String zipImage = audioConverter.convert(audioParam).getDownload();
+        String zipAudio = audioConverter.convert(audioParam).getDownload();
         final int EMPTY_BYTES = 0;
 
-        File zipFile = new File(zipImage);
+        File zipFile = new File(zipAudio);
         boolean expected = zipFile.exists() && zipFile.getTotalSpace() > EMPTY_BYTES;
 
         FolderRemover.removeFolder(zipFile.getPath());
@@ -55,11 +55,14 @@ public class AudioConverterTest {
         String outputPath = "src/test/resources/";
         String outputName = "AUD";
         String audioFormat = ".mp3";
+        String audioBitRate = "";
         boolean isMetadata = false;
 
         AudioParam audioParam = new AudioParam();
         audioParam.setMd5(md5);
         audioParam.setInputPathFile(fileUploadedPath);
+        audioParam.setAudioFormat(audioFormat);
+        audioParam.setAudioBitRate(audioBitRate);
         audioParam.setOutputPathFile(outputPath);
         audioParam.setOutputName(outputName);
         audioParam.isMetadata(isMetadata);
