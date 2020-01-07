@@ -13,6 +13,7 @@ import com.jalasoft.jfc.model.exception.Md5Exception;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,5 +44,19 @@ public class Md5Checksum {
             throw new Md5Exception("This is a invalid file", "Md5Checksum");
         }
         return checksum.equals(md5Client);
+    }
+
+    public static String getMd5(String file) throws Md5Exception {
+        String checksum = "";
+        try {
+            checksum = DigestUtils.md5Hex(new FileInputStream(file));
+        } catch (FileNotFoundException e) {
+            logger.log(Level.SEVERE, null, e);
+            throw new Md5Exception("file not found", e.getMessage());
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, null, e);
+            throw new Md5Exception("This is a invalid file", e.getMessage());
+        }
+        return checksum;
     }
 }
