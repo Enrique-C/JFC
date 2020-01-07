@@ -17,5 +17,4 @@ package com.jalasoft.jfc.controller;
  * @author Juan Martinez.
  */
 public class Md5ExtractorController {
-    
 }

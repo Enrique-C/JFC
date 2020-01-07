@@ -1,5 +1,53 @@
-import static org.junit.Assert.*;
+/*
+ * Copyright (c) 2019 Jalasoft.
+ *
+ * This software is the confidential and proprietary information of Jalasoft.
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * license agreement you entered into with Jalasoft.
+ */
 
+package com.jalasoft.jfc.controller;
+
+import com.jalasoft.jfc.Main;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes= Main.class)
 public class Md5ExtractorControllerTest {
 
+    private MockMvc mockMvc;
+    @Autowired
+    WebApplicationContext wContext;
+
+    @Before
+    public void setup() {
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(wContext)
+                .alwaysDo(MockMvcResultHandlers.print())
+                .build();
+    }
+
+    @Test
+    public void extract_Md5OfFile_md5String() throws Exception {
+        String text ="C:/Users/Admin/IdeaProjects/JFC/src/test/resources/pdf.pdf";
+        String expected = "8bd6509aba6eafe623392995b08c7047";
+        MockMultipartFile file = new MockMultipartFile("file","pdf.pdf",
+                "application/pdf", text.getBytes());
+        mockMvc.perform(MockMvcRequestBuilders.fileUpload("/extractMd5/")
+                .file(file)
+                .characterEncoding("UTF-8"))
+                .andExpect(MockMvcResultMatchers.content().string(expected));
+    }
 }
