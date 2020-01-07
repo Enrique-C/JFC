@@ -76,7 +76,7 @@ public class VideoConverterController {
             @RequestParam(defaultValue = "0") int height, @RequestParam(defaultValue = "") String videoCodec,
             @RequestParam(defaultValue = "") String videoBitRate, @RequestParam(defaultValue = "-1") int quality,
             @RequestParam(defaultValue = "") boolean isThumbnail, @RequestParam(defaultValue = "false")
-            boolean isMetadata, HttpServletRequest request, @RequestParam(defaultValue = ".png") String videoFormat) {
+            boolean isMetadata, HttpServletRequest request, @RequestParam(defaultValue = ".avi") String videoFormat) {
 
         FileResponse fileResponse = new FileResponse();
         ErrorResponse errorResponse = new ErrorResponse();
