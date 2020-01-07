@@ -37,7 +37,8 @@ public enum VideoCommand {
     V_FRAMES("-vframes"),
     R("-r"),
     T("-t"),
-    COMFIRM(" -y");
+    COMFIRM(" -y"),
+    LOG_LEVEL_QUIET(" -loglevel quiet");
 
     // Command variable.
     private String command;
