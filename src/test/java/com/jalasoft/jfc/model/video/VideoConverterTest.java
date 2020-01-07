@@ -43,7 +43,7 @@ public class VideoConverterTest {
 
         String fileUploadedPath = "src/test/resources/grabacion.mp4";
 
-        String md5 = "af738d53637a29f531fa0c2bf1eb1516";
+        String md5 = "c4d2c40bd1218da61651f28da6ad8838";
         String outputPath = "src/test/resources/";
         String outputName = "video_Test";
         String videoFormat = ".avi";
