@@ -19,6 +19,13 @@ import java.io.File;
 
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Tests ImageConverter class.
+ *
+ * @version 0.1 07 Jan 2020.
+ *
+ * @author Enrique Carrizales.
+ */
 public class ImageConverterTest {
 
     @Test
@@ -71,6 +78,7 @@ public class ImageConverterTest {
 
         imageConverter.convert(imageParam);
     }
+
     private ImageParam generateOnlyImageJPG() {
         PathJfc pathJfc = new PathJfc();
 
