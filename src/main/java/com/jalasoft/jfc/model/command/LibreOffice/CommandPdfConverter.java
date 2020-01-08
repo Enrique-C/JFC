@@ -27,6 +27,6 @@ public class CommandPdfConverter implements ICommandStrategy {
      */
     @Override
     public String command() {
-        return this.SPACE + LibreOfficeCommand.CONVERT.getCommand();
+        return this.SPACE + LibreOfficeCommand.CONVERT.getCommand() + this.SPACE + LibreOfficeCommand.PDF.getCommand();
     }
 }
