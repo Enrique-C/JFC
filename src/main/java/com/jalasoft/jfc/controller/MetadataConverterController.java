@@ -18,6 +18,8 @@ import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.Response;
 import com.jalasoft.jfc.model.utility.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,7 +46,7 @@ public class MetadataConverterController {
      * @throws Md5Exception
      */
     @PostMapping("/metadataConverter")
-    public Response metadataConverter(@RequestParam("file") MultipartFile file, HttpServletRequest request)
+    public ResponseEntity<Response> metadataConverter(@RequestParam("file") MultipartFile file, HttpServletRequest request)
             throws Md5Exception {
         FileResponse fileResponse = new FileResponse();
         PathJfc pathJfc = new PathJfc();
@@ -67,9 +69,12 @@ public class MetadataConverterController {
             fileResponse.setDownload(linkGenerator.linkGenerator(zipFilePath, request));
             fileResponse.setName(param.getFolderName());
             fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
-            return fileResponse;
+            return new ResponseEntity<Response>(fileResponse, HttpStatus.OK);
         } catch (IOException | ConvertException | ZipJfcException ioe) {
-            throw new Md5Exception(ioe.getMessage(), this.getClass().getName());
+            fileResponse.setName(ioe.getMessage());
+            fileResponse.setDownload(this.getClass().getName());
+            fileResponse.setStatus(MessageResponse.ERROR400.getMessageResponse());
+            return new ResponseEntity<Response>(fileResponse, HttpStatus.BAD_REQUEST);
         }
     }
     private String zipFile(Param param) throws ZipJfcException {
