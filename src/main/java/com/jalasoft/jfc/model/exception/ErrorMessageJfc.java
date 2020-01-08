@@ -17,14 +17,14 @@ package com.jalasoft.jfc.model.exception;
  * @author Alan Escalera
  */
 public enum ErrorMessageJfc {
-    INVALID_INPUT_PATH("Invalid file path input\n"),
-    FILE_NO_FOUND("File not found\n"),
+    INVALID_INPUT_PATH("Invalid file path input"),
+    FILE_NO_FOUND("File not found"),
     PAGES_NULL("Value of pages to convert is NULL"),
     PAGES_NUMBER_NOT_EXIST("Number of page doesn't exist"),
-    INVALID_SCALE("Invalid input file path value\n"),
-    EXIFTOOL_NOT_EXIST("Exiftool doesn't exist\n"),
-    EXIFTOOL_NOT_FOUND("Exiftool not found\n: "),
-    FFMPEG_NOT_EXIST("FFMepg doesn't exist\n"),
+    INVALID_SCALE("Invalid input file path value"),
+    EXIFTOOL_NOT_EXIST("Exiftool doesn't exist"),
+    EXIFTOOL_NOT_FOUND("Exiftool not found: "),
+    FFMPEG_NOT_EXIST("FFMepg doesn't exist"),
     ASPECTRATIO_NOT_CHANGE("Can not change the Aspect ratio"),
     VIDEOBITRATE_NOT_CHANGE("Can not change the Video Bit rate"),
     AUDIOBITRATE_NOT_CHANGE("Can not change the Audio Bit rate"),
@@ -33,17 +33,18 @@ public enum ErrorMessageJfc {
     FORMTAT_INVALID("Format is invalid"),
     FRAMERATE_NOT_CHANGE("Can not change the Frame rate"),
     SCALE_NOT_CHANGE("Can not change the Scale"),
-    IMAGEMAGICK_NOT_EXIST("Image magick doesn't exist\n"),
-    IMAGEMAGICK_NOT_FOUND("Image magick not found\n"),
-    RESIZE_INVALID("Invalid resize values\n"),
-    WIDTH_HEIGHT_INVALID("Width or height are invalid\n"),
-    IMAGE_ROTATE_INVALID("Invalid Image rotate value\n"),
+    IMAGEMAGICK_NOT_EXIST("Image magick doesn't exist"),
+    IMAGEMAGICK_NOT_FOUND("Image magick not found"),
+    RESIZE_INVALID("Invalid resize values"),
+    WIDTH_HEIGHT_INVALID("Width or height are invalid"),
+    IMAGE_ROTATE_INVALID("Invalid Image rotate value"),
     COMMAND_NULL("Command value is NULL"),
-    COMMAND_INVALID("Command value is invalid\n"),
+    COMMAND_INVALID("Command value is invalid"),
     MD5_ERROR("Md5 Error! binary is invalid"),
     IMAGE_CONVERT_ERROR_MESSAGE("Error converting an Image"),
-    AUDIO_CONVERT_ERROR_MESSAGE("Error converting an Audio");
-
+    AUDIO_CONVERT_ERROR_MESSAGE("Error converting an Audio"),
+    LIBREOFFICE_NOT_EXIST("LibreOffice doesn't exist");
+    
     // Command variable.
     private String message;
 

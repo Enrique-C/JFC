@@ -9,6 +9,13 @@
 
 package com.jalasoft.jfc.model.command.LibreOffice;
 
+import com.jalasoft.jfc.model.command.ICommandStrategy;
+import com.jalasoft.jfc.model.exception.CommandValueException;
+import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
+import com.jalasoft.jfc.model.utility.PathJfc;
+
+import java.io.File;
+
 /**
  * Validates the LibreOffice path.
  *
@@ -16,6 +23,35 @@ package com.jalasoft.jfc.model.command.LibreOffice;
  *
  * @author Alan Escalera.
  */
-public class ComandLibreOfficePath {
+public class ComandLibreOfficePath implements ICommandStrategy {
 
+    // Contents LibreOffice Path value.
+    private  String libreOfficePath;
+
+    /**
+     * Assigns the LibreOffice Path.
+     */
+    public ComandLibreOfficePath() {
+        libreOfficePath = PathJfc.getLibreOfficePath();
+    }
+
+    /**
+     * Generates a command.
+     * @return exe of LibreOffice path.
+     * @throws CommandValueException when there is an invalid command.
+     */
+    @Override
+    public String command() throws CommandValueException {
+        try {
+            File file = new File(libreOfficePath);
+
+            if (file.exists()) {
+                return libreOfficePath;
+            }
+            throw new CommandValueException(ErrorMessageJfc.LIBREOFFICE_NOT_EXIST.getErrorMessageJfc(), this
+                    .getClass().getName());
+        } catch (CommandValueException cve) {
+            throw new CommandValueException(cve.getMessage(), this.getClass().getName());
+        }
+    }
 }
