@@ -64,7 +64,7 @@ public class MetadataConverter implements IConverter {
      * @throws IOException when file lecture is wrong.
      */
     @Override
-    public FileResponse convert(Param param) throws ConvertException, CommandValueException, IOException {
+    public FileResponse convert(Param param) throws ConvertException {
         FileResponse fileResponse = new FileResponse();
 
         String commandString;

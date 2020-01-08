@@ -61,7 +61,7 @@ public class AudioConverter implements IConverter {
      * @throws ZipJfcException when zip process was wrong.
      */
     @Override
-    public FileResponse convert(Param param) throws ConvertException, CommandValueException, IOException, ZipJfcException {
+    public FileResponse convert(Param param) throws ConvertException, CommandValueException, ZipJfcException {
         if (param == null) {
             throw new ConvertException(ErrorMessageJfc.AUDIO_CONVERT_ERROR_MESSAGE.getErrorMessageJfc(), this.getClass().getName());
         }
