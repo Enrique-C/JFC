@@ -14,20 +14,20 @@ import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.pptx.LibreOfficeCommand;
 
 /**
- * Builds an output command.
+ * Builds a command Headdless.
  *
- * @version 0.1 07 Jan 2020.
+ * @version 0.1 08 Jan 2020.
  *
  * @author Alan Escalera.
  */
-public class CommandOutDir implements ICommandStrategy {
+public class CommandHeadless implements ICommandStrategy {
 
     /**
-     * Builds a outdir command.
-     * @return outdir command.
+     * Builds a convert command.
+     * @return convert command.
      */
     @Override
     public String command() throws CommandValueException {
-        return this.SPACE + LibreOfficeCommand.OUTDIR.getCommand();
+        return this.SPACE + LibreOfficeCommand.HEADLESS.getCommand();
     }
 }

@@ -44,8 +44,8 @@ public enum ErrorMessageJfc {
     IMAGE_CONVERT_ERROR_MESSAGE("Error converting an Image"),
     AUDIO_CONVERT_ERROR_MESSAGE("Error converting an Audio"),
     LIBREOFFICE_NOT_EXIST("LibreOffice doesn't exist");
-    
-    // Command variable.
+
+    // Message variable.
     private String message;
 
     /**

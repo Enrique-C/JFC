@@ -9,6 +9,9 @@
 
 package com.jalasoft.jfc.model.command.LibreOffice;
 
+import com.jalasoft.jfc.model.command.ICommandStrategy;
+import com.jalasoft.jfc.model.pptx.LibreOfficeCommand;
+
 /**
  * Builds a command to convert an pptx file.
  *
@@ -16,5 +19,14 @@ package com.jalasoft.jfc.model.command.LibreOffice;
  *
  * @author Alan Escalera.
  */
-public class CommandPdfConverter {
+public class CommandPdfConverter implements ICommandStrategy {
+
+    /**
+     * Builds a convert command.
+     * @return convert command.
+     */
+    @Override
+    public String command() {
+        return this.SPACE + LibreOfficeCommand.CONVERT.getCommand();
+    }
 }
