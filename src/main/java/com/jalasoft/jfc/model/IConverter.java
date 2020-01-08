@@ -30,7 +30,6 @@ public interface IConverter {
      * Convert files to another type file.
      * @param param it receives file params.
      * @return state of conversion.
-     * @throws IOException when is a invalid file.
      * @throws CommandValueException this.
      * @throws ConvertException when the convert process is not completed.
      */

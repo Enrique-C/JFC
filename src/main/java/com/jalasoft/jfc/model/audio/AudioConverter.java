@@ -57,7 +57,6 @@ public class AudioConverter implements IConverter {
      * @return FileResponse object.
      * @throws ConvertException when the conversion failed.
      * @throws CommandValueException when is an invalid command.
-     * @throws IOException when there is a wrong input.
      * @throws ZipJfcException when zip process was wrong.
      */
     @Override

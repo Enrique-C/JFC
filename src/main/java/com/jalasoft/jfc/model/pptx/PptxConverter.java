@@ -50,6 +50,14 @@ public class PptxConverter {
     // Assigns the zip's Path variable.
     private String zipPath;
 
+    /**
+     * Changes an Pptx format to pdf or Image.
+     * @param param pptx parameters.
+     * @return Conversion status.
+     * @throws CommandValueException when is a invalid command.
+     * @throws ConvertException when the conversion failed.
+     * @throws ZipJfcException when the conversion failed.
+     */
     public FileResponse convert(Param param) throws CommandValueException, ConvertException, ZipJfcException{
         if (param == null) {
             throw new ConvertException("Parameter param is null", this.getClass().getName());
@@ -68,6 +76,12 @@ public class PptxConverter {
         fileResponse.setDownload(zipPath);
         return fileResponse;
     }
+
+    /**
+     * Generates a command to convert an pdf file.
+     * @param param receives image params.
+     * @throws CommandValueException when is a invalid command.
+     */
     private String generatePdf (Param param) throws CommandValueException {
         commandsList = new ArrayList<>();
         commandsList.add(new CommandLibreOfficePath());
@@ -80,6 +94,7 @@ public class PptxConverter {
         String result = contextStrategy.buildCommand();
         return result;
     }
+
     /**
      * Runs string command.
      * @param stringCommand value of command.
