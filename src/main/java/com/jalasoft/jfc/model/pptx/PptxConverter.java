@@ -21,10 +21,16 @@ import com.jalasoft.jfc.model.command.common.CommandOutputFilePath;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ConvertException;
 import com.jalasoft.jfc.model.exception.ZipJfcException;
+
+import com.jalasoft.jfc.model.pdf.PdfConverter;
+import com.jalasoft.jfc.model.pdf.PdfParam;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.result.MessageResponse;
+import com.jalasoft.jfc.model.utility.FileServiceController;
 import com.jalasoft.jfc.model.utility.PathJfc;
 import com.jalasoft.jfc.model.utility.ZipFolder;
+import org.apache.pdfbox.pdmodel.PDDocument;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -50,6 +56,9 @@ public class PptxConverter {
     // Assigns the zip's Path variable.
     private String zipPath;
 
+    // Assigns the converted name.
+    private String convertedName;
+
     /**
      * Changes an Pptx format to pdf or Image.
      * @param param pptx parameters.
@@ -58,18 +67,27 @@ public class PptxConverter {
      * @throws ConvertException when there is an invalid conversion.
      * @throws ZipJfcException when there is an invalid file path.
      */
-    public FileResponse convert(Param param) throws CommandValueException, ConvertException, ZipJfcException{
+    public FileResponse convert(Param param) throws CommandValueException, ConvertException, ZipJfcException,
+            IOException {
         if (param == null) {
             throw new ConvertException("Parameter param is null", this.getClass().getName());
         }
-
+        PdfParam pdfParam = (PdfParam) param;
+        PdfConverter pdfConverter = new PdfConverter();
         FileResponse fileResponse = new FileResponse();
 
         StringBuilder stringCommand = new StringBuilder();
         stringCommand.append(generatePdf(param));
         runCommand(stringCommand.toString());
+        convertedName = getOriginalName(param);
 
-        zipFile(param);
+        if (pdfParam.isThumbnail()){
+            stringCommand = new StringBuilder();
+            stringCommand.append(pdfConverter.generateThumbnail(pdfParam));
+            runCommand(stringCommand.toString());
+        }
+
+        zipFile(pdfParam);
 
         fileResponse.setName(param.getOutputName());
         fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
@@ -77,12 +95,22 @@ public class PptxConverter {
         return fileResponse;
     }
 
+    private String getOriginalName(Param param) {
+        File fileoriginalname = new File(param.getInputPathFile());
+        String regex = "[.][^.]+$";
+        final String REPLACE_REGEX = "";
+        final String PDF_EXTENSION = ".pdf";
+        String name = fileoriginalname.getName().replaceFirst(regex, REPLACE_REGEX) + PDF_EXTENSION;
+
+        return name;
+    }
+
     /**
      * Generates a command to convert an pdf file.
      * @param param receives image params.
      * @throws CommandValueException when there is an invalid command.
      */
-    private String generatePdf (Param param) throws CommandValueException {
+    private String generatePdf ( Param param) throws CommandValueException {
         commandsList = new ArrayList<>();
         commandsList.add(new CommandLibreOfficePath());
         commandsList.add(new CommandHeadless());
@@ -121,7 +149,7 @@ public class PptxConverter {
         final String ZIP_TAG = ".zip";
 
         File[] files = new File(param.getOutputPathFile() + BACKSLASH + param.getFolderName() +
-                "/").listFiles();
+                BACKSLASH).listFiles();
 
         File fileZip = new File( PathJfc.getPublicFilePath() + param.getFolderName() + ZIP_TAG);
 
