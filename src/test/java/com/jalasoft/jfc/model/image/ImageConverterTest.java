@@ -30,11 +30,12 @@ public class ImageConverterTest {
 
     @Test
     public void convert_ImagePNGToJPG_Zip() throws ConvertException, CommandValueException {
+        final int EMPTY_BYTES = 22;
+
         ImageConverter imageConverter = new ImageConverter();
         ImageParam imageParam = generateOnlyImageJPG();
 
         String zipImage = imageConverter.convert(imageParam).getDownload();
-        final int EMPTY_BYTES = 0;
 
         File zipFile = new File(zipImage);
         boolean expected = zipFile.exists() && zipFile.getTotalSpace() > EMPTY_BYTES;
