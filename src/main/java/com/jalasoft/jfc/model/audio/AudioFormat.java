@@ -10,14 +10,14 @@
 package com.jalasoft.jfc.model.audio;
 
 public enum AudioFormat {
-    MKV(".wav"),
-    VID(".mp3");
+    WAV(".wav"),
+    MP3(".mp3");
 
     // Command variable
     private String format;
 
     /**
-     * This method is for setting command value.
+     * Builds an Enum.
      * @param format String value
      */
     AudioFormat(String format) {
@@ -25,7 +25,7 @@ public enum AudioFormat {
     }
 
     /**
-     * This method gets command value.
+     * Gets command value.
      * @return String value.
      */
     public String getAudioFormat(){

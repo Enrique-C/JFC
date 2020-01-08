@@ -20,7 +20,7 @@ import com.jalasoft.jfc.model.Param;
  */
 public class AudioParam extends Param {
 
-    //Contains format of an audio.
+    // Contains format of an audio.
     private  String audioFormat;
 
     // Content audioBitRate value.

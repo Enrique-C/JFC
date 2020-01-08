@@ -54,7 +54,7 @@ public class AudioConverterTest {
         String md5 = "2559480156e9cddf65ed3125521b9922";
         String outputPath = "src/test/resources/";
         String outputName = "AUD";
-        String audioFormat = ".mp3";
+        String audioFormat = AudioFormat.MP3.getAudioFormat();
         String audioBitRate = "";
         boolean isMetadata = false;
 

@@ -35,7 +35,7 @@ public class CommandAudioBitRate implements ICommandStrategy {
     }
 
     /**
-     * This builds a command.
+     * Builds a command.
      * @return command concatenated.
      * @throws CommandValueException when is a invalid command.
      */

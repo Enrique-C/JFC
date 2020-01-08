@@ -100,7 +100,7 @@ public class AudioConverter implements IConverter {
     }
 
     /**
-     * Generates a command to convert an audio to another audio.
+     * Generates commands to convert an audio to another audio.
      * @param audioParam receives audio params.
      */
     private void generateAudio(AudioParam audioParam) {
