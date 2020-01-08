@@ -78,7 +78,7 @@ public class VideoConverter implements IConverter {
      * @throws ZipJfcException when  a zipFile is invalid.
      */
     @Override
-    public FileResponse convert(Param param) throws ConvertException, CommandValueException, IOException, ZipJfcException {
+    public FileResponse convert(Param param) throws ConvertException, CommandValueException, ZipJfcException {
         FileResponse fileResponse = new FileResponse();
         VideoParam videoParam = (VideoParam) param;
 

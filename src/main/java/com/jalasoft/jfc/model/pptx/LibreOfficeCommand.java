@@ -18,7 +18,7 @@ package com.jalasoft.jfc.model.pptx;
  */
 public enum LibreOfficeCommand {
     HEADLESS("--headless"),
-    CONVERT("convert-to"),
+    CONVERT("--convert-to"),
     PDF("pdf"),
     OUTDIR("--outdir");
 
