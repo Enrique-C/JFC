@@ -36,7 +36,7 @@ public class AudioConverterTest {
         AudioParam audioParam = generateOnlyAudioWAV();
 
         String zipAudio = audioConverter.convert(audioParam).getDownload();
-        final int EMPTY_BYTES = 0;
+        final int EMPTY_BYTES = 22;
 
         File zipFile = new File(zipAudio);
         boolean expected = zipFile.exists() && zipFile.getTotalSpace() > EMPTY_BYTES;
