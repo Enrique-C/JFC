@@ -10,15 +10,14 @@
 package com.jalasoft.jfc.model.audio;
 
 /**
- * This enum is used for specifying Audio formats.
+ * This enum is used for specifying FFmpeg commands.
  *
  * @version 0.1 08 Jan 2020.
  *
  * @author Enrique Carrizales.
  */
-public enum AudioFormat {
-    WAV(".wav"),
-    MP3(".mp3");
+public enum AudioFfmpegCommand {
+    KBPS("k");
 
     // Command variable
     private String format;
@@ -27,7 +26,7 @@ public enum AudioFormat {
      * Builds an Enum.
      * @param format String value
      */
-    AudioFormat(String format) {
+    AudioFfmpegCommand(String format) {
         this.format = format;
     }
 
@@ -35,7 +34,7 @@ public enum AudioFormat {
      * Gets command value.
      * @return String value.
      */
-    public String getAudioFormat(){
+    public String getFfmpegCommand(){
         return format;
     }
 }
