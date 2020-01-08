@@ -36,7 +36,7 @@ public class AudioConverterTest {
         AudioParam audioParam = generateOnlyAudioWAV();
 
         String zipAudio = audioConverter.convert(audioParam).getDownload();
-        final int EMPTY_BYTES = 0;
+        final int EMPTY_BYTES = 22;
 
         File zipFile = new File(zipAudio);
         boolean expected = zipFile.exists() && zipFile.getTotalSpace() > EMPTY_BYTES;
@@ -44,6 +44,38 @@ public class AudioConverterTest {
         FolderRemover.removeFolder(zipFile.getPath());
 
         assertTrue(expected);
+    }
+
+    @Test
+    public void convert_AudioWAVToAudioMP3AndMetadata_Zip() throws ZipJfcException, CommandValueException, ConvertException, IOException {
+        AudioConverter audioConverter = new AudioConverter();
+        AudioParam audioParam = generateOnlyAudioWAV();
+        audioParam.isMetadata(true);
+
+        String zipAudio = audioConverter.convert(audioParam).getDownload();
+        final int EMPTY_BYTES = 22;
+
+        File zipFile = new File(zipAudio);
+        boolean expected = zipFile.exists() && zipFile.getTotalSpace() > EMPTY_BYTES;
+
+        FolderRemover.removeFolder(zipFile.getPath());
+
+        assertTrue(expected);
+    }
+
+    @Test(expected = ConvertException.class)
+    public void convert_AudioParamNull_ConvertException() throws ConvertException, CommandValueException, IOException, ZipJfcException {
+        AudioConverter audioConverter = new AudioConverter();
+        audioConverter.convert(null);
+    }
+
+    @Test(expected = ConvertException.class)
+    public void convert_AudioParamAudioFormatEmpty_ConvertException() throws ConvertException, CommandValueException, IOException, ZipJfcException {
+        AudioConverter audioConverter = new AudioConverter();
+        AudioParam audioParam = generateOnlyAudioWAV();
+        audioParam.setAudioFormat("");
+
+        audioConverter.convert(audioParam);
     }
 
     private AudioParam generateOnlyAudioWAV() {

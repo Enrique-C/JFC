@@ -30,11 +30,12 @@ public class ImageConverterTest {
 
     @Test
     public void convert_ImagePNGToJPG_Zip() throws ConvertException, CommandValueException {
+        final int EMPTY_BYTES = 22;
+
         ImageConverter imageConverter = new ImageConverter();
         ImageParam imageParam = generateOnlyImageJPG();
 
         String zipImage = imageConverter.convert(imageParam).getDownload();
-        final int EMPTY_BYTES = 0;
 
         File zipFile = new File(zipImage);
         boolean expected = zipFile.exists() && zipFile.getTotalSpace() > EMPTY_BYTES;
@@ -63,15 +64,13 @@ public class ImageConverterTest {
     }
 
     @Test(expected = ConvertException.class)
-    public void convert_ImageParamNull_ConvertExeption() throws ConvertException, CommandValueException {
+    public void convert_ImageParamNull_ConvertException() throws ConvertException, CommandValueException {
         ImageConverter imageConverter = new ImageConverter();
-        ImageParam imageParam = null;
-
-        imageConverter.convert(imageParam);
+        imageConverter.convert(null);
     }
 
     @Test(expected = ConvertException.class)
-    public void convert_ImageParamImageFormatEmpty_ConvertExeption() throws ConvertException, CommandValueException {
+    public void convert_ImageParamImageFormatEmpty_ConvertException() throws ConvertException, CommandValueException {
         ImageConverter imageConverter = new ImageConverter();
         ImageParam imageParam = generateOnlyImageJPG();
         imageParam.setImageFormat("");
