@@ -12,10 +12,13 @@ package com.jalasoft.jfc.controller;
 import com.jalasoft.jfc.Main;
 import com.jalasoft.jfc.model.utility.FolderRemover;
 import com.jalasoft.jfc.model.utility.PathJfc;
+
 import org.apache.pdfbox.io.IOUtils;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -75,7 +78,7 @@ public class MetadataConverterControllerTest {
     }
 
     @Test
-    public void extract_NullMultipartFileName_Md5Exception() throws Exception {
+    public void extract_NullMultipartFileName_BadRequest() throws Exception {
         String srcFilePath = "src/test/resources/pdf.pdf";
         File filePath = new File(srcFilePath);
         FileInputStream input = new FileInputStream(filePath);

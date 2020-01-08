@@ -17,7 +17,13 @@ import com.jalasoft.jfc.model.metadata.MetadataConverter;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.Response;
-import com.jalasoft.jfc.model.utility.*;
+import com.jalasoft.jfc.model.utility.FileServiceController;
+import com.jalasoft.jfc.model.utility.FolderRemover;
+import com.jalasoft.jfc.model.utility.LinkGenerator;
+import com.jalasoft.jfc.model.utility.Md5Checksum;
+import com.jalasoft.jfc.model.utility.PathJfc;
+import com.jalasoft.jfc.model.utility.ZipFolder;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,13 +32,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+
 import java.io.File;
 import java.io.IOException;
 
 /**
- * Extracts md5 of a file.
+ * Extracts metadata from a uploaded file.
  *
- * @version 0.1 07 Jan 2020.
+ * @version 0.1 08 Jan 2020.
  *
  * @author Juan Martinez.
  */
@@ -46,8 +53,8 @@ public class MetadataConverterController {
      * @throws Md5Exception
      */
     @PostMapping("/metadataConverter")
-    public ResponseEntity<Response> metadataConverter(@RequestParam("file") MultipartFile file, HttpServletRequest request)
-            throws Md5Exception {
+    public ResponseEntity<Response> metadataConverter(@RequestParam("file") MultipartFile file,
+            HttpServletRequest request) throws Md5Exception {
         FileResponse fileResponse = new FileResponse();
         PathJfc pathJfc = new PathJfc();
 
@@ -69,14 +76,23 @@ public class MetadataConverterController {
             fileResponse.setDownload(linkGenerator.linkGenerator(zipFilePath, request));
             fileResponse.setName(param.getFolderName());
             fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
+
             return new ResponseEntity<Response>(fileResponse, HttpStatus.OK);
         } catch (IOException | ConvertException | ZipJfcException ioe) {
             fileResponse.setName(ioe.getMessage());
             fileResponse.setDownload(this.getClass().getName());
             fileResponse.setStatus(MessageResponse.ERROR400.getMessageResponse());
+
             return new ResponseEntity<Response>(fileResponse, HttpStatus.BAD_REQUEST);
         }
     }
+
+    /**
+     * Allows to zip Param folder generated.
+     * @param param object.
+     * @return String value.
+     * @throws ZipJfcException when something was wrong in the zip.
+     */
     private String zipFile(Param param) throws ZipJfcException {
 
         // Assigns the zip's Path.
