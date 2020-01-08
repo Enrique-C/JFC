@@ -49,22 +49,17 @@ public class PptxConverterTest {
     private PptxParam getParamsPptx() {
         PathJfc pathJfc = new PathJfc();
 
-        String fileUploadedPath = "src/test/resources/grabacion.mp4";
+        String fileUploadedPath = "src/test/resources/Designpatters.pptx";
 
-        String md5 = "c4d2c40bd1218da61651f28da6ad8838";
+        String md5 = "86f655c0e849a9220f3355db2dd1df63";
         String outputPath = "src/test/resources/";
-        String outputName = "video_Test";
-        String videoFormat = ".avi";
-        boolean isThumbnail = false;
-        boolean isMetadata = false;
+        String outputName = "pdftest";
 
         PptxParam pptxParam = new PptxParam();
 
         pptxParam.setMd5(md5);
         pptxParam.setInputPathFile(fileUploadedPath);
         pptxParam.setOutputPathFile(outputPath);
-        pptxParam.setOutputName(outputName);
-
         pptxParam.setFolderName(md5);
 
         return pptxParam;

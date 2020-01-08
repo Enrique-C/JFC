@@ -23,7 +23,7 @@ import java.io.File;
  *
  * @author Alan Escalera.
  */
-public class ComandLibreOfficePath implements ICommandStrategy {
+public class CommandLibreOfficePath implements ICommandStrategy {
 
     // Contents LibreOffice Path value.
     private  String libreOfficePath;
@@ -31,7 +31,7 @@ public class ComandLibreOfficePath implements ICommandStrategy {
     /**
      * Assigns the LibreOffice Path.
      */
-    public ComandLibreOfficePath() {
+    public CommandLibreOfficePath() {
         libreOfficePath = PathJfc.getLibreOfficePath();
     }
 
