@@ -64,13 +64,13 @@ public class AudioConverterTest {
     }
 
     @Test(expected = ConvertException.class)
-    public void convert_AudioParamNull_ConvertExeption() throws ConvertException, CommandValueException, IOException, ZipJfcException {
+    public void convert_AudioParamNull_ConvertException() throws ConvertException, CommandValueException, IOException, ZipJfcException {
         AudioConverter audioConverter = new AudioConverter();
         audioConverter.convert(null);
     }
 
     @Test(expected = ConvertException.class)
-    public void convert_AudioParamAudioFormatEmpty_ConvertExeption() throws ConvertException, CommandValueException, IOException, ZipJfcException {
+    public void convert_AudioParamAudioFormatEmpty_ConvertException() throws ConvertException, CommandValueException, IOException, ZipJfcException {
         AudioConverter audioConverter = new AudioConverter();
         AudioParam audioParam = generateOnlyAudioWAV();
         audioParam.setAudioFormat("");
