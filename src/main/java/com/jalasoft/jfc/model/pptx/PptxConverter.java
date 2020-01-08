@@ -54,9 +54,9 @@ public class PptxConverter {
      * Changes an Pptx format to pdf or Image.
      * @param param pptx parameters.
      * @return Conversion status.
-     * @throws CommandValueException when is a invalid command.
-     * @throws ConvertException when the conversion failed.
-     * @throws ZipJfcException when the conversion failed.
+     * @throws CommandValueException when there is an invalid command.
+     * @throws ConvertException when there is a invalid conversion.
+     * @throws ZipJfcException when when there is an invalid file path.
      */
     public FileResponse convert(Param param) throws CommandValueException, ConvertException, ZipJfcException{
         if (param == null) {
@@ -80,7 +80,7 @@ public class PptxConverter {
     /**
      * Generates a command to convert an pdf file.
      * @param param receives image params.
-     * @throws CommandValueException when is a invalid command.
+     * @throws CommandValueException when there is an invalid command.
      */
     private String generatePdf (Param param) throws CommandValueException {
         commandsList = new ArrayList<>();
@@ -112,7 +112,7 @@ public class PptxConverter {
     /**
      * Zips a list of files.
      * @param param receives Param.
-     * @throws ZipJfcException when is a invalid file path.
+     * @throws ZipJfcException when there is an invalid file path.
      */
     private void zipFile(Param param) throws ZipJfcException {
         ZipFolder zip = new ZipFolder();
