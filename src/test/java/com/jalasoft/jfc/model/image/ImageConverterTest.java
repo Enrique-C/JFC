@@ -64,13 +64,13 @@ public class ImageConverterTest {
     }
 
     @Test(expected = ConvertException.class)
-    public void convert_ImageParamNull_ConvertExeption() throws ConvertException, CommandValueException {
+    public void convert_ImageParamNull_ConvertException() throws ConvertException, CommandValueException {
         ImageConverter imageConverter = new ImageConverter();
         imageConverter.convert(null);
     }
 
     @Test(expected = ConvertException.class)
-    public void convert_ImageParamImageFormatEmpty_ConvertExeption() throws ConvertException, CommandValueException {
+    public void convert_ImageParamImageFormatEmpty_ConvertException() throws ConvertException, CommandValueException {
         ImageConverter imageConverter = new ImageConverter();
         ImageParam imageParam = generateOnlyImageJPG();
         imageParam.setImageFormat("");
