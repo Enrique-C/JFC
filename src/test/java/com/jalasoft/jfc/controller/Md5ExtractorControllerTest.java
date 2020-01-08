@@ -11,6 +11,7 @@ package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.Main;
 
+import com.jalasoft.jfc.model.exception.Md5Exception;
 import org.apache.pdfbox.io.IOUtils;
 
 import org.junit.Before;
@@ -32,6 +33,13 @@ import org.springframework.web.context.WebApplicationContext;
 import java.io.File;
 import java.io.FileInputStream;
 
+/**
+ * Tests md5 extractor controller.
+ *
+ * @version 0.1 08 Jan 2020.
+ *
+ * @author Juan Martinez.
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes= Main.class)
 public class Md5ExtractorControllerTest {
@@ -47,15 +55,33 @@ public class Md5ExtractorControllerTest {
 
     @Test
     public void extract_Md5OfFile_md5String() throws Exception {
-        String srcFilePath = "C:/Users/Admin/IdeaProjects/JFC/src/test/resources/pdf.pdf";
+        String srcFilePath = "src/test/resources/pdf.pdf";
         File filePath = new File(srcFilePath);
         FileInputStream input = new FileInputStream(filePath);
 
         String expected = "8bd6509aba6eafe623392995b08c7047";
 
         MockMultipartFile file = new MockMultipartFile("file", filePath.getName(),
-                MediaType.APPLICATION_PDF_VALUE, IOUtils.toByteArray(input));
+        MediaType.APPLICATION_PDF_VALUE, IOUtils.toByteArray(input));
+
         mockMvc.perform(MockMvcRequestBuilders.fileUpload("/extractMd5/").file(file)
-                .characterEncoding("UTF-8")).andExpect(MockMvcResultMatchers.content().string(expected));
+        .characterEncoding("UTF-8")).andExpect(MockMvcResultMatchers.content().string(expected));
+    }
+
+    @Test(expected = Md5Exception.class)
+    public void extract_NullMultipartFileName_Md5Exception() throws Exception {
+        String srcFilePath = "src/test/resources/pdf.pdf";
+        File filePath = new File(srcFilePath);
+        FileInputStream input = new FileInputStream(filePath);
+
+        try {
+            MockMultipartFile file = new MockMultipartFile("file", null,
+            MediaType.APPLICATION_PDF_VALUE, IOUtils.toByteArray(input));
+
+            mockMvc.perform(MockMvcRequestBuilders.fileUpload("/extractMd5/").file(file)
+            .characterEncoding("UTF-8")).andReturn().getResolvedException();
+        } catch (Exception m5) {
+            throw new Md5Exception(m5.getMessage(), m5.getCause().toString());
+        }
     }
 }

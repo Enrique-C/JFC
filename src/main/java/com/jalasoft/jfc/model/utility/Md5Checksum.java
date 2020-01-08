@@ -51,12 +51,9 @@ public class Md5Checksum {
         String checksum = EMPTY_VALUE;
         try {
             checksum = DigestUtils.md5Hex(new FileInputStream(file));
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             logger.log(Level.SEVERE, null, e);
             throw new Md5Exception("file not found", e.getMessage());
-        } catch (IOException e) {
-            logger.log(Level.SEVERE, null, e);
-            throw new Md5Exception("This is a invalid file", e.getMessage());
         }
         return checksum;
     }
