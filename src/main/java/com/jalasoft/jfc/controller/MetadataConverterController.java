@@ -37,24 +37,24 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Extracts metadata from a uploaded file.
+ * Extracts metadata of an uploaded file.
  *
  * @version 0.1 08 Jan 2020.
  *
  * @author Juan Martinez.
  */
-
 @RestController
 public class MetadataConverterController {
+
     /**
      * Generates metadata from multipart file.
      * @param file is multipart value.
-     * @return Response
-     * @throws Md5Exception
+     * @param request is client request value.
+     * @return ResponseEntity<Response> for status code.
      */
     @PostMapping("/metadataConverter")
-    public ResponseEntity<Response> metadataConverter(@RequestParam("file") MultipartFile file,
-            HttpServletRequest request) throws Md5Exception {
+    public ResponseEntity<Response> metadataConverter(
+            @RequestParam("file") MultipartFile file, HttpServletRequest request) throws Md5Exception {
         FileResponse fileResponse = new FileResponse();
         PathJfc pathJfc = new PathJfc();
 

@@ -47,7 +47,9 @@ import static org.junit.Assert.assertTrue;
 @SpringBootTest(classes= Main.class)
 public class MetadataConverterControllerTest {
 
+    // mockMvc variable.
     private MockMvc mockMvc;
+
     @Autowired
     WebApplicationContext wContext;
 
