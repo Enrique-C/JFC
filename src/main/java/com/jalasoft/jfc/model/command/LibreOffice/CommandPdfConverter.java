@@ -23,7 +23,7 @@ public class CommandPdfConverter implements ICommandStrategy {
 
     /**
      * Builds a convert command.
-     * @return command convert.
+     * @return convert command.
      */
     @Override
     public String command() {
