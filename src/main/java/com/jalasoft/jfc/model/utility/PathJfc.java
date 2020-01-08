@@ -40,6 +40,9 @@ public class PathJfc {
     // Constant variable of key Exiftool path.
     private static final String EXIFTOOL_PATH = "path.exiftool";
 
+    // Constant variable of key LibreOffice path.
+    private static final String LIBREOFFICE_PATH = "path.libreoffice";
+
     // Constant variable of key input files path.
     private static final String INPUT_FILES_PATH = "path.input.files";
 
@@ -88,6 +91,14 @@ public class PathJfc {
      */
     public static String getExiftoolPath() {
         return properties.getProperty(EXIFTOOL_PATH);
+    }
+
+    /**
+     * Gets LibreOffice's path.
+     * @return LibreOffice's path.
+     */
+    public static String getLibreOfficePath() {
+        return properties.getProperty(LIBREOFFICE_PATH);
     }
 
     /**
