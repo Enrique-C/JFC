@@ -55,8 +55,8 @@ public class PptxConverter {
      * @param param pptx parameters.
      * @return Conversion status.
      * @throws CommandValueException when there is an invalid command.
-     * @throws ConvertException when there is a invalid conversion.
-     * @throws ZipJfcException when when there is an invalid file path.
+     * @throws ConvertException when there is an invalid conversion.
+     * @throws ZipJfcException when there is an invalid file path.
      */
     public FileResponse convert(Param param) throws CommandValueException, ConvertException, ZipJfcException{
         if (param == null) {
