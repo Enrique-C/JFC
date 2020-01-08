@@ -20,20 +20,39 @@ import com.jalasoft.jfc.model.Param;
  */
 public class AudioParam extends Param {
 
+    // Contains format of an audio.
+    private  String audioFormat;
+
     // Content audioBitRate value.
     private String audioBitRate;
 
     /**
+     * Gets format of an audio.
+     * @return audio format String value.
+     */
+    public String getAudioFormat() {
+        return audioFormat;
+    }
+
+    /**
      * Gets audioBitRate value.
-     * @return audioBitRate String value.
+     * @return audio bitRate String value.
      */
     public String getAudioBitRate() {
         return audioBitRate;
     }
 
     /**
+     * Sets audioFormat value.
+     * @param audioFormat contains and audio format.
+     */
+    public void setAudioFormat(String audioFormat) {
+        this.audioFormat = audioFormat;
+    }
+
+    /**
      * Sets audioBitRate value.
-     * @param audioBitRate contains an audioBitRate.
+     * @param audioBitRate contains an audio bitRate.
      */
     public void setAudioBitRate(String audioBitRate) {
         this.audioBitRate = audioBitRate;

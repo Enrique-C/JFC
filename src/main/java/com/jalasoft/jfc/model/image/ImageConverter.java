@@ -151,7 +151,7 @@ public class ImageConverter implements IConverter {
     /**
      * Zips a folder of images.
      * @param imageParam receives image params.
-     * @throws IOException when is a invalid file path.
+     * @throws ZipJfcException when is a invalid zip path.
      */
     private void zipFile(ImageParam imageParam) throws ZipJfcException {
         ZipFolder zip = new ZipFolder();
