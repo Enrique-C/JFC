@@ -10,23 +10,24 @@
 package com.jalasoft.jfc.model.command.LibreOffice;
 
 import com.jalasoft.jfc.model.command.ICommandStrategy;
+import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.pptx.LibreOfficeCommand;
 
 /**
- * Builds a command to convert an pptx file.
+ * Builds a command Headdless.
  *
- * @version 0.1 07 Jan 2020.
+ * @version 0.1 08 Jan 2020.
  *
  * @author Alan Escalera.
  */
-public class CommandPdfConverter implements ICommandStrategy {
+public class CommandHeadless implements ICommandStrategy {
 
     /**
      * Builds a convert command.
      * @return command convert.
      */
     @Override
-    public String command() {
-        return this.SPACE + LibreOfficeCommand.CONVERT.getCommand();
+    public String command() throws CommandValueException {
+        return this.SPACE + LibreOfficeCommand.HEADLESS.getCommand();
     }
 }

@@ -26,7 +26,7 @@ public enum LibreOfficeCommand {
     private String command;
 
     /**
-     * Sets command value.
+     * Assigns command value.
      * @param command String value
      */
     LibreOfficeCommand(String command) {
