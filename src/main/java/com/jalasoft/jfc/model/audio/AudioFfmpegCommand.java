@@ -9,7 +9,14 @@
 
 package com.jalasoft.jfc.model.audio;
 
-public enum FfmpegCommand {
+/**
+ * This enum is used for specifying FFmpeg commands.
+ *
+ * @version 0.1 08 Jan 2020.
+ *
+ * @author Enrique Carrizales.
+ */
+public enum AudioFfmpegCommand {
     KBPS("k");
 
     // Command variable
@@ -19,7 +26,7 @@ public enum FfmpegCommand {
      * Builds an Enum.
      * @param format String value
      */
-    FfmpegCommand(String format) {
+    AudioFfmpegCommand(String format) {
         this.format = format;
     }
 

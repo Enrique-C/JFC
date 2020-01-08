@@ -9,7 +9,7 @@
 
 package com.jalasoft.jfc.model.command.ffmpeg;
 
-import com.jalasoft.jfc.model.audio.FfmpegCommand;
+import com.jalasoft.jfc.model.audio.AudioFfmpegCommand;
 import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
@@ -48,7 +48,8 @@ public class CommandAudioBitRate implements ICommandStrategy {
                 return VideoCommand.EMPTY.getCommand();
             } else {
                 if (!commandValue.isEmpty() && Integer.parseInt(commandValue) > MINIMUM_VALUE ) {
-                    return this.SPACE + VideoCommand.AUDIO_BITRATE.getCommand() + this.SPACE + commandValue + FfmpegCommand.KBPS.getFfmpegCommand();
+                    return this.SPACE + VideoCommand.AUDIO_BITRATE.getCommand() + this.SPACE + commandValue
+                            + AudioFfmpegCommand.KBPS.getFfmpegCommand();
                 }
                 throw new CommandValueException(ErrorMessageJfc.AUDIOBITRATE_NOT_CHANGE.getErrorMessageJfc(), this.
                         getClass().getName());
