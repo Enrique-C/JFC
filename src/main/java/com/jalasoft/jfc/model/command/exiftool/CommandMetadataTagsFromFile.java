@@ -13,13 +13,13 @@ import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 
 /**
- * This class generates a tagsfromfile command.
+ * This class generates a tags from file command.
  *
  * @version 0.1 03 Jan 2020.
  *
  * @author Enrique Carrizales.
  */
-public class CommandMetadataTagsfromfile implements ICommandStrategy {
+public class CommandMetadataTagsFromFile implements ICommandStrategy {
 
     /**
      * Generates a command.
@@ -28,6 +28,6 @@ public class CommandMetadataTagsfromfile implements ICommandStrategy {
      */
     @Override
     public String command() throws CommandValueException {
-        return this.SPACE + ExiftoolCommand.TAGSFROMFILE.getCommand();
+        return this.SPACE + ExiftoolCommand.TAGS_FROM_FILE.getCommand();
     }
 }

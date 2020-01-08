@@ -18,12 +18,14 @@ import com.jalasoft.jfc.model.command.common.CommandOutputFileName;
 import com.jalasoft.jfc.model.command.common.CommandOutputFilePath;
 import com.jalasoft.jfc.model.command.exiftool.CommandExiftoolPath;
 import com.jalasoft.jfc.model.command.exiftool.CommandMetadataFormat;
-import com.jalasoft.jfc.model.command.exiftool.CommandMetadataTagsfromfile;
+import com.jalasoft.jfc.model.command.exiftool.CommandMetadataGreaterThan;
+import com.jalasoft.jfc.model.command.exiftool.CommandMetadataTagsFromFile;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ConvertException;
 import com.jalasoft.jfc.model.result.FileResponse;
 
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +50,7 @@ public class MetadataConverter implements IConverter {
      */
     private void generateMetadata(Param param) {
         commandMetadataList.add(new CommandExiftoolPath());
-        commandMetadataList.add(new CommandMetadataTagsfromfile());
+        commandMetadataList.add(new CommandMetadataTagsFromFile());
         commandMetadataList.add(new CommandInputFilePath(param.getInputPathFile()));
         commandMetadataList.add(new CommandOutputFilePath(param.getOutputPathFile(), param.getFolderName()));
         commandMetadataList.add(new CommandOutputFileName(METADATA_TAG, param.getFolderName()));
@@ -77,7 +79,8 @@ public class MetadataConverter implements IConverter {
             Process metadataConvertProcess = Runtime.getRuntime().exec(commandString);
             metadataConvertProcess.waitFor();
         } catch (Exception e) {
-            throw new ConvertException("Error converting File to Metadata: " + e.getMessage(), this.getClass().getName());
+            throw new ConvertException("Error converting File to Metadata: " + e.getMessage(),
+            this.getClass().getName());
         }
         return fileResponse;
     }
