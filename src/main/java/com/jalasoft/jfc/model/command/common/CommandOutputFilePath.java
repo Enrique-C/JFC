@@ -27,17 +27,17 @@ public class CommandOutputFilePath implements ICommandStrategy {
     // Content command value.
     private String commandValue;
 
-    // Content input file name without extension.
-    private String inputFileName;
+    // Content the folder name.
+    private String folderName;
 
     /**
      * Creates a new CommandOutputFilePath object.
      * @param commandValue contains a value.
-     * @param inputFileName contains file name witout extension.
+     * @param folderName contains folder name.
      */
-    public CommandOutputFilePath(String commandValue, String inputFileName) {
+    public CommandOutputFilePath(String commandValue, String folderName) {
         this.commandValue = commandValue;
-        this.inputFileName = inputFileName;
+        this.folderName = folderName;
     }
 
     /**
@@ -47,12 +47,13 @@ public class CommandOutputFilePath implements ICommandStrategy {
      */
     @Override
     public String command() throws CommandValueException {
+        final String SLASH = "/";
         File file = new File(commandValue);
         try {
             if (file.exists()) {
-                file = new File(commandValue + inputFileName);
+                file = new File(commandValue + folderName);
                 file.mkdir();
-                return this.SPACE + commandValue + inputFileName + "/";
+                return this.SPACE + commandValue + folderName + SLASH;
             }
             throw new CommandValueException(ErrorMessageJfc.INVALID_INPUT_PATH.getErrorMessageJfc(), ErrorMessageJfc
                     .FILE_NO_FOUND.getErrorMessageJfc());

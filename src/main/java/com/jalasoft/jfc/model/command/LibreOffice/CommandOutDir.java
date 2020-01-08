@@ -9,6 +9,10 @@
 
 package com.jalasoft.jfc.model.command.LibreOffice;
 
+import com.jalasoft.jfc.model.command.ICommandStrategy;
+import com.jalasoft.jfc.model.exception.CommandValueException;
+import com.jalasoft.jfc.model.pptx.LibreOfficeCommand;
+
 /**
  * Builds an output command.
  *
@@ -16,5 +20,14 @@ package com.jalasoft.jfc.model.command.LibreOffice;
  *
  * @author Alan Escalera.
  */
-public class CommandOutDir {
+public class CommandOutDir implements ICommandStrategy {
+
+    /**
+     * Builds a outdir command.
+     * @return outdir command.
+     */
+    @Override
+    public String command() throws CommandValueException {
+        return this.SPACE + LibreOfficeCommand.OUTDIR.getCommand();
+    }
 }
