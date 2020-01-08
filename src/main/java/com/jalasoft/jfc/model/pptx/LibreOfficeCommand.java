@@ -10,9 +10,9 @@
 package com.jalasoft.jfc.model.pptx;
 
 /**
- * Used for specify LibreOffice commands.
+ * Used for specifying LibreOffice commands.
  *
- * @version 0.1 07 Jan 2020
+ * @version 0.1 07 Jan 2020.
  *
  * @author Alan Escalera.
  */

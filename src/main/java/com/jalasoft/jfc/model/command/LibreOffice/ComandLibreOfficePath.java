@@ -10,7 +10,7 @@
 package com.jalasoft.jfc.model.command.LibreOffice;
 
 /**
- * Validates LibreOffice path.
+ * Validates the LibreOffice path.
  *
  * @version 0.1 07 Jan 2020.
  *
