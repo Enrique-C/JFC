@@ -10,7 +10,6 @@
 package com.jalasoft.jfc.model.command.LibreOffice;
 
 import com.jalasoft.jfc.model.command.ICommandStrategy;
-import com.jalasoft.jfc.model.pdf.ImageMagickCommand;
 import com.jalasoft.jfc.model.pptx.LibreOfficeCommand;
 
 /**
