@@ -9,18 +9,15 @@
 
 package com.jalasoft.jfc.model.pptx;
 
+import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ConvertException;
 import com.jalasoft.jfc.model.exception.ZipJfcException;
 import com.jalasoft.jfc.model.utility.PathJfc;
 
-import com.jalasoft.jfc.model.video.VideoConverter;
-import com.jalasoft.jfc.model.video.VideoParam;
-
 import org.junit.Test;
 
 import java.io.File;
-import java.io.IOException;
 
 import static org.junit.Assert.assertTrue;
 
@@ -33,5 +30,35 @@ import static org.junit.Assert.assertTrue;
  */
 public class PptxConverterTest {
 
+    @Test
+    public void Convert_PptxTo_pdf() throws ZipJfcException, CommandValueException, ConvertException {
+        PptxConverter pptxConverter = new PptxConverter();
+        Param param = getParamsPptx();
 
+        String zipPptx = pptxConverter.convert(param).getDownload();
+        final int EMPTY_BYTES = 0;
+
+        File zipFile = new File(zipPptx);
+        boolean expected = zipFile.exists() && zipFile.getTotalSpace() > EMPTY_BYTES;
+
+        assertTrue(expected);
+    }
+
+    private Param getParamsPptx() {
+        PathJfc pathJfc = new PathJfc();
+
+        String fileUploadedPath = "src/test/resources/Designpatters.pptx";
+
+        String md5 = "86f655c0e849a9220f3355db2dd1df63";
+        String outputPath = "src/test/resources/";
+
+        Param param = new Param();
+
+        param.setMd5(md5);
+        param.setInputPathFile(fileUploadedPath);
+        param.setOutputPathFile(outputPath);
+        param.setFolderName(md5);
+
+        return param;
+    }
 }

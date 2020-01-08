@@ -69,7 +69,8 @@ public class ImageConverter implements IConverter {
      */
     public FileResponse convert(Param param) throws ConvertException, CommandValueException {
         if (param == null) {
-            throw new ConvertException(ErrorMessageJfc.IMAGE_CONVERT_ERROR_MESSAGE.getErrorMessageJfc(), this.getClass().getName());
+            throw new ConvertException(ErrorMessageJfc.IMAGE_CONVERT_ERROR_MESSAGE.getErrorMessageJfc(), this.getClass()
+                    .getName());
         }
 
         ImageParam imageParam = (ImageParam) param;
