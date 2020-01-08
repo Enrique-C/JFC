@@ -11,6 +11,7 @@ package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.Main;
 
+import com.jalasoft.jfc.model.exception.Md5Exception;
 import org.apache.pdfbox.io.IOUtils;
 
 import org.junit.Before;
@@ -57,5 +58,19 @@ public class Md5ExtractorControllerTest {
                 MediaType.APPLICATION_PDF_VALUE, IOUtils.toByteArray(input));
         mockMvc.perform(MockMvcRequestBuilders.fileUpload("/extractMd5/").file(file)
                 .characterEncoding("UTF-8")).andExpect(MockMvcResultMatchers.content().string(expected));
+    }
+
+    @Test(expected = Md5Exception.class)
+    public void extract_NullMultipartFileName_Md5Exception() throws Exception {
+        String srcFilePath = "C:/Users/Admin/IdeaProjects/JFC/src/test/resources/pdf.pdf";
+        File filePath = new File(srcFilePath);
+        FileInputStream input = new FileInputStream(filePath);
+
+        String expected = "8bd6509aba6eafe623392995b08c7047";
+
+        MockMultipartFile file = new MockMultipartFile("file", null,
+                MediaType.APPLICATION_PDF_VALUE, IOUtils.toByteArray(input));
+        mockMvc.perform(MockMvcRequestBuilders.fileUpload("/extractMd5/").file(file)
+                .characterEncoding("UTF-8")).andReturn();
     }
 }
