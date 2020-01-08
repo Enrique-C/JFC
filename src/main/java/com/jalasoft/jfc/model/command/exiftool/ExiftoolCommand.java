@@ -17,7 +17,8 @@ package com.jalasoft.jfc.model.command.exiftool;
  * @author Enrique Carrizales.
  */
 public enum ExiftoolCommand {
-    TAGSFROMFILE("-tagsfromfile");
+    TAGS_FROM_FILE("-tagsfromfile"),
+    GREATER_THAN(">");
 
     // Command variable.
     private String command;
