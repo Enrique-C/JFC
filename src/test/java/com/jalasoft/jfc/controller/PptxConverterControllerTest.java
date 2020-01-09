@@ -43,8 +43,6 @@ import static org.junit.Assert.assertTrue;
  *
  * @author Alan Escalera.
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes= Main.class)
 public class PptxConverterControllerTest {
  // to do.
 }

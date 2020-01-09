@@ -9,6 +9,7 @@
 
 package com.jalasoft.jfc.model.pptx;
 
+import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.command.ContextStrategy;
 import com.jalasoft.jfc.model.command.ICommandStrategy;
@@ -51,7 +52,7 @@ import java.util.List;
  *
  * @author Alan Escalera.
  */
-public class PptxConverter {
+public class PptxConverter implements IConverter {
 
     // List of commands.
     List<ICommandStrategy> commandsList;
@@ -80,8 +81,7 @@ public class PptxConverter {
      * @throws ZipJfcException when there is an invalid file path.
      * @throws IOException when there is an invalid input.
      */
-    public FileResponse convert(Param param) throws CommandValueException, ConvertException, ZipJfcException,
-            IOException {
+    public FileResponse convert(Param param) throws CommandValueException, ConvertException, ZipJfcException, IOException {
         if (param == null) {
             throw new ConvertException("Parameter param is null", this.getClass().getName());
         }
