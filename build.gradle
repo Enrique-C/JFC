@@ -36,6 +36,4 @@ dependencies {
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.2.2.RELEASE'
 
     implementation('io.jsonwebtoken:jjwt:0.2')
-
-    //implementation('org.springframework.boot:spring-boot-starter-security')
 }
