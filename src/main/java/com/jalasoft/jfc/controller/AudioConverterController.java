@@ -65,9 +65,9 @@ public class AudioConverterController {
             response = Response.class)
     public Response audioConverter(
             @RequestParam("file")MultipartFile file, @RequestParam(defaultValue = " ") String md5,
-            @RequestParam String outputName, @RequestParam int sampleRate, @RequestParam short audioBitRate,
-            @RequestParam(defaultValue = "false") boolean isMetadata, @RequestParam(defaultValue = ".mp3")
-            String audioFormat, HttpServletRequest request) {
+            @RequestParam String outputName, @RequestParam(defaultValue = "") String audioCodec,
+            @RequestParam int sampleRate, @RequestParam short audioBitRate, @RequestParam(defaultValue = "false")
+            boolean isMetadata, @RequestParam(defaultValue = ".mp3") String audioFormat, HttpServletRequest request) {
 
         FileResponse fileResponse;
         ErrorResponse errorResponse = new ErrorResponse();
@@ -81,6 +81,7 @@ public class AudioConverterController {
             if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
                 audioParam.setMd5(md5);
                 audioParam.setInputPathFile(fileUploadedPath);
+                audioParam.setAudioCodec(audioCodec);
                 audioParam.setAudioSampleRate(sampleRate);
                 audioParam.setAudioBitRate(audioBitRate);
                 audioParam.setOutputPathFile(PathJfc.getOutputFilePath());
