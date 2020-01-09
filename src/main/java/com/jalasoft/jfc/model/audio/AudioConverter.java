@@ -105,7 +105,7 @@ public class AudioConverter implements IConverter {
     private void generateAudio(AudioParam audioParam) {
         commandAudioList.add(new CommandFFMpegPath());
         commandAudioList.add(new CommandInputFilePath(audioParam.getInputPathFile()));
-        commandAudioList.add(new CommandAudioBitRate(audioParam.getAudioBitRate()));
+        commandAudioList.add(new CommandAudioBitRate(audioParam.getAudioFormat(), audioParam.getAudioBitRate()));
         commandAudioList.add(new CommandOutputFilePath(audioParam.getOutputPathFile(), audioParam.getFolderName()));
         commandAudioList.add(new CommandOutputFileName(audioParam.getOutputName(), audioParam.getFolderName()));
         commandAudioList.add(new CommandAudioFormat(audioParam.getAudioFormat()));

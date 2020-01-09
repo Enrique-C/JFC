@@ -24,7 +24,7 @@ public class AudioParam extends Param {
     private  String audioFormat;
 
     // Content audioBitRate value.
-    private String audioBitRate;
+    private byte audioBitRate;
 
     /**
      * Gets format of an audio.
@@ -38,7 +38,7 @@ public class AudioParam extends Param {
      * Gets audioBitRate value.
      * @return audio bitRate String value.
      */
-    public String getAudioBitRate() {
+    public byte getAudioBitRate() {
         return audioBitRate;
     }
 
@@ -54,7 +54,7 @@ public class AudioParam extends Param {
      * Sets audioBitRate value.
      * @param audioBitRate contains an audio bitRate.
      */
-    public void setAudioBitRate(String audioBitRate) {
+    public void setAudioBitRate(byte audioBitRate) {
         this.audioBitRate = audioBitRate;
     }
 }

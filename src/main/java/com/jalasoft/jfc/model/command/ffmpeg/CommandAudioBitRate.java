@@ -50,6 +50,11 @@ public class CommandAudioBitRate implements ICommandStrategy {
     public String command() throws CommandValueException {
         final byte MP3_BITRATE_MAX = (byte)320;
         final byte MP3_BITRATE_MIN = (byte)320;
+        final byte EMPTY_BITRATE = (byte)0;
+
+        if (audioBitRate == EMPTY_BITRATE) {
+            audioBitRate = MP3_BITRATE_MIN;
+        }
 
         String resultFormat = audioFormat;
 
