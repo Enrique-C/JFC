@@ -17,6 +17,7 @@ import com.jalasoft.jfc.model.command.common.CommandInputFilePath;
 import com.jalasoft.jfc.model.command.common.CommandOutputFileName;
 import com.jalasoft.jfc.model.command.common.CommandOutputFilePath;
 import com.jalasoft.jfc.model.command.ffmpeg.CommandAudioBitRate;
+import com.jalasoft.jfc.model.command.ffmpeg.CommandAudioCodec;
 import com.jalasoft.jfc.model.command.ffmpeg.CommandAudioFormat;
 import com.jalasoft.jfc.model.command.ffmpeg.CommandAudioSampleRate;
 import com.jalasoft.jfc.model.command.ffmpeg.CommandFFMpegPath;
@@ -106,6 +107,7 @@ public class AudioConverter implements IConverter {
     private void generateAudio(AudioParam audioParam) {
         commandAudioList.add(new CommandFFMpegPath());
         commandAudioList.add(new CommandInputFilePath(audioParam.getInputPathFile()));
+        commandAudioList.add(new CommandAudioCodec(audioParam.getAudioCodec()));
         commandAudioList.add(new CommandAudioSampleRate(audioParam.getAudioSampleRate()));
         commandAudioList.add(new CommandAudioBitRate(audioParam.getAudioFormat(), audioParam.getAudioBitRate()));
         commandAudioList.add(new CommandOutputFilePath(audioParam.getOutputPathFile(), audioParam.getFolderName()));

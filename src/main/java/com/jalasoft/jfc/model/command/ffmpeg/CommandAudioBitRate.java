@@ -30,11 +30,10 @@ public class CommandAudioBitRate implements ICommandStrategy {
     // Contents an audio bitRate value.
     private short audioBitRate;
 
-
-
     /**
      * Creates a new CommandAudio object.
-     * @param audioBitRate receives values.
+     * @param audioFormat receives value.
+     * @param audioBitRate receives value.
      */
     public CommandAudioBitRate(String audioFormat, short audioBitRate) {
         this.audioFormat = audioFormat;

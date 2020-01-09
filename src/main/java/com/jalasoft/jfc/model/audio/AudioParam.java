@@ -23,6 +23,9 @@ public class AudioParam extends Param {
     // Contains format of an audio.
     private  String audioFormat;
 
+    // Content audioCodec value.
+    private String audioCodec;
+
     // Content audioSampleRate value.
     private int audioSampleRate;
 
@@ -35,6 +38,14 @@ public class AudioParam extends Param {
      */
     public String getAudioFormat() {
         return audioFormat;
+    }
+
+    /**
+     * Gets an audio codec.
+     * @return audio codec String.
+     */
+    public String getAudioCodec() {
+        return audioCodec;
     }
 
     /**
@@ -55,10 +66,18 @@ public class AudioParam extends Param {
 
     /**
      * Sets audioFormat value.
-     * @param audioFormat contains and audio format.
+     * @param audioFormat contains an audio format.
      */
     public void setAudioFormat(String audioFormat) {
         this.audioFormat = audioFormat;
+    }
+
+    /**
+     * Sets audioCodec value.
+     * @param audioCodec contains an audio codec.
+     */
+    public void setAudioCodec(String audioCodec) {
+        this.audioCodec = audioCodec;
     }
 
     /**
