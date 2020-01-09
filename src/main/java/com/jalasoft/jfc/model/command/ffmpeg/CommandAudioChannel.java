@@ -21,10 +21,10 @@ import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
  *
  * @author Enrique Carrizales.
  */
-public class CommandAudioCodec implements ICommandStrategy {
+public class CommandAudioChannel implements ICommandStrategy {
 
     // Contents an audio codec value.
-    private String audioCodec;
+    private String audioChannel;
 
     // Contents an audio format value.
     private String audioFormatOut;
@@ -33,8 +33,8 @@ public class CommandAudioCodec implements ICommandStrategy {
      * Creates a new CommandAudio object.
      * @param audioFormatOut receives value.
      */
-    public CommandAudioCodec(String audioCodec, String audioFormatOut) {
-        this.audioCodec = audioCodec;
+    public CommandAudioChannel(String audioChannel, String audioFormatOut) {
+        this.audioChannel = audioChannel;
         this.audioFormatOut = audioFormatOut;
     }
 
@@ -45,25 +45,31 @@ public class CommandAudioCodec implements ICommandStrategy {
      */
     @Override
     public String command() throws CommandValueException {
-        if (audioCodec.isEmpty()) {
+        if (audioChannel.isEmpty()) {
             return "";
         } else {
-            verifyCodec(audioFormatOut);
-
-            return this.SPACE + AudioFfmpegCommand.AUDIO_CODEC.getFfmpegCommand() + this.SPACE + audioCodec;
+            verifyChannel(audioFormatOut);
+            return this.SPACE + AudioFfmpegCommand.AUDIO_CHANNEL.getFfmpegCommand() + this.SPACE + audioChannel;
         }
     }
 
-    private void verifyCodec(String resultFormat) throws CommandValueException {
-        final String MP3_CODEC = "mp3";
-        final String AAC_CODEC = "aac";
+    /**
+     * Verifies and audio channel.
+     * @param outPutFormat out put audio format.
+     * @throws CommandValueException when there is an invalid command.
+     */
+    private void verifyChannel(String outPutFormat) throws CommandValueException {
+        final String MONO_CHANNEL = "1";
+        final String STEREO_CHANNEL = "2";
+        final String BASS_DUAL_CHANNEL = "2.1";
+        final String BASS_TRIPLE_CHANNEL = "3.1";
+        final String QUAD_CHANNEL = "4";
+        final String BASS_FIVE_CHANNEL = "5.1";
+        final String BASS_SEVEN_CHANNEL = "7.1";
 
-        switch (resultFormat) {
+        switch (outPutFormat) {
             case ".mp3":
-                if (!audioCodec.equals(MP3_CODEC)) {
-                    throw new CommandValueException(ErrorMessageJfc.BIT_RATE_EXCEEDED.getErrorMessageJfc(), this.
-                            getClass().getName());
-                }
+                //Todo
                 break;
             case ".wav":
                 //Todo

@@ -30,14 +30,18 @@ public class CommandAudioBitRate implements ICommandStrategy {
     // Contents an audio bitRate value.
     private short audioBitRate;
 
+    // Contents an audio codec value.
+    private String audioCodec;
+
     /**
      * Creates a new CommandAudio object.
      * @param audioFormat receives value.
      * @param audioBitRate receives value.
      */
-    public CommandAudioBitRate(String audioFormat, short audioBitRate) {
+    public CommandAudioBitRate(String audioFormat, short audioBitRate, String audioCodec) {
         this.audioFormat = audioFormat;
         this.audioBitRate = audioBitRate;
+        this.audioCodec = audioCodec;
     }
 
     /**
@@ -48,8 +52,12 @@ public class CommandAudioBitRate implements ICommandStrategy {
     @Override
     public String command() throws CommandValueException {
         final short MP3_BITRATE_MAX = 320;
-        final short MP3_BITRATE_MIN = 320;
+        final short WMA_BITRATE_MAX = 192;
+        final short MP3_BITRATE_MIN = 32;
+        final short WMA_BITRATE_MIN = 48;
         final short EMPTY_BITRATE = 0;
+
+        final String CBR_CODEC = "cbr";
 
         if (audioBitRate == EMPTY_BITRATE) {
             audioBitRate = MP3_BITRATE_MIN;
@@ -65,7 +73,12 @@ public class CommandAudioBitRate implements ICommandStrategy {
                 }
                 break;
             case ".wma":
-                //Implements this with codec CBR
+                if (audioCodec.equals(CBR_CODEC)) {
+                    if (!(audioBitRate >= WMA_BITRATE_MIN && audioBitRate <= WMA_BITRATE_MAX)) {
+                        throw new CommandValueException(ErrorMessageJfc.BIT_RATE_EXCEEDED.getErrorMessageJfc(), this.
+                                getClass().getName());
+                    }
+                }
                 break;
         }
         return this.SPACE + VideoCommand.AUDIO_BITRATE.getCommand() + this.SPACE + audioBitRate
