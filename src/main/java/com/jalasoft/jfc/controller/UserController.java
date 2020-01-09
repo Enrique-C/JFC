@@ -51,7 +51,5 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
         }
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(token);
-
     }
-
 }
