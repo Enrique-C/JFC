@@ -37,6 +37,9 @@ public class Param {
   // Contains a confirmation of metadata.
   private boolean isMetadata;
 
+  // Contains a file format.
+  private String fileFormat;
+
   /**
    * Gets the checksum value.
    * @return md5 String value.
@@ -86,6 +89,14 @@ public class Param {
   }
 
   /**
+   * Gets the file format value.
+   * @return fileFormat String value.
+   */
+  public String getFileFormat() {
+    return fileFormat;
+  }
+
+  /**
    * setInputPathFile sets inputPathFile value.
    * @param inputPathFile for setting in this.inputPathFile.
    */
@@ -131,5 +142,13 @@ public class Param {
    */
   public void isMetadata(boolean metadata) {
     isMetadata = metadata;
+  }
+
+  /**
+   * Sets the file format value.
+   * @param fileFormat for setting this.fileFormat.
+   */
+  public void setFileFormat(String fileFormat) {
+    this.fileFormat = fileFormat;
   }
 }

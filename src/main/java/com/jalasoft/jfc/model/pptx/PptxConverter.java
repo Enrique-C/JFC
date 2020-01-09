@@ -59,6 +59,12 @@ public class PptxConverter {
     // Assigns the converted name.
     private String convertedName;
 
+    // Constant backslash.
+    final String BACKSLASH = "/";
+
+    // Constant pdf extension.
+    final String PDF_EXTENSION = ".pdf";
+
     /**
      * Changes an Pptx format to pdf or Image.
      * @param param pptx parameters.
@@ -79,9 +85,10 @@ public class PptxConverter {
         StringBuilder stringCommand = new StringBuilder();
         stringCommand.append(generatePdf(param));
         runCommand(stringCommand.toString());
-        convertedName = getOriginalName(param);
+        convertedName = getOriginalName(pdfParam);
 
         if (pdfParam.isThumbnail()){
+            setWhenPptxToPdf(pdfParam);
             stringCommand = new StringBuilder();
             stringCommand.append(pdfConverter.generateThumbnail(pdfParam));
             runCommand(stringCommand.toString());
@@ -95,13 +102,57 @@ public class PptxConverter {
         return fileResponse;
     }
 
-    private String getOriginalName(Param param) {
-        File fileoriginalname = new File(param.getInputPathFile());
+    /**
+     * Sets When converts pptx to pdf.
+     * @param pdfParam pdf parameters.
+     * @throws IOException when there is an invalid file path.
+     */
+    private void setWhenPptxToPdf(PdfParam pdfParam) throws IOException {
+        if (pdfParam.getFileFormat().equals(PDF_EXTENSION)) {
+            pdfParam.setInputPathFile(getNewInputPath(pdfParam));
+
+            PDDocument doc = PDDocument.load(new File(pdfParam.getInputPathFile()));
+
+            int quantityPages = doc.getNumberOfPages();
+            
+            pdfParam.setQuantityOfPage(quantityPages);
+        }
+    }
+
+    /**
+     * Gets the new input path to convert to rename and convert to images.
+     * @param pdfParam pdf parameters.
+     * @return the new input path.
+     */
+    private String getNewInputPath(PdfParam pdfParam) {
+        String newInputPath = pdfParam.getOutputPathFile() + pdfParam.getFolderName() + BACKSLASH + convertedName;
+        return  newInputPath;
+    }
+
+    /**
+     * Gets the original name of the file converted.
+     * @param pdfParam pdf parameters.
+     * @return the original name with its extension.
+     */
+    private String getOriginalName(PdfParam pdfParam) {
+        File fileOriginalName = new File(pdfParam.getInputPathFile());
         String regex = "[.][^.]+$";
         final String REPLACE_REGEX = "";
-        final String PDF_EXTENSION = ".pdf";
-        String name = fileoriginalname.getName().replaceFirst(regex, REPLACE_REGEX) + PDF_EXTENSION;
 
+        String name = fileOriginalName.getName().replaceFirst(regex,REPLACE_REGEX) + PDF_EXTENSION;
+        if (!pdfParam.getOutputName().isEmpty() && !pdfParam.getOutputName().equals(null)) {
+            File converted = new File(pdfParam.getOutputPathFile()+ pdfParam.getFolderName() + BACKSLASH
+                    + name);
+
+            File fileToRename = new File(pdfParam.getOutputPathFile()+ pdfParam.getFolderName() + BACKSLASH +
+                    pdfParam.getOutputName()+ PDF_EXTENSION);
+            converted.renameTo(fileToRename);
+
+            name = fileToRename.getName();
+        }else{
+            pdfParam.setOutputName(fileOriginalName.getName().replaceFirst(regex,REPLACE_REGEX));
+            name = pdfParam.getOutputName() + PDF_EXTENSION;
+        }
         return name;
     }
 
@@ -145,7 +196,6 @@ public class PptxConverter {
     private void zipFile(Param param) throws ZipJfcException {
         ZipFolder zip = new ZipFolder();
 
-        final String BACKSLASH = "/";
         final String ZIP_TAG = ".zip";
 
         File[] files = new File(param.getOutputPathFile() + BACKSLASH + param.getFolderName() +

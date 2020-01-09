@@ -53,13 +53,23 @@ public class PptxConverterTest {
 
         String md5 = "86f655c0e849a9220f3355db2dd1df63";
         String outputPath = "src/test/resources/";
-
+        String outputName = "";
+        String fileFormat = ".pdf";
+        String thumbnailFormat = ".jpg";
+        String pages = "";
+        boolean thumbnail = true;
         PdfParam pdfParam = new PdfParam();
+
 
         pdfParam.setMd5(md5);
         pdfParam.setInputPathFile(fileUploadedPath);
         pdfParam.setOutputPathFile(outputPath);
         pdfParam.setFolderName(md5);
+        pdfParam.setOutputName(outputName);
+        pdfParam.setFileFormat(fileFormat);
+        pdfParam.setPagesToConvert(pages);
+        pdfParam.setThumbnail(thumbnail);
+        pdfParam.setImageFormat(thumbnailFormat);
 
         return pdfParam;
     }
