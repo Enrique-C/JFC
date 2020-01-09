@@ -17,13 +17,13 @@ import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 public class CommandAudioSampleRate implements ICommandStrategy {
 
     // Contents sampleRate value.
-    private short audioSampleRate;
+    private int audioSampleRate;
 
     /**
      * Creates a new CommandAudio object.
      * @param audioSampleRate receives values.
      */
-    public CommandAudioSampleRate(short audioSampleRate) {
+    public CommandAudioSampleRate(int audioSampleRate) {
         this.audioSampleRate = audioSampleRate;
     }
 
@@ -36,8 +36,7 @@ public class CommandAudioSampleRate implements ICommandStrategy {
     public String command() throws CommandValueException {
         getSampleRate();
 
-        return this.SPACE + AudioFfmpegCommand.AUDIO_SAMPLE_RATE.getFfmpegCommand() + this.SPACE + audioSampleRate
-                + AudioFfmpegCommand.KBPS.getFfmpegCommand();
+        return this.SPACE + AudioFfmpegCommand.AUDIO_SAMPLE_RATE.getFfmpegCommand() + this.SPACE + audioSampleRate;
     }
 
     /**
@@ -45,12 +44,12 @@ public class CommandAudioSampleRate implements ICommandStrategy {
      * @throws CommandValueException when there is an invalid value.
      */
     private void getSampleRate() throws CommandValueException {
-        final short DEFAULT = (short)44100;
+        final int DEFAULT = 44100;
 
         if (audioSampleRate == 0) {
             audioSampleRate = DEFAULT;
         }
-        if (audioSampleRate > DEFAULT) {
+        if (audioSampleRate < DEFAULT) {
             throw new CommandValueException(ErrorMessageJfc.SAMPLE_RATE_EXCEEDED.getErrorMessageJfc() + ": "
                     + audioSampleRate, this.getClass().getName());
         }

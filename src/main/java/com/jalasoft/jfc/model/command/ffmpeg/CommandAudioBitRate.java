@@ -24,11 +24,11 @@ import com.jalasoft.jfc.model.video.VideoCommand;
  */
 public class CommandAudioBitRate implements ICommandStrategy {
 
-    // Contents format value.
+    // Contents an audio format value.
     private String audioFormat;
 
-    // Contents bitRate value.
-    private byte audioBitRate;
+    // Contents an audio bitRate value.
+    private short audioBitRate;
 
 
 
@@ -36,7 +36,7 @@ public class CommandAudioBitRate implements ICommandStrategy {
      * Creates a new CommandAudio object.
      * @param audioBitRate receives values.
      */
-    public CommandAudioBitRate(String audioFormat, byte audioBitRate) {
+    public CommandAudioBitRate(String audioFormat, short audioBitRate) {
         this.audioFormat = audioFormat;
         this.audioBitRate = audioBitRate;
     }
@@ -48,9 +48,9 @@ public class CommandAudioBitRate implements ICommandStrategy {
      */
     @Override
     public String command() throws CommandValueException {
-        final byte MP3_BITRATE_MAX = (byte)320;
-        final byte MP3_BITRATE_MIN = (byte)320;
-        final byte EMPTY_BITRATE = (byte)0;
+        final short MP3_BITRATE_MAX = 320;
+        final short MP3_BITRATE_MIN = 320;
+        final short EMPTY_BITRATE = 0;
 
         if (audioBitRate == EMPTY_BITRATE) {
             audioBitRate = MP3_BITRATE_MIN;
