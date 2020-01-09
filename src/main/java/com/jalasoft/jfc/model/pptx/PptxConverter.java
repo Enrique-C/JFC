@@ -163,7 +163,7 @@ public class PptxConverter {
         commandsList.add(new CommandImageAlpha());
         commandsList.add(new CommandImageBackground());
         commandsList.add(new CommandInputFilePath(pptxParam.getInputPathFile()));
-        commandsList.add(new CommandPagesToConvert(pptxParam.getPagesToConvert(), quantityPages));
+        commandsList.add(new CommandPagesToConvert(pptxParam.getPagesToConvertThumbnail(), quantityPages));
         commandsList.add(new CommandThumbnail(pptxParam.getIsThumbnail()));
         commandsList.add(new CommandOutputFilePath(pptxParam.getOutputPathFile(), pptxParam.getFolderName()));
         commandsList.add(new CommandOutputFileName(pptxParam.getOutputName() + "_t",

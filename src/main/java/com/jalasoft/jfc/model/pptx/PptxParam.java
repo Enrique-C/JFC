@@ -27,7 +27,7 @@ public class PptxParam extends Param {
     private boolean isThumbnail;
 
     // Content number of pages to convert
-    private String pagesToConvert;
+    private String pagesToConvertThumbnail;
 
     /**
      * Gets Thumbnail Format value.
@@ -49,8 +49,8 @@ public class PptxParam extends Param {
      * Gets number of pages to be converted to thumbnail.
      * @return pagesToConvert.
      */
-    public String getPagesToConvert() {
-        return pagesToConvert;
+    public String getPagesToConvertThumbnail() {
+        return pagesToConvertThumbnail;
     }
 
     /**
@@ -71,9 +71,9 @@ public class PptxParam extends Param {
 
     /**
      * Sets number of pages to be converted to thumbnail.
-     * @param pagesToConvert value.
+     * @param pagesToConvertThumbnail value.
      */
-    public void setPagesToConvert(String pagesToConvert) {
-        this.pagesToConvert = pagesToConvert;
+    public void setPagesToConvertThumbnail(String pagesToConvertThumbnail) {
+        this.pagesToConvertThumbnail = pagesToConvertThumbnail;
     }
 }

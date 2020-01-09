@@ -9,11 +9,9 @@
 
 package com.jalasoft.jfc.model.pptx;
 
-import com.jalasoft.jfc.model.Param;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ConvertException;
 import com.jalasoft.jfc.model.exception.ZipJfcException;
-import com.jalasoft.jfc.model.pdf.PdfParam;
 import com.jalasoft.jfc.model.utility.PathJfc;
 
 import org.junit.Test;
@@ -66,7 +64,7 @@ public class PptxConverterTest {
         pptxParam.setFolderName(md5);
         pptxParam.setOutputName(outputName);
         pptxParam.setFileFormat(fileFormat);
-        pptxParam.setPagesToConvert(pages);
+        pptxParam.setPagesToConvertThumbnail(pages);
         pptxParam.setIsThumbnail(thumbnail);
         pptxParam.setThumbnailFormat(thumbnailFormat);
         pptxParam.isMetadata(true);
