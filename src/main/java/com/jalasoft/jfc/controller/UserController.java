@@ -39,8 +39,7 @@ public class UserController {
     public ResponseEntity<?> loginUser(@RequestParam("userName") String userName, @RequestParam("password")
             String password) {
         String TOKEN_SECRET = "at11";
-        final String EMPTY_VALUE = "";
-        String token = EMPTY_VALUE;
+        String token;
         try {
             token = Jwts.builder()
                     .signWith(SignatureAlgorithm.HS256, TOKEN_SECRET.getBytes())
