@@ -32,7 +32,7 @@ public class UserController {
      * Allows to user login.
      * @param userName credential value.
      * @param password credential value.
-     * @return token generated.
+     * @return ResponseEntity with token generated.
      */
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestParam("userName") String userName,
