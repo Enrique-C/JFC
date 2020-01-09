@@ -25,23 +25,25 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @RestController
 public class UserController {
 
+    /**
+     * Allows to user login.
+     * @param userName credential value.
+     * @param password credential value.
+     * @return token generated.
+     */
     @PostMapping("/login")
     public String loginUser(@RequestParam("userName") String userName, @RequestParam("password") String password) {
         String TOKEN_SECRET = "jf9i4jgu83nfl0";
         final long EXPIRATION_TIME = 864000000;
         final String TOKEN_PREFIX = "Bearer ";
         final String HEADER_STRING = "Authorization";
-        String token = "";
-        try {
-            token = Jwts.builder()
-                    .signWith(SignatureAlgorithm.HS256, TOKEN_SECRET.getBytes())
-                    .setSubject(userName)
-                    .claim("ROLE", "admin")
-                    .compact();
 
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-        }
+        String token = Jwts.builder()
+                .signWith(SignatureAlgorithm.HS256, TOKEN_SECRET.getBytes())
+                .setSubject(userName)
+                .claim("ROLE", "admin")
+                .compact();
+
         return TOKEN_PREFIX + token;
     }
 }
