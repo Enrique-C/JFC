@@ -12,7 +12,6 @@ package com.jalasoft.jfc.model.command.ffmpeg;
 import com.jalasoft.jfc.model.audio.AudioFfmpegCommand;
 import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.exception.CommandValueException;
-import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 
 /**
  * Generates an audio command.
@@ -31,6 +30,7 @@ public class CommandAudioChannel implements ICommandStrategy {
 
     /**
      * Creates a new CommandAudio object.
+     * @param audioChannel receives value.
      * @param audioFormatOut receives value.
      */
     public CommandAudioChannel(String audioChannel, String audioFormatOut) {

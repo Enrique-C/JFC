@@ -31,6 +31,7 @@ public class CommandAudioCodec implements ICommandStrategy {
 
     /**
      * Creates a new CommandAudio object.
+     * @param audioCodec receives value.
      * @param audioFormatOut receives value.
      */
     public CommandAudioCodec(String audioCodec, String audioFormatOut) {
