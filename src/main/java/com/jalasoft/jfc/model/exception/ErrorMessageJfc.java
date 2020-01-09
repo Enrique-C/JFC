@@ -43,7 +43,9 @@ public enum ErrorMessageJfc {
     MD5_ERROR("Md5 Error! binary is invalid"),
     IMAGE_CONVERT_ERROR_MESSAGE("Error converting an Image"),
     AUDIO_CONVERT_ERROR_MESSAGE("Error converting an Audio"),
-    LIBREOFFICE_NOT_EXIST("LibreOffice doesn't exist");
+    LIBREOFFICE_NOT_EXIST("LibreOffice doesn't exist"),
+    BIT_RATE_EXCEEDED("Bit Rate was exceeded"),
+    SAMPLE_RATE_EXCEEDED("Sample Rate was exceeded");
 
     // Message variable.
     private String message;
