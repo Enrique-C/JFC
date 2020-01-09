@@ -10,7 +10,7 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
-# Package Files #
+# Package Files
 *.jar
 *.war
 *.nar
@@ -32,7 +32,7 @@ build/*
 #Test files
 files/*
 
-#LibreOffice
+#Binary files
 thirdparty/*
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
