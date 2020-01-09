@@ -35,9 +35,9 @@ public class PptxConverterTest {
     @Test
     public void Convert_PptxTo_pdf() throws ZipJfcException, CommandValueException, ConvertException, IOException {
         PptxConverter pptxConverter = new PptxConverter();
-        PdfParam param = getParamsPptx();
+        PptxParam pptxParam = getParamsPptx();
 
-        String zipPptx = pptxConverter.convert(param).getDownload();
+        String zipPptx = pptxConverter.convert(pptxParam).getDownload();
         final int EMPTY_BYTES = 0;
 
         File zipFile = new File(zipPptx);
@@ -46,30 +46,31 @@ public class PptxConverterTest {
         assertTrue(expected);
     }
 
-    private PdfParam getParamsPptx() {
+    private PptxParam getParamsPptx() {
         PathJfc pathJfc = new PathJfc();
 
         String fileUploadedPath = "src/test/resources/Designpatters.pptx";
 
         String md5 = "86f655c0e849a9220f3355db2dd1df63";
         String outputPath = "src/test/resources/";
-        String outputName = "";
+        String outputName = "pruebapptxtopdf";
         String fileFormat = ".pdf";
-        String thumbnailFormat = ".jpg";
+        String thumbnailFormat = ".png";
         String pages = "";
         boolean thumbnail = true;
-        PdfParam pdfParam = new PdfParam();
-        
-        pdfParam.setMd5(md5);
-        pdfParam.setInputPathFile(fileUploadedPath);
-        pdfParam.setOutputPathFile(outputPath);
-        pdfParam.setFolderName(md5);
-        pdfParam.setOutputName(outputName);
-        pdfParam.setFileFormat(fileFormat);
-        pdfParam.setPagesToConvert(pages);
-        pdfParam.setThumbnail(thumbnail);
-        pdfParam.setImageFormat(thumbnailFormat);
+        PptxParam pptxParam = new PptxParam();
 
-        return pdfParam;
+        pptxParam.setMd5(md5);
+        pptxParam.setInputPathFile(fileUploadedPath);
+        pptxParam.setOutputPathFile(outputPath);
+        pptxParam.setFolderName(md5);
+        pptxParam.setOutputName(outputName);
+        pptxParam.setFileFormat(fileFormat);
+        pptxParam.setPagesToConvert(pages);
+        pptxParam.setIsThumbnail(thumbnail);
+        pptxParam.setThumbnailFormat(thumbnailFormat);
+        pptxParam.isMetadata(true);
+
+        return pptxParam;
     }
 }

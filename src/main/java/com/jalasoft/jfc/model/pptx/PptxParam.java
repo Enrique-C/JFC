@@ -21,40 +21,59 @@ import com.jalasoft.jfc.model.Param;
 public class PptxParam extends Param {
 
     // Contents a format to convert.
-    String pptxFormat;
+    private String thumbnailFormat;
 
     // Contains a boolean value for building the Thumbnail.
     private boolean isThumbnail;
 
+    // Content number of pages to convert
+    private String pagesToConvert;
+
     /**
-     * Gets getPptxFormat value.
+     * Gets Thumbnail Format value.
      * @return String value.
      */
-    public String getPptxFormat() {
-        return pptxFormat;
+    public String getThumbnailFormat() {
+        return thumbnailFormat;
     }
 
     /**
      * Gets isThumbnail value.
      * @return boolean value.
      */
-    public boolean isThumbnail() {
+    public boolean getIsThumbnail() {
         return isThumbnail;
+    }
+
+    /**
+     * Gets number of pages to be converted to thumbnail.
+     * @return pagesToConvert.
+     */
+    public String getPagesToConvert() {
+        return pagesToConvert;
     }
 
     /**
      * Sets pptxFormat value.
      * @param pptxFormat for setting pptxFormat.
      */
-    public void setPptxFormat(String pptxFormat) {
-        this.pptxFormat = pptxFormat;
+    public void setThumbnailFormat(String pptxFormat) {
+        this.thumbnailFormat = pptxFormat;
     }
 
     /**
      * Sets isThumbnail.
      * @param isThumbnail receives boolean value.
      */
-    public void isThumbnail(boolean isThumbnail) {
+    public void setIsThumbnail(boolean isThumbnail) {
         this.isThumbnail = isThumbnail;
+    }
+
+    /**
+     * Sets number of pages to be converted to thumbnail.
+     * @param pagesToConvert value.
+     */
+    public void setPagesToConvert(String pagesToConvert) {
+        this.pagesToConvert = pagesToConvert;
     }
 }

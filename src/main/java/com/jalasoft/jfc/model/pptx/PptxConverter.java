@@ -17,19 +17,26 @@ import com.jalasoft.jfc.model.command.LibreOffice.CommandLibreOfficePath;
 import com.jalasoft.jfc.model.command.LibreOffice.CommandOutDir;
 import com.jalasoft.jfc.model.command.LibreOffice.CommandPdfConverter;
 import com.jalasoft.jfc.model.command.common.CommandInputFilePath;
+import com.jalasoft.jfc.model.command.common.CommandOutputFileName;
 import com.jalasoft.jfc.model.command.common.CommandOutputFilePath;
+import com.jalasoft.jfc.model.command.imagick.CommandImageAlpha;
+import com.jalasoft.jfc.model.command.imagick.CommandImageBackground;
+import com.jalasoft.jfc.model.command.imagick.CommandImageConverter;
+import com.jalasoft.jfc.model.command.imagick.CommandImageDensity;
+import com.jalasoft.jfc.model.command.imagick.CommandImageFormat;
+import com.jalasoft.jfc.model.command.imagick.CommandImageMagickPath;
+import com.jalasoft.jfc.model.command.imagick.CommandPagesToConvert;
+import com.jalasoft.jfc.model.command.imagick.CommandThumbnail;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ConvertException;
 import com.jalasoft.jfc.model.exception.ZipJfcException;
-import com.jalasoft.jfc.model.pdf.PdfConverter;
-import com.jalasoft.jfc.model.pdf.PdfParam;
+import com.jalasoft.jfc.model.metadata.MetadataConverter;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.utility.PathJfc;
 import com.jalasoft.jfc.model.utility.ZipFolder;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
-
 
 import java.io.File;
 import java.io.IOException;
@@ -77,78 +84,128 @@ public class PptxConverter {
         if (param == null) {
             throw new ConvertException("Parameter param is null", this.getClass().getName());
         }
-        PdfParam pdfParam = (PdfParam) param;
-        PdfConverter pdfConverter = new PdfConverter();
+        PptxParam pptxParam = (PptxParam) param;
         FileResponse fileResponse = new FileResponse();
 
         StringBuilder stringCommand = new StringBuilder();
         stringCommand.append(generatePdf(param));
         runCommand(stringCommand.toString());
-        convertedName = getOriginalName(pdfParam);
 
-        if (pdfParam.isThumbnail()){
-            setWhenPptxToPdf(pdfParam);
-            stringCommand = new StringBuilder();
-            stringCommand.append(pdfConverter.generateThumbnail(pdfParam));
-            runCommand(stringCommand.toString());
-        }
-        zipFile(pdfParam);
+        isPdfConversion(pptxParam);
 
-        fileResponse.setName(param.getOutputName());
+        fileResponse.setName(pptxParam.getOutputName());
         fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
         fileResponse.setDownload(zipPath);
         return fileResponse;
     }
 
     /**
-     * Sets When converts pptx to pdf.
-     * @param pdfParam pdf parameters.
-     * @throws IOException when there is an invalid file path.
+     * Verifies if the conversion is just to Pdf.
+     * @param pptxParam pptx parameters.
+     * @throws ZipJfcException when there is an invalid file path.
+     * @throws CommandValueException when there is an invalid command.
+     * @throws ConvertException when there is an invalid conversion.
+     * @throws IOException when there is an invalid input.
      */
-    private void setWhenPptxToPdf(PdfParam pdfParam) throws IOException {
-        if (pdfParam.getFileFormat().equals(PDF_EXTENSION)) {
-            pdfParam.setInputPathFile(getNewInputPath(pdfParam));
-
-            PDDocument doc = PDDocument.load(new File(pdfParam.getInputPathFile()));
-
-            int quantityPages = doc.getNumberOfPages();
-
-            pdfParam.setQuantityOfPage(quantityPages);
+    private void isPdfConversion(PptxParam pptxParam) throws ZipJfcException, CommandValueException, ConvertException
+            , IOException {
+        if (pptxParam.getFileFormat().equals(PDF_EXTENSION)) {
+            isMetadataTrue(pptxParam);
+            convertedName = getOriginalName(pptxParam);
+            isThumbnail(pptxParam);
+            zipFile(pptxParam);
         }
     }
 
     /**
+     * Verifies if the conversion requires metadata.
+     * @param pptxParam pptx parameters.
+     * @throws ConvertException when there is an invalid conversion.
+     */
+    private void isMetadataTrue(PptxParam pptxParam) throws ConvertException {
+        if (pptxParam.isMetadata()) {
+            MetadataConverter metadataConverter = new MetadataConverter();
+            metadataConverter.convert(pptxParam);
+        }
+    }
+
+    /**
+     * Verifies if the conversion requires thumbnail.
+     * @param pptxParam pptx parameters.
+     * @throws IOException when there is an invalid input.
+     * @throws CommandValueException when there is an invalid command.
+     * @throws ConvertException when there is an invalid conversion.
+     */
+    private void isThumbnail(PptxParam pptxParam) throws IOException, CommandValueException, ConvertException {
+        if (pptxParam.getIsThumbnail()){
+            StringBuilder stringCommand = new StringBuilder();
+            stringCommand.append(generateThumbnail(pptxParam));
+            runCommand(stringCommand.toString());
+        }
+    }
+
+    /**
+     * Generates thumbnail string command.
+     * @param pptxParam pptx parameters.
+     * @return command concatenated.
+     * @throws IOException when there is an invalid input.
+     * @throws CommandValueException when there is an invalid command.
+     */
+    private String generateThumbnail(PptxParam pptxParam) throws IOException, CommandValueException {
+        pptxParam.setInputPathFile(getNewInputPath(pptxParam));
+        PDDocument doc = PDDocument.load(new File(pptxParam.getInputPathFile()));
+        int quantityPages = doc.getNumberOfPages();
+
+        commandsList = new ArrayList<>();
+        commandsList.add(new CommandImageMagickPath());
+        commandsList.add(new CommandImageConverter());
+        commandsList.add(new CommandImageDensity());
+        commandsList.add(new CommandImageAlpha());
+        commandsList.add(new CommandImageBackground());
+        commandsList.add(new CommandInputFilePath(pptxParam.getInputPathFile()));
+        commandsList.add(new CommandPagesToConvert(pptxParam.getPagesToConvert(), quantityPages));
+        commandsList.add(new CommandThumbnail(pptxParam.getIsThumbnail()));
+        commandsList.add(new CommandOutputFilePath(pptxParam.getOutputPathFile(), pptxParam.getFolderName()));
+        commandsList.add(new CommandOutputFileName(pptxParam.getOutputName() + "_t",
+                pptxParam.getFolderName() + "_t"));
+        commandsList.add(new CommandImageFormat(pptxParam.getThumbnailFormat()));
+        contextStrategy = new ContextStrategy(commandsList);
+        String result = contextStrategy.buildCommand();
+        return result;
+    }
+
+    /**
      * Gets the new input path to convert to rename and convert to images.
-     * @param pdfParam pdf parameters.
+     * @param pptxParam pdf parameters.
      * @return the new input path.
      */
-    private String getNewInputPath(PdfParam pdfParam) {
-        String newInputPath = pdfParam.getOutputPathFile() + pdfParam.getFolderName() + SLASH + convertedName;
+    private String getNewInputPath(PptxParam pptxParam) {
+        String newInputPath = pptxParam.getOutputPathFile() + pptxParam.getFolderName() + SLASH + convertedName;
         return  newInputPath;
     }
 
     /**
      * Gets the original name of converted file.
-     * @param pdfParam pdf parameters.
+     * @param pptxParam pdf parameters.
      * @return the original name with its extension.
      */
-    private String getOriginalName(PdfParam pdfParam) {
-        File fileOriginalName = new File(pdfParam.getInputPathFile());
+    private String getOriginalName(PptxParam pptxParam) {
+        File fileOriginalName = new File(pptxParam.getInputPathFile());
         String regex = "[.][^.]+$";
         final String REPLACE_REGEX = "";
 
         String name = fileOriginalName.getName().replaceFirst(regex,REPLACE_REGEX) + PDF_EXTENSION;
-        if (!pdfParam.getOutputName().isEmpty() && !pdfParam.getOutputName().equals(null)) {
-            File converted = new File(pdfParam.getOutputPathFile() + pdfParam.getFolderName() + SLASH + name);
+        if (!pptxParam.getOutputName().isEmpty() && !pptxParam.getOutputName().equals(null)) {
+            File converted = new File(pptxParam.getOutputPathFile() + pptxParam.getFolderName() + SLASH + name);
 
-            File fileToRename = new File(pdfParam.getOutputPathFile() + pdfParam.getFolderName() + SLASH +
-                    pdfParam.getOutputName() + PDF_EXTENSION);
+            File fileToRename = new File(pptxParam.getOutputPathFile() + pptxParam.getFolderName() + SLASH +
+                    pptxParam.getOutputName() + PDF_EXTENSION);
             converted.renameTo(fileToRename);
 
             name = fileToRename.getName();
         } else {
-            pdfParam.setOutputName(fileOriginalName.getName().replaceFirst(regex, REPLACE_REGEX));
-            name = pdfParam.getOutputName() + PDF_EXTENSION;
+            pptxParam.setOutputName(fileOriginalName.getName().replaceFirst(regex, REPLACE_REGEX));
+            name = pptxParam.getOutputName() + PDF_EXTENSION;
         }
         return name;
     }
