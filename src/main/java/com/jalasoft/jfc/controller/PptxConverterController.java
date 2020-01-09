@@ -26,9 +26,12 @@ import com.jalasoft.jfc.model.utility.FileServiceController;
 import com.jalasoft.jfc.model.utility.LinkGenerator;
 import com.jalasoft.jfc.model.utility.Md5Checksum;
 import com.jalasoft.jfc.model.utility.PathJfc;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+
 import org.apache.pdfbox.pdmodel.PDDocument;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,6 +39,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -52,16 +56,15 @@ import java.io.IOException;
 public class PptxConverterController {
 
     /**
-     * This method receives a PDF to convert.
-     *
-     * @param file                    contains the image file
-     * @param md5                     contains md5 value.
-     * @param outputName              contains the name of output file.
-     * @param isThumbnail             boolean of thumbnail.
-     * @param thumbnailFormat         format of a image.
+     * Receives a Pptx to convert.
+     * @param file contains the image file
+     * @param md5 contains md5 value.
+     * @param outputName contains the name of output file.
+     * @param isThumbnail boolean of thumbnail.
+     * @param thumbnailFormat format of a image.
      * @param pagesToConvertThumbNail contains number of pdf file pages.
-     * @param request                 contains client data.
-     * @param isMetadata              boolean of metadata.
+     * @param request contains client data.
+     * @param isMetadata boolean of metadata.
      * @return Response is the result of the conversion.
      */
     @PostMapping("/pptxConverter")
@@ -71,18 +74,21 @@ public class PptxConverterController {
             @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = " ") String md5,
             @RequestParam String outputName, @RequestParam(defaultValue = "false") boolean isThumbnail,
             @RequestParam(defaultValue = "false") boolean isMetadata, @RequestParam(defaultValue = ".jpg")
-                    String thumbnailFormat, @RequestParam(defaultValue = "") String pagesToConvertThumbNail,
+            String thumbnailFormat, @RequestParam(defaultValue = "") String pagesToConvertThumbNail,
             HttpServletRequest request) {
 
         PptxParam pptxParam = new PptxParam();
+        final String FILE_FORMAT = ".pdf";
         FileResponse fileResponse = new FileResponse();
         ErrorResponse errorResponse = new ErrorResponse();
         IConverter PptxConverter = new PptxConverter();
+
 
         try {
             String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
                     getOriginalFilename(), file);
             if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
+                pptxParam.setFileFormat(FILE_FORMAT);
                 pptxParam.setMd5(md5);
                 pptxParam.setInputPathFile(fileUploadedPath);
                 pptxParam.setOutputPathFile(PathJfc.getOutputFilePath());
