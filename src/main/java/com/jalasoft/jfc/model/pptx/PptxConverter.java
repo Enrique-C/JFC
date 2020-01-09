@@ -110,11 +110,13 @@ public class PptxConverter implements IConverter {
      */
     private void isPdfConversion(PptxParam pptxParam) throws ZipJfcException, CommandValueException, ConvertException
             , IOException {
+        convertedName = getOriginalName(pptxParam);
         if (pptxParam.getFileFormat().equals(PDF_EXTENSION)) {
             isMetadataTrue(pptxParam);
-            convertedName = getOriginalName(pptxParam);
             isThumbnail(pptxParam);
             zipFile(pptxParam);
+        } else {
+            pptxParam.setInputPathFile(getNewInputPath(pptxParam));
         }
     }
 
