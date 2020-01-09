@@ -29,6 +29,9 @@ gradlew
 gradlew.bat
 build/*
 
+#Test files
+files/*
+
 #LibreOffice
 
 
