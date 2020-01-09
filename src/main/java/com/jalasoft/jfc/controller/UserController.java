@@ -9,6 +9,7 @@
 
 package com.jalasoft.jfc.controller;
 
+import com.jalasoft.jfc.model.result.FileResponse;
 import io.jsonwebtoken.Jwts;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,10 +33,11 @@ public class UserController {
      * Allows to user login.
      * @param userName credential value.
      * @param password credential value.
-     * @return token generated.
+     * @return ResponseEntity with token generated.
      */
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestParam("userName") String userName, @RequestParam("password") String password) {
+    public ResponseEntity<?> loginUser(@RequestParam("userName") String userName, @RequestParam("password")
+            String password) {
         String TOKEN_SECRET = "at11";
         final String EMPTY_VALUE = "";
         String token = EMPTY_VALUE;
@@ -49,6 +51,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
         }
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(token);
+
     }
 
 }
