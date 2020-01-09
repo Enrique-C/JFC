@@ -36,6 +36,7 @@ import java.util.Collections;
 @ServletComponentScan
 @SpringBootApplication
 @EnableSwagger2
+@ServletComponentScan
 public class Main {
 
     /**

@@ -6,7 +6,6 @@
  * Information and shall use it only in accordance with the terms of the
  * license agreement you entered into with Jalasoft.
  */
-
 package com.jalasoft.jfc.controller;
 
 import javax.servlet.Filter;
@@ -18,31 +17,43 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 
+/**
+ * Manages Token filters.
+ *
+ * @version 0.1 09 Jan 2020.
+ *
+ * @author Juan Martinez.
+ */
 @WebFilter(urlPatterns = {"/*"})
 public class TokenFilter implements Filter {
 
+    /**
+     * Initializes filter configuration.
+     * @param filterConfig value.
+     * @throws ServletException if something was wrong.
+     */
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
     }
 
     /**
-     *
-     * @param request
-     * @param response
-     * @param chain
-     * @throws IOException
-     * @throws ServletException
+     * Allows to validate token.
+     * @param request client value
+     * @param response value for the client.
+     * @param chain value.
+     * @throws IOException when something was wrong.
+     * @throws ServletException if servlet was corrupted.
      */
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
+            ServletException {
         System.out.println("filter");
-
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
-
         String url = req.getRequestURL().toString();
         String auth = req.getHeader("Authorization");
         String token = null;
@@ -50,13 +61,17 @@ public class TokenFilter implements Filter {
         if (auth != null) {
             token = auth.split(" ")[1];
         }
-        if (url.contains("/login")) {
-            chain.doFilter(request, response);
-        } else {
-            res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "denied");
-        }
+        chain.doFilter(request, response);
+//        if (url.contains("/login") && url.contains("/extractmd5")) {
+//            chain.doFilter(request, response);
+//        } else {
+//            res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "access denied");
+//        }
     }
 
+    /**
+     * Destroys objects.
+     */
     @Override
     public void destroy() {
 
