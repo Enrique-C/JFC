@@ -12,6 +12,7 @@ package com.jalasoft.jfc;
 import com.jalasoft.jfc.model.utility.PathJfc;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Bean;
 
 import springfox.documentation.builders.PathSelectors;
@@ -33,6 +34,7 @@ import java.util.Collections;
  */
 @SpringBootApplication
 @EnableSwagger2
+@ServletComponentScan
 public class Main {
 
     /**

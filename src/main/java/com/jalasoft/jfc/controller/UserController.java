@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -35,22 +36,19 @@ public class UserController {
      * @return ResponseEntity with token generated.
      */
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestParam("userName") String userName,
-            @RequestParam("password") String password) {
-        FileResponse fileResponse = new FileResponse();
+    public ResponseEntity<?> loginUser(@RequestParam("userName") String userName, @RequestParam("password")
+            String password) {
         String TOKEN_SECRET = "at11";
-        final String TOKEN_PREFIX = "Bearer ";
-        final String HEADER_STRING = "Authorization";
-
+        String token;
         try {
-            String token = Jwts.builder()
+            token = Jwts.builder()
                     .signWith(SignatureAlgorithm.HS256, TOKEN_SECRET.getBytes())
                     .setSubject(userName)
                     .claim("ROLE", "admin")
                     .compact();
-            return ResponseEntity.ok(token);
         } catch (Exception ex) {
-            return ResponseEntity.ok(HttpStatus.UNAUTHORIZED);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
         }
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(token);
     }
 }
