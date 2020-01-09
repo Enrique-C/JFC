@@ -20,10 +20,10 @@ import com.jalasoft.jfc.model.Param;
  * */
 public class PptxParam extends Param {
 
-    // Contents a format to convert
+    // Contents a format to convert.
     String pptxFormat;
 
-    // Contains a boolean value for building a Thumbnail.
+    // Contains a boolean value for building the Thumbnail.
     private boolean isThumbnail;
 
     /**
@@ -44,17 +44,17 @@ public class PptxParam extends Param {
 
     /**
      * Sets pptxFormat value.
-     * @param pptxFormat for setting pptxFormat
+     * @param pptxFormat for setting pptxFormat.
      */
     public void setPptxFormat(String pptxFormat) {
         this.pptxFormat = pptxFormat;
     }
 
     /**
-     * Sets ifThumbnail.
-     * @param ifThumbnail receives boolean value.
+     * Sets isThumbnail.
+     * @param isThumbnail receives boolean value.
      */
-    public void isThumbnail(boolean ifThumbnail) {
-        this.isThumbnail = ifThumbnail;
+    public void isThumbnail(boolean isThumbnail) {
+        this.isThumbnail = isThumbnail;
     }
 }

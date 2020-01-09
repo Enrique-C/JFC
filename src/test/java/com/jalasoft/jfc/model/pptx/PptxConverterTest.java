@@ -59,8 +59,7 @@ public class PptxConverterTest {
         String pages = "";
         boolean thumbnail = true;
         PdfParam pdfParam = new PdfParam();
-
-
+        
         pdfParam.setMd5(md5);
         pdfParam.setInputPathFile(fileUploadedPath);
         pdfParam.setOutputPathFile(outputPath);

@@ -21,14 +21,13 @@ import com.jalasoft.jfc.model.command.common.CommandOutputFilePath;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ConvertException;
 import com.jalasoft.jfc.model.exception.ZipJfcException;
-
 import com.jalasoft.jfc.model.pdf.PdfConverter;
 import com.jalasoft.jfc.model.pdf.PdfParam;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.result.MessageResponse;
-import com.jalasoft.jfc.model.utility.FileServiceController;
 import com.jalasoft.jfc.model.utility.PathJfc;
 import com.jalasoft.jfc.model.utility.ZipFolder;
+
 import org.apache.pdfbox.pdmodel.PDDocument;
 
 
@@ -59,8 +58,8 @@ public class PptxConverter {
     // Assigns the converted name.
     private String convertedName;
 
-    // Constant backslash.
-    final String BACKSLASH = "/";
+    // Constant slash.
+    final String SLASH = "/";
 
     // Constant pdf extension.
     final String PDF_EXTENSION = ".pdf";
@@ -93,7 +92,6 @@ public class PptxConverter {
             stringCommand.append(pdfConverter.generateThumbnail(pdfParam));
             runCommand(stringCommand.toString());
         }
-
         zipFile(pdfParam);
 
         fileResponse.setName(param.getOutputName());
@@ -125,12 +123,12 @@ public class PptxConverter {
      * @return the new input path.
      */
     private String getNewInputPath(PdfParam pdfParam) {
-        String newInputPath = pdfParam.getOutputPathFile() + pdfParam.getFolderName() + BACKSLASH + convertedName;
+        String newInputPath = pdfParam.getOutputPathFile() + pdfParam.getFolderName() + SLASH + convertedName;
         return  newInputPath;
     }
 
     /**
-     * Gets the original name of the file converted.
+     * Gets the original name of converted file.
      * @param pdfParam pdf parameters.
      * @return the original name with its extension.
      */
@@ -141,16 +139,15 @@ public class PptxConverter {
 
         String name = fileOriginalName.getName().replaceFirst(regex,REPLACE_REGEX) + PDF_EXTENSION;
         if (!pdfParam.getOutputName().isEmpty() && !pdfParam.getOutputName().equals(null)) {
-            File converted = new File(pdfParam.getOutputPathFile()+ pdfParam.getFolderName() + BACKSLASH
-                    + name);
+            File converted = new File(pdfParam.getOutputPathFile() + pdfParam.getFolderName() + SLASH + name);
 
-            File fileToRename = new File(pdfParam.getOutputPathFile()+ pdfParam.getFolderName() + BACKSLASH +
-                    pdfParam.getOutputName()+ PDF_EXTENSION);
+            File fileToRename = new File(pdfParam.getOutputPathFile() + pdfParam.getFolderName() + SLASH +
+                    pdfParam.getOutputName() + PDF_EXTENSION);
             converted.renameTo(fileToRename);
 
             name = fileToRename.getName();
-        }else{
-            pdfParam.setOutputName(fileOriginalName.getName().replaceFirst(regex,REPLACE_REGEX));
+        } else {
+            pdfParam.setOutputName(fileOriginalName.getName().replaceFirst(regex, REPLACE_REGEX));
             name = pdfParam.getOutputName() + PDF_EXTENSION;
         }
         return name;
@@ -161,7 +158,7 @@ public class PptxConverter {
      * @param param receives image params.
      * @throws CommandValueException when there is an invalid command.
      */
-    private String generatePdf ( Param param) throws CommandValueException {
+    private String generatePdf (Param param) throws CommandValueException {
         commandsList = new ArrayList<>();
         commandsList.add(new CommandLibreOfficePath());
         commandsList.add(new CommandHeadless());
@@ -198,8 +195,8 @@ public class PptxConverter {
 
         final String ZIP_TAG = ".zip";
 
-        File[] files = new File(param.getOutputPathFile() + BACKSLASH + param.getFolderName() +
-                BACKSLASH).listFiles();
+        File[] files = new File(param.getOutputPathFile() + SLASH + param.getFolderName() +
+                SLASH).listFiles();
 
         File fileZip = new File( PathJfc.getPublicFilePath() + param.getFolderName() + ZIP_TAG);
 
