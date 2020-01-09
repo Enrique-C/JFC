@@ -132,7 +132,7 @@ public class PdfConverter implements IConverter {
      * @return command concatenated.
      * @throws CommandValueException
      */
-    private String generateThumbnail(PdfParam pdfParam) throws CommandValueException {
+    public String generateThumbnail(PdfParam pdfParam) throws CommandValueException {
         commandsList = new ArrayList<>();
         commandsList.add(new CommandImageMagickPath());
         commandsList.add(new CommandImageConverter());
