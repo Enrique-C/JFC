@@ -33,8 +33,7 @@ public class UserController {
      */
     @PostMapping("/login")
     public String loginUser(@RequestParam("userName") String userName, @RequestParam("password") String password) {
-        String TOKEN_SECRET = "jf9i4jgu83nfl0";
-        final long EXPIRATION_TIME = 864000000;
+        String TOKEN_SECRET = "at11";
         final String TOKEN_PREFIX = "Bearer ";
         final String HEADER_STRING = "Authorization";
 
