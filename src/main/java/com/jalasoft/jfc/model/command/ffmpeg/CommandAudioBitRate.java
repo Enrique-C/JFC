@@ -24,38 +24,51 @@ import com.jalasoft.jfc.model.video.VideoCommand;
  */
 public class CommandAudioBitRate implements ICommandStrategy {
 
-    // Contents command value.
-    private String commandValue;
+    // Contents an audio format value.
+    private String audioFormat;
+
+    // Contents an audio bitRate value.
+    private short audioBitRate;
 
     /**
-     * Creates a new CommandAudioBitRate object.
-     * @param commandValue receive a value.
+     * Creates a new CommandAudio object.
+     * @param audioFormat receives value.
+     * @param audioBitRate receives value.
      */
-    public CommandAudioBitRate(String commandValue) {
-        this.commandValue = commandValue;
+    public CommandAudioBitRate(String audioFormat, short audioBitRate) {
+        this.audioFormat = audioFormat;
+        this.audioBitRate = audioBitRate;
     }
 
     /**
-     * Builds a command.
-     * @return command concatenated.
-     * @throws CommandValueException when is a invalid command.
+     * Builds commands.
+     * @return commands concatenated.
+     * @throws CommandValueException when there is an invalid command.
      */
     @Override
     public String command() throws CommandValueException {
-        try {
-            int MINIMUM_VALUE = 96;
-            if (commandValue.isEmpty()) {
-                return VideoCommand.EMPTY.getCommand();
-            } else {
-                if (!commandValue.isEmpty() && Integer.parseInt(commandValue) > MINIMUM_VALUE ) {
-                    return this.SPACE + VideoCommand.AUDIO_BITRATE.getCommand() + this.SPACE + commandValue
-                            + AudioFfmpegCommand.KBPS.getFfmpegCommand();
-                }
-                throw new CommandValueException(ErrorMessageJfc.AUDIOBITRATE_NOT_CHANGE.getErrorMessageJfc(), this.
-                        getClass().getName());
-            }
-        } catch (CommandValueException cve) {
-            throw new CommandValueException(cve.getMessage(), this.getClass().getName());
+        final short MP3_BITRATE_MAX = 320;
+        final short MP3_BITRATE_MIN = 320;
+        final short EMPTY_BITRATE = 0;
+
+        if (audioBitRate == EMPTY_BITRATE) {
+            audioBitRate = MP3_BITRATE_MIN;
         }
+
+        String resultFormat = audioFormat;
+
+        switch (resultFormat) {
+            case ".mp3":
+                if (!(audioBitRate >= MP3_BITRATE_MIN && audioBitRate <= MP3_BITRATE_MAX)) {
+                    throw new CommandValueException(ErrorMessageJfc.BIT_RATE_EXCEEDED.getErrorMessageJfc(), this.
+                            getClass().getName());
+                }
+                break;
+            case ".wma":
+                //Implements this with codec CBR
+                break;
+        }
+        return this.SPACE + VideoCommand.AUDIO_BITRATE.getCommand() + this.SPACE + audioBitRate
+                + AudioFfmpegCommand.KBPS.getFfmpegCommand();
     }
 }

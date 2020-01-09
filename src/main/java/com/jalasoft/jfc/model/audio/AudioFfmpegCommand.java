@@ -17,7 +17,9 @@ package com.jalasoft.jfc.model.audio;
  * @author Enrique Carrizales.
  */
 public enum AudioFfmpegCommand {
-    KBPS("k");
+    KBPS("k"),
+    AUDIO_SAMPLE_RATE("-ar"),
+    AUDIO_CODEC("-codec:a");
 
     // Command variable
     private String format;
