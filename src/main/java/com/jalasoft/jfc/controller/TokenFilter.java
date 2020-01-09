@@ -35,10 +35,10 @@ public class TokenFilter implements Filter {
     /**
      * Allows to validate token.
      * @param request client value
-     * @param response
-     * @param chain
-     * @throws IOException
-     * @throws ServletException
+     * @param response value for the client.
+     * @param chain value.
+     * @throws IOException when something was wrong.
+     * @throws ServletException if servlet was corrupted.
      */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
@@ -61,6 +61,9 @@ public class TokenFilter implements Filter {
 //        }
     }
 
+    /**
+     * Destroys objects.
+     */
     @Override
     public void destroy() {
 
