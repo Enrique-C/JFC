@@ -73,11 +73,12 @@ public class PptxConverter {
 
     /**
      * Changes an Pptx format to pdf or Image.
-     * @param param pptx parameters.
+     * @param param receives param params.
      * @return Conversion status.
      * @throws CommandValueException when there is an invalid command.
      * @throws ConvertException when there is an invalid conversion.
      * @throws ZipJfcException when there is an invalid file path.
+     * @throws IOException when there is an invalid input.
      */
     public FileResponse convert(Param param) throws CommandValueException, ConvertException, ZipJfcException,
             IOException {
@@ -88,7 +89,7 @@ public class PptxConverter {
         FileResponse fileResponse = new FileResponse();
 
         StringBuilder stringCommand = new StringBuilder();
-        stringCommand.append(generatePdf(param));
+        stringCommand.append(generatePdf(pptxParam));
         runCommand(stringCommand.toString());
 
         isPdfConversion(pptxParam);
@@ -101,7 +102,7 @@ public class PptxConverter {
 
     /**
      * Verifies if the conversion is just to Pdf.
-     * @param pptxParam pptx parameters.
+     * @param pptxParam receives pptx params.
      * @throws ZipJfcException when there is an invalid file path.
      * @throws CommandValueException when there is an invalid command.
      * @throws ConvertException when there is an invalid conversion.
@@ -119,7 +120,7 @@ public class PptxConverter {
 
     /**
      * Verifies if the conversion requires metadata.
-     * @param pptxParam pptx parameters.
+     * @param pptxParam receives pptx params.
      * @throws ConvertException when there is an invalid conversion.
      */
     private void isMetadataTrue(PptxParam pptxParam) throws ConvertException {
@@ -131,7 +132,7 @@ public class PptxConverter {
 
     /**
      * Verifies if the conversion requires thumbnail.
-     * @param pptxParam pptx parameters.
+     * @param pptxParam receives pptx params.
      * @throws IOException when there is an invalid input.
      * @throws CommandValueException when there is an invalid command.
      * @throws ConvertException when there is an invalid conversion.
@@ -146,7 +147,7 @@ public class PptxConverter {
 
     /**
      * Generates thumbnail string command.
-     * @param pptxParam pptx parameters.
+     * @param pptxParam receives pptx params.
      * @return command concatenated.
      * @throws IOException when there is an invalid input.
      * @throws CommandValueException when there is an invalid command.
@@ -155,6 +156,7 @@ public class PptxConverter {
         pptxParam.setInputPathFile(getNewInputPath(pptxParam));
         PDDocument doc = PDDocument.load(new File(pptxParam.getInputPathFile()));
         int quantityPages = doc.getNumberOfPages();
+        final String THUMBNAIL_KEY = "Thumb";
 
         commandsList = new ArrayList<>();
         commandsList.add(new CommandImageMagickPath());
@@ -166,8 +168,8 @@ public class PptxConverter {
         commandsList.add(new CommandPagesToConvert(pptxParam.getPagesToConvertThumbnail(), quantityPages));
         commandsList.add(new CommandThumbnail(pptxParam.getIsThumbnail()));
         commandsList.add(new CommandOutputFilePath(pptxParam.getOutputPathFile(), pptxParam.getFolderName()));
-        commandsList.add(new CommandOutputFileName(pptxParam.getOutputName() + "_t",
-                pptxParam.getFolderName() + "_t"));
+        commandsList.add(new CommandOutputFileName(pptxParam.getOutputName() + THUMBNAIL_KEY,
+                pptxParam.getFolderName() + THUMBNAIL_KEY));
         commandsList.add(new CommandImageFormat(pptxParam.getThumbnailFormat()));
         contextStrategy = new ContextStrategy(commandsList);
         String result = contextStrategy.buildCommand();
@@ -175,8 +177,8 @@ public class PptxConverter {
     }
 
     /**
-     * Gets the new input path to convert to rename and convert to images.
-     * @param pptxParam pdf parameters.
+     * Gets the new input path to convert, rename and convert to images.
+     * @param pptxParam receives pptx params.
      * @return the new input path.
      */
     private String getNewInputPath(PptxParam pptxParam) {
@@ -186,15 +188,15 @@ public class PptxConverter {
 
     /**
      * Gets the original name of converted file.
-     * @param pptxParam pdf parameters.
-     * @return the original name with its extension.
+     * @param pptxParam receives pptx params.
+     * @return original name with file extension.
      */
     private String getOriginalName(PptxParam pptxParam) {
         File fileOriginalName = new File(pptxParam.getInputPathFile());
         String regex = "[.][^.]+$";
         final String REPLACE_REGEX = "";
-
         String name = fileOriginalName.getName().replaceFirst(regex,REPLACE_REGEX) + PDF_EXTENSION;
+
         if (!pptxParam.getOutputName().isEmpty() && !pptxParam.getOutputName().equals(null)) {
             File converted = new File(pptxParam.getOutputPathFile() + pptxParam.getFolderName() + SLASH + name);
 
@@ -211,18 +213,18 @@ public class PptxConverter {
     }
 
     /**
-     * Generates a command to convert an pdf file.
-     * @param param receives image params.
+     * Generates a command to convert a pdf file.
+     * @param pptxParam receives pptx params.
      * @throws CommandValueException when there is an invalid command.
      */
-    private String generatePdf (Param param) throws CommandValueException {
+    private String generatePdf (PptxParam pptxParam) throws CommandValueException {
         commandsList = new ArrayList<>();
         commandsList.add(new CommandLibreOfficePath());
         commandsList.add(new CommandHeadless());
         commandsList.add(new CommandPdfConverter());
-        commandsList.add(new CommandInputFilePath(param.getInputPathFile()));
+        commandsList.add(new CommandInputFilePath(pptxParam.getInputPathFile()));
         commandsList.add(new CommandOutDir());
-        commandsList.add(new CommandOutputFilePath(param.getOutputPathFile(), param.getFolderName()));
+        commandsList.add(new CommandOutputFilePath(pptxParam.getOutputPathFile(), pptxParam.getFolderName()));
         contextStrategy = new ContextStrategy(commandsList);
         String result = contextStrategy.buildCommand();
         return result;
@@ -244,18 +246,18 @@ public class PptxConverter {
 
     /**
      * Zips a list of files.
-     * @param param receives Param.
+     * @param pptxparam receives pptx params.
      * @throws ZipJfcException when there is an invalid file path.
      */
-    private void zipFile(Param param) throws ZipJfcException {
+    private void zipFile(PptxParam pptxparam) throws ZipJfcException {
         ZipFolder zip = new ZipFolder();
 
         final String ZIP_TAG = ".zip";
 
-        File[] files = new File(param.getOutputPathFile() + SLASH + param.getFolderName() +
+        File[] files = new File(pptxparam.getOutputPathFile() + SLASH + pptxparam.getFolderName() +
                 SLASH).listFiles();
 
-        File fileZip = new File( PathJfc.getPublicFilePath() + param.getFolderName() + ZIP_TAG);
+        File fileZip = new File( PathJfc.getPublicFilePath() + pptxparam.getFolderName() + ZIP_TAG);
 
         zipPath = fileZip.getAbsolutePath();
         zip.zipFolderFile(files, fileZip);
