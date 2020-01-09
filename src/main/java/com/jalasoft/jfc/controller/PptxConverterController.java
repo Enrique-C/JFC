@@ -44,11 +44,11 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Manage PdfConverter Requests.
+ * Manages PdfConverter Requests.
  *
- * @author Enrique Carrizales.
+ * @version 0.1 09 Jan 2020.
  *
- * @version 0.1 14 Dic 2019.
+ * @author Alan Escalera.
  */
 @Api(value = "PptxConverterController", description = "REST API related to PptxParam Entity")
 @RestController
@@ -82,8 +82,7 @@ public class PptxConverterController {
         FileResponse fileResponse = new FileResponse();
         ErrorResponse errorResponse = new ErrorResponse();
         IConverter PptxConverter = new PptxConverter();
-
-
+        
         try {
             String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
                     getOriginalFilename(), file);
