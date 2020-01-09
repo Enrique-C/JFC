@@ -9,7 +9,10 @@
 
 package com.jalasoft.jfc.controller;
 
+import com.jalasoft.jfc.model.result.FileResponse;
 import io.jsonwebtoken.Jwts;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,17 +35,22 @@ public class UserController {
      * @return token generated.
      */
     @PostMapping("/login")
-    public String loginUser(@RequestParam("userName") String userName, @RequestParam("password") String password) {
+    public ResponseEntity<?> loginUser(@RequestParam("userName") String userName,
+            @RequestParam("password") String password) {
+        FileResponse fileResponse = new FileResponse();
         String TOKEN_SECRET = "at11";
         final String TOKEN_PREFIX = "Bearer ";
         final String HEADER_STRING = "Authorization";
 
-        String token = Jwts.builder()
-                .signWith(SignatureAlgorithm.HS256, TOKEN_SECRET.getBytes())
-                .setSubject(userName)
-                .claim("ROLE", "admin")
-                .compact();
-
-        return TOKEN_PREFIX + token;
+        try {
+            String token = Jwts.builder()
+                    .signWith(SignatureAlgorithm.HS256, TOKEN_SECRET.getBytes())
+                    .setSubject(userName)
+                    .claim("ROLE", "admin")
+                    .compact();
+            return ResponseEntity.ok(token);
+        } catch (Exception ex) {
+            return ResponseEntity.ok(HttpStatus.UNAUTHORIZED);
+        }
     }
 }
