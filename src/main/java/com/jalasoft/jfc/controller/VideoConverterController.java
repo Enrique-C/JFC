@@ -10,8 +10,10 @@
 package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.IConverter;
+import com.jalasoft.jfc.model.entity.FileEntity;
 import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.exception.Md5Exception;
+import com.jalasoft.jfc.model.repository.FileRepository;
 import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.ErrorResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
@@ -28,6 +30,7 @@ import com.jalasoft.jfc.model.exception.ConvertException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -65,6 +68,8 @@ public class VideoConverterController {
      * @param request contains client request data.
      * @return Response is the result of the conversion.
      */
+    @Autowired
+    FileRepository fileRepository;
     @PostMapping("/videoConverter")
     @ApiOperation(value = "Video specifications", notes = "Provides values for converting Video file to other one.",
             response = Response.class)
@@ -86,9 +91,18 @@ public class VideoConverterController {
             String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file
                     .getOriginalFilename(), file);
 
+            FileEntity fileEntity = new FileEntity();
+
             if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
+                if (fileRepository.findByMd5(md5) != null) {
+                    videoParam.setInputPathFile(fileRepository.findByMd5(md5).getFilePath());
+                } else {
+                    videoParam.setInputPathFile(fileUploadedPath);
+                    fileEntity.setFilePath(fileUploadedPath);
+                    fileEntity.setMd5(md5);
+                    fileRepository.save(fileEntity);
+                }
                 videoParam.setMd5(md5);
-                videoParam.setInputPathFile(fileUploadedPath);
                 videoParam.setOutputPathFile(PathJfc.getOutputFilePath());
                 videoParam.setOutputName(FileServiceController.setName(outputName, file));
                 videoParam.setAspectRatio(aspectRatio);
@@ -105,10 +119,11 @@ public class VideoConverterController {
                 fileResponse = videoConverter.convert(videoParam);
                 LinkGenerator linkGenerator = new LinkGenerator();
                 fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
-            }
-            else {
+
+            } else {
                 throw new Md5Exception(ErrorMessageJfc.MD5_ERROR.getErrorMessageJfc(), videoParam.getMd5());
             }
+
         } catch (ConvertException ex) {
             errorResponse.setName(videoParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
