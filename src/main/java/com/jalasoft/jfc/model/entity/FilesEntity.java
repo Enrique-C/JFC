@@ -1,4 +1,4 @@
-package com.jalasoft.jfc.model.hibernate;
+package com.jalasoft.jfc.model.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,7 +7,7 @@ import javax.persistence.Id;
 
 /**
  *
- *  IConverter interface defines behavior to Converters.
+ * Defines behavior to FilesEntity.
  *
  * @version 0.1 Jan 2020.
  *
@@ -15,7 +15,7 @@ import javax.persistence.Id;
  */
 // @Entity serve to make a table out of this class.
 @Entity
-public class FilesMd5 {
+public class FilesEntity {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)

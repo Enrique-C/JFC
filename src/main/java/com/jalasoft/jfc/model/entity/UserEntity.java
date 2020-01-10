@@ -1,4 +1,4 @@
-package com.jalasoft.jfc.model.hibernate;
+package com.jalasoft.jfc.model.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,7 +7,7 @@ import javax.persistence.Id;
 
 /**
  *
- *  IConverter interface defines behavior to Converters.
+ * Defines behavior to UserEntity.
  *
  * @version 0.1 Jan 2020.
  *
@@ -15,7 +15,7 @@ import javax.persistence.Id;
  */
 // @Entity serve to make a table out of this class.
 @Entity
-public class User {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -24,7 +24,7 @@ public class User {
     private Integer id;
 
     // Content user value.
-    private String user;
+    private String userName;
 
     // Content password value.
     private String password;
@@ -50,15 +50,15 @@ public class User {
      * @return user value.
      */
     public String getUser() {
-        return user;
+        return userName;
     }
 
     /**
      * Sets user value.
-     * @param user value.
+     * @param userName value.
      */
-    public void setUser(String user) {
-        this.user = user;
+    public void setUser(String userName) {
+        this.userName = userName;
     }
 
     /**

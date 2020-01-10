@@ -1,7 +1,7 @@
 package com.jalasoft.jfc.controller;
 
-import com.jalasoft.jfc.model.hibernate.FilesMd5;
-import com.jalasoft.jfc.model.hibernate.FilesMd5Repository;
+import com.jalasoft.jfc.model.entity.FilesEntity;
+import com.jalasoft.jfc.model.repository.FilesMd5Repository;
 
 import io.swagger.annotations.Api;
 
@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(value = "FilesTable", description = "REST API related to FilesTable Entity")
 @RestController
 @RequestMapping("/api")
-public class FilesTable {
+public class FilesController {
 
     // It indicate which class is to be injected in this case FilesMd5Repository.
     @Autowired
@@ -41,7 +41,7 @@ public class FilesTable {
 
     // @RequestParam means it is a parameter from the POST request.
     String addNewUser (@RequestParam String md5 , @RequestParam String filePath) {
-        FilesMd5 filesMd5 = new FilesMd5();
+        FilesEntity filesMd5 = new FilesEntity();
         filesMd5.setMd5(md5);
         filesMd5.setFilePath(filePath);
 
@@ -51,7 +51,7 @@ public class FilesTable {
 
     // Map ONLY GET Requests.
     @GetMapping(path="/showAll")
-    public @ResponseBody Iterable<FilesMd5> getAllUsers() {
+    public @ResponseBody Iterable<FilesEntity> getAllUsers() {
         // This returns a JSON or XML with the users.
         return filesMd5Repository.findAll();
     }
