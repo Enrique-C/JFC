@@ -10,7 +10,6 @@
 package com.jalasoft.jfc.model.entity;
 
 import jdk.nashorn.internal.objects.annotations.Getter;
-import jdk.nashorn.internal.objects.annotations.Setter;
 import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.Entity;
