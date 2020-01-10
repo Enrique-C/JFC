@@ -9,14 +9,22 @@
 
 package com.jalasoft.jfc.controller;
 
-import com.jalasoft.jfc.model.result.FileResponse;
+import com.jalasoft.jfc.model.result.Response;
+
 import io.jsonwebtoken.Jwts;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
 import io.jsonwebtoken.SignatureAlgorithm;
 
 /**
@@ -26,7 +34,9 @@ import io.jsonwebtoken.SignatureAlgorithm;
  *
  * @author Juan Martinez.
  */
+@Api(value = "UserController", description = "REST API related to User Entity")
 @RestController
+@RequestMapping("/api")
 public class UserController {
 
     /**
@@ -50,5 +60,98 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
         }
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(token);
+    }
+
+    /**
+     * Allows to add new user.
+     * @param userName for adding name.
+     * @param password for adding password.
+     * @param rol for adding rol.
+     * @param email for adding email address.
+     * @return Response object.
+     */
+    @PostMapping("/addUser")
+    @ApiOperation(value = "User specifications", notes = "Provides values for adding new user",
+            response = Response.class)
+    public ResponseEntity<?> addUser(@RequestParam String userName, @RequestParam String
+             password, @RequestParam String rol, @RequestParam String email) {
+        try {
+            // implement user Entity.
+            return new ResponseEntity<Object>("usermodel", HttpStatus.CREATED);
+        } catch (Exception ex) {
+            // implement user Entity.
+            return new ResponseEntity<Object>("usermodel", HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
+    /**
+     * Allows to update user value.
+     * @param userName for adding name.
+     * @param password for adding password.
+     * @param rol for adding rol.
+     * @param email for adding email address.
+     * @return Response object.
+     */
+    @PutMapping("/updateUser")
+    @ApiOperation(value = "User specifications", notes = "Provides values for updating user values",
+            response = Response.class)
+    public ResponseEntity<?> updateUser(@RequestParam int id, @RequestParam String userName, @RequestParam String
+            password, @RequestParam String rol, @RequestParam String email) {
+        try {
+            // implement user Entity.
+            return new ResponseEntity<Object>("usermodel", HttpStatus.OK);
+        } catch (Exception ex) {
+            // implement user Entity.
+            return new ResponseEntity<Object>("usermodel", HttpStatus.NOT_ACCEPTABLE);
+        }
+
+    }
+
+    /**
+     * Finds user by Id.
+     * @param id for finding user.
+     * @return Response object.
+     */
+    @GetMapping("/findById")
+    @ApiOperation(value = "User Id", notes = "Provides user values by Id",
+            response = Response.class)
+    public ResponseEntity<?> findUserById(@RequestParam("Id") int id) {
+        if (true) {
+            // implement user Entity.
+            return new ResponseEntity<Object>("userModel", HttpStatus.FOUND);
+        }
+        return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
+    }
+
+    /**
+     * Gets all users.
+     * @return Response object.
+     */
+    @GetMapping("/getAllUsers")
+    @ApiOperation(value = "Authorization", notes = "Provides user values all users",
+            response = Response.class)
+    public ResponseEntity<?> getAllUsers() {
+        try {
+            // implement user Entity.
+            return new ResponseEntity<Object>("userModel", HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    /**
+     * Deletes user by Id.
+     * @param id to delete user.
+     * @return Response object.
+     */
+    @DeleteMapping("/deleteById")
+    @ApiOperation(value = "Authorization", notes = "Delete user values by Id",
+            response = Response.class)
+    public ResponseEntity<?> deleteById(@RequestParam("Id") int id) {
+        if (true) {
+            // implement user Entity.
+            return new ResponseEntity<Object>("userModel", HttpStatus.OK);
+        }
+        return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
     }
 }
