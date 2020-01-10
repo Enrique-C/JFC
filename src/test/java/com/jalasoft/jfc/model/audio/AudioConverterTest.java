@@ -30,18 +30,32 @@ import static org.junit.Assert.assertTrue;
  */
 public class AudioConverterTest {
 
+    final long EMPTY_BYTES = 22;
+
     @Test
     public void convert_AudioWAVToAudioMP3_Zip() throws ZipJfcException, CommandValueException, ConvertException, IOException {
         AudioConverter audioConverter = new AudioConverter();
         AudioParam audioParam = generateOnlyAudioWAV();
 
         String zipAudio = audioConverter.convert(audioParam).getDownload();
-        final int EMPTY_BYTES = 22;
 
         File zipFile = new File(zipAudio);
-        boolean expected = zipFile.exists() && zipFile.getTotalSpace() > EMPTY_BYTES;
 
-        FolderRemover.removeFolder(zipFile.getPath());
+        boolean expected = zipFile.exists() && zipFile.length() > EMPTY_BYTES;
+
+        assertTrue(expected);
+    }
+
+    @Test
+    public void convert_AudioFileNameWithSpaces_Zip() throws ZipJfcException, CommandValueException, ConvertException, IOException {
+        AudioConverter audioConverter = new AudioConverter();
+        AudioParam audioParam = generateOnlyAudioWAV();
+        audioParam.setInputPathFile("src/test/resources/audio 01.wav");
+
+        String zipAudio = audioConverter.convert(audioParam).getDownload();
+
+        File zipFile = new File(zipAudio);
+        boolean expected = zipFile.exists() && zipFile.length() > EMPTY_BYTES;
 
         assertTrue(expected);
     }
@@ -53,12 +67,9 @@ public class AudioConverterTest {
         audioParam.isMetadata(true);
 
         String zipAudio = audioConverter.convert(audioParam).getDownload();
-        final int EMPTY_BYTES = 22;
 
         File zipFile = new File(zipAudio);
-        boolean expected = zipFile.exists() && zipFile.getTotalSpace() > EMPTY_BYTES;
-
-        FolderRemover.removeFolder(zipFile.getPath());
+        boolean expected = zipFile.exists() && zipFile.length() > EMPTY_BYTES;
 
         assertTrue(expected);
     }
@@ -88,12 +99,16 @@ public class AudioConverterTest {
         String outputName = "AUD";
         String audioFormat = AudioFormat.MP3.getAudioFormat();
         byte audioBitRate = 0;
+        String audioCodec = "";
+        String audioChannel = "";
         boolean isMetadata = false;
 
         AudioParam audioParam = new AudioParam();
         audioParam.setMd5(md5);
         audioParam.setInputPathFile(fileUploadedPath);
         audioParam.setAudioFormat(audioFormat);
+        audioParam.setAudioCodec(audioCodec);
+        audioParam.setAudioChannel(audioChannel);
         audioParam.setAudioBitRate(audioBitRate);
         audioParam.setOutputPathFile(outputPath);
         audioParam.setOutputName(outputName);

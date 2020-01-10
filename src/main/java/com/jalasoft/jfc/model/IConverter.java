@@ -18,21 +18,22 @@ import java.io.IOException;
 
 /**
  *
- *  IConverter interface defines behavior to Converters.
+ * IConverter interface defines behavior to Converters.
  *
  * @version 0.1 Dic 2019.
  *
  * @author Enrique Carrizales.
  */
 public interface IConverter {
-
+    
     /**
      * Convert files to another type file.
      * @param param it receives file params.
      * @return state of conversion.
-     * @throws CommandValueException this.
-     * @throws ConvertException when the convert process is not completed.
+     * @throws ConvertException when there is an invalid conversion.
+     * @throws CommandValueException when there is an invalid command.
+     * @throws ZipJfcException when there is an invalid file path.
+     * @throws IOException when there is an invalid input.
      */
-
-    FileResponse convert(Param param) throws ConvertException, CommandValueException, ZipJfcException;
+    FileResponse convert(Param param) throws ConvertException, CommandValueException, ZipJfcException, IOException;
 }

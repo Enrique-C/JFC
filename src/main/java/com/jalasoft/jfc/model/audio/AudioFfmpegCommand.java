@@ -19,17 +19,18 @@ package com.jalasoft.jfc.model.audio;
 public enum AudioFfmpegCommand {
     KBPS("k"),
     AUDIO_SAMPLE_RATE("-ar"),
-    AUDIO_CODEC("-codec:a");
+    AUDIO_CODEC("-codec:a"),
+    AUDIO_CHANNEL("-ac");
 
-    // Command variable
-    private String format;
+    // Audio command variable.
+    private String command;
 
     /**
      * Builds an Enum.
-     * @param format String value
+     * @param command String value
      */
-    AudioFfmpegCommand(String format) {
-        this.format = format;
+    AudioFfmpegCommand(String command) {
+        this.command = command;
     }
 
     /**
@@ -37,6 +38,6 @@ public enum AudioFfmpegCommand {
      * @return String value.
      */
     public String getFfmpegCommand(){
-        return format;
+        return command;
     }
 }

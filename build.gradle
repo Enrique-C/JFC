@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'org.springframework.boot' version '1.5.7.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 }
 
 group 'org.example'
@@ -16,24 +17,38 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile("org.springframework.boot:spring-boot-starter-web")
 
-    //Sprint Boot and Swagger
+    //Sprint Boot and Swagger.
     compile("io.springfox:springfox-swagger2:2.9.2")
     compile("io.springfox:springfox-swagger-ui:2.0.2")
    
-    //PdfBox
+    //PdfBox.
     compile group: 'org.apache.pdfbox', name: 'pdfbox', version: '2.0.17'
 
-    //im4java for ImageMagick
+    //im4java for ImageMagick.
     compile group: 'org.im4java', name: 'im4java', version: '1.4.0'
 
-    //Md5Checksum
+    //Md5Checksum.
     compile 'commons-codec:commons-codec:1.13'
 
-    // Moc mvc
+    // Moc mvc.
     testCompile group: 'io.rest-assured', name: 'spring-mock-mvc', version: '3.0.0'
 
-    // Spring boot test
+    // Spring boot test.
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.2.2.RELEASE'
 
+    // JWT dependency.
     implementation('io.jsonwebtoken:jjwt:0.2')
+
+    // Spring boot  JPA.
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Spring  Boot support for JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // Spring boot.
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Database connector
+    runtimeOnly 'mysql:mysql-connector-java'
 }

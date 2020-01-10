@@ -90,6 +90,7 @@ public class PdfConverterController {
                     getOriginalFilename(), file);
             PDDocument doc = PDDocument.load(new File(fileUploadedPath));
             int quantityPages = doc.getNumberOfPages();
+            doc.close();
 
             if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
                 pdfParam.setMd5(md5);

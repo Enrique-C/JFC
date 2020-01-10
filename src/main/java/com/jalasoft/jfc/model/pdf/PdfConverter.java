@@ -161,6 +161,7 @@ public class PdfConverter implements IConverter {
         try {
             Process process = Runtime.getRuntime().exec(stringCommand);
             process.waitFor();
+            process.destroy();
         } catch (InterruptedException | IOException e) {
             throw new ConvertException(e.getMessage(), this.getClass().getName());
         }
