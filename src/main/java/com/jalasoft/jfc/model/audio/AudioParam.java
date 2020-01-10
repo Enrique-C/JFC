@@ -32,9 +32,12 @@ public class AudioParam extends Param {
     // Content audioBitRate value.
     private short audioBitRate;
 
+    // Content audioChannel value.
+    private String audioChannel;
+
     /**
      * Gets format of an audio.
-     * @return audio format String value.
+     * @return audio format String.
      */
     public String getAudioFormat() {
         return audioFormat;
@@ -54,6 +57,14 @@ public class AudioParam extends Param {
      */
     public int getAudioSampleRate() {
         return audioSampleRate;
+    }
+
+    /**
+     * Gets getAudioChannel value.
+     * @return audio channel value.
+     */
+    public String getAudioChannel() {
+        return audioChannel;
     }
 
     /**
@@ -86,6 +97,14 @@ public class AudioParam extends Param {
      */
     public void setAudioSampleRate(int audioSampleRate) {
         this.audioSampleRate = audioSampleRate;
+    }
+
+    /**
+     * Sets audioChannel value.
+     * @param audioChannel contains and audio channel value.
+     */
+    public void setAudioChannel(String audioChannel) {
+        this.audioChannel = audioChannel;
     }
 
     /**
