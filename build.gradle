@@ -36,12 +36,19 @@ dependencies {
     // Spring boot test.
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.2.2.RELEASE'
 
+    // JWT dependency.
     implementation('io.jsonwebtoken:jjwt:0.2')
 
     // Spring boot  JPA.
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
-    // Database connector.
+    // Spring  Boot support for JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // Spring boot.
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Database connector
     runtimeOnly 'mysql:mysql-connector-java'
 }

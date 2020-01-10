@@ -88,12 +88,16 @@ public class AudioConverterTest {
         String outputName = "AUD";
         String audioFormat = AudioFormat.MP3.getAudioFormat();
         byte audioBitRate = 0;
+        String audioCodec = "";
+        String audioChannel = "";
         boolean isMetadata = false;
 
         AudioParam audioParam = new AudioParam();
         audioParam.setMd5(md5);
         audioParam.setInputPathFile(fileUploadedPath);
         audioParam.setAudioFormat(audioFormat);
+        audioParam.setAudioCodec(audioCodec);
+        audioParam.setAudioChannel(audioChannel);
         audioParam.setAudioBitRate(audioBitRate);
         audioParam.setOutputPathFile(outputPath);
         audioParam.setOutputName(outputName);
