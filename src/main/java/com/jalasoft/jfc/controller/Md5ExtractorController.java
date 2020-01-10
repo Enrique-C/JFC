@@ -42,7 +42,7 @@ public class Md5ExtractorController {
     /**
      * Extract md5 of the file.
      * @param file contents file value.
-     * @return m
+     * @return md5.
      * @throws Md5Exception
      */
     @PostMapping("/extractMd5")
