@@ -36,7 +36,8 @@ files/*
 thirdparty/*
 thirdparty/LibreOfficePortable/Data/settings/user/pack/registrymodifications.pack
 thirdparty/LibreOfficePortable/Data/settings/user/registrymodifications.xcu
-
+*.pack
+*.xcu
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
