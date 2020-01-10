@@ -9,6 +9,7 @@
 
 package com.jalasoft.jfc.model.image;
 
+import com.jalasoft.jfc.model.command.imagick.CommandImageAlpha;
 import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.exception.ZipJfcException;
 import com.jalasoft.jfc.model.metadata.MetadataConverter;
@@ -125,6 +126,7 @@ public class ImageConverter implements IConverter {
     private void generateImage(ImageParam imageParam) throws CommandValueException {
         commandImageList.add(new CommandImageMagickPath());
         commandImageList.add(new CommandImageConverter());
+        commandImageList.add(new CommandImageAlpha());
         commandImageList.add(new CommandInputFilePath(imageParam.getInputPathFile()));
         commandImageList.add(new CommandImageGrayscale(imageParam.isGrayscale()));
         commandImageList.add(new CommandImageRotate(imageParam.getDegreesToRotate()));
@@ -142,6 +144,7 @@ public class ImageConverter implements IConverter {
     private void generateThumbnail(ImageParam imageParam) throws CommandValueException {
         commandThumbnailList.add(new CommandImageMagickPath());
         commandThumbnailList.add(new CommandImageConverter());
+        commandThumbnailList.add(new CommandImageAlpha());
         commandThumbnailList.add(new CommandInputFilePath(imageParam.getInputPathFile()));
         commandThumbnailList.add(new CommandThumbnail(imageParam.isThumbnail()));
         commandThumbnailList.add(new CommandOutputFilePath(imageParam.getOutputPathFile(), imageParam.getFolderName()));
