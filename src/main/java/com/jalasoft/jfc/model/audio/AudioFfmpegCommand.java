@@ -23,14 +23,14 @@ public enum AudioFfmpegCommand {
     AUDIO_CHANNEL("-ac");
 
     // Audio command variable.
-    private String format;
+    private String command;
 
     /**
      * Builds an Enum.
-     * @param format String value
+     * @param command String value
      */
-    AudioFfmpegCommand(String format) {
-        this.format = format;
+    AudioFfmpegCommand(String command) {
+        this.command = command;
     }
 
     /**
@@ -38,6 +38,6 @@ public enum AudioFfmpegCommand {
      * @return String value.
      */
     public String getFfmpegCommand(){
-        return format;
+        return command;
     }
 }
