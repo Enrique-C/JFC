@@ -25,23 +25,15 @@ import java.io.IOException;
  * @author Enrique Carrizales.
  */
 public interface IConverter {
-
+    
     /**
      * Convert files to another type file.
      * @param param it receives file params.
      * @return state of conversion.
-     * @throws CommandValueException this.
-     * @throws ConvertException when the convert process is not completed.
-     */
-
-    /**
-     * Convert files to another type file.
-     * @param param it receives file params.
-     * @return state of conversion.
-     * @throws ConvertException when there is an error.
-     * @throws CommandValueException when there is an error.
-     * @throws ZipJfcException when there is an error.
-     * @throws IOException when there is an error.
+     * @throws ConvertException when there is an invalid conversion.
+     * @throws CommandValueException when there is an invalid command.
+     * @throws ZipJfcException when there is an invalid file path.
+     * @throws IOException when there is an invalid input.
      */
     FileResponse convert(Param param) throws ConvertException, CommandValueException, ZipJfcException, IOException;
 }

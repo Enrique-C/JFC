@@ -61,7 +61,7 @@ public class CommandAudioBitRate implements ICommandStrategy {
         final String CBR_CODEC = "cbr";
 
         if (audioBitRate == EMPTY_BITRATE) {
-            audioBitRate = MP3_BITRATE_MIN;
+            return "";
         }
 
         String resultFormat = audioFormat;
