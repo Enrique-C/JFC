@@ -9,13 +9,17 @@
 
 package com.jalasoft.jfc.model.entity;
 
+import jdk.nashorn.internal.objects.annotations.Getter;
+import jdk.nashorn.internal.objects.annotations.Setter;
+import org.hibernate.validator.constraints.Email;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
- * Defines UserEntity .
+ * Defines UserEntity.
  *
  * @version 0.1 Jan 2020.
  *
@@ -30,10 +34,19 @@ public class UserEntity {
     private Integer id;
 
     // Content user value.
-    private String userName;
+     private String userName;
 
     // Content password value.
     private String password;
+
+    // Content token value.
+    private String token;
+
+    // Content rol value.
+    private String rol;
+
+    // Content email value.
+    private Email email;
 
     /**
      * Gets id value.
@@ -55,17 +68,17 @@ public class UserEntity {
      * Gets user value.
      * @return user value.
      */
-    public String getUser() {
-        return userName;
-    }
-
-    /**
-     * Sets user value.
-     * @param userName value.
-     */
-    public void setUser(String userName) {
-        this.userName = userName;
-    }
+//    public String getUser() {
+//        return userName;
+//    }
+//
+//    /**
+//     * Sets user value.
+//     * @param userName value.
+//     */
+//    public void setUser(String userName) {
+//        this.userName = userName;
+//    }
 
     /**
      * Gets password value.
@@ -81,5 +94,53 @@ public class UserEntity {
      */
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    /**
+     * Gets token value.
+     * @return token value.
+     */
+    public String getToken() {
+        return token;
+    }
+
+    /**
+     * Sets token value.
+     * @param token value.
+     */
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    /**
+     * Gets rol value.
+     * @return rol.
+     */
+    public String getRol() {
+        return rol;
+    }
+
+    /**
+     * Sets rol value.
+     * @param rol value.
+     */
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
+
+    /**
+     * Gets email address.
+     * @return email.
+     */
+    public Email getEmail() {
+        return email;
+    }
+
+    /**
+     * Sets email address.
+     * @param email address.
+     */
+    public void setEmail(Email email) {
+        this.email = email;
     }
 }

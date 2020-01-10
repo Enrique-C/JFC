@@ -9,6 +9,7 @@
 
 package com.jalasoft.jfc.controller;
 
+import com.jalasoft.jfc.model.entity.UserEntity;
 import com.jalasoft.jfc.model.result.Response;
 
 import io.jsonwebtoken.Jwts;
@@ -49,6 +50,7 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestParam("userName") String userName, @RequestParam("password")
             String password) {
+        UserEntity userEntity = new UserEntity();
         String TOKEN_SECRET = "at11";
         String token;
         try {

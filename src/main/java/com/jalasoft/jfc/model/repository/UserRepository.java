@@ -20,4 +20,5 @@ import org.springframework.data.repository.CrudRepository;
  * @author Oscar Lopez.
  */
 public interface UserRepository extends CrudRepository<UserEntity, Integer> {
+
 }
