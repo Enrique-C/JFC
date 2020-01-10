@@ -42,10 +42,11 @@ public class CommandInputFilePath implements ICommandStrategy {
      */
     @Override
     public String command() throws CommandValueException {
+        String QUOTATION_MARKS = "\"";
         File file = new File(commandValue);
         try {
             if (file.exists()) {
-                return this.SPACE + commandValue;
+                return this.SPACE + QUOTATION_MARKS + commandValue + QUOTATION_MARKS;
             }
             throw new CommandValueException(ErrorMessageJfc.INVALID_INPUT_PATH.getErrorMessageJfc(), ErrorMessageJfc
                     .FILE_NO_FOUND.getErrorMessageJfc());

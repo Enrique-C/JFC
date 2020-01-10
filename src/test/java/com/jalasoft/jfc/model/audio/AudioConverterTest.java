@@ -39,9 +39,23 @@ public class AudioConverterTest {
         final int EMPTY_BYTES = 22;
 
         File zipFile = new File(zipAudio);
-        boolean expected = zipFile.exists() && zipFile.getTotalSpace() > EMPTY_BYTES;
+        long aux = zipFile.getTotalSpace();
+        boolean expected = zipFile.exists() && zipFile.length() > EMPTY_BYTES;
 
-        FolderRemover.removeFolder(zipFile.getPath());
+        assertTrue(expected);
+    }
+
+    @Test
+    public void convert_AudioFileNameWithSpaces_Zip() throws ZipJfcException, CommandValueException, ConvertException, IOException {
+        AudioConverter audioConverter = new AudioConverter();
+        AudioParam audioParam = generateOnlyAudioWAV();
+        audioParam.setInputPathFile("src/test/resources/audio 01.wav");
+
+        String zipAudio = audioConverter.convert(audioParam).getDownload();
+        final int EMPTY_BYTES = 22;
+
+        File zipFile = new File(zipAudio);
+        boolean expected = zipFile.exists() && zipFile.length() > EMPTY_BYTES;
 
         assertTrue(expected);
     }
@@ -56,9 +70,7 @@ public class AudioConverterTest {
         final int EMPTY_BYTES = 22;
 
         File zipFile = new File(zipAudio);
-        boolean expected = zipFile.exists() && zipFile.getTotalSpace() > EMPTY_BYTES;
-
-        FolderRemover.removeFolder(zipFile.getPath());
+        boolean expected = zipFile.exists() && zipFile.length() > EMPTY_BYTES;
 
         assertTrue(expected);
     }
