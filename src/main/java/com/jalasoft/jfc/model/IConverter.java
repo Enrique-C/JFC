@@ -33,5 +33,15 @@ public interface IConverter {
      * @throws CommandValueException this.
      * @throws ConvertException when the convert process is not completed.
      */
+
+    /**
+     * Convert files to another type file.
+     * @param param it receives file params.
+     * @return state of conversion.
+     * @throws ConvertException when there is an error.
+     * @throws CommandValueException when there is an error.
+     * @throws ZipJfcException when there is an error.
+     * @throws IOException when there is an error.
+     */
     FileResponse convert(Param param) throws ConvertException, CommandValueException, ZipJfcException, IOException;
 }
