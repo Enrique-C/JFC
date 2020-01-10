@@ -8,7 +8,7 @@
  */
 package com.jalasoft.jfc.model.repository;
 
-import com.jalasoft.jfc.model.entity.FilesEntity;
+import com.jalasoft.jfc.model.entity.FileEntity;
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -18,5 +18,5 @@ import org.springframework.data.repository.CrudRepository;
  *
  * @author Oscar Lopez.
  */
-public interface FilesMd5Repository extends CrudRepository<FilesEntity, Integer> {
+public interface FileRepository extends CrudRepository<FileEntity, Integer> {
 }
