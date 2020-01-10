@@ -30,10 +30,12 @@ import com.jalasoft.jfc.model.command.imagick.CommandPagesToConvert;
 import com.jalasoft.jfc.model.command.imagick.CommandThumbnail;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ConvertException;
+import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.exception.ZipJfcException;
 import com.jalasoft.jfc.model.metadata.MetadataConverter;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.result.MessageResponse;
+import com.jalasoft.jfc.model.utility.FolderRemover;
 import com.jalasoft.jfc.model.utility.PathJfc;
 import com.jalasoft.jfc.model.utility.ZipFolder;
 
@@ -115,6 +117,7 @@ public class PptxConverter implements IConverter {
             isMetadataTrue(pptxParam);
             isThumbnail(pptxParam);
             zipFile(pptxParam);
+            FolderRemover.removeFolder(pptxParam.getOutputPathFile() + pptxParam.getFolderName());
         } else {
             pptxParam.setInputPathFile(getNewInputPath(pptxParam));
         }
@@ -192,24 +195,31 @@ public class PptxConverter implements IConverter {
      * Gets the original name of converted file.
      * @param pptxParam receives pptx params.
      * @return original name with file extension.
+     * @throws CommandValueException when there is an invalid command.
      */
-    private String getOriginalName(PptxParam pptxParam) {
+    private String getOriginalName(PptxParam pptxParam) throws CommandValueException {
         File fileOriginalName = new File(pptxParam.getInputPathFile());
         String regex = "[.][^.]+$";
         final String REPLACE_REGEX = "";
-        String name = fileOriginalName.getName().replaceFirst(regex,REPLACE_REGEX) + PDF_EXTENSION;
+        String name = fileOriginalName.getName().replaceFirst(regex, REPLACE_REGEX) + PDF_EXTENSION;
 
-        if (!pptxParam.getOutputName().isEmpty() && !pptxParam.getOutputName().equals(null)) {
-            File converted = new File(pptxParam.getOutputPathFile() + pptxParam.getFolderName() + SLASH + name);
+        try {
+            if (!pptxParam.getOutputName().isEmpty()) {
+                File converted = new File(pptxParam.getOutputPathFile() + pptxParam.getFolderName() + SLASH
+                        + name);
 
-            File fileToRename = new File(pptxParam.getOutputPathFile() + pptxParam.getFolderName() + SLASH +
-                    pptxParam.getOutputName() + PDF_EXTENSION);
-            converted.renameTo(fileToRename);
+                File fileToRename = new File(pptxParam.getOutputPathFile() + pptxParam.getFolderName()
+                        + SLASH + pptxParam.getOutputName() + PDF_EXTENSION);
+                converted.renameTo(fileToRename);
 
-            name = fileToRename.getName();
-        } else {
-            pptxParam.setOutputName(fileOriginalName.getName().replaceFirst(regex, REPLACE_REGEX));
-            name = pptxParam.getOutputName() + PDF_EXTENSION;
+                name = fileToRename.getName();
+            } else {
+                pptxParam.setOutputName(fileOriginalName.getName().replaceFirst(regex, REPLACE_REGEX));
+                name = pptxParam.getOutputName() + PDF_EXTENSION;
+            }
+        } catch (NullPointerException ex) {
+            throw new CommandValueException(ErrorMessageJfc.OUTPUT_NAME_NULL.getErrorMessageJfc(), this.getClass()
+                    .getName());
         }
         return name;
     }
