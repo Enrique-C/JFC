@@ -45,7 +45,8 @@ public enum ErrorMessageJfc {
     AUDIO_CONVERT_ERROR_MESSAGE("Error converting an Audio"),
     LIBREOFFICE_NOT_EXIST("LibreOffice doesn't exist"),
     BIT_RATE_EXCEEDED("Bit Rate was exceeded"),
-    SAMPLE_RATE_EXCEEDED("Sample Rate was exceeded");
+    SAMPLE_RATE_EXCEEDED("Sample Rate was exceeded"),
+    OUTPUT_NAME_NULL("Value of outputName is NULL");
 
     // Message variable.
     private String message;
