@@ -57,7 +57,7 @@ public class Md5ExtractorController {
             String fileUploaded = FileServiceController.writeFile(pathJfc.getInputFilePath() +
             file.getOriginalFilename(), file);
             md5String = Md5Checksum.getMd5(fileUploaded);
-        } catch (IOException ioe) {
+        } catch (Md5Exception | IOException ioe) {
             return new ResponseEntity<String>(ioe.getMessage(), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<String>(md5String, HttpStatus.OK);
