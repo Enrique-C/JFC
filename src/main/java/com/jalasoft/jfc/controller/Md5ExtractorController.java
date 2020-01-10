@@ -10,11 +10,15 @@
 package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.exception.Md5Exception;
+import com.jalasoft.jfc.model.result.Response;
 import com.jalasoft.jfc.model.utility.FileServiceController;
 import com.jalasoft.jfc.model.utility.Md5Checksum;
 import com.jalasoft.jfc.model.utility.PathJfc;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,10 +32,14 @@ import java.io.IOException;
  *
  * @author Juan Martinez.
  */
+@Api(value = "Md5ExtractorController", description = "REST API related to Extract Md5")
 @RestController
+@RequestMapping("/api")
 public class Md5ExtractorController {
 
     @PostMapping("/extractMd5")
+    @ApiOperation(value = "File", notes = "Provides values for extracting Md5",
+            response = Response.class)
     public String extractMd5(@RequestParam("file") MultipartFile file) throws Md5Exception {
         final String EMPTY_VALUE = "";
         String md5String = EMPTY_VALUE;

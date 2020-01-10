@@ -24,9 +24,13 @@ import com.jalasoft.jfc.model.utility.Md5Checksum;
 import com.jalasoft.jfc.model.utility.PathJfc;
 import com.jalasoft.jfc.model.utility.ZipFolder;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,7 +47,9 @@ import java.io.IOException;
  *
  * @author Juan Martinez.
  */
+@Api(value = "MetadataConverterController", description = "REST API related to Metadata converter")
 @RestController
+@RequestMapping("/api")
 public class MetadataConverterController {
 
     /**
@@ -53,6 +59,8 @@ public class MetadataConverterController {
      * @return ResponseEntity<Response> for status code.
      */
     @PostMapping("/metadataConverter")
+    @ApiOperation(value = "File", notes = "Provides values for converting metadata",
+            response = Response.class)
     public ResponseEntity<Response> metadataConverter(
             @RequestParam("file") MultipartFile file, HttpServletRequest request) throws Md5Exception {
         FileResponse fileResponse = new FileResponse();
