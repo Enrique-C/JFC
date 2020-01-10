@@ -34,6 +34,7 @@ import com.jalasoft.jfc.model.exception.ZipJfcException;
 import com.jalasoft.jfc.model.metadata.MetadataConverter;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.result.MessageResponse;
+import com.jalasoft.jfc.model.utility.FolderRemover;
 import com.jalasoft.jfc.model.utility.PathJfc;
 import com.jalasoft.jfc.model.utility.ZipFolder;
 
@@ -115,6 +116,7 @@ public class PptxConverter implements IConverter {
             isMetadataTrue(pptxParam);
             isThumbnail(pptxParam);
             zipFile(pptxParam);
+            FolderRemover.removeFolder(pptxParam.getOutputPathFile() + pptxParam.getFolderName());
         } else {
             pptxParam.setInputPathFile(getNewInputPath(pptxParam));
         }

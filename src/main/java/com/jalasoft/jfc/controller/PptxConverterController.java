@@ -22,10 +22,7 @@ import com.jalasoft.jfc.model.result.ErrorResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.Response;
-import com.jalasoft.jfc.model.utility.FileServiceController;
-import com.jalasoft.jfc.model.utility.LinkGenerator;
-import com.jalasoft.jfc.model.utility.Md5Checksum;
-import com.jalasoft.jfc.model.utility.PathJfc;
+import com.jalasoft.jfc.model.utility.*;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -55,12 +52,9 @@ import java.io.IOException;
 @RequestMapping("/api")
 public class PptxConverterController {
 
-    // Constant Pdf extension.
-    final String FILE_FORMAT = ".pdf";
-
     /**
      * Receives a Pptx to convert.
-     * @param file contains the image file
+     * @param file contains the image file.
      * @param md5 contains md5 value.
      * @param outputName contains the name of output file.
      * @param isThumbnail boolean of thumbnail.
@@ -74,13 +68,14 @@ public class PptxConverterController {
     @ApiOperation(value = "pptx specifications", notes = "Provides values for converting pptx file to Pdf",
             response = Response.class)
     public Response pptxConverterToPdf(
-            @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = " ") String md5,
+            @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = "") String md5,
             @RequestParam String outputName, @RequestParam(defaultValue = "false") boolean isThumbnail,
             @RequestParam(defaultValue = "false") boolean isMetadata, @RequestParam(defaultValue = ".jpg")
             String thumbnailFormat, @RequestParam(defaultValue = "") String pagesToConvertThumbNail,
             HttpServletRequest request) {
 
         PptxParam pptxParam = new PptxParam();
+        final String FILE_FORMAT = ".pdf";
         FileResponse fileResponse = new FileResponse();
         ErrorResponse errorResponse = new ErrorResponse();
         IConverter PptxConverter = new PptxConverter();
@@ -88,6 +83,7 @@ public class PptxConverterController {
         try {
             String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
                     getOriginalFilename(), file);
+
             if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
                 pptxParam.setFileFormat(FILE_FORMAT);
                 pptxParam.setMd5(md5);
@@ -135,11 +131,28 @@ public class PptxConverterController {
         return fileResponse;
     }
 
+    /**
+     *
+     * @param file contains the image file.
+     * @param md5 contains md5 value.
+     * @param outputName contains the name of output file.
+     * @param rotate degrees to rotate.
+     * @param scale contains input Scale 1-10.
+     * @param isThumbnail boolean of thumbnail.
+     * @param isMetadata isMetadata boolean of metadata.
+     * @param imageFormat format of a image.
+     * @param width contains integer value.
+     * @param height contains integer value.
+     * @param pagesToConvert contains number of pdf file pages.
+     * @param request contains client data.
+     * @param isMetadata boolean of metadata.
+     * @return Response is the result of the conversion.
+     */
     @PostMapping("/pptxConverterToImage")
     @ApiOperation(value = "pptx specifications", notes = "Provides values for converting pptx file to Image",
             response = Response.class)
     public Response pdfConverter(
-            @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = " ") String md5,
+            @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = "") String md5,
             @RequestParam String outputName, @RequestParam(defaultValue = "0") int rotate,
             @RequestParam(defaultValue = "%") String scale, @RequestParam(defaultValue = "false") boolean isThumbnail,
             @RequestParam(defaultValue = "false") boolean isMetadata, @RequestParam(defaultValue = ".png")
@@ -160,10 +173,10 @@ public class PptxConverterController {
             if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
                 pptxParam.setFileFormat(imageFormat);
                 pptxParam.setMd5(md5);
+                pptxParam.setFolderName(md5);
                 pptxParam.setOutputName(outputName);
                 pptxParam.setInputPathFile(fileUploadedPath);
-                pptxParam.setOutputPathFile(PathJfc.getOutputFilePath());
-                pptxParam.setFolderName(md5);
+                pptxParam.setOutputPathFile(PathJfc.getInputFilePath());
                 pptxConverter.convert(pptxParam);
 
                 PDDocument doc = PDDocument.load(new File(pptxParam.getInputPathFile()));
@@ -218,19 +231,5 @@ public class PptxConverterController {
             return errorResponse;
         }
         return fileResponse;
-    }
-
-    /**
-     * Gets the original name of converted file.
-     * @param pptxParam receives pptx params.
-     * @return original name with file extension.
-     */
-    private String getOriginalName(PptxParam pptxParam) {
-        File fileOriginalName = new File(pptxParam.getInputPathFile());
-        String regex = "[.][^.]+$";
-        final String REPLACE_REGEX = "";
-        String name = fileOriginalName.getName().replaceFirst(regex,REPLACE_REGEX) + FILE_FORMAT;
-
-        return "/"+name;
     }
 }
