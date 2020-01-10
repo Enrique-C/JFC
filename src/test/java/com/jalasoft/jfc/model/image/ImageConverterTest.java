@@ -40,8 +40,6 @@ public class ImageConverterTest {
         File zipFile = new File(zipImage);
         boolean expected = zipFile.exists() && zipFile.getTotalSpace() > EMPTY_BYTES;
 
-        FolderRemover.removeFolder(zipFile.getPath());
-
         assertTrue(expected);
     }
 
@@ -57,8 +55,6 @@ public class ImageConverterTest {
 
         File zipFile = new File(zipImage);
         boolean expected = zipFile.exists() && zipFile.getTotalSpace() > UPLOAD_FILE_BYTES;
-
-        FolderRemover.removeFolder(zipFile.getPath());
 
         assertTrue(expected);
     }
