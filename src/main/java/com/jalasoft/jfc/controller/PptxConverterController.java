@@ -166,7 +166,6 @@ public class PptxConverterController {
                 pptxParam.setFolderName(md5);
                 pptxConverter.convert(pptxParam);
 
-                //String ppxConvertedPath = PathJfc.getOutputFilePath() + md5 + getOriginalName(pptxParam);
                 PDDocument doc = PDDocument.load(new File(pptxParam.getInputPathFile()));
                 int quantityPages = doc.getNumberOfPages();
 
