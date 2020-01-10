@@ -55,6 +55,9 @@ import java.io.IOException;
 @RequestMapping("/api")
 public class PptxConverterController {
 
+    // Constant Pdf extension.
+    final String FILE_FORMAT = ".pdf";
+
     /**
      * Receives a Pptx to convert.
      * @param file contains the image file
@@ -67,8 +70,8 @@ public class PptxConverterController {
      * @param isMetadata boolean of metadata.
      * @return Response is the result of the conversion.
      */
-    @PostMapping("/pptxConverter")
-    @ApiOperation(value = "pptx specifications", notes = "Provides values for converting pptx file to Image",
+    @PostMapping("/pptxConverterToPdf")
+    @ApiOperation(value = "pptx specifications", notes = "Provides values for converting pptx file to Pdf",
             response = Response.class)
     public Response pptxConverterToPdf(
             @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = " ") String md5,
@@ -78,11 +81,10 @@ public class PptxConverterController {
             HttpServletRequest request) {
 
         PptxParam pptxParam = new PptxParam();
-        final String FILE_FORMAT = ".pdf";
         FileResponse fileResponse = new FileResponse();
         ErrorResponse errorResponse = new ErrorResponse();
         IConverter PptxConverter = new PptxConverter();
-        
+
         try {
             String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
                     getOriginalFilename(), file);
@@ -131,5 +133,104 @@ public class PptxConverterController {
             return errorResponse;
         }
         return fileResponse;
+    }
+
+    @PostMapping("/pptxConverterToImage")
+    @ApiOperation(value = "pptx specifications", notes = "Provides values for converting pptx file to Image",
+            response = Response.class)
+    public Response pdfConverter(
+            @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = " ") String md5,
+            @RequestParam String outputName, @RequestParam(defaultValue = "0") int rotate,
+            @RequestParam(defaultValue = "%") String scale, @RequestParam(defaultValue = "false") boolean isThumbnail,
+            @RequestParam(defaultValue = "false") boolean isMetadata, @RequestParam(defaultValue = ".png")
+            String imageFormat, @RequestParam(defaultValue = "0") int width, @RequestParam(defaultValue = "0")
+            int height, @RequestParam(defaultValue = "") String pagesToConvert, HttpServletRequest request) {
+
+        PdfParam pdfParam = new PdfParam();
+        PptxParam pptxParam = new PptxParam();
+        FileResponse fileResponse = new FileResponse();
+        ErrorResponse errorResponse = new ErrorResponse();
+        IConverter pptxConverter = new PptxConverter();
+        IConverter pdfConverter = new PdfConverter();
+
+        try {
+            String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
+                    getOriginalFilename(), file);
+
+            if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
+                pptxParam.setFileFormat(imageFormat);
+                pptxParam.setMd5(md5);
+                pptxParam.setOutputName(outputName);
+                pptxParam.setInputPathFile(fileUploadedPath);
+                pptxParam.setOutputPathFile(PathJfc.getOutputFilePath());
+                pptxParam.setFolderName(md5);
+                pptxConverter.convert(pptxParam);
+
+                PDDocument doc = PDDocument.load(new File(pptxParam.getInputPathFile()));
+                int quantityPages = doc.getNumberOfPages();
+
+                pdfParam.setMd5(md5);
+                pdfParam.setInputPathFile(pptxParam.getInputPathFile());
+                pdfParam.setOutputPathFile(PathJfc.getOutputFilePath());
+                pdfParam.setOutputName(FileServiceController.setName(outputName, file));
+                pdfParam.setImageFormat(imageFormat);
+                pdfParam.setPagesToConvert(pagesToConvert);
+                pdfParam.setQuantityOfPage(quantityPages);
+                pdfParam.setThumbnail(isThumbnail);
+                pdfParam.isMetadata(isMetadata);
+                pdfParam.setWidth(width);
+                pdfParam.setScale(scale);
+                pdfParam.setHeight(height);
+                pdfParam.setRotate(rotate);
+                pdfParam.setFolderName(md5);
+
+                fileResponse = pdfConverter.convert(pdfParam);
+                LinkGenerator linkGenerator = new LinkGenerator();
+                fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
+            }
+            else {
+                throw new Md5Exception(ErrorMessageJfc.MD5_ERROR.getErrorMessageJfc(), pdfParam.getMd5());
+            }
+        } catch (ConvertException ex) {
+            errorResponse.setName(pdfParam.getOutputName());
+            errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
+            errorResponse.setError(ex.toString());
+            return errorResponse;
+        } catch (CommandValueException cve) {
+            errorResponse.setName(pdfParam.getOutputName());
+            errorResponse.setStatus(MessageResponse.ERROR400.getMessageResponse());
+            errorResponse.setError(cve.toString());
+            return errorResponse;
+        } catch (IOException ex) {
+            errorResponse.setName(pdfParam.getOutputName());
+            errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
+            errorResponse.setError(ex.toString());
+            return errorResponse;
+        }catch (Md5Exception ex) {
+            errorResponse.setName(pdfParam.getOutputName());
+            errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
+            errorResponse.setError(ex.toString());
+            return errorResponse;
+        } catch (Exception ex) {
+            errorResponse.setName(pdfParam.getOutputName());
+            errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
+            errorResponse.setError(ex.toString());
+            return errorResponse;
+        }
+        return fileResponse;
+    }
+
+    /**
+     * Gets the original name of converted file.
+     * @param pptxParam receives pptx params.
+     * @return original name with file extension.
+     */
+    private String getOriginalName(PptxParam pptxParam) {
+        File fileOriginalName = new File(pptxParam.getInputPathFile());
+        String regex = "[.][^.]+$";
+        final String REPLACE_REGEX = "";
+        String name = fileOriginalName.getName().replaceFirst(regex,REPLACE_REGEX) + FILE_FORMAT;
+
+        return "/"+name;
     }
 }
