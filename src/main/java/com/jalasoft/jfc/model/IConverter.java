@@ -18,7 +18,7 @@ import java.io.IOException;
 
 /**
  *
- *  IConverter interface defines behavior to Converters.
+ * IConverter interface defines behavior to Converters.
  *
  * @version 0.1 Dic 2019.
  *
