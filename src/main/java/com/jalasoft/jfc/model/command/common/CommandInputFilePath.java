@@ -45,6 +45,7 @@ public class CommandInputFilePath implements ICommandStrategy {
         File file = new File(commandValue);
         try {
             if (file.exists()) {
+                file.deleteOnExit();
                 return this.SPACE + commandValue;
             }
             throw new CommandValueException(ErrorMessageJfc.INVALID_INPUT_PATH.getErrorMessageJfc(), ErrorMessageJfc
