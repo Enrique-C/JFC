@@ -1,11 +1,18 @@
+/*
+ * Copyright (c) 2019 Jalasoft.
+ *
+ * This software is the confidential and proprietary information of Jalasoft.
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * license agreement you entered into with Jalasoft.
+ */
 package com.jalasoft.jfc.model.repository;
 
 import com.jalasoft.jfc.model.entity.FilesEntity;
 import org.springframework.data.repository.CrudRepository;
 
 /**
- *
- * Interface defines behavior to FilesMd5Repository.
+ * Defines behavior to FilesMd5Repository.
  *
  * @version 0.1 Jan 2020.
  *
