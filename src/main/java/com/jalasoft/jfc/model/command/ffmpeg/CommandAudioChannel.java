@@ -22,7 +22,7 @@ import com.jalasoft.jfc.model.exception.CommandValueException;
  */
 public class CommandAudioChannel implements ICommandStrategy {
 
-    // Contents an audio codec value.
+    // Contents an audio channel value.
     private String audioChannel;
 
     // Contents an audio format value.

@@ -37,7 +37,7 @@ public class AudioParam extends Param {
 
     /**
      * Gets format of an audio.
-     * @return audio format String value.
+     * @return audio format String.
      */
     public String getAudioFormat() {
         return audioFormat;

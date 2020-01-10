@@ -22,7 +22,7 @@ public enum AudioFfmpegCommand {
     AUDIO_CODEC("-codec:a"),
     AUDIO_CHANNEL("-ac");
 
-    // Command variable
+    // Audio command variable.
     private String format;
 
     /**
