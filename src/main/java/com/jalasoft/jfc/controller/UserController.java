@@ -105,7 +105,6 @@ public class UserController {
             // implement user Entity.
             return new ResponseEntity<Object>("usermodel", HttpStatus.NOT_ACCEPTABLE);
         }
-
     }
 
     /**
