@@ -4,7 +4,7 @@ import org.springframework.data.repository.CrudRepository;
 
 /**
  *
- *  IConverter interface defines behavior to Converters.
+ *  Interface defines behavior to FilesMd5Repository.
  *
  * @version 0.1 Jan 2020.
  *

@@ -27,8 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 
 public class UserTableController {
-    String user;
-    String password;
 
     // It indicate which class is to be injected in this case userRepository.
     @Autowired
@@ -41,7 +39,7 @@ public class UserTableController {
     // @ResponseBody means the returned String is the response, not a view user.
     public @ResponseBody
 
-    // @RequestParam means it is a parameter from the GET or POST request.
+    // @RequestParam means it is a parameter from the POST request.
     String addNewUser (@RequestParam String user, @RequestParam String password) {
         User n = new User();
         n.setUser(user);
@@ -54,6 +52,5 @@ public class UserTableController {
     @GetMapping(path="/all")
     public @ResponseBody Iterable<User> getAllUsers() {
         return userRepository.findAll();
-
     }
 }

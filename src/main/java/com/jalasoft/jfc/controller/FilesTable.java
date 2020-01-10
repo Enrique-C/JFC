@@ -39,7 +39,7 @@ public class FilesTable {
     // @ResponseBody means the returned String is the response, not a view name.
     public @ResponseBody
 
-    // @RequestParam means it is a parameter from the GET or POST request.
+    // @RequestParam means it is a parameter from the POST request.
     String addNewUser (@RequestParam String md5 , @RequestParam String filePath) {
         FilesMd5 filesMd5 = new FilesMd5();
         filesMd5.setMd5(md5);
