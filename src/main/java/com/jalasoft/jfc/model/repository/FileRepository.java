@@ -9,7 +9,9 @@
 package com.jalasoft.jfc.model.repository;
 
 import com.jalasoft.jfc.model.entity.FileEntity;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 /**
  * Defines behavior to FileRepository.
@@ -19,4 +21,8 @@ import org.springframework.data.repository.CrudRepository;
  * @author Oscar Lopez.
  */
 public interface FileRepository extends CrudRepository<FileEntity, Integer> {
+    @Query(
+            value = "SELECT o FROM FileEntity fe WHERE fe.md5 = :md5 and fe.filePath = :filePath",
+            nativeQuery = true)
+    FileEntity findByNd5(@Param("md5") String md5, @Param("filePath") String filePath);
 }
