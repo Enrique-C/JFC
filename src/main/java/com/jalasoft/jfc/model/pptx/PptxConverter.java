@@ -200,23 +200,24 @@ public class PptxConverter implements IConverter {
         File fileOriginalName = new File(pptxParam.getInputPathFile());
         String regex = "[.][^.]+$";
         final String REPLACE_REGEX = "";
-        String name = fileOriginalName.getName().replaceFirst(regex,REPLACE_REGEX) + PDF_EXTENSION;
+        String name = fileOriginalName.getName().replaceFirst(regex, REPLACE_REGEX) + PDF_EXTENSION;
 
-        try{
-        if (!pptxParam.getOutputName().isEmpty()) {
-            File converted = new File(pptxParam.getOutputPathFile() + pptxParam.getFolderName() + SLASH + name);
+        try {
+            if (!pptxParam.getOutputName().isEmpty()) {
+                File converted = new File(pptxParam.getOutputPathFile() + pptxParam.getFolderName() + SLASH
+                        + name);
 
-            File fileToRename = new File(pptxParam.getOutputPathFile() + pptxParam.getFolderName() + SLASH +
-                    pptxParam.getOutputName() + PDF_EXTENSION);
-            converted.renameTo(fileToRename);
+                File fileToRename = new File(pptxParam.getOutputPathFile() + pptxParam.getFolderName()
+                        + SLASH + pptxParam.getOutputName() + PDF_EXTENSION);
+                converted.renameTo(fileToRename);
 
-            name = fileToRename.getName();
-        } else {
-            pptxParam.setOutputName(fileOriginalName.getName().replaceFirst(regex, REPLACE_REGEX));
-            name = pptxParam.getOutputName() + PDF_EXTENSION;
-        }
+                name = fileToRename.getName();
+            } else {
+                pptxParam.setOutputName(fileOriginalName.getName().replaceFirst(regex, REPLACE_REGEX));
+                name = pptxParam.getOutputName() + PDF_EXTENSION;
+            }
         } catch (NullPointerException ex) {
-            throw  new CommandValueException(ErrorMessageJfc.OUTPUT_NAME_NULL.getErrorMessageJfc(), this.getClass()
+            throw new CommandValueException(ErrorMessageJfc.OUTPUT_NAME_NULL.getErrorMessageJfc(), this.getClass()
                     .getName());
         }
         return name;
