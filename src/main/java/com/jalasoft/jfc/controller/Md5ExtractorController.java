@@ -41,7 +41,7 @@ import java.io.IOException;
 public class Md5ExtractorController {
 
     /**
-     * Extract md5 of the file.
+     * Extract md5 of a file.
      * @param file contents file value.
      * @return md5.
      * @throws Md5Exception
