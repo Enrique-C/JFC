@@ -12,7 +12,7 @@ import com.jalasoft.jfc.model.entity.UserEntity;
 import org.springframework.data.repository.CrudRepository;
 
 /**
- * Defines behavior to UserRepository.
+ * Defines UserRepository.
  *
  * @version 0.1 Jan 2020.
  *

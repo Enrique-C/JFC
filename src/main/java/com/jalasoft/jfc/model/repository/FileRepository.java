@@ -12,7 +12,7 @@ import com.jalasoft.jfc.model.entity.FileEntity;
 import org.springframework.data.repository.CrudRepository;
 
 /**
- * Defines behavior to FilesMd5Repository.
+ * Defines behavior to FileRepository.
  *
  * @version 0.1 Jan 2020.
  *

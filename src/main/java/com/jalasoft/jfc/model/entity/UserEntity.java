@@ -14,7 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
- * Defines UserEntity.
+ * Defines UserEntity .
  *
  * @version 0.1 Jan 2020.
  *
