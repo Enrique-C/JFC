@@ -24,7 +24,7 @@ import javax.persistence.Id;
 public class UserEntity {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
 
     // Content id value.
     private Integer id;
