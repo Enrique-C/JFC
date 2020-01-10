@@ -195,6 +195,7 @@ public class PptxConverter implements IConverter {
      * Gets the original name of converted file.
      * @param pptxParam receives pptx params.
      * @return original name with file extension.
+     * @throws CommandValueException when there is an invalid command.
      */
     private String getOriginalName(PptxParam pptxParam) throws CommandValueException {
         File fileOriginalName = new File(pptxParam.getInputPathFile());
