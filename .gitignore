@@ -33,9 +33,9 @@ build/*
 files/*
 
 #binary files
-thirdparty/*
-thirdparty/LibreOfficePortable/Data/settings/user/pack/registrymodifications.pack
-thirdparty/LibreOfficePortable/Data/settings/user/registrymodifications.xcu
+thirdparty/
+/thirdparty/LibreOfficePortable/Data/settings/user/pack/registrymodifications.pack
+/thirdparty/LibreOfficePortable/Data/settings/user/registrymodifications.xcu
 *.pack
 *.xcu
 thirdparty/LibreOfficePortable/*
