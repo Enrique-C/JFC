@@ -181,6 +181,7 @@ public class PptxConverterController {
 
                 PDDocument doc = PDDocument.load(new File(pptxParam.getInputPathFile()));
                 int quantityPages = doc.getNumberOfPages();
+                doc.close();
 
                 pdfParam.setMd5(md5);
                 pdfParam.setInputPathFile(pptxParam.getInputPathFile());
@@ -200,6 +201,7 @@ public class PptxConverterController {
                 fileResponse = pdfConverter.convert(pdfParam);
                 LinkGenerator linkGenerator = new LinkGenerator();
                 fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
+                FolderRemover.removeFolder(pptxParam.getOutputPathFile() + pptxParam.getFolderName());
             }
             else {
                 throw new Md5Exception(ErrorMessageJfc.MD5_ERROR.getErrorMessageJfc(), pdfParam.getMd5());

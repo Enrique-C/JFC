@@ -161,6 +161,7 @@ public class PptxConverter implements IConverter {
         pptxParam.setInputPathFile(getNewInputPath(pptxParam));
         PDDocument doc = PDDocument.load(new File(pptxParam.getInputPathFile()));
         int quantityPages = doc.getNumberOfPages();
+        doc.close();
         final String THUMBNAIL_KEY = "Thumb";
 
         commandsList = new ArrayList<>();
@@ -251,6 +252,7 @@ public class PptxConverter implements IConverter {
         try {
             Process process = Runtime.getRuntime().exec(stringCommand);
             process.waitFor();
+            process.destroy();
         } catch (InterruptedException | IOException e) {
             throw new ConvertException(e.getMessage(), this.getClass().getName());
         }

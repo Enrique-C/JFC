@@ -11,7 +11,6 @@ package com.jalasoft.jfc.model.image;
 
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ConvertException;
-import com.jalasoft.jfc.model.utility.FolderRemover;
 import com.jalasoft.jfc.model.utility.PathJfc;
 import org.junit.Test;
 
@@ -28,37 +27,32 @@ import static org.junit.Assert.assertTrue;
  */
 public class ImageConverterTest {
 
+    final long EMPTY_BYTES = 22;
+    long convertedImageSize;
+
     @Test
     public void convert_ImagePNGToJPG_Zip() throws ConvertException, CommandValueException {
-        final int EMPTY_BYTES = 22;
-
         ImageConverter imageConverter = new ImageConverter();
         ImageParam imageParam = generateOnlyImageJPG();
 
-        String zipImage = imageConverter.convert(imageParam).getDownload();
+        String zipImagePath = imageConverter.convert(imageParam).getDownload();
 
-        File zipFile = new File(zipImage);
+        File zipFile = new File(zipImagePath);
+        convertedImageSize = zipFile.length();
         boolean expected = zipFile.exists() && zipFile.getTotalSpace() > EMPTY_BYTES;
-
-        FolderRemover.removeFolder(zipFile.getPath());
 
         assertTrue(expected);
     }
 
     @Test
     public void convert_ImagePNBToJPGAndThumbnailAndMetadata_Zip() throws ConvertException, CommandValueException {
-        File fileUpload = new File("fileUploadedPath");
-
         ImageConverter imageConverter = new ImageConverter();
         ImageParam imageParam = generateImageJPGAndThumbnailAndMetadata();
 
-        String zipImage = imageConverter.convert(imageParam).getDownload();
-        final long UPLOAD_FILE_BYTES = fileUpload.getTotalSpace();
+        String zipImagePath = imageConverter.convert(imageParam).getDownload();
 
-        File zipFile = new File(zipImage);
-        boolean expected = zipFile.exists() && zipFile.getTotalSpace() > UPLOAD_FILE_BYTES;
-
-        FolderRemover.removeFolder(zipFile.getPath());
+        File zipFile = new File(zipImagePath);
+        boolean expected = zipFile.exists() && zipFile.length() > convertedImageSize;
 
         assertTrue(expected);
     }
