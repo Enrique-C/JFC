@@ -9,13 +9,12 @@
 
 package com.jalasoft.jfc.model.entity;
 
-import jdk.nashorn.internal.objects.annotations.Getter;
-import org.hibernate.validator.constraints.Email;
-
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * Defines UserEntity.
@@ -25,27 +24,34 @@ import javax.persistence.Id;
  * @author Oscar Lopez.
  */
 @Entity
+@Table(name = "user")
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 
     // Content id value.
+    @Column
     private Integer id;
 
     // Content user value.
-     private String userName;
+    @Column
+    private String userName;
 
     // Content password value.
+    @Column
     private String password;
 
     // Content token value.
+    @Column
     private String token;
 
     // Content rol value.
+    @Column
     private String rol;
 
     // Content email value.
-    private Email email;
+    @Column
+    private String email;
 
     /**
      * Gets id value.
@@ -67,17 +73,17 @@ public class UserEntity {
      * Gets user value.
      * @return user value.
      */
-//    public String getUser() {
-//        return userName;
-//    }
-//
-//    /**
-//     * Sets user value.
-//     * @param userName value.
-//     */
-//    public void setUser(String userName) {
-//        this.userName = userName;
-//    }
+    public String getUser() {
+        return userName;
+    }
+
+    /**
+     * Sets user value.
+     * @param userName value.
+     */
+    public void setUser(String userName) {
+        this.userName = userName;
+    }
 
     /**
      * Gets password value.
@@ -120,6 +126,14 @@ public class UserEntity {
     }
 
     /**
+     * Sets email address.
+     * @param email address.
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    /**
      * Sets rol value.
      * @param rol value.
      */
@@ -131,15 +145,7 @@ public class UserEntity {
      * Gets email address.
      * @return email.
      */
-    public Email getEmail() {
+    public String getEmail() {
         return email;
-    }
-
-    /**
-     * Sets email address.
-     * @param email address.
-     */
-    public void setEmail(Email email) {
-        this.email = email;
     }
 }

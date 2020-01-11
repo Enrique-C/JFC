@@ -10,7 +10,9 @@
 package com.jalasoft.jfc.model.repository;
 
 import com.jalasoft.jfc.model.entity.UserEntity;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 /**
  * Defines UserRepository.
@@ -21,4 +23,6 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface UserRepository extends CrudRepository<UserEntity, Integer> {
 
+    @Query("SELECT u FROM UserEntity u WHERE u.userName = :userName AND u.password = :password")
+    UserEntity login(@Param("userName") String userName, @Param("password") String password);
 }

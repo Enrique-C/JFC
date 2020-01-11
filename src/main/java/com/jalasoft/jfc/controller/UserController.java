@@ -10,13 +10,16 @@
 package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.entity.UserEntity;
+import com.jalasoft.jfc.model.repository.UserRepository;
 import com.jalasoft.jfc.model.result.Response;
 
+import com.jalasoft.jfc.model.token.JsonWebToken;
 import io.jsonwebtoken.Jwts;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,6 +31,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.jsonwebtoken.SignatureAlgorithm;
+
+import java.util.List;
 
 /**
  * Manages user request.
@@ -41,6 +46,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @RequestMapping("/api")
 public class UserController {
 
+    @Autowired
+    UserRepository userRepository;
     /**
      * Allows to user login.
      * @param userName credential value.
@@ -50,19 +57,13 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestParam("userName") String userName, @RequestParam("password")
             String password) {
-        UserEntity userEntity = new UserEntity();
-        String TOKEN_SECRET = "at11";
-        String token;
-        try {
-            token = Jwts.builder()
-                    .signWith(SignatureAlgorithm.HS256, TOKEN_SECRET.getBytes())
-                    .setSubject(userName)
-                    .claim("ROLE", "admin")
-                    .compact();
-        } catch (Exception ex) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
+        UserEntity userEntity = userRepository.login(userName, password);
+        if (userEntity != null) {
+            String TOKEN_SECRET = "at11-01-10-2020-fundacion-jala.org";
+            String token = JsonWebToken.createJwt(userEntity);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(token);
         }
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(token);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -78,12 +79,16 @@ public class UserController {
             response = Response.class)
     public ResponseEntity<?> addUser(@RequestParam String userName, @RequestParam String
              password, @RequestParam String rol, @RequestParam String email) {
+        UserEntity userEntity = new UserEntity();
         try {
-            // implement user Entity.
-            return new ResponseEntity<Object>("usermodel", HttpStatus.CREATED);
+            userEntity.setUser(userName);
+            userEntity.setPassword(password);
+            userEntity.setRol(rol);
+            userEntity.setEmail(email);
+            userRepository.save(userEntity);
+            return new ResponseEntity<Object>(userEntity, HttpStatus.CREATED);
         } catch (Exception ex) {
-            // implement user Entity.
-            return new ResponseEntity<Object>("usermodel", HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<Object>(userEntity, HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
@@ -98,15 +103,18 @@ public class UserController {
     @PutMapping("/updateUser")
     @ApiOperation(value = "User specifications", notes = "Provides values for updating user values",
             response = Response.class)
-    public ResponseEntity<?> updateUser(@RequestParam int id, @RequestParam String userName, @RequestParam String
-            password, @RequestParam String rol, @RequestParam String email) {
-        try {
-            // implement user Entity.
-            return new ResponseEntity<Object>("usermodel", HttpStatus.OK);
-        } catch (Exception ex) {
-            // implement user Entity.
-            return new ResponseEntity<Object>("usermodel", HttpStatus.NOT_ACCEPTABLE);
+    public ResponseEntity<UserEntity> updateUser(@RequestParam int id, @RequestParam String userName,
+            @RequestParam String password, @RequestParam String rol, @RequestParam String email) {
+        UserEntity userEntity = userRepository.findOne(id);
+        if (userEntity != null) {
+            userEntity.setUser(userName);
+            userEntity.setPassword(password);
+            userEntity.setRol(rol);
+            userEntity.setEmail(email);
+            userRepository.save(userEntity);
+            return new ResponseEntity<>(userEntity, HttpStatus.OK);
         }
+        return new ResponseEntity<>(userEntity, HttpStatus.NOT_MODIFIED);
     }
 
     /**
@@ -118,26 +126,25 @@ public class UserController {
     @ApiOperation(value = "User Id", notes = "Provides user values by Id",
             response = Response.class)
     public ResponseEntity<?> findUserById(@RequestParam("Id") int id) {
-        if (true) {
-            // implement user Entity.
-            return new ResponseEntity<Object>("userModel", HttpStatus.FOUND);
+        UserEntity userEntity = userRepository.findOne(id);
+        if (userEntity != null) {
+            return new ResponseEntity<>(userEntity, HttpStatus.FOUND);
         }
-        return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<Object>("Id " + id, HttpStatus.NOT_FOUND);
     }
 
     /**
      * Gets all users.
-     * @return Response object.
+     * @return Response a list of users.
      */
     @GetMapping("/getAllUsers")
     @ApiOperation(value = "Authorization", notes = "Provides user values all users",
             response = Response.class)
-    public ResponseEntity<?> getAllUsers() {
+    public ResponseEntity<List<?>> getAllUsers() {
         try {
-            // implement user Entity.
-            return new ResponseEntity<Object>("userModel", HttpStatus.OK);
+            return new ResponseEntity<>((List<?>) userRepository.findAll(), HttpStatus.OK);
         } catch (Exception ex) {
-            return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -150,10 +157,11 @@ public class UserController {
     @ApiOperation(value = "Authorization", notes = "Delete user values by Id",
             response = Response.class)
     public ResponseEntity<?> deleteById(@RequestParam("Id") int id) {
-        if (true) {
-            // implement user Entity.
-            return new ResponseEntity<Object>("userModel", HttpStatus.OK);
+        UserEntity userEntity = userRepository.findOne(id);
+        if (userEntity != null) {
+            userRepository.delete(id);
+            return new ResponseEntity<>(userEntity, HttpStatus.MOVED_PERMANENTLY);
         }
-        return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
