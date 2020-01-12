@@ -46,18 +46,30 @@ public class CommandImageResize implements ICommandStrategy {
      */
     public String command() throws CommandValueException {
         try {
-            if (width == 0 && height == 0){
+            if (width == 0 && height == 0) {
                 return "";
             }
-            if (width > 0 && height > 0) {
-                return SPACE + ImageMagickCommand.RESIZE.getCommand() +
-                        SPACE + width + ImageMagickCommand.ASTERISK.getCommand() + height;
+            validateWidthAndHeight(width, height);
+            if (width >= 128 && height > 128 || width > 128 && height >= 128) {
+                return SPACE + ImageMagickCommand.RESIZE.getCommand() + SPACE + width + ImageMagickCommand.ASTERISK
+                        .getCommand() + height;
             }
-            throw new CommandValueException(ErrorMessageJfc.RESIZE_INVALID.getErrorMessageJfc(), ErrorMessageJfc
-                    .WIDTH_HEIGHT_INVALID.getErrorMessageJfc());
+            return "";
         } catch (NullPointerException nex) {
-            throw  new CommandValueException(ErrorMessageJfc.COMMAND_NULL.getErrorMessageJfc(), this.getClass()
+            throw new CommandValueException(ErrorMessageJfc.COMMAND_NULL.getErrorMessageJfc(), this.getClass()
                     .getName());
         }
+    }
+
+    private void validateWidthAndHeight(int width, int height) throws CommandValueException {
+        if (width < 128) {
+            throw new CommandValueException(ErrorMessageJfc.RESIZE_INVALID.getErrorMessageJfc(), ErrorMessageJfc
+                    .WIDTH_INVALID.getErrorMessageJfc());
+        }
+        if (height < 128) {
+            throw new CommandValueException(ErrorMessageJfc.RESIZE_INVALID.getErrorMessageJfc(), ErrorMessageJfc
+                    .HEIGHT_INVALID.getErrorMessageJfc());
+        }
+
     }
 }
