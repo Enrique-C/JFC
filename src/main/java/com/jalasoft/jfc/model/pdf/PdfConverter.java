@@ -35,6 +35,7 @@ import com.jalasoft.jfc.model.command.ContextStrategy;
 import com.jalasoft.jfc.model.utility.FolderRemover;
 import com.jalasoft.jfc.model.utility.PathJfc;
 import com.jalasoft.jfc.model.utility.ZipFolder;
+import org.apache.pdfbox.pdmodel.PDDocument;
 
 import java.io.File;
 import java.io.IOException;
@@ -67,13 +68,18 @@ public class PdfConverter implements IConverter {
      * @throws ConvertException when the conversion was not completed.
      * @throws ZipJfcException when is a invalid file path.
      */
-    public FileResponse convert(Param param) throws CommandValueException, ConvertException, ZipJfcException {
+    public FileResponse convert(Param param) throws CommandValueException, ConvertException, ZipJfcException,
+            IOException {
         if (param == null) {
             throw new ConvertException("Parameter param is null", this.getClass().getName());
         }
 
         FileResponse fileResponse = new FileResponse();
         PdfParam pdfParam = (PdfParam)param;
+        PDDocument doc = PDDocument.load(new File(pdfParam.getInputPathFile()));
+        int quantityPages = doc.getNumberOfPages();
+        doc.close();
+        pdfParam.setQuantityOfPage(quantityPages);
 
         StringBuilder stringCommand = new StringBuilder();
         stringCommand.append(generateImage(pdfParam));
