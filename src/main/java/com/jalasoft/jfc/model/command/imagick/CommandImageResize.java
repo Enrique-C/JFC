@@ -61,6 +61,12 @@ public class CommandImageResize implements ICommandStrategy {
         }
     }
 
+    /**
+     * Validates with and height values.
+     * @param width receives width value to convert.
+     * @param height receives height value to convert.
+     * @throws CommandValueException when there is an invalid command.
+     */
     private void validateWidthAndHeight(int width, int height) throws CommandValueException {
         if (width < 128) {
             throw new CommandValueException(ErrorMessageJfc.RESIZE_INVALID.getErrorMessageJfc(), ErrorMessageJfc
