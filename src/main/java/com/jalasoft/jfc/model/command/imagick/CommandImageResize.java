@@ -76,6 +76,5 @@ public class CommandImageResize implements ICommandStrategy {
             throw new CommandValueException(ErrorMessageJfc.RESIZE_INVALID.getErrorMessageJfc(), ErrorMessageJfc
                     .HEIGHT_INVALID.getErrorMessageJfc());
         }
-
     }
 }
