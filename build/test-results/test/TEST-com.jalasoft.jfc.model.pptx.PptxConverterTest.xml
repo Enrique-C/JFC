@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.jalasoft.jfc.model.pptx.PptxConverterTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-01-12T18:59:17" hostname="DESKTOP-DE9P51R" time="30.049">
+  <properties/>
+  <testcase name="Convert_PptxTo_pdf" classname="com.jalasoft.jfc.model.pptx.PptxConverterTest" time="30.049"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

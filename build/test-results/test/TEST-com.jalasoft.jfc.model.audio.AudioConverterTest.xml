@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.jalasoft.jfc.model.audio.AudioConverterTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2020-01-12T18:59:47" hostname="DESKTOP-DE9P51R" time="1.436">
+  <properties/>
+  <testcase name="convert_AudioWAVToAudioMP3_Zip" classname="com.jalasoft.jfc.model.audio.AudioConverterTest" time="0.278"/>
+  <testcase name="convert_AudioParamAudioFormatEmpty_ConvertException" classname="com.jalasoft.jfc.model.audio.AudioConverterTest" time="0.003"/>
+  <testcase name="convert_AudioParamNull_ConvertException" classname="com.jalasoft.jfc.model.audio.AudioConverterTest" time="0.0"/>
+  <testcase name="convert_AudioFileNameWithSpaces_Zip" classname="com.jalasoft.jfc.model.audio.AudioConverterTest" time="0.197"/>
+  <testcase name="convert_AudioWAVToAudioMP3AndMetadata_Zip" classname="com.jalasoft.jfc.model.audio.AudioConverterTest" time="0.957"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

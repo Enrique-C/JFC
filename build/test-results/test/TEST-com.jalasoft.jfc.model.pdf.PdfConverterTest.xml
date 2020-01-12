@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.jalasoft.jfc.model.pdf.PdfConverterTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2020-01-12T18:59:50" hostname="DESKTOP-DE9P51R" time="5.224">
+  <properties/>
+  <testcase name="convert_PdfFileToImageWithMetadata" classname="com.jalasoft.jfc.model.pdf.PdfConverterTest" time="2.157"/>
+  <testcase name="convert_PdfFileToImageWithThumbnail" classname="com.jalasoft.jfc.model.pdf.PdfConverterTest" time="2.021"/>
+  <testcase name="convert_PdfFileToImage" classname="com.jalasoft.jfc.model.pdf.PdfConverterTest" time="1.046"/>
+  <testcase name="convertPdfFileToImageWithNullObjectValue" classname="com.jalasoft.jfc.model.pdf.PdfConverterTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

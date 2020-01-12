@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.jalasoft.jfc.model.image.ImageConverterTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2020-01-12T18:59:49" hostname="DESKTOP-DE9P51R" time="1.172">
+  <properties/>
+  <testcase name="convert_ImagePNBToJPGAndThumbnailAndMetadata_Zip" classname="com.jalasoft.jfc.model.image.ImageConverterTest" time="1.092"/>
+  <testcase name="convert_ImageParamImageFormatEmpty_ConvertException" classname="com.jalasoft.jfc.model.image.ImageConverterTest" time="0.001"/>
+  <testcase name="convert_ImagePNGToJPG_Zip" classname="com.jalasoft.jfc.model.image.ImageConverterTest" time="0.079"/>
+  <testcase name="convert_ImageParamNull_ConvertException" classname="com.jalasoft.jfc.model.image.ImageConverterTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
