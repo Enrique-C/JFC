@@ -122,7 +122,7 @@ public class AudioConverterController {
             errorResponse.setName(ex.getMessage());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
             errorResponse.setError(ex.toString());
-            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_ACCEPTABLE);
         } catch (CommandValueException cve) {
             errorResponse.setName(cve.getMessage());
             errorResponse.setStatus(MessageResponse.ERROR400.getMessageResponse());
@@ -132,7 +132,7 @@ public class AudioConverterController {
             errorResponse.setName(ex.getMessage());
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
             errorResponse.setError(ex.toString());
-            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
         }
     }
 }
