@@ -101,7 +101,7 @@ public class AudioConverterTest {
         int audioBitRate = 0;
         String audioCodec = "";
         int sampleRate = 0;
-        String audioChannel = "";
+        int audioChannel = 0;
         boolean isMetadata = false;
 
         AudioParam audioParam = new AudioParam();

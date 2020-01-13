@@ -33,7 +33,7 @@ public class AudioParam extends Param {
     private int audioBitRate;
 
     // Content audioChannel value.
-    private String audioChannel;
+    private int audioChannel;
 
     /**
      * Gets an audio codec.
@@ -55,7 +55,7 @@ public class AudioParam extends Param {
      * Gets getAudioChannel value.
      * @return an audio channel value.
      */
-    public String getAudioChannel() {
+    public int getAudioChannel() {
         return audioChannel;
     }
 
@@ -87,7 +87,7 @@ public class AudioParam extends Param {
      * Sets audioChannel value.
      * @param audioChannel contains and audio channel value.
      */
-    public void setAudioChannel(String audioChannel) {
+    public void setAudioChannel(int audioChannel) {
         this.audioChannel = audioChannel;
     }
 

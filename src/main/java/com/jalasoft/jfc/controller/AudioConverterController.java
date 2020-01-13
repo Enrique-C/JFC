@@ -67,7 +67,7 @@ public class AudioConverterController {
     public ResponseEntity<Response> audioConverter(
             @RequestParam("file")MultipartFile file, @RequestParam String md5,
             @RequestParam(defaultValue = " ") String outputName, @RequestParam(defaultValue = " ") String audioCodec,
-            @RequestParam(defaultValue = "0") int sampleRate, @RequestParam(defaultValue = " ") String audioChannel,
+            @RequestParam(defaultValue = "0") int sampleRate, @RequestParam(defaultValue = "0") int audioChannel,
             @RequestParam(defaultValue = "0") int audioBitRate, @RequestParam(defaultValue = "false")
             boolean isMetadata, @RequestParam(defaultValue = ".mp3") String audioFormat, HttpServletRequest request) {
 
