@@ -25,6 +25,7 @@ public class FileEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+
     // Content id value.
     private Integer id;
 
