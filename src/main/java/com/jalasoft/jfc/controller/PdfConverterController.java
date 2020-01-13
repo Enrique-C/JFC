@@ -28,8 +28,6 @@ import com.jalasoft.jfc.model.utility.PathJfc;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-import org.apache.pdfbox.pdmodel.PDDocument;
-
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,7 +36,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 
-import java.io.File;
 import java.io.IOException;
 
 /**
@@ -88,9 +85,6 @@ public class PdfConverterController {
         try {
             String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
                     getOriginalFilename(), file);
-            PDDocument doc = PDDocument.load(new File(fileUploadedPath));
-            int quantityPages = doc.getNumberOfPages();
-            doc.close();
 
             if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
                 pdfParam.setMd5(md5);
@@ -99,7 +93,6 @@ public class PdfConverterController {
                 pdfParam.setOutputName(FileServiceController.setName(outputName, file));
                 pdfParam.setImageFormat(imageFormat);
                 pdfParam.setPagesToConvert(pagesToConvert);
-                pdfParam.setQuantityOfPage(quantityPages);
                 pdfParam.setThumbnail(isThumbnail);
                 pdfParam.isMetadata(isMetadata);
                 pdfParam.setWidth(width);
