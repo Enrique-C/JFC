@@ -93,6 +93,7 @@ public class MetadataConverterController {
                 fileEntity.setMd5(Md5Checksum.getMd5(fileUploaded));
                 fileRepository.save(fileEntity);
             }
+
             param.setInputPathFile(fileUploaded);
             param.setOutputPathFile(PathJfc.getOutputFilePath());
             param.setFolderName(Md5Checksum.getMd5(fileUploaded));

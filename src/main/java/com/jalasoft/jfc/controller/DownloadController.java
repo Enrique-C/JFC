@@ -73,7 +73,5 @@ public class DownloadController {
             return ResponseEntity.badRequest().header(HttpHeaders.CONTENT_DISPOSITION,
                     "attachment;filename=" + fileName).body(e.getCause());
         }
-
-
     }
 }

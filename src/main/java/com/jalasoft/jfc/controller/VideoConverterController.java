@@ -104,6 +104,7 @@ public class VideoConverterController {
                     fileEntity.setMd5(md5);
                     fileRepository.save(fileEntity);
                 }
+
                 videoParam.setMd5(md5);
                 videoParam.setOutputPathFile(PathJfc.getOutputFilePath());
                 videoParam.setOutputName(FileServiceController.setName(outputName, file));

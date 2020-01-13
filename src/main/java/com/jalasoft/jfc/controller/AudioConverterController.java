@@ -97,6 +97,7 @@ public class AudioConverterController {
                     fileEntity.setMd5(md5);
                     fileRepository.save(fileEntity);
                 }
+
                 audioParam.setMd5(md5);
                 audioParam.setAudioCodec(audioCodec);
                 audioParam.setAudioSampleRate(sampleRate);

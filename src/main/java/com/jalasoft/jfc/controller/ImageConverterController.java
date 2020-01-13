@@ -104,6 +104,7 @@ public class ImageConverterController {
                     fileEntity.setMd5(md5);
                     fileRepository.save(fileEntity);
                 }
+
                 imageParam.setMd5(md5);
                 imageParam.setOutputPathFile(PathJfc.getOutputFilePath());
                 imageParam.setImageFormat(imageFormat);
