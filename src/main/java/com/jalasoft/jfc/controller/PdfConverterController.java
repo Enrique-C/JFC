@@ -29,8 +29,13 @@ import com.jalasoft.jfc.model.utility.PathJfc;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -75,8 +80,8 @@ public class PdfConverterController {
      */
     @PostMapping("/pdfConverter")
     @ApiOperation(value = "Pdf specifications", notes = "Provides values for converting Pdf file to Image",
-            response = Response.class)
-    public Response pdfConverter(
+            response = Response.class, authorizations = { @Authorization(value="JWT") })
+    public ResponseEntity<Response> pdfConverter(
             @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = " ") String md5,
             @RequestParam String outputName, @RequestParam(defaultValue = "0") int rotate,
             @RequestParam(defaultValue = "%") String scale, @RequestParam(defaultValue = "false") boolean isThumbnail,
@@ -120,6 +125,9 @@ public class PdfConverterController {
                 fileResponse = pdfConverter.convert(pdfParam);
                 LinkGenerator linkGenerator = new LinkGenerator();
                 fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
+                fileResponse.setName(pdfParam.getFolderName());
+                fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
+                return new ResponseEntity<Response>(fileResponse, HttpStatus.OK);
             }
             else {
                 throw new Md5Exception(ErrorMessageJfc.MD5_ERROR.getErrorMessageJfc(), pdfParam.getMd5());
@@ -128,28 +136,27 @@ public class PdfConverterController {
             errorResponse.setName(pdfParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
             errorResponse.setError(ex.toString());
-            return errorResponse;
+            return new ResponseEntity<Response>(errorResponse, HttpStatus.NOT_ACCEPTABLE);
         } catch (CommandValueException cve) {
             errorResponse.setName(pdfParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR400.getMessageResponse());
             errorResponse.setError(cve.toString());
-            return errorResponse;
+            return new ResponseEntity<Response>(errorResponse, HttpStatus.BAD_REQUEST);
         } catch (IOException ex) {
             errorResponse.setName(pdfParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
             errorResponse.setError(ex.toString());
-            return errorResponse;
+            return new ResponseEntity<Response>(errorResponse, HttpStatus.NOT_FOUND);
         }catch (Md5Exception ex) {
             errorResponse.setName(pdfParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
             errorResponse.setError(ex.toString());
-            return errorResponse;
+            return new ResponseEntity<Response>(errorResponse, HttpStatus.NOT_ACCEPTABLE);
         } catch (Exception ex) {
             errorResponse.setName(pdfParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
             errorResponse.setError(ex.toString());
-            return errorResponse;
+            return new ResponseEntity<Response>(errorResponse, HttpStatus.NOT_FOUND);
         }
-        return fileResponse;
     }
 }

@@ -29,6 +29,7 @@ import com.jalasoft.jfc.model.utility.PathJfc;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -74,7 +75,7 @@ public class ImageConverterController {
      */
     @PostMapping("/imageConverter")
     @ApiOperation(value = "Image specifications", notes = "Provides values for converting Image file to other one",
-            response = Response.class)
+            response = Response.class, authorizations = { @Authorization(value="JWT") })
     public Response imageConverter(
             @RequestParam("file") MultipartFile file, @RequestParam String md5, @RequestParam String outputName,
             @RequestParam(defaultValue = ".png") String imageFormat, @RequestParam(defaultValue = "false")
