@@ -122,18 +122,18 @@ public class AudioConverterController {
             errorResponse.setName(ex.getMessage());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
             errorResponse.setError(ex.toString());
-            return new ResponseEntity<Response>(errorResponse, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         } catch (CommandValueException cve) {
             errorResponse.setName(cve.getMessage());
             errorResponse.setStatus(MessageResponse.ERROR400.getMessageResponse());
             errorResponse.setError(cve.toString());
-            return new ResponseEntity<Response>(errorResponse, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }   catch (Exception ex) {
             errorResponse.setName(ex.getMessage());
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
             errorResponse.setError(ex.toString());
-            return new ResponseEntity<Response>(errorResponse, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<Response>(fileResponse, HttpStatus.OK);
+        return new ResponseEntity<>(fileResponse, HttpStatus.OK);
     }
 }
