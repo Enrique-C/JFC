@@ -18,10 +18,10 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
 
     // Sprint fox-Swagger.
-    compile("io.springfox:springfox-swagger2:2.9.2")
+    compile("io.springfox:springfox-swagger2:2.8.0")
 
     // Spring fox-Swagger-ui.
-    compile("io.springfox:springfox-swagger-ui:2.9.2")
+    compile("io.springfox:springfox-swagger-ui:2.8.0")
    
     //PdfBox.
     compile group: 'org.apache.pdfbox', name: 'pdfbox', version: '2.0.17'
@@ -54,6 +54,6 @@ dependencies {
     // Database connector
     runtimeOnly 'mysql:mysql-connector-java'
 
-    // Extra dependency.
+    // Extra dependency for managing tomcat exception.
     compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.0'
 }
