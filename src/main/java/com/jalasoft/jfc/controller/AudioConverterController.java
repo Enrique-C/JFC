@@ -113,7 +113,10 @@ public class AudioConverterController {
                 fileResponse = audioConverter.convert(audioParam);
                 LinkGenerator linkGenerator = new LinkGenerator();
                 fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
+                fileResponse.setName(audioParam.getFolderName());
                 fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
+
+                return new ResponseEntity<>(fileResponse, HttpStatus.OK);
             }
             else {
                 throw new Md5Exception(ErrorMessageJfc.MD5_ERROR.getErrorMessageJfc(), audioParam.getMd5());
@@ -134,6 +137,5 @@ public class AudioConverterController {
             errorResponse.setError(ex.toString());
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(fileResponse, HttpStatus.OK);
     }
 }
