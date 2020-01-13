@@ -28,6 +28,7 @@ import com.jalasoft.jfc.model.exception.ConvertException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import io.swagger.annotations.Authorization;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -67,7 +68,7 @@ public class VideoConverterController {
      */
     @PostMapping("/videoConverter")
     @ApiOperation(value = "Video specifications", notes = "Provides values for converting Video file to other one.",
-            response = Response.class)
+            response = Response.class, authorizations = { @Authorization(value="JWT") })
     public Response videoConverter(
             @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = " ") String md5,
             @RequestParam String outputName, @RequestParam(defaultValue = "") String aspectRatio,
@@ -77,7 +78,7 @@ public class VideoConverterController {
             @RequestParam(defaultValue = "false") boolean isMetadata, HttpServletRequest request,
             @RequestParam(defaultValue = ".avi") String videoFormat) {
 
-        FileResponse fileResponse = new FileResponse();
+        FileResponse fileResponse;
         ErrorResponse errorResponse = new ErrorResponse();
         VideoParam videoParam = new VideoParam();
         IConverter videoConverter = new VideoConverter();

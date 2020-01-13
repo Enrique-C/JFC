@@ -60,14 +60,13 @@ public class TokenFilter implements Filter {
         String auth = req.getHeader("Authorization");
         JsonWebToken jwt = new JsonWebToken();
 
-        if (auth != null) {
-            if (jwt.validateToken(auth)) {
+        if (auth != null && jwt.validateToken(auth)) {
                 chain.doFilter(request, response);
-            }
         }
 
         if (url.contains("/login") || url.contains("/extractMd5") || url.contains("/webjars") ||
-                url.contains("/swagger-resources") || url.contains("/v2/api-docs") || url.contains("/swagger-ui.html")) {
+                url.contains("/swagger-resources") || url.contains("/v2/api-docs") || url.contains("/swagger-ui.html")
+                || url.contains("/download/")) {
             chain.doFilter(request, response);
         } else {
             res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "access denied");
