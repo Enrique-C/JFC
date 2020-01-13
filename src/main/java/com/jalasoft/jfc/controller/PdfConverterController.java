@@ -9,8 +9,10 @@
 
 package com.jalasoft.jfc.controller;
 
+import com.jalasoft.jfc.model.entity.FileEntity;
 import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.exception.Md5Exception;
+import com.jalasoft.jfc.model.repository.FileRepository;
 import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.ErrorResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
@@ -30,6 +32,7 @@ import io.swagger.annotations.ApiOperation;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -69,6 +72,9 @@ public class PdfConverterController {
      * @param isMetadata boolean of metadata.
      * @return Response is the result of the conversion.
      */
+    // Inject FileRepository
+    @Autowired
+    FileRepository fileRepository;
     @PostMapping("/pdfConverter")
     @ApiOperation(value = "Pdf specifications", notes = "Provides values for converting Pdf file to Image",
             response = Response.class)
@@ -92,9 +98,18 @@ public class PdfConverterController {
             int quantityPages = doc.getNumberOfPages();
             doc.close();
 
+            FileEntity fileEntity = new FileEntity();
+
             if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
+                if (fileRepository.findByMd5(md5) != null) {
+                    pdfParam.setInputPathFile(fileRepository.findByMd5(md5).getFilePath());
+                } else {
+                    pdfParam.setInputPathFile(fileUploadedPath);
+                    fileEntity.setFilePath(fileUploadedPath);
+                    fileEntity.setMd5(md5);
+                    fileRepository.save(fileEntity);
+                }
                 pdfParam.setMd5(md5);
-                pdfParam.setInputPathFile(fileUploadedPath);
                 pdfParam.setOutputPathFile(PathJfc.getOutputFilePath());
                 pdfParam.setOutputName(FileServiceController.setName(outputName, file));
                 pdfParam.setImageFormat(imageFormat);

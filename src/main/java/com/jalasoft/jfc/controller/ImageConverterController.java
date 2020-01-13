@@ -10,8 +10,10 @@
 package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.IConverter;
+import com.jalasoft.jfc.model.entity.FileEntity;
 import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.exception.Md5Exception;
+import com.jalasoft.jfc.model.repository.FileRepository;
 import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.ErrorResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
@@ -28,6 +30,7 @@ import com.jalasoft.jfc.model.utility.PathJfc;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -65,6 +68,10 @@ public class ImageConverterController {
      * @param request contains client request data.
      * @return Response is the result of the conversion.
      */
+
+    // Inject FileRepository
+    @Autowired
+    FileRepository fileRepository;
     @PostMapping("/imageConverter")
     @ApiOperation(value = "Image specifications", notes = "Provides values for converting Image file to other one",
             response = Response.class)
@@ -85,9 +92,18 @@ public class ImageConverterController {
             String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
                     getOriginalFilename(), file);
 
+            FileEntity fileEntity = new FileEntity();
+
             if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
+                if (fileRepository.findByMd5(md5) != null) {
+                    imageParam.setInputPathFile(fileRepository.findByMd5(md5).getFilePath());
+                } else {
+                    imageParam.setInputPathFile(fileUploadedPath);
+                    fileEntity.setFilePath(fileUploadedPath);
+                    fileEntity.setMd5(md5);
+                    fileRepository.save(fileEntity);
+                }
                 imageParam.setMd5(md5);
-                imageParam.setInputPathFile(fileUploadedPath);
                 imageParam.setOutputPathFile(PathJfc.getOutputFilePath());
                 imageParam.setImageFormat(imageFormat);
                 imageParam.setOutputName(FileServiceController.setName(outputName, file));
