@@ -27,6 +27,7 @@ import com.jalasoft.jfc.model.utility.ZipFolder;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,7 +62,7 @@ public class MetadataConverterController {
      */
     @PostMapping("/metadataConverter")
     @ApiOperation(value = "File", notes = "Provides values for converting metadata",
-            response = Response.class)
+            response = Response.class, authorizations = { @Authorization(value="JWT") })
     public ResponseEntity<Response> metadataConverter(
             @RequestParam("file") MultipartFile file, HttpServletRequest request) throws Md5Exception {
         FileResponse fileResponse = new FileResponse();
