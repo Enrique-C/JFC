@@ -89,26 +89,28 @@ public class PdfConverterController {
             String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
                     getOriginalFilename(), file);
 
-                pdfParam.setMd5(Md5Checksum.getMd5(fileUploadedPath, md5));
-                pdfParam.setInputPathFile(fileUploadedPath);
-                pdfParam.setOutputPathFile(PathJfc.getOutputFilePath());
-                pdfParam.setOutputName(FileServiceController.setName(outputName, file));
-                pdfParam.setImageFormat(imageFormat);
-                pdfParam.setPagesToConvert(pagesToConvert);
-                pdfParam.setThumbnail(isThumbnail);
-                pdfParam.isMetadata(isMetadata);
-                pdfParam.setWidth(width);
-                pdfParam.setScale(scale);
-                pdfParam.setHeight(height);
-                pdfParam.setRotate(rotate);
-                pdfParam.setFolderName(md5);
+            String cleanMd5 = Md5Checksum.getMd5(fileUploadedPath, md5);
 
-                fileResponse = pdfConverter.convert(pdfParam);
-                LinkGenerator linkGenerator = new LinkGenerator();
-                fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
-                fileResponse.setName(pdfParam.getFolderName());
-                fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
-                return new ResponseEntity<>(fileResponse, HttpStatus.OK);
+            pdfParam.setMd5(cleanMd5);
+            pdfParam.setInputPathFile(fileUploadedPath);
+            pdfParam.setOutputPathFile(PathJfc.getOutputFilePath());
+            pdfParam.setOutputName(FileServiceController.setName(outputName, file));
+            pdfParam.setImageFormat(imageFormat);
+            pdfParam.setPagesToConvert(pagesToConvert);
+            pdfParam.setThumbnail(isThumbnail);
+            pdfParam.isMetadata(isMetadata);
+            pdfParam.setWidth(width);
+            pdfParam.setScale(scale);
+            pdfParam.setHeight(height);
+            pdfParam.setRotate(rotate);
+            pdfParam.setFolderName(cleanMd5);
+
+            fileResponse = pdfConverter.convert(pdfParam);
+            LinkGenerator linkGenerator = new LinkGenerator();
+            fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
+            fileResponse.setName(pdfParam.getFolderName());
+            fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
+            return new ResponseEntity<>(fileResponse, HttpStatus.OK);
 
         } catch (ConvertException ex) {
             errorResponse.setName(pdfParam.getOutputName());
@@ -125,7 +127,7 @@ public class PdfConverterController {
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
             errorResponse.setError(ex.toString());
             return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
-        }catch (Md5Exception ex) {
+        } catch (Md5Exception ex) {
             errorResponse.setName(outputName);
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
             errorResponse.setError(ex.toString());

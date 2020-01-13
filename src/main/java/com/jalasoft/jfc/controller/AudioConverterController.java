@@ -79,21 +79,23 @@ public class AudioConverterController {
             String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file
                     .getOriginalFilename(), file);
 
-                audioParam.setMd5(Md5Checksum.getMd5(fileUploadedPath, md5));
-                audioParam.setInputPathFile(fileUploadedPath);
-                audioParam.setAudioCodec(audioCodec);
-                audioParam.setAudioSampleRate(sampleRate);
-                audioParam.setAudioChannel(audioChannel);
-                audioParam.setAudioBitRate(audioBitRate);
-                audioParam.setOutputPathFile(PathJfc.getOutputFilePath());
-                audioParam.setOutputName(FileServiceController.setName(outputName, file));
-                audioParam.isMetadata(isMetadata);
-                audioParam.setAudioFormat(audioFormat);
-                audioParam.setFolderName(md5);
+            String cleanMd5 = Md5Checksum.getMd5(fileUploadedPath, md5);
 
-                fileResponse = audioConverter.convert(audioParam);
-                LinkGenerator linkGenerator = new LinkGenerator();
-                fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
+            audioParam.setMd5(cleanMd5);
+            audioParam.setInputPathFile(fileUploadedPath);
+            audioParam.setAudioCodec(audioCodec);
+            audioParam.setAudioSampleRate(sampleRate);
+            audioParam.setAudioChannel(audioChannel);
+            audioParam.setAudioBitRate(audioBitRate);
+            audioParam.setOutputPathFile(PathJfc.getOutputFilePath());
+            audioParam.setOutputName(FileServiceController.setName(outputName, file));
+            audioParam.isMetadata(isMetadata);
+            audioParam.setAudioFormat(audioFormat);
+            audioParam.setFolderName(cleanMd5);
+
+            fileResponse = audioConverter.convert(audioParam);
+            LinkGenerator linkGenerator = new LinkGenerator();
+            fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
         } catch (ConvertException ex) {
             errorResponse.setName(audioParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());

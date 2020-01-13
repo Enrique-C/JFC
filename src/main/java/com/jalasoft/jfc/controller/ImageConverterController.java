@@ -88,25 +88,27 @@ public class ImageConverterController {
             String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
                     getOriginalFilename(), file);
 
-                imageParam.setMd5(Md5Checksum.getMd5(fileUploadedPath, md5));
-                imageParam.setInputPathFile(fileUploadedPath);
-                imageParam.setOutputPathFile(PathJfc.getOutputFilePath());
-                imageParam.setImageFormat(imageFormat);
-                imageParam.setOutputName(FileServiceController.setName(outputName, file));
-                imageParam.isThumbnail(isThumbnail);
-                imageParam.isMetadata(isMetadata);
-                imageParam.isGrayscale(Grayscale);
-                imageParam.setImageWidth(ImageWidth);
-                imageParam.setImageHeight(ImageHeight);
-                imageParam.setDegreesToRotate(degreesToRotate);
-                imageParam.setFolderName(md5);
+            String cleanMd5 = Md5Checksum.getMd5(fileUploadedPath, md5);
 
-                fileResponse = imageConverter.convert(imageParam);
-                LinkGenerator linkGenerator = new LinkGenerator();
-                fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
-                fileResponse.setName(imageParam.getFolderName());
-                fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
-                return new ResponseEntity<>(fileResponse, HttpStatus.CREATED);
+            imageParam.setMd5(cleanMd5);
+            imageParam.setInputPathFile(fileUploadedPath);
+            imageParam.setOutputPathFile(PathJfc.getOutputFilePath());
+            imageParam.setImageFormat(imageFormat);
+            imageParam.setOutputName(FileServiceController.setName(outputName, file));
+            imageParam.isThumbnail(isThumbnail);
+            imageParam.isMetadata(isMetadata);
+            imageParam.isGrayscale(Grayscale);
+            imageParam.setImageWidth(ImageWidth);
+            imageParam.setImageHeight(ImageHeight);
+            imageParam.setDegreesToRotate(degreesToRotate);
+            imageParam.setFolderName(cleanMd5);
+
+            fileResponse = imageConverter.convert(imageParam);
+            LinkGenerator linkGenerator = new LinkGenerator();
+            fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
+            fileResponse.setName(imageParam.getFolderName());
+            fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
+            return new ResponseEntity<>(fileResponse, HttpStatus.CREATED);
         } catch (ConvertException ex) {
             errorResponse.setName(imageParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
