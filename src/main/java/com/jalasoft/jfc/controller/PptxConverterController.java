@@ -186,13 +186,13 @@ public class PptxConverterController {
 
             pptxParam.setFileFormat(imageFormat);
             pptxParam.setMd5(cleanMd5);
-            pptxParam.setFolderName(md5);
+            pptxParam.setFolderName(cleanMd5);
             pptxParam.setOutputName(outputName);
             pptxParam.setInputPathFile(fileUploadedPath);
             pptxParam.setOutputPathFile(PathJfc.getInputFilePath());
             pptxConverter.convert(pptxParam);
 
-            pdfParam.setMd5(md5);
+            pdfParam.setMd5(cleanMd5);
             pdfParam.setInputPathFile(pptxParam.getInputPathFile());
             pdfParam.setOutputPathFile(PathJfc.getOutputFilePath());
             pdfParam.setOutputName(FileServiceController.setName(outputName, file));
@@ -226,7 +226,7 @@ public class PptxConverterController {
             errorResponse.setError(ex.toString());
             return errorResponse;
         } catch (Md5Exception ex) {
-            errorResponse.setName(pdfParam.getOutputName());
+            errorResponse.setName(outputName);
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
             errorResponse.setError(ex.toString());
             return errorResponse;
