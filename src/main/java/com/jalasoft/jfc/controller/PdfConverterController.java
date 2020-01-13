@@ -9,8 +9,10 @@
 
 package com.jalasoft.jfc.controller;
 
+import com.jalasoft.jfc.model.entity.FileEntity;
 import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.exception.Md5Exception;
+import com.jalasoft.jfc.model.repository.FileRepository;
 import com.jalasoft.jfc.model.result.MessageResponse;
 import com.jalasoft.jfc.model.result.ErrorResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
@@ -29,6 +31,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,6 +55,10 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/api")
 public class PdfConverterController {
+
+    // Inject FileRepository.
+    @Autowired
+    FileRepository fileRepository;
 
     /**
      * This method receives a PDF to convert.
@@ -91,8 +98,17 @@ public class PdfConverterController {
 
             String cleanMd5 = Md5Checksum.getMd5(fileUploadedPath, md5);
 
+            FileEntity fileEntity = new FileEntity();
+
+            if (fileRepository.findByMd5(cleanMd5) != null) {
+                pdfParam.setInputPathFile(fileRepository.findByMd5(cleanMd5).getFilePath());
+            } else {
+                pdfParam.setInputPathFile(fileUploadedPath);
+                fileEntity.setFilePath(fileUploadedPath);
+                fileEntity.setMd5(cleanMd5);
+                fileRepository.save(fileEntity);
+            }
             pdfParam.setMd5(cleanMd5);
-            pdfParam.setInputPathFile(fileUploadedPath);
             pdfParam.setOutputPathFile(PathJfc.getOutputFilePath());
             pdfParam.setOutputName(FileServiceController.setName(outputName, file));
             pdfParam.setImageFormat(imageFormat);
