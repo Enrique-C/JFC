@@ -28,6 +28,8 @@ import com.jalasoft.jfc.model.utility.PathJfc;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -63,17 +65,20 @@ public class AudioConverterController {
     @PostMapping("/audioConverter")
     @ApiOperation(value = "Audio specifications", notes = "Provides values for converting Audio file to other one",
             response = Response.class)
-    public Response audioConverter(
-            @RequestParam("file")MultipartFile file, @RequestParam(defaultValue = " ") String md5,
-            @RequestParam String outputName, @RequestParam(defaultValue = "") String audioCodec,
-            @RequestParam int sampleRate, @RequestParam String audioChannel, @RequestParam short audioBitRate,
-            @RequestParam(defaultValue = "false") boolean isMetadata, @RequestParam(defaultValue = ".mp3")
-            String audioFormat, HttpServletRequest request) {
+    public ResponseEntity<Response> audioConverter(
+            @RequestParam("file")MultipartFile file, @RequestParam String md5,
+            @RequestParam(defaultValue = "") String outputName, @RequestParam(defaultValue = "") String audioCodec,
+            @RequestParam(defaultValue = "0") String sampleRate, @RequestParam(defaultValue = "") String audioChannel,
+            @RequestParam(defaultValue = "") String audioBitRate, @RequestParam(defaultValue = "false") boolean isMetadata,
+            @RequestParam(defaultValue = ".mp3") String audioFormat, HttpServletRequest request) {
 
-        FileResponse fileResponse;
+        FileResponse fileResponse = new FileResponse();;
         ErrorResponse errorResponse = new ErrorResponse();
         AudioParam audioParam = new AudioParam();
         IConverter audioConverter = new AudioConverter();
+
+        int integerSampleRate = Integer.parseInt(sampleRate);
+        short shortAudioBitRate = Short.parseShort(audioBitRate);
 
         try {
             String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file
@@ -83,9 +88,9 @@ public class AudioConverterController {
                 audioParam.setMd5(md5);
                 audioParam.setInputPathFile(fileUploadedPath);
                 audioParam.setAudioCodec(audioCodec);
-                audioParam.setAudioSampleRate(sampleRate);
+                audioParam.setAudioSampleRate(integerSampleRate);
                 audioParam.setAudioChannel(audioChannel);
-                audioParam.setAudioBitRate(audioBitRate);
+                audioParam.setAudioBitRate(shortAudioBitRate);
                 audioParam.setOutputPathFile(PathJfc.getOutputFilePath());
                 audioParam.setOutputName(FileServiceController.setName(outputName, file));
                 audioParam.isMetadata(isMetadata);
@@ -95,6 +100,7 @@ public class AudioConverterController {
                 fileResponse = audioConverter.convert(audioParam);
                 LinkGenerator linkGenerator = new LinkGenerator();
                 fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
+                fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
             }
             else {
                 throw new Md5Exception(ErrorMessageJfc.MD5_ERROR.getErrorMessageJfc(), audioParam.getMd5());
@@ -103,28 +109,33 @@ public class AudioConverterController {
             errorResponse.setName(audioParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
             errorResponse.setError(ex.toString());
-            return errorResponse;
+
+            fileResponse.setName(ex.getMessage());
+            fileResponse.setDownload(this.getClass().getName());
+            fileResponse.setStatus(MessageResponse.ERROR400.getMessageResponse());
+
+            return new ResponseEntity<Response>(fileResponse, HttpStatus.BAD_REQUEST);
         } catch (CommandValueException cve) {
             errorResponse.setName(audioParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR400.getMessageResponse());
             errorResponse.setError(cve.toString());
-            return errorResponse;
+            return new ResponseEntity<Response>(fileResponse, HttpStatus.BAD_REQUEST);
         } catch (IOException ex) {
             errorResponse.setName(audioParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
             errorResponse.setError(ex.toString());
-            return errorResponse;
+            return new ResponseEntity<Response>(fileResponse, HttpStatus.BAD_REQUEST);
         } catch (Md5Exception ex) {
             errorResponse.setName(audioParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
             errorResponse.setError(ex.toString());
-            return errorResponse;
+            return new ResponseEntity<Response>(fileResponse, HttpStatus.BAD_REQUEST);
         } catch (Exception ex) {
             errorResponse.setName(audioParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
             errorResponse.setError(ex.toString());
-            return errorResponse;
+            return new ResponseEntity<Response>(fileResponse, HttpStatus.BAD_REQUEST);
         }
-        return fileResponse;
+        return new ResponseEntity<Response>(fileResponse, HttpStatus.OK);
     }
 }
