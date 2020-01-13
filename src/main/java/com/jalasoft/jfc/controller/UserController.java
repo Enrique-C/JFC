@@ -56,7 +56,6 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestParam("userName") String userName, @RequestParam("password")
             String password) {
-
         UserEntity userEntity = userRepository.login(userName, password);
         if (userEntity != null) {
             JsonWebToken jwt = new JsonWebToken();
