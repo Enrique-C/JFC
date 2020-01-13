@@ -9,20 +9,20 @@
 
 package com.jalasoft.jfc.model.repository;
 
-import com.jalasoft.jfc.model.entity.UserEntity;
+import com.jalasoft.jfc.model.entity.FileEntity;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 /**
- * Defines UserRepository.
+ * Defines FileRepository.
  *
  * @version 0.1 10 Jan 2020.
  *
  * @author Oscar Lopez.
  */
-public interface UserRepository extends CrudRepository<UserEntity, Integer> {
-
-    @Query("SELECT u FROM UserEntity u WHERE u.userName = :userName AND u.password = :password")
-    UserEntity login(@Param("userName") String userName, @Param("password") String password);
+public interface FileRepository extends CrudRepository<FileEntity, Integer> {
+    @Query("SELECT f FROM FileEntity f WHERE f.md5 = :md5")
+    FileEntity findByMd5(@Param("md5") String md5);
 }
