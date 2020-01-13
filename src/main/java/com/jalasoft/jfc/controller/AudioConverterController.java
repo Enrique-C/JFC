@@ -79,8 +79,7 @@ public class AudioConverterController {
             String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file
                     .getOriginalFilename(), file);
 
-            if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
-                audioParam.setMd5(md5);
+                audioParam.setMd5(Md5Checksum.getMd5(fileUploadedPath, md5));
                 audioParam.setInputPathFile(fileUploadedPath);
                 audioParam.setAudioCodec(audioCodec);
                 audioParam.setAudioSampleRate(sampleRate);
@@ -95,10 +94,6 @@ public class AudioConverterController {
                 fileResponse = audioConverter.convert(audioParam);
                 LinkGenerator linkGenerator = new LinkGenerator();
                 fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
-            }
-            else {
-                throw new Md5Exception(ErrorMessageJfc.MD5_ERROR.getErrorMessageJfc(), audioParam.getMd5());
-            }
         } catch (ConvertException ex) {
             errorResponse.setName(audioParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());

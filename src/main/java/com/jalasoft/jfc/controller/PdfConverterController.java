@@ -86,8 +86,7 @@ public class PdfConverterController {
             String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
                     getOriginalFilename(), file);
 
-            if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
-                pdfParam.setMd5(md5);
+                pdfParam.setMd5(Md5Checksum.getMd5(fileUploadedPath, md5));
                 pdfParam.setInputPathFile(fileUploadedPath);
                 pdfParam.setOutputPathFile(PathJfc.getOutputFilePath());
                 pdfParam.setOutputName(FileServiceController.setName(outputName, file));
@@ -104,10 +103,6 @@ public class PdfConverterController {
                 fileResponse = pdfConverter.convert(pdfParam);
                 LinkGenerator linkGenerator = new LinkGenerator();
                 fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
-            }
-            else {
-                throw new Md5Exception(ErrorMessageJfc.MD5_ERROR.getErrorMessageJfc(), pdfParam.getMd5());
-            }
         } catch (ConvertException ex) {
             errorResponse.setName(pdfParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());

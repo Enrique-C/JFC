@@ -86,8 +86,7 @@ public class VideoConverterController {
             String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file
                     .getOriginalFilename(), file);
 
-            if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
-                videoParam.setMd5(md5);
+                videoParam.setMd5(Md5Checksum.getMd5(fileUploadedPath, md5));
                 videoParam.setInputPathFile(fileUploadedPath);
                 videoParam.setOutputPathFile(PathJfc.getOutputFilePath());
                 videoParam.setOutputName(FileServiceController.setName(outputName, file));
@@ -105,10 +104,6 @@ public class VideoConverterController {
                 fileResponse = videoConverter.convert(videoParam);
                 LinkGenerator linkGenerator = new LinkGenerator();
                 fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
-            }
-            else {
-                throw new Md5Exception(ErrorMessageJfc.MD5_ERROR.getErrorMessageJfc(), videoParam.getMd5());
-            }
         } catch (ConvertException ex) {
             errorResponse.setName(videoParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());

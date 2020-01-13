@@ -85,8 +85,7 @@ public class ImageConverterController {
             String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
                     getOriginalFilename(), file);
 
-            if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
-                imageParam.setMd5(md5);
+                imageParam.setMd5(Md5Checksum.getMd5(fileUploadedPath, md5));
                 imageParam.setInputPathFile(fileUploadedPath);
                 imageParam.setOutputPathFile(PathJfc.getOutputFilePath());
                 imageParam.setImageFormat(imageFormat);
@@ -102,10 +101,6 @@ public class ImageConverterController {
                 fileResponse = imageConverter.convert(imageParam);
                 LinkGenerator linkGenerator = new LinkGenerator();
                 fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
-            }
-            else {
-                throw new Md5Exception(ErrorMessageJfc.MD5_ERROR.getErrorMessageJfc(), imageParam.getMd5());
-            }
         } catch (ConvertException ex) {
             errorResponse.setName(imageParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());

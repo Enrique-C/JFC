@@ -81,9 +81,8 @@ public class PptxConverterController {
             String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
                     getOriginalFilename(), file);
 
-            if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
+                pptxParam.setMd5(Md5Checksum.getMd5(fileUploadedPath, md5));
                 pptxParam.setFileFormat(FILE_FORMAT);
-                pptxParam.setMd5(md5);
                 pptxParam.setInputPathFile(fileUploadedPath);
                 pptxParam.setOutputPathFile(PathJfc.getOutputFilePath());
                 pptxParam.setOutputName(FileServiceController.setName(outputName, file));
@@ -96,9 +95,6 @@ public class PptxConverterController {
                 fileResponse = PptxConverter.convert(pptxParam);
                 LinkGenerator linkGenerator = new LinkGenerator();
                 fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
-            } else {
-                throw new Md5Exception(ErrorMessageJfc.MD5_ERROR.getErrorMessageJfc(), pptxParam.getMd5());
-            }
         } catch (ConvertException ex) {
             errorResponse.setName(pptxParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
@@ -167,9 +163,8 @@ public class PptxConverterController {
             String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
                     getOriginalFilename(), file);
 
-            if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
                 pptxParam.setFileFormat(imageFormat);
-                pptxParam.setMd5(md5);
+                pptxParam.setMd5(Md5Checksum.getMd5(fileUploadedPath, md5));
                 pptxParam.setFolderName(md5);
                 pptxParam.setOutputName(outputName);
                 pptxParam.setInputPathFile(fileUploadedPath);
@@ -194,10 +189,6 @@ public class PptxConverterController {
                 LinkGenerator linkGenerator = new LinkGenerator();
                 fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
                 FolderRemover.removeFolder(pptxParam.getOutputPathFile() + pptxParam.getFolderName());
-            }
-            else {
-                throw new Md5Exception(ErrorMessageJfc.MD5_ERROR.getErrorMessageJfc(), pdfParam.getMd5());
-            }
         } catch (ConvertException ex) {
             errorResponse.setName(pdfParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
