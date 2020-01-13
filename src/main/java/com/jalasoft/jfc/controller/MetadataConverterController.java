@@ -109,23 +109,23 @@ public class MetadataConverterController {
             fileResponse.setName(param.getFolderName());
             fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
 
-            return new ResponseEntity<Response>(fileResponse, HttpStatus.OK);
+            return new ResponseEntity<>(fileResponse, HttpStatus.CREATED);
         } catch (IOException ioe) {
             errorResponse.setName(this.getClass().getName());
             errorResponse.setError(ioe.getMessage());
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
-            return new ResponseEntity<Response>(errorResponse, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
         } catch (ConvertException ioe) {
             errorResponse.setName(this.getClass().getName());
             errorResponse.setError(ioe.getMessage());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
-            return new ResponseEntity<Response>(errorResponse, HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_ACCEPTABLE);
         }
         catch (ZipJfcException ioe) {
             errorResponse.setName(this.getClass().getName());
             errorResponse.setError(ioe.getMessage());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
-            return new ResponseEntity<Response>(errorResponse, HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
