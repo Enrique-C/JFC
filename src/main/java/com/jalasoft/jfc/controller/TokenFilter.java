@@ -8,6 +8,8 @@
  */
 package com.jalasoft.jfc.controller;
 
+import com.jalasoft.jfc.model.token.JsonWebToken;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -56,17 +58,20 @@ public class TokenFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
         String url = req.getRequestURL().toString();
         String auth = req.getHeader("Authorization");
-        String token = null;
+        JsonWebToken jwt = new JsonWebToken();
 
         if (auth != null) {
-            token = auth.split(" ")[1];
+            if (jwt.validateToken(auth)) {
+                chain.doFilter(request, response);
+            }
         }
-        chain.doFilter(request, response);
-//        if (url.contains("/login") && url.contains("/extractmd5")) {
-//            chain.doFilter(request, response);
-//        } else {
-//            res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "access denied");
-//        }
+
+        if (url.contains("/login") || url.contains("/extractMd5") || url.contains("/webjars") ||
+                url.contains("/swagger-resources") || url.contains("/v2/api-docs") || url.contains("/swagger-ui.html")) {
+            chain.doFilter(request, response);
+        } else {
+            res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "access denied");
+        }
     }
 
     /**
