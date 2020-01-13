@@ -28,6 +28,7 @@ import com.jalasoft.jfc.model.utility.*;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -72,7 +73,7 @@ public class PptxConverterController {
      */
     @PostMapping("/pptxConverterToPdf")
     @ApiOperation(value = "pptx specifications", notes = "Provides values for converting pptx file to Pdf",
-            response = Response.class)
+            response = Response.class, authorizations = { @Authorization(value="JWT") })
     public ResponseEntity<Response> pptxConverterToPdf(
             @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = "") String md5,
             @RequestParam String outputName, @RequestParam(defaultValue = "false") boolean isThumbnail,
@@ -159,7 +160,7 @@ public class PptxConverterController {
      */
     @PostMapping("/pptxConverterToImage")
     @ApiOperation(value = "pptx specifications", notes = "Provides values for converting pptx file to Image",
-            response = Response.class)
+            response = Response.class, authorizations = { @Authorization(value="JWT") })
     public ResponseEntity<Response> pdfConverter(
             @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = "") String md5,
             @RequestParam String outputName, @RequestParam(defaultValue = "0") int rotate,
