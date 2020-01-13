@@ -126,9 +126,10 @@ public class ImageConverterController {
             fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
             fileResponse.setName(imageParam.getFolderName());
             fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
+
             return new ResponseEntity<>(fileResponse, HttpStatus.CREATED);
-        } catch (ConvertException ex) {
-            errorResponse.setName(imageParam.getOutputName());
+        } catch (ConvertException | Md5Exception ex) {
+            errorResponse.setName(outputName);
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
             errorResponse.setError(ex.toString());
             return new ResponseEntity<>(errorResponse, HttpStatus.NOT_ACCEPTABLE);
@@ -137,16 +138,6 @@ public class ImageConverterController {
             errorResponse.setStatus(MessageResponse.ERROR400.getMessageResponse());
             errorResponse.setError(cve.toString());
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-        } catch (IOException ex) {
-            errorResponse.setName(imageParam.getOutputName());
-            errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
-            errorResponse.setError(ex.toString());
-            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
-        } catch (Md5Exception ex) {
-            errorResponse.setName(outputName);
-            errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
-            errorResponse.setError(ex.toString());
-            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_ACCEPTABLE);
         } catch (Exception ex) {
             errorResponse.setName(imageParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());

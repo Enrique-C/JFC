@@ -114,8 +114,10 @@ public class AudioConverterController {
             fileResponse = audioConverter.convert(audioParam);
             LinkGenerator linkGenerator = new LinkGenerator();
             fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
-            fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
+            fileResponse.setName(audioParam.getFolderName());
             fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
+
+            return new ResponseEntity<>(fileResponse, HttpStatus.OK);
         } catch (ConvertException | Md5Exception ex) {
             errorResponse.setName(ex.getMessage());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
@@ -130,7 +132,7 @@ public class AudioConverterController {
             errorResponse.setName(ex.getMessage());
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
             errorResponse.setError(ex.toString());
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(fileResponse, HttpStatus.OK);
     }
 }

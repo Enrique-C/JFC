@@ -126,8 +126,8 @@ public class PdfConverterController {
             fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
             fileResponse.setName(pdfParam.getFolderName());
             fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
-            return new ResponseEntity<>(fileResponse, HttpStatus.OK);
 
+            return new ResponseEntity<>(fileResponse, HttpStatus.OK);
         } catch (ConvertException ex) {
             errorResponse.setName(pdfParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
