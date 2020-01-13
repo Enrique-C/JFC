@@ -29,8 +29,6 @@ import com.jalasoft.jfc.model.utility.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-import org.apache.pdfbox.pdmodel.PDDocument;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +38,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 
-import java.io.File;
 import java.io.IOException;
 
 /**
@@ -58,6 +55,7 @@ public class PptxConverterController {
     // Inject FileRepository
     @Autowired
     FileRepository fileRepository;
+
     /**
      * Receives a Pptx to convert.
      * @param file contains the image file.
@@ -194,17 +192,12 @@ public class PptxConverterController {
                 pptxParam.setOutputPathFile(PathJfc.getInputFilePath());
                 pptxConverter.convert(pptxParam);
 
-                PDDocument doc = PDDocument.load(new File(pptxParam.getInputPathFile()));
-                int quantityPages = doc.getNumberOfPages();
-                doc.close();
-
                 pdfParam.setMd5(md5);
                 pdfParam.setInputPathFile(pptxParam.getInputPathFile());
                 pdfParam.setOutputPathFile(PathJfc.getOutputFilePath());
                 pdfParam.setOutputName(FileServiceController.setName(outputName, file));
                 pdfParam.setImageFormat(imageFormat);
                 pdfParam.setPagesToConvert(pagesToConvert);
-                pdfParam.setQuantityOfPage(quantityPages);
                 pdfParam.setThumbnail(isThumbnail);
                 pdfParam.isMetadata(isMetadata);
                 pdfParam.setWidth(width);

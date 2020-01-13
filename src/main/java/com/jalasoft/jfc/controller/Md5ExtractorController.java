@@ -47,8 +47,7 @@ public class Md5ExtractorController {
      * @throws Md5Exception
      */
     @PostMapping("/extractMd5")
-    @ApiOperation(value = "File", notes = "Provides values for extracting Md5",
-            response = Response.class)
+    @ApiOperation(value = "File", notes = "Provides values for extracting Md5",  response = Response.class)
     public ResponseEntity<String> extractMd5(@RequestParam("file") MultipartFile file) throws Md5Exception {
         final String EMPTY_VALUE = "";
         String md5String = EMPTY_VALUE;
