@@ -60,10 +60,8 @@ public class TokenFilter implements Filter {
         String auth = req.getHeader("Authorization");
         JsonWebToken jwt = new JsonWebToken();
 
-        if (auth != null) {
-            if (jwt.validateToken(auth)) {
+        if (auth != null && jwt.validateToken(auth)) {
                 chain.doFilter(request, response);
-            }
         }
 
         if (url.contains("/login") || url.contains("/extractMd5") || url.contains("/webjars") ||
