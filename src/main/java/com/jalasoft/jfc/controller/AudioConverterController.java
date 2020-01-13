@@ -37,7 +37,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 
 /**
  * Manage AudioConverter Requests.
@@ -67,10 +66,10 @@ public class AudioConverterController {
             response = Response.class)
     public ResponseEntity<Response> audioConverter(
             @RequestParam("file")MultipartFile file, @RequestParam String md5,
-            @RequestParam(defaultValue = "") String outputName, @RequestParam(defaultValue = "") String audioCodec,
-            @RequestParam(defaultValue = "0") String sampleRate, @RequestParam(defaultValue = "") String audioChannel,
-            @RequestParam(defaultValue = "") String audioBitRate, @RequestParam(defaultValue = "false") boolean isMetadata,
-            @RequestParam(defaultValue = ".mp3") String audioFormat, HttpServletRequest request) {
+            @RequestParam(defaultValue = " ") String outputName, @RequestParam(defaultValue = " ") String audioCodec,
+            @RequestParam(defaultValue = "0") String sampleRate, @RequestParam(defaultValue = " ") String audioChannel,
+            @RequestParam(defaultValue = " ") String audioBitRate, @RequestParam(defaultValue = "false")
+            boolean isMetadata, @RequestParam(defaultValue = ".mp3") String audioFormat, HttpServletRequest request) {
 
         FileResponse fileResponse = new FileResponse();;
         ErrorResponse errorResponse = new ErrorResponse();
@@ -105,36 +104,21 @@ public class AudioConverterController {
             else {
                 throw new Md5Exception(ErrorMessageJfc.MD5_ERROR.getErrorMessageJfc(), audioParam.getMd5());
             }
-        } catch (ConvertException ex) {
-            errorResponse.setName(audioParam.getOutputName());
+        } catch (ConvertException | Md5Exception ex) {
+            errorResponse.setName(ex.getMessage());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
             errorResponse.setError(ex.toString());
-
-            fileResponse.setName(ex.getMessage());
-            fileResponse.setDownload(this.getClass().getName());
-            fileResponse.setStatus(MessageResponse.ERROR400.getMessageResponse());
-
-            return new ResponseEntity<Response>(fileResponse, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Response>(errorResponse, HttpStatus.BAD_REQUEST);
         } catch (CommandValueException cve) {
-            errorResponse.setName(audioParam.getOutputName());
+            errorResponse.setName(cve.getMessage());
             errorResponse.setStatus(MessageResponse.ERROR400.getMessageResponse());
             errorResponse.setError(cve.toString());
-            return new ResponseEntity<Response>(fileResponse, HttpStatus.BAD_REQUEST);
-        } catch (IOException ex) {
-            errorResponse.setName(audioParam.getOutputName());
+            return new ResponseEntity<Response>(errorResponse, HttpStatus.BAD_REQUEST);
+        }   catch (Exception ex) {
+            errorResponse.setName(ex.getMessage());
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
             errorResponse.setError(ex.toString());
-            return new ResponseEntity<Response>(fileResponse, HttpStatus.BAD_REQUEST);
-        } catch (Md5Exception ex) {
-            errorResponse.setName(audioParam.getOutputName());
-            errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
-            errorResponse.setError(ex.toString());
-            return new ResponseEntity<Response>(fileResponse, HttpStatus.BAD_REQUEST);
-        } catch (Exception ex) {
-            errorResponse.setName(audioParam.getOutputName());
-            errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
-            errorResponse.setError(ex.toString());
-            return new ResponseEntity<Response>(fileResponse, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Response>(errorResponse, HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<Response>(fileResponse, HttpStatus.OK);
     }
