@@ -107,6 +107,7 @@ public class UserController {
     public ResponseEntity<UserEntity> updateUser(@RequestParam int id, @RequestParam String userName,
             @RequestParam String password, @RequestParam String rol, @RequestParam String email) {
         UserEntity userEntity = userRepository.findOne(id);
+        
         if (userEntity != null) {
             userEntity.setUser(userName);
             userEntity.setPassword(password);
