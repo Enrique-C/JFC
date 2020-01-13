@@ -84,48 +84,37 @@ public class AudioConverterController {
         IConverter audioConverter = new AudioConverter();
 
         try {
-            String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file
-                    .getOriginalFilename(), file);
-
             FileEntity fileEntity = new FileEntity();
 
-            if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
-                if (fileRepository.findByMd5(md5) != null) {
-                    audioParam.setInputPathFile(fileRepository.findByMd5(md5).getFilePath());
-                } else {
-                    audioParam.setInputPathFile(fileUploadedPath);
-                    fileEntity.setFilePath(fileUploadedPath);
-                    fileEntity.setMd5(md5);
-                    fileRepository.save(fileEntity);
-                }
-
-                audioParam.setMd5(md5);
-                audioParam.setAudioCodec(audioCodec);
-                audioParam.setAudioSampleRate(sampleRate);
-                audioParam.setAudioChannel(audioChannel);
-                audioParam.setAudioBitRate(audioBitRate);
-                audioParam.setOutputPathFile(PathJfc.getOutputFilePath());
-                audioParam.setOutputName(FileServiceController.setName(outputName, file));
-                audioParam.isMetadata(isMetadata);
-                audioParam.setFileFormat(audioFormat);
-                audioParam.setFolderName(md5);
-
-                fileResponse = audioConverter.convert(audioParam);
-                LinkGenerator linkGenerator = new LinkGenerator();
-                fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
-                fileResponse.setName(audioParam.getFolderName());
-                fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
-
-                return new ResponseEntity<>(fileResponse, HttpStatus.OK);
+            if (fileRepository.findByMd5(md5) != null) {
+                audioParam.setInputPathFile(fileRepository.findByMd5(md5).getFilePath());
+            } else {
+                String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file
+                        .getOriginalFilename(), file);
+                audioParam.setInputPathFile(fileUploadedPath);
+                fileEntity.setFilePath(fileUploadedPath);
+                fileEntity.setMd5(md5);
+                fileRepository.save(fileEntity);
             }
-            else {
-                throw new Md5Exception(ErrorMessageJfc.MD5_ERROR.getErrorMessageJfc(), audioParam.getMd5());
-            }
-        } catch (ConvertException | Md5Exception ex) {
-            errorResponse.setName(ex.getMessage());
-            errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
-            errorResponse.setError(ex.toString());
-            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+
+            audioParam.setMd5(md5);
+            audioParam.setAudioCodec(audioCodec);
+            audioParam.setAudioSampleRate(sampleRate);
+            audioParam.setAudioChannel(audioChannel);
+            audioParam.setAudioBitRate(audioBitRate);
+            audioParam.setOutputPathFile(PathJfc.getOutputFilePath());
+            audioParam.setOutputName(FileServiceController.setName(outputName, file));
+            audioParam.isMetadata(isMetadata);
+            audioParam.setFileFormat(audioFormat);
+            audioParam.setFolderName(md5);
+
+            fileResponse = audioConverter.convert(audioParam);
+            LinkGenerator linkGenerator = new LinkGenerator();
+            fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
+            fileResponse.setName(audioParam.getFolderName());
+            fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
+
+            return new ResponseEntity<>(fileResponse, HttpStatus.OK);
         } catch (CommandValueException cve) {
             errorResponse.setName(cve.getMessage());
             errorResponse.setStatus(MessageResponse.ERROR400.getMessageResponse());

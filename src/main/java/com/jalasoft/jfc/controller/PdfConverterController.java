@@ -93,44 +93,38 @@ public class PdfConverterController {
         IConverter pdfConverter = new PdfConverter();
 
         try {
-            String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
-                    getOriginalFilename(), file);
-
             FileEntity fileEntity = new FileEntity();
 
-            if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
-                if (fileRepository.findByMd5(md5) != null) {
-                    pdfParam.setInputPathFile(fileRepository.findByMd5(md5).getFilePath());
-                } else {
-                    pdfParam.setInputPathFile(fileUploadedPath);
-                    fileEntity.setFilePath(fileUploadedPath);
-                    fileEntity.setMd5(md5);
-                    fileRepository.save(fileEntity);
-                }
-
-                pdfParam.setMd5(md5);
-                pdfParam.setOutputPathFile(PathJfc.getOutputFilePath());
-                pdfParam.setOutputName(FileServiceController.setName(outputName, file));
-                pdfParam.setImageFormat(imageFormat);
-                pdfParam.setPagesToConvert(pagesToConvert);
-                pdfParam.setThumbnail(isThumbnail);
-                pdfParam.isMetadata(isMetadata);
-                pdfParam.setWidth(width);
-                pdfParam.setScale(scale);
-                pdfParam.setHeight(height);
-                pdfParam.setRotate(rotate);
-                pdfParam.setFolderName(md5);
-
-                fileResponse = pdfConverter.convert(pdfParam);
-                LinkGenerator linkGenerator = new LinkGenerator();
-                fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
-                fileResponse.setName(pdfParam.getFolderName());
-                fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
-                return new ResponseEntity<Response>(fileResponse, HttpStatus.OK);
+            if (fileRepository.findByMd5(md5) != null) {
+                pdfParam.setInputPathFile(fileRepository.findByMd5(md5).getFilePath());
+            } else {
+                String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
+                        getOriginalFilename(), file);
+                pdfParam.setInputPathFile(fileUploadedPath);
+                fileEntity.setFilePath(fileUploadedPath);
+                fileEntity.setMd5(md5);
+                fileRepository.save(fileEntity);
             }
-            else {
-                throw new Md5Exception(ErrorMessageJfc.MD5_ERROR.getErrorMessageJfc(), pdfParam.getMd5());
-            }
+
+            pdfParam.setMd5(md5);
+            pdfParam.setOutputPathFile(PathJfc.getOutputFilePath());
+            pdfParam.setOutputName(FileServiceController.setName(outputName, file));
+            pdfParam.setImageFormat(imageFormat);
+            pdfParam.setPagesToConvert(pagesToConvert);
+            pdfParam.setThumbnail(isThumbnail);
+            pdfParam.isMetadata(isMetadata);
+            pdfParam.setWidth(width);
+            pdfParam.setScale(scale);
+            pdfParam.setHeight(height);
+            pdfParam.setRotate(rotate);
+            pdfParam.setFolderName(md5);
+
+            fileResponse = pdfConverter.convert(pdfParam);
+            LinkGenerator linkGenerator = new LinkGenerator();
+            fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
+            fileResponse.setName(pdfParam.getFolderName());
+            fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
+            return new ResponseEntity<Response>(fileResponse, HttpStatus.OK);
         } catch (ConvertException ex) {
             errorResponse.setName(pdfParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
@@ -146,11 +140,6 @@ public class PdfConverterController {
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
             errorResponse.setError(ex.toString());
             return new ResponseEntity<Response>(errorResponse, HttpStatus.NOT_FOUND);
-        }catch (Md5Exception ex) {
-            errorResponse.setName(pdfParam.getOutputName());
-            errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
-            errorResponse.setError(ex.toString());
-            return new ResponseEntity<Response>(errorResponse, HttpStatus.NOT_ACCEPTABLE);
         } catch (Exception ex) {
             errorResponse.setName(pdfParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());

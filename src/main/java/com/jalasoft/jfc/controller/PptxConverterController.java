@@ -87,15 +87,13 @@ public class PptxConverterController {
         IConverter PptxConverter = new PptxConverter();
 
         try {
-            String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
-                    getOriginalFilename(), file);
-
             FileEntity fileEntity = new FileEntity();
 
-            if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
                 if (fileRepository.findByMd5(md5) != null) {
                     pptxParam.setInputPathFile(fileRepository.findByMd5(md5).getFilePath());
                 } else {
+                    String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
+                            getOriginalFilename(), file);
                     pptxParam.setInputPathFile(fileUploadedPath);
                     fileEntity.setFilePath(fileUploadedPath);
                     fileEntity.setMd5(md5);
@@ -119,10 +117,7 @@ public class PptxConverterController {
                 fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
 
                 return new ResponseEntity<>(fileResponse, HttpStatus.CREATED);
-            } else {
-                throw new Md5Exception(ErrorMessageJfc.MD5_ERROR.getErrorMessageJfc(), pptxParam.getMd5());
-            }
-        } catch (ConvertException | Md5Exception ex) {
+        } catch (ConvertException ex) {
             errorResponse.setName(pptxParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
             errorResponse.setError(ex.toString());
@@ -176,45 +171,51 @@ public class PptxConverterController {
         IConverter pdfConverter = new PdfConverter();
 
         try {
-            String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
-                    getOriginalFilename(), file);
+            FileEntity fileEntity = new FileEntity();
 
-            if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
-                pptxParam.setFileFormat(imageFormat);
-                pptxParam.setMd5(md5);
-                pptxParam.setFolderName(md5);
-                pptxParam.setOutputName(outputName);
+            if (fileRepository.findByMd5(md5) != null) {
+                pptxParam.setInputPathFile(fileRepository.findByMd5(md5).getFilePath());
+            } else {
+                String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
+                        getOriginalFilename(), file);
                 pptxParam.setInputPathFile(fileUploadedPath);
-                pptxParam.setOutputPathFile(PathJfc.getInputFilePath());
-                pptxConverter.convert(pptxParam);
-
-                pdfParam.setMd5(md5);
-                pdfParam.setInputPathFile(pptxParam.getInputPathFile());
-                pdfParam.setOutputPathFile(PathJfc.getOutputFilePath());
-                pdfParam.setOutputName(FileServiceController.setName(outputName, file));
-                pdfParam.setImageFormat(imageFormat);
-                pdfParam.setPagesToConvert(pagesToConvert);
-                pdfParam.setThumbnail(isThumbnail);
-                pdfParam.isMetadata(isMetadata);
-                pdfParam.setWidth(width);
-                pdfParam.setScale(scale);
-                pdfParam.setHeight(height);
-                pdfParam.setRotate(rotate);
-                pdfParam.setFolderName(md5);
-
-                fileResponse = pdfConverter.convert(pdfParam);
-                LinkGenerator linkGenerator = new LinkGenerator();
-                fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
-                FolderRemover.removeFolder(pptxParam.getOutputPathFile() + pptxParam.getFolderName());
-                fileResponse.setName(pdfParam.getFolderName());
-                fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
-
-                return new ResponseEntity<>(fileResponse, HttpStatus.CREATED);
+                fileEntity.setFilePath(fileUploadedPath);
+                fileEntity.setMd5(md5);
+                fileRepository.save(fileEntity);
+                pptxParam.setInputPathFile(fileUploadedPath);
             }
-            else {
-                throw new Md5Exception(ErrorMessageJfc.MD5_ERROR.getErrorMessageJfc(), pdfParam.getMd5());
-            }
-        } catch (ConvertException | Md5Exception ex) {
+            pptxParam.setFileFormat(imageFormat);
+            pptxParam.setMd5(md5);
+            pptxParam.setFolderName(md5);
+            pptxParam.setOutputName(outputName);
+
+            pptxParam.setOutputPathFile(PathJfc.getInputFilePath());
+            pptxConverter.convert(pptxParam);
+
+            pdfParam.setMd5(md5);
+            pdfParam.setInputPathFile(pptxParam.getInputPathFile());
+            pdfParam.setOutputPathFile(PathJfc.getOutputFilePath());
+            pdfParam.setOutputName(FileServiceController.setName(outputName, file));
+            pdfParam.setImageFormat(imageFormat);
+            pdfParam.setPagesToConvert(pagesToConvert);
+            pdfParam.setThumbnail(isThumbnail);
+            pdfParam.isMetadata(isMetadata);
+            pdfParam.setWidth(width);
+            pdfParam.setScale(scale);
+            pdfParam.setHeight(height);
+            pdfParam.setRotate(rotate);
+            pdfParam.setFolderName(md5);
+
+            fileResponse = pdfConverter.convert(pdfParam);
+            LinkGenerator linkGenerator = new LinkGenerator();
+            fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
+            FolderRemover.removeFolder(pptxParam.getOutputPathFile() + pptxParam.getFolderName());
+            fileResponse.setName(pdfParam.getFolderName());
+            fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
+
+            return new ResponseEntity<>(fileResponse, HttpStatus.CREATED);
+
+        } catch (ConvertException ex) {
             errorResponse.setName(pdfParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
             errorResponse.setError(ex.toString());
