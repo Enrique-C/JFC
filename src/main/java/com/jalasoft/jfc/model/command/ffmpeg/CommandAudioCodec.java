@@ -46,7 +46,7 @@ public class CommandAudioCodec implements ICommandStrategy {
      */
     @Override
     public String command() throws CommandValueException {
-        if (audioCodec.isEmpty()) {
+        if (audioCodec.isEmpty() || audioCodec.equals(this.SPACE)) {
             return "";
         } else {
             verifyCodec(audioFormatOut);

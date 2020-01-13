@@ -45,7 +45,7 @@ public class CommandAudioChannel implements ICommandStrategy {
      */
     @Override
     public String command() throws CommandValueException {
-        if (audioChannel.isEmpty()) {
+        if (audioChannel.isEmpty() || audioChannel.equals(this.SPACE)) {
             return "";
         } else {
             verifyChannel(audioFormatOut);
