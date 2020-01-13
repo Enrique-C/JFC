@@ -118,27 +118,27 @@ public class PdfConverterController {
             errorResponse.setName(pdfParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
             errorResponse.setError(ex.toString());
-            return new ResponseEntity<Response>(fileResponse, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Response>(errorResponse, HttpStatus.NOT_ACCEPTABLE);
         } catch (CommandValueException cve) {
             errorResponse.setName(pdfParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR400.getMessageResponse());
             errorResponse.setError(cve.toString());
-            return new ResponseEntity<Response>(fileResponse, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Response>(errorResponse, HttpStatus.BAD_REQUEST);
         } catch (IOException ex) {
             errorResponse.setName(pdfParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
             errorResponse.setError(ex.toString());
-            return new ResponseEntity<Response>(fileResponse, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Response>(errorResponse, HttpStatus.NOT_FOUND);
         }catch (Md5Exception ex) {
             errorResponse.setName(pdfParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
             errorResponse.setError(ex.toString());
-            return new ResponseEntity<Response>(fileResponse, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Response>(errorResponse, HttpStatus.NOT_ACCEPTABLE);
         } catch (Exception ex) {
             errorResponse.setName(pdfParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
             errorResponse.setError(ex.toString());
-            return new ResponseEntity<Response>(fileResponse, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Response>(errorResponse, HttpStatus.NOT_FOUND);
         }
     }
 }
