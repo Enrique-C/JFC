@@ -77,7 +77,7 @@ public class VideoConverterController {
             @RequestParam(defaultValue = "false") boolean isMetadata, HttpServletRequest request,
             @RequestParam(defaultValue = ".avi") String videoFormat) {
 
-        FileResponse fileResponse = new FileResponse();
+        FileResponse fileResponse;
         ErrorResponse errorResponse = new ErrorResponse();
         VideoParam videoParam = new VideoParam();
         IConverter videoConverter = new VideoConverter();
