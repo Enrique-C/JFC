@@ -126,7 +126,7 @@ public class PdfConverterController {
             errorResponse.setError(ex.toString());
             return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
         }catch (Md5Exception ex) {
-            errorResponse.setName(pdfParam.getOutputName());
+            errorResponse.setName(outputName);
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
             errorResponse.setError(ex.toString());
             return new ResponseEntity<>(errorResponse, HttpStatus.NOT_ACCEPTABLE);

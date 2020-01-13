@@ -121,7 +121,7 @@ public class VideoConverterController {
             errorResponse.setError(ex.toString());
             return errorResponse;
         } catch (Md5Exception ex) {
-            errorResponse.setName(videoParam.getOutputName());
+            errorResponse.setName(outputName);
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
             errorResponse.setError(ex.toString());
             return errorResponse;
