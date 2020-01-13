@@ -46,7 +46,7 @@ public class CommandAudioCodec implements ICommandStrategy {
      */
     @Override
     public String command() throws CommandValueException {
-        if (audioCodec.isEmpty()) {
+        if (audioCodec.isEmpty() || audioCodec.equals(this.SPACE)) {
             return "";
         } else {
             verifyCodec(audioFormatOut);
@@ -57,17 +57,20 @@ public class CommandAudioCodec implements ICommandStrategy {
 
     private void verifyCodec(String resultFormat) throws CommandValueException {
         final String MP3_CODEC = "mp3";
-        final String AAC_CODEC = "aac";
+        final String PCM_CODEC = "pcm";
 
         switch (resultFormat) {
             case ".mp3":
                 if (!audioCodec.equals(MP3_CODEC)) {
-                    throw new CommandValueException(ErrorMessageJfc.BIT_RATE_EXCEEDED.getErrorMessageJfc(), this.
+                    throw new CommandValueException(ErrorMessageJfc.AUDIO_CODEC.getErrorMessageJfc(), this.
                             getClass().getName());
                 }
                 break;
             case ".wav":
-                //Todo
+                if (!audioCodec.equals(PCM_CODEC)) {
+                    throw new CommandValueException(ErrorMessageJfc.AUDIO_CODEC.getErrorMessageJfc(), this.
+                            getClass().getName());
+                }
                 break;
         }
     }

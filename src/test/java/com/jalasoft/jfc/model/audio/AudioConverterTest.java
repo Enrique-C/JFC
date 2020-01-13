@@ -84,7 +84,7 @@ public class AudioConverterTest {
     public void convert_AudioParamAudioFormatEmpty_ConvertException() throws ConvertException, CommandValueException, IOException, ZipJfcException {
         AudioConverter audioConverter = new AudioConverter();
         AudioParam audioParam = generateOnlyAudioWAV();
-        audioParam.setAudioFormat("");
+        audioParam.setFileFormat("");
 
         audioConverter.convert(audioParam);
     }
@@ -98,16 +98,18 @@ public class AudioConverterTest {
         String outputPath = "src/test/resources/";
         String outputName = "AUD";
         String audioFormat = AudioFormat.MP3.getAudioFormat();
-        byte audioBitRate = 0;
+        int audioBitRate = 0;
         String audioCodec = "";
-        String audioChannel = "";
+        int sampleRate = 0;
+        int audioChannel = 0;
         boolean isMetadata = false;
 
         AudioParam audioParam = new AudioParam();
         audioParam.setMd5(md5);
         audioParam.setInputPathFile(fileUploadedPath);
-        audioParam.setAudioFormat(audioFormat);
+        audioParam.setFileFormat(audioFormat);
         audioParam.setAudioCodec(audioCodec);
+        audioParam.setAudioSampleRate(sampleRate);
         audioParam.setAudioChannel(audioChannel);
         audioParam.setAudioBitRate(audioBitRate);
         audioParam.setOutputPathFile(outputPath);

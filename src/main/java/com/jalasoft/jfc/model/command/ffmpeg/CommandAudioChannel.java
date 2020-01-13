@@ -12,6 +12,7 @@ package com.jalasoft.jfc.model.command.ffmpeg;
 import com.jalasoft.jfc.model.audio.AudioFfmpegCommand;
 import com.jalasoft.jfc.model.command.ICommandStrategy;
 import com.jalasoft.jfc.model.exception.CommandValueException;
+import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 
 /**
  * Generates an audio command.
@@ -23,19 +24,14 @@ import com.jalasoft.jfc.model.exception.CommandValueException;
 public class CommandAudioChannel implements ICommandStrategy {
 
     // Contents an audio channel value.
-    private String audioChannel;
-
-    // Contents an audio format value.
-    private String audioFormatOut;
+    private int audioChannel;
 
     /**
      * Creates a new CommandAudio object.
      * @param audioChannel receives value.
-     * @param audioFormatOut receives value.
      */
-    public CommandAudioChannel(String audioChannel, String audioFormatOut) {
+    public CommandAudioChannel(int audioChannel) {
         this.audioChannel = audioChannel;
-        this.audioFormatOut = audioFormatOut;
     }
 
     /**
@@ -45,35 +41,24 @@ public class CommandAudioChannel implements ICommandStrategy {
      */
     @Override
     public String command() throws CommandValueException {
-        if (audioChannel.isEmpty()) {
+        if (audioChannel == 0) {
             return "";
         } else {
-            verifyChannel(audioFormatOut);
+            verifyAudioChannel();
             return this.SPACE + AudioFfmpegCommand.AUDIO_CHANNEL.getFfmpegCommand() + this.SPACE + audioChannel;
         }
     }
 
     /**
-     * Verifies and audio channel.
-     * @param outPutFormat out put audio format.
+     * Verifies if channel is supported.
      * @throws CommandValueException when there is an invalid command.
      */
-    private void verifyChannel(String outPutFormat) throws CommandValueException {
-        final String MONO_CHANNEL = "1";
-        final String STEREO_CHANNEL = "2";
-        final String BASS_DUAL_CHANNEL = "2.1";
-        final String BASS_TRIPLE_CHANNEL = "3.1";
-        final String QUAD_CHANNEL = "4";
-        final String BASS_FIVE_CHANNEL = "5.1";
-        final String BASS_SEVEN_CHANNEL = "7.1";
+    private void verifyAudioChannel() throws CommandValueException {
+        final int STEREO_CHANNEL = 2;
 
-        switch (outPutFormat) {
-            case ".mp3":
-                //Todo
-                break;
-            case ".wav":
-                //Todo
-                break;
+        if(audioChannel > STEREO_CHANNEL) {
+            throw new CommandValueException(ErrorMessageJfc.AUDIO_CHANNEL.getErrorMessageJfc(), this.
+                    getClass().getName());
         }
     }
 }
