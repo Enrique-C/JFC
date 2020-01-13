@@ -30,6 +30,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -71,7 +73,7 @@ public class PptxConverterController {
     @PostMapping("/pptxConverterToPdf")
     @ApiOperation(value = "pptx specifications", notes = "Provides values for converting pptx file to Pdf",
             response = Response.class)
-    public Response pptxConverterToPdf(
+    public ResponseEntity<Response> pptxConverterToPdf(
             @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = "") String md5,
             @RequestParam String outputName, @RequestParam(defaultValue = "false") boolean isThumbnail,
             @RequestParam(defaultValue = "false") boolean isMetadata, @RequestParam(defaultValue = ".jpg")
@@ -80,7 +82,7 @@ public class PptxConverterController {
 
         PptxParam pptxParam = new PptxParam();
         final String FILE_FORMAT = ".pdf";
-        FileResponse fileResponse = new FileResponse();
+        FileResponse fileResponse;
         ErrorResponse errorResponse = new ErrorResponse();
         IConverter PptxConverter = new PptxConverter();
 
@@ -113,36 +115,29 @@ public class PptxConverterController {
                 fileResponse = PptxConverter.convert(pptxParam);
                 LinkGenerator linkGenerator = new LinkGenerator();
                 fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
+                fileResponse.setName(pptxParam.getFolderName());
+                fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
+
+                return new ResponseEntity<>(fileResponse, HttpStatus.CREATED);
             } else {
                 throw new Md5Exception(ErrorMessageJfc.MD5_ERROR.getErrorMessageJfc(), pptxParam.getMd5());
             }
-        } catch (ConvertException ex) {
+        } catch (ConvertException | Md5Exception ex) {
             errorResponse.setName(pptxParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
             errorResponse.setError(ex.toString());
-            return errorResponse;
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_ACCEPTABLE);
         } catch (CommandValueException cve) {
             errorResponse.setName(pptxParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR400.getMessageResponse());
             errorResponse.setError(cve.toString());
-            return errorResponse;
-        } catch (IOException ex) {
-            errorResponse.setName(pptxParam.getOutputName());
-            errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
-            errorResponse.setError(ex.toString());
-            return errorResponse;
-        } catch (Md5Exception ex) {
-            errorResponse.setName(pptxParam.getOutputName());
-            errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
-            errorResponse.setError(ex.toString());
-            return errorResponse;
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         } catch (Exception ex) {
             errorResponse.setName(pptxParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
             errorResponse.setError(ex.toString());
-            return errorResponse;
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
         }
-        return fileResponse;
     }
 
     /**
@@ -165,7 +160,7 @@ public class PptxConverterController {
     @PostMapping("/pptxConverterToImage")
     @ApiOperation(value = "pptx specifications", notes = "Provides values for converting pptx file to Image",
             response = Response.class)
-    public Response pdfConverter(
+    public ResponseEntity<Response> pdfConverter(
             @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = "") String md5,
             @RequestParam String outputName, @RequestParam(defaultValue = "0") int rotate,
             @RequestParam(defaultValue = "%") String scale, @RequestParam(defaultValue = "false") boolean isThumbnail,
@@ -175,7 +170,7 @@ public class PptxConverterController {
 
         PdfParam pdfParam = new PdfParam();
         PptxParam pptxParam = new PptxParam();
-        FileResponse fileResponse = new FileResponse();
+        FileResponse fileResponse;
         ErrorResponse errorResponse = new ErrorResponse();
         IConverter pptxConverter = new PptxConverter();
         IConverter pdfConverter = new PdfConverter();
@@ -211,36 +206,29 @@ public class PptxConverterController {
                 LinkGenerator linkGenerator = new LinkGenerator();
                 fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
                 FolderRemover.removeFolder(pptxParam.getOutputPathFile() + pptxParam.getFolderName());
+                fileResponse.setName(pdfParam.getFolderName());
+                fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
+
+                return new ResponseEntity<>(fileResponse, HttpStatus.CREATED);
             }
             else {
                 throw new Md5Exception(ErrorMessageJfc.MD5_ERROR.getErrorMessageJfc(), pdfParam.getMd5());
             }
-        } catch (ConvertException ex) {
+        } catch (ConvertException | Md5Exception ex) {
             errorResponse.setName(pdfParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
             errorResponse.setError(ex.toString());
-            return errorResponse;
-        } catch (CommandValueException cve) {
-            errorResponse.setName(pdfParam.getOutputName());
-            errorResponse.setStatus(MessageResponse.ERROR400.getMessageResponse());
-            errorResponse.setError(cve.toString());
-            return errorResponse;
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_ACCEPTABLE);
         } catch (IOException ex) {
             errorResponse.setName(pdfParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
             errorResponse.setError(ex.toString());
-            return errorResponse;
-        }catch (Md5Exception ex) {
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+        } catch (Exception cve) {
             errorResponse.setName(pdfParam.getOutputName());
-            errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
-            errorResponse.setError(ex.toString());
-            return errorResponse;
-        } catch (Exception ex) {
-            errorResponse.setName(pdfParam.getOutputName());
-            errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
-            errorResponse.setError(ex.toString());
-            return errorResponse;
+            errorResponse.setStatus(MessageResponse.ERROR400.getMessageResponse());
+            errorResponse.setError(cve.toString());
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
-        return fileResponse;
     }
 }
