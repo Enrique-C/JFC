@@ -31,6 +31,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -76,7 +78,7 @@ public class VideoConverterController {
     @PostMapping("/videoConverter")
     @ApiOperation(value = "Video specifications", notes = "Provides values for converting Video file to other one.",
             response = Response.class, authorizations = { @Authorization(value="JWT") })
-    public Response videoConverter(
+    public ResponseEntity<Response> videoConverter(
             @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = " ") String md5,
             @RequestParam String outputName, @RequestParam(defaultValue = "") String aspectRatio,
             @RequestParam(defaultValue = "") String frameRate, @RequestParam(defaultValue = "0") int width,
@@ -123,35 +125,39 @@ public class VideoConverterController {
                 fileResponse = videoConverter.convert(videoParam);
                 LinkGenerator linkGenerator = new LinkGenerator();
                 fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
-            } else {
+                fileResponse.setName(videoParam.getFolderName());
+                fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
+
+                return new ResponseEntity<>(fileResponse, HttpStatus.CREATED);
+            }
+            else {
                 throw new Md5Exception(ErrorMessageJfc.MD5_ERROR.getErrorMessageJfc(), videoParam.getMd5());
             }
         } catch (ConvertException ex) {
             errorResponse.setName(videoParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
             errorResponse.setError(ex.toString());
-            return errorResponse;
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_ACCEPTABLE);
         } catch (CommandValueException cve) {
             errorResponse.setName(videoParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR400.getMessageResponse());
             errorResponse.setError(cve.toString());
-            return errorResponse;
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         } catch (IOException ex) {
             errorResponse.setName(videoParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
             errorResponse.setError(ex.toString());
-            return errorResponse;
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
         } catch (Md5Exception ex) {
             errorResponse.setName(videoParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
             errorResponse.setError(ex.toString());
-            return errorResponse;
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_ACCEPTABLE);
         } catch (Exception ex) {
             errorResponse.setName(videoParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
             errorResponse.setError(ex.toString());
-            return errorResponse;
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
         }
-        return fileResponse;
     }
 }
