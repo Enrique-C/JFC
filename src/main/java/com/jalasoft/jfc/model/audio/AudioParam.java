@@ -27,17 +27,17 @@ public class AudioParam extends Param {
     private String audioCodec;
 
     // Content audioSampleRate value.
-    private int audioSampleRate;
+    private String audioSampleRate;
 
     // Content audioBitRate value.
-    private short audioBitRate;
+    private String audioBitRate;
 
     // Content audioChannel value.
     private String audioChannel;
 
     /**
      * Gets format of an audio.
-     * @return audio format String.
+     * @return an audio format value.
      */
     public String getAudioFormat() {
         return audioFormat;
@@ -45,7 +45,7 @@ public class AudioParam extends Param {
 
     /**
      * Gets an audio codec.
-     * @return audio codec String.
+     * @return an audio codec value.
      */
     public String getAudioCodec() {
         return audioCodec;
@@ -53,15 +53,15 @@ public class AudioParam extends Param {
 
     /**
      * Gets getAudioSampleRate value.
-     * @return audio sample rate int value.
+     * @return an audio sample rate value.
      */
-    public int getAudioSampleRate() {
+    public String getAudioSampleRate() {
         return audioSampleRate;
     }
 
     /**
      * Gets getAudioChannel value.
-     * @return audio channel value.
+     * @return an audio channel value.
      */
     public String getAudioChannel() {
         return audioChannel;
@@ -69,9 +69,9 @@ public class AudioParam extends Param {
 
     /**
      * Gets audioBitRate value.
-     * @return audio bitRate String value.
+     * @return an audio bitRate value.
      */
-    public short getAudioBitRate() {
+    public String getAudioBitRate() {
         return audioBitRate;
     }
 
@@ -93,9 +93,9 @@ public class AudioParam extends Param {
 
     /**
      * Sets audioSampleRate value.
-     * @param audioSampleRate contains an audio sample rate int value.
+     * @param audioSampleRate contains an audio sample rate value.
      */
-    public void setAudioSampleRate(int audioSampleRate) {
+    public void setAudioSampleRate(String audioSampleRate) {
         this.audioSampleRate = audioSampleRate;
     }
 
@@ -111,7 +111,7 @@ public class AudioParam extends Param {
      * Sets audioBitRate value.
      * @param audioBitRate contains an audio bitRate.
      */
-    public void setAudioBitRate(short audioBitRate) {
+    public void setAudioBitRate(String audioBitRate) {
         this.audioBitRate = audioBitRate;
     }
 }

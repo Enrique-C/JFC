@@ -68,16 +68,13 @@ public class AudioConverterController {
             @RequestParam("file")MultipartFile file, @RequestParam String md5,
             @RequestParam(defaultValue = " ") String outputName, @RequestParam(defaultValue = " ") String audioCodec,
             @RequestParam(defaultValue = "0") String sampleRate, @RequestParam(defaultValue = " ") String audioChannel,
-            @RequestParam(defaultValue = " ") String audioBitRate, @RequestParam(defaultValue = "false")
+            @RequestParam(defaultValue = "0") String audioBitRate, @RequestParam(defaultValue = "false")
             boolean isMetadata, @RequestParam(defaultValue = ".mp3") String audioFormat, HttpServletRequest request) {
 
         FileResponse fileResponse = new FileResponse();;
         ErrorResponse errorResponse = new ErrorResponse();
         AudioParam audioParam = new AudioParam();
         IConverter audioConverter = new AudioConverter();
-
-        int integerSampleRate = Integer.parseInt(sampleRate);
-        short shortAudioBitRate = Short.parseShort(audioBitRate);
 
         try {
             String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file
@@ -87,9 +84,9 @@ public class AudioConverterController {
                 audioParam.setMd5(md5);
                 audioParam.setInputPathFile(fileUploadedPath);
                 audioParam.setAudioCodec(audioCodec);
-                audioParam.setAudioSampleRate(integerSampleRate);
+                audioParam.setAudioSampleRate(sampleRate);
                 audioParam.setAudioChannel(audioChannel);
-                audioParam.setAudioBitRate(shortAudioBitRate);
+                audioParam.setAudioBitRate(audioBitRate);
                 audioParam.setOutputPathFile(PathJfc.getOutputFilePath());
                 audioParam.setOutputName(FileServiceController.setName(outputName, file));
                 audioParam.isMetadata(isMetadata);

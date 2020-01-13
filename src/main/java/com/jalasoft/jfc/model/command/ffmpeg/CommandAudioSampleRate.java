@@ -17,13 +17,13 @@ import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 public class CommandAudioSampleRate implements ICommandStrategy {
 
     // Contents sampleRate value.
-    private int audioSampleRate;
+    private String audioSampleRate;
 
     /**
      * Creates a new CommandAudio object.
      * @param audioSampleRate receives values.
      */
-    public CommandAudioSampleRate(int audioSampleRate) {
+    public CommandAudioSampleRate(String audioSampleRate) {
         this.audioSampleRate = audioSampleRate;
     }
 
@@ -44,6 +44,8 @@ public class CommandAudioSampleRate implements ICommandStrategy {
      * @throws CommandValueException when there is an invalid value.
      */
     private void getSampleRate() throws CommandValueException {
+        int audioSampleRate = Integer.parseInt(this.audioSampleRate);
+
         final int DEFAULT = 44100;
 
         if (audioSampleRate == 0) {

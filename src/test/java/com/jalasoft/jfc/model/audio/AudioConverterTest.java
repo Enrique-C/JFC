@@ -98,7 +98,7 @@ public class AudioConverterTest {
         String outputPath = "src/test/resources/";
         String outputName = "AUD";
         String audioFormat = AudioFormat.MP3.getAudioFormat();
-        byte audioBitRate = 0;
+        String audioBitRate = "0";
         String audioCodec = "";
         String audioChannel = "";
         boolean isMetadata = false;
