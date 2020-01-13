@@ -10,10 +10,12 @@
 package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.Param;
+import com.jalasoft.jfc.model.entity.FileEntity;
 import com.jalasoft.jfc.model.exception.ConvertException;
 import com.jalasoft.jfc.model.exception.Md5Exception;
 import com.jalasoft.jfc.model.exception.ZipJfcException;
 import com.jalasoft.jfc.model.metadata.MetadataConverter;
+import com.jalasoft.jfc.model.repository.FileRepository;
 import com.jalasoft.jfc.model.result.ErrorResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.result.MessageResponse;
@@ -29,6 +31,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,6 +57,10 @@ import java.io.IOException;
 @RequestMapping("/api")
 public class MetadataConverterController {
 
+    // Inject FileRepository.
+    @Autowired
+    FileRepository fileRepository;
+
     /**
      * Generates metadata from multipart file.
      * @param file is multipart value.
@@ -73,6 +80,18 @@ public class MetadataConverterController {
             String fileUploaded = FileServiceController.writeFile(pathJfc.getInputFilePath() +
             file.getOriginalFilename(), file);
             Param param = new Param();
+
+            FileEntity fileEntity = new FileEntity();
+
+            if (fileRepository.findByMd5(Md5Checksum.getMd5(fileUploaded)) != null) {
+                param.setInputPathFile(fileRepository.findByMd5(Md5Checksum.getMd5(fileUploaded)).getFilePath());
+            } else {
+                param.setInputPathFile(fileUploaded);
+                fileEntity.setFilePath(fileUploaded);
+                fileEntity.setMd5(Md5Checksum.getMd5(fileUploaded));
+                fileRepository.save(fileEntity);
+            }
+
             param.setInputPathFile(fileUploaded);
             param.setOutputPathFile(PathJfc.getOutputFilePath());
             param.setFolderName(Md5Checksum.getMd5(fileUploaded));
