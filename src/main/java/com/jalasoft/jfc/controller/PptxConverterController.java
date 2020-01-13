@@ -215,20 +215,20 @@ public class PptxConverterController {
                 throw new Md5Exception(ErrorMessageJfc.MD5_ERROR.getErrorMessageJfc(), pdfParam.getMd5());
             }
         } catch (ConvertException | Md5Exception ex) {
-            errorResponse.setName(pdfParam.getOutputName());
+            errorResponse.setName(pptxParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
             errorResponse.setError(ex.toString());
             return new ResponseEntity<>(errorResponse, HttpStatus.NOT_ACCEPTABLE);
-        } catch (IOException ex) {
-            errorResponse.setName(pdfParam.getOutputName());
-            errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
-            errorResponse.setError(ex.toString());
-            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
-        } catch (Exception cve) {
-            errorResponse.setName(pdfParam.getOutputName());
+        } catch (CommandValueException cve) {
+            errorResponse.setName(pptxParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR400.getMessageResponse());
             errorResponse.setError(cve.toString());
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        } catch (Exception ex) {
+            errorResponse.setName(pptxParam.getOutputName());
+            errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
+            errorResponse.setError(ex.toString());
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
         }
     }
 }
