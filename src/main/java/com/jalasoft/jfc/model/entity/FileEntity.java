@@ -1,12 +1,26 @@
+/*
+ * Copyright (c) 2019 Jalasoft.
+ *
+ * This software is the confidential and proprietary information of Jalasoft.
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * license agreement you entered into with Jalasoft.
+ */
 package com.jalasoft.jfc.model.entity;
 
 import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-@Entity
 
+/**
+ * Defines UserRepository.
+ *
+ * @version 0.1 Jan 2020.
+ *
+ * @author Oscar Lopez.
+ */
+@Entity
 public class FileEntity {
 
     @Id

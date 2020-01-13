@@ -80,8 +80,8 @@ public class VideoConverterController {
             @RequestParam String outputName, @RequestParam(defaultValue = "") String aspectRatio,
             @RequestParam(defaultValue = "") String frameRate, @RequestParam(defaultValue = "0") int width,
             @RequestParam(defaultValue = "0") int height, @RequestParam(defaultValue = "") String videoCodec,
-            @RequestParam(defaultValue = "") String videoBitRate, @RequestParam(defaultValue = "false") boolean isThumbnail,
-            @RequestParam(defaultValue = "false") boolean isMetadata, HttpServletRequest request,
+            @RequestParam(defaultValue = "") String videoBitRate, @RequestParam(defaultValue = "false")
+            boolean isThumbnail, @RequestParam(defaultValue = "false") boolean isMetadata, HttpServletRequest request,
             @RequestParam(defaultValue = ".avi") String videoFormat) {
 
         FileResponse fileResponse = new FileResponse();
@@ -121,11 +121,9 @@ public class VideoConverterController {
                 fileResponse = videoConverter.convert(videoParam);
                 LinkGenerator linkGenerator = new LinkGenerator();
                 fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
-
             } else {
                 throw new Md5Exception(ErrorMessageJfc.MD5_ERROR.getErrorMessageJfc(), videoParam.getMd5());
             }
-
         } catch (ConvertException ex) {
             errorResponse.setName(videoParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
