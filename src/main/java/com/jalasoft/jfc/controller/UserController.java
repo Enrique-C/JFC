@@ -57,6 +57,7 @@ public class UserController {
     public ResponseEntity<?> loginUser(@RequestParam("userName") String userName, @RequestParam("password")
             String password) {
         UserEntity userEntity = userRepository.login(userName, password);
+
         if (userEntity != null) {
             JsonWebToken jwt = new JsonWebToken();
             String token = jwt.createJwt(userEntity);
@@ -81,6 +82,7 @@ public class UserController {
     public ResponseEntity<?> addUser(@RequestParam String userName, @RequestParam String
              password, @RequestParam String rol, @RequestParam String email) {
         UserEntity userEntity = new UserEntity();
+
         try {
             userEntity.setUser(userName);
             userEntity.setPassword(password);
@@ -129,6 +131,7 @@ public class UserController {
             response = Response.class, authorizations = { @Authorization(value="JWT") })
     public ResponseEntity<?> findUserById(@RequestParam("Id") int id) {
         UserEntity userEntity = userRepository.findOne(id);
+
         if (userEntity != null) {
             return new ResponseEntity<>(userEntity, HttpStatus.FOUND);
         }
@@ -143,6 +146,7 @@ public class UserController {
     @ApiOperation(value = "Authorization", notes = "Provides user values all users",
             response = Response.class, authorizations = { @Authorization(value="JWT") })
     public ResponseEntity<List<?>> getAllUsers() {
+
         try {
             return new ResponseEntity<>((List<?>) userRepository.findAll(), HttpStatus.OK);
         } catch (Exception ex) {
@@ -160,6 +164,7 @@ public class UserController {
             response = Response.class, authorizations = { @Authorization(value="JWT") })
     public ResponseEntity<?> deleteById(@RequestParam("Id") int id) {
         UserEntity userEntity = userRepository.findOne(id);
+
         if (userEntity != null) {
             userRepository.delete(id);
             return new ResponseEntity<>(userEntity, HttpStatus.MOVED_PERMANENTLY);
