@@ -14,10 +14,10 @@ import com.jalasoft.jfc.model.repository.UserRepository;
 import com.jalasoft.jfc.model.result.Response;
 
 import com.jalasoft.jfc.model.token.JsonWebToken;
-import io.jsonwebtoken.Jwts;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,8 +29,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import io.jsonwebtoken.SignatureAlgorithm;
 
 import java.util.List;
 
@@ -48,6 +46,7 @@ public class UserController {
 
     @Autowired
     UserRepository userRepository;
+
     /**
      * Allows to user login.
      * @param userName credential value.
@@ -57,10 +56,13 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestParam("userName") String userName, @RequestParam("password")
             String password) {
+
         UserEntity userEntity = userRepository.login(userName, password);
         if (userEntity != null) {
-            String TOKEN_SECRET = "at11-01-10-2020-fundacion-jala.org";
-            String token = JsonWebToken.createJwt(userEntity);
+            JsonWebToken jwt = new JsonWebToken();
+            String token = jwt.createJwt(userEntity);
+            userEntity.setToken(token);
+            userRepository.save(userEntity);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(token);
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(HttpStatus.BAD_REQUEST);
@@ -76,7 +78,7 @@ public class UserController {
      */
     @PostMapping("/addUser")
     @ApiOperation(value = "User specifications", notes = "Provides values for adding new user",
-            response = Response.class)
+            response = Response.class, authorizations = { @Authorization(value="JWT") })
     public ResponseEntity<?> addUser(@RequestParam String userName, @RequestParam String
              password, @RequestParam String rol, @RequestParam String email) {
         UserEntity userEntity = new UserEntity();
@@ -102,7 +104,7 @@ public class UserController {
      */
     @PutMapping("/updateUser")
     @ApiOperation(value = "User specifications", notes = "Provides values for updating user values",
-            response = Response.class)
+            response = Response.class, authorizations = { @Authorization(value="JWT") })
     public ResponseEntity<UserEntity> updateUser(@RequestParam int id, @RequestParam String userName,
             @RequestParam String password, @RequestParam String rol, @RequestParam String email) {
         UserEntity userEntity = userRepository.findOne(id);
@@ -124,7 +126,7 @@ public class UserController {
      */
     @GetMapping("/findById")
     @ApiOperation(value = "User Id", notes = "Provides user values by Id",
-            response = Response.class)
+            response = Response.class, authorizations = { @Authorization(value="JWT") })
     public ResponseEntity<?> findUserById(@RequestParam("Id") int id) {
         UserEntity userEntity = userRepository.findOne(id);
         if (userEntity != null) {
@@ -139,7 +141,7 @@ public class UserController {
      */
     @GetMapping("/getAllUsers")
     @ApiOperation(value = "Authorization", notes = "Provides user values all users",
-            response = Response.class)
+            response = Response.class, authorizations = { @Authorization(value="JWT") })
     public ResponseEntity<List<?>> getAllUsers() {
         try {
             return new ResponseEntity<>((List<?>) userRepository.findAll(), HttpStatus.OK);
@@ -155,7 +157,7 @@ public class UserController {
      */
     @DeleteMapping("/deleteById")
     @ApiOperation(value = "Authorization", notes = "Delete user values by Id",
-            response = Response.class)
+            response = Response.class, authorizations = { @Authorization(value="JWT") })
     public ResponseEntity<?> deleteById(@RequestParam("Id") int id) {
         UserEntity userEntity = userRepository.findOne(id);
         if (userEntity != null) {
