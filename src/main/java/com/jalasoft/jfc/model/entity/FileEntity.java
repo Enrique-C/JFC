@@ -14,7 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
 /**
- * Defines UserRepository.
+ * Defines FileEntity.
  *
  * @version 0.1 10 Jan 2020.
  *
