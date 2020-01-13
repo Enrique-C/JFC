@@ -15,7 +15,7 @@ import org.springframework.data.repository.CrudRepository;
 /**
  * Defines UserRepository.
  *
- * @version 0.1 Jan 2020.
+ * @version 0.1 10 Jan 2020.
  *
  * @author Oscar Lopez.
  */

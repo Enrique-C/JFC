@@ -56,6 +56,9 @@ import java.io.IOException;
 @RequestMapping("/api")
 public class PdfConverterController {
 
+    // Inject FileRepository
+    @Autowired
+    FileRepository fileRepository;
     /**
      * This method receives a PDF to convert.
      * @param file contains the image file
@@ -72,9 +75,6 @@ public class PdfConverterController {
      * @param isMetadata boolean of metadata.
      * @return Response is the result of the conversion.
      */
-    // Inject FileRepository
-    @Autowired
-    FileRepository fileRepository;
     @PostMapping("/pdfConverter")
     @ApiOperation(value = "Pdf specifications", notes = "Provides values for converting Pdf file to Image",
             response = Response.class)

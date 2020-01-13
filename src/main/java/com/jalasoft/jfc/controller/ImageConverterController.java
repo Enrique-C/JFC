@@ -53,6 +53,10 @@ import java.io.IOException;
 @RequestMapping("/api")
 public class ImageConverterController {
 
+    // Inject FileRepository
+    @Autowired
+    FileRepository fileRepository;
+
     /**
      * Receives an image to convert.
      * @param file contains the image file.
@@ -68,10 +72,6 @@ public class ImageConverterController {
      * @param request contains client request data.
      * @return Response is the result of the conversion.
      */
-
-    // Inject FileRepository
-    @Autowired
-    FileRepository fileRepository;
     @PostMapping("/imageConverter")
     @ApiOperation(value = "Image specifications", notes = "Provides values for converting Image file to other one",
             response = Response.class)

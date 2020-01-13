@@ -55,6 +55,9 @@ import java.io.IOException;
 @RequestMapping("/api")
 public class PptxConverterController {
 
+    // Inject FileRepository
+    @Autowired
+    FileRepository fileRepository;
     /**
      * Receives a Pptx to convert.
      * @param file contains the image file.
@@ -67,10 +70,6 @@ public class PptxConverterController {
      * @param isMetadata boolean of metadata.
      * @return Response is the result of the conversion.
      */
-
-    // Inject FileRepository
-    @Autowired
-    FileRepository fileRepository;
     @PostMapping("/pptxConverterToPdf")
     @ApiOperation(value = "pptx specifications", notes = "Provides values for converting pptx file to Pdf",
             response = Response.class)

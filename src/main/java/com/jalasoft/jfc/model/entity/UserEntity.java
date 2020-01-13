@@ -17,7 +17,7 @@ import javax.persistence.Id;
 /**
  * Defines UserEntity .
  *
- * @version 0.1 Jan 2020.
+ * @version 0.1 10 Jan 2020.
  *
  * @author Oscar Lopez.
  */

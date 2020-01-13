@@ -52,6 +52,10 @@ import java.io.IOException;
 @RequestMapping("/api")
 public class AudioConverterController {
 
+    // Inject FileRepository
+    @Autowired
+    FileRepository fileRepository;
+
     /**
      * Receives an audio to convert
      * @param file contains an audio file.
@@ -63,10 +67,6 @@ public class AudioConverterController {
      * @param request contains client request data.
      * @return Response is the result of the conversion.
      */
-
-    // Inject FileRepository
-    @Autowired
-    FileRepository fileRepository;
     @PostMapping("/audioConverter")
     @ApiOperation(value = "Audio specifications", notes = "Provides values for converting Audio file to other one",
             response = Response.class)

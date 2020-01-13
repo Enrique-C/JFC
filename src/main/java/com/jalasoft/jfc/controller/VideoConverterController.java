@@ -53,6 +53,9 @@ import java.io.IOException;
 @RequestMapping("/api")
 public class VideoConverterController {
 
+    // Inject FileRepository
+    @Autowired
+    FileRepository fileRepository;
     /**
      * This method receives an video to convert
      * @param file contains the video file.
@@ -68,10 +71,6 @@ public class VideoConverterController {
      * @param request contains client request data.
      * @return Response is the result of the conversion.
      */
-
-    // Inject FileRepository
-    @Autowired
-    FileRepository fileRepository;
     @PostMapping("/videoConverter")
     @ApiOperation(value = "Video specifications", notes = "Provides values for converting Video file to other one.",
             response = Response.class)

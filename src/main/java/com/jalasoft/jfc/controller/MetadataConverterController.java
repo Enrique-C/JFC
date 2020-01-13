@@ -55,16 +55,15 @@ import java.io.IOException;
 @RequestMapping("/api")
 public class MetadataConverterController {
 
+    // Inject FileRepository
+    @Autowired
+    FileRepository fileRepository;
     /**
      * Generates metadata from multipart file.
      * @param file is multipart value.
      * @param request is client request value.
      * @return ResponseEntity<Response> for status code.
      */
-
-    // Inject FileRepository
-    @Autowired
-    FileRepository fileRepository;
     @PostMapping("/metadataConverter")
     @ApiOperation(value = "File", notes = "Provides values for converting metadata",
             response = Response.class)
