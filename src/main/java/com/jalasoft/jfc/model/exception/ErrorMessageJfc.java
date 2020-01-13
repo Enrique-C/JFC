@@ -46,6 +46,8 @@ public enum ErrorMessageJfc {
     LIBREOFFICE_NOT_EXIST("LibreOffice doesn't exist"),
     BIT_RATE_EXCEEDED("Bit Rate was exceeded"),
     SAMPLE_RATE_EXCEEDED("Sample Rate was exceeded"),
+    AUDIO_CHANNEL("Audio channel not supported"),
+    AUDIO_CODEC("Audio codec not supported"),
     OUTPUT_NAME_NULL("Value of outputName is NULL");
 
     // Message variable.
