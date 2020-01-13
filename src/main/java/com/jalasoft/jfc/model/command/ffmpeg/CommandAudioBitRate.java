@@ -28,7 +28,7 @@ public class CommandAudioBitRate implements ICommandStrategy {
     private String audioFormat;
 
     // Contents an audio bitRate value.
-    private short audioBitRate;
+    private int audioBitRate;
 
     // Contents an audio codec value.
     private String audioCodec;
@@ -39,7 +39,7 @@ public class CommandAudioBitRate implements ICommandStrategy {
      * @param audioBitRate receives audio bit rate value.
      * @param audioCodec receives audio codec value.
      */
-    public CommandAudioBitRate(String audioFormat, short audioBitRate, String audioCodec) {
+    public CommandAudioBitRate(String audioFormat, int audioBitRate, String audioCodec) {
         this.audioFormat = audioFormat;
         this.audioBitRate = audioBitRate;
         this.audioCodec = audioCodec;
