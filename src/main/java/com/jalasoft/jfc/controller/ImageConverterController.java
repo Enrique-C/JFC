@@ -53,7 +53,7 @@ import java.io.IOException;
 @RequestMapping("/api")
 public class ImageConverterController {
 
-    // Inject FileRepository
+    // Inject FileRepository.
     @Autowired
     FileRepository fileRepository;
 

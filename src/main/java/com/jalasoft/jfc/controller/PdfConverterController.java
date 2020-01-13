@@ -53,7 +53,7 @@ import java.io.IOException;
 @RequestMapping("/api")
 public class PdfConverterController {
 
-    // Inject FileRepository
+    // Inject FileRepository.
     @Autowired
     FileRepository fileRepository;
 
