@@ -29,6 +29,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -69,7 +71,7 @@ public class ImageConverterController {
     @PostMapping("/imageConverter")
     @ApiOperation(value = "Image specifications", notes = "Provides values for converting Image file to other one",
             response = Response.class, authorizations = { @Authorization(value="JWT") })
-    public Response imageConverter(
+    public ResponseEntity<Response> imageConverter(
             @RequestParam("file") MultipartFile file, @RequestParam String md5, @RequestParam String outputName,
             @RequestParam(defaultValue = ".png") String imageFormat, @RequestParam(defaultValue = "false")
             boolean isThumbnail, @RequestParam(defaultValue = "false") boolean isMetadata,
@@ -77,7 +79,7 @@ public class ImageConverterController {
             @RequestParam(defaultValue = "0") int ImageHeight, @RequestParam(defaultValue = "0")
             float degreesToRotate, HttpServletRequest request) {
 
-        FileResponse fileResponse = new FileResponse();
+        FileResponse fileResponse;
         ErrorResponse errorResponse = new ErrorResponse();
         ImageParam imageParam = new ImageParam();
         IConverter imageConverter = new ImageConverter();
@@ -103,6 +105,10 @@ public class ImageConverterController {
                 fileResponse = imageConverter.convert(imageParam);
                 LinkGenerator linkGenerator = new LinkGenerator();
                 fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
+                fileResponse.setName(imageParam.getFolderName());
+                fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
+
+                return new ResponseEntity<>(fileResponse, HttpStatus.CREATED);
             }
             else {
                 throw new Md5Exception(ErrorMessageJfc.MD5_ERROR.getErrorMessageJfc(), imageParam.getMd5());
@@ -111,28 +117,27 @@ public class ImageConverterController {
             errorResponse.setName(imageParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
             errorResponse.setError(ex.toString());
-            return errorResponse;
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_ACCEPTABLE);
         } catch (CommandValueException cve) {
             errorResponse.setName(imageParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR400.getMessageResponse());
             errorResponse.setError(cve.toString());
-            return errorResponse;
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         } catch (IOException ex) {
             errorResponse.setName(imageParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
             errorResponse.setError(ex.toString());
-            return errorResponse;
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
         } catch (Md5Exception ex) {
             errorResponse.setName(imageParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
             errorResponse.setError(ex.toString());
-            return errorResponse;
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_ACCEPTABLE);
         } catch (Exception ex) {
             errorResponse.setName(imageParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
             errorResponse.setError(ex.toString());
-            return errorResponse;
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
         }
-        return fileResponse;
     }
 }
