@@ -10,6 +10,7 @@
 package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.IConverter;
+import com.jalasoft.jfc.model.entity.FileEntity;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ConvertException;
 import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
@@ -18,6 +19,7 @@ import com.jalasoft.jfc.model.pdf.PdfConverter;
 import com.jalasoft.jfc.model.pdf.PdfParam;
 import com.jalasoft.jfc.model.pptx.PptxConverter;
 import com.jalasoft.jfc.model.pptx.PptxParam;
+import com.jalasoft.jfc.model.repository.FileRepository;
 import com.jalasoft.jfc.model.result.ErrorResponse;
 import com.jalasoft.jfc.model.result.FileResponse;
 import com.jalasoft.jfc.model.result.MessageResponse;
@@ -27,6 +29,7 @@ import com.jalasoft.jfc.model.utility.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -48,6 +51,10 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/api")
 public class PptxConverterController {
+
+    // Inject FileRepository.
+    @Autowired
+    FileRepository fileRepository;
 
     /**
      * Receives a Pptx to convert.
@@ -81,10 +88,20 @@ public class PptxConverterController {
             String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
                     getOriginalFilename(), file);
 
+            FileEntity fileEntity = new FileEntity();
+
             if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
+                if (fileRepository.findByMd5(md5) != null) {
+                    pptxParam.setInputPathFile(fileRepository.findByMd5(md5).getFilePath());
+                } else {
+                    pptxParam.setInputPathFile(fileUploadedPath);
+                    fileEntity.setFilePath(fileUploadedPath);
+                    fileEntity.setMd5(md5);
+                    fileRepository.save(fileEntity);
+                }
+
                 pptxParam.setFileFormat(FILE_FORMAT);
                 pptxParam.setMd5(md5);
-                pptxParam.setInputPathFile(fileUploadedPath);
                 pptxParam.setOutputPathFile(PathJfc.getOutputFilePath());
                 pptxParam.setOutputName(FileServiceController.setName(outputName, file));
                 pptxParam.setThumbnailFormat(thumbnailFormat);
