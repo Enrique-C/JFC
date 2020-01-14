@@ -205,20 +205,20 @@ public class PptxConverter implements IConverter {
         final String REPLACE_REGEX = "";
         String name = fileOriginalName.getName().replaceFirst(REGEX, REPLACE_REGEX) + PDF_EXTENSION;
 
-            if (pptxParam.getOutputName() != null && !pptxParam.getOutputName().isEmpty()) {
-                pptxParam.setOutputName(pptxParam.getOutputName().replaceAll(REGEX_SPECIAL_CHARACTERS, REPLACE_REGEX));
-                File converted = new File(pptxParam.getOutputPathFile() + pptxParam.getFolderName() + SLASH
-                        + name);
+        if (pptxParam.getOutputName() != null && !pptxParam.getOutputName().isEmpty()) {
+            pptxParam.setOutputName(pptxParam.getOutputName().replaceAll(REGEX_SPECIAL_CHARACTERS, REPLACE_REGEX));
+            File converted = new File(pptxParam.getOutputPathFile() + pptxParam.getFolderName() + SLASH
+                    + name);
 
-                File fileToRename = new File(pptxParam.getOutputPathFile() + pptxParam.getFolderName()
-                        + SLASH + pptxParam.getOutputName() + PDF_EXTENSION);
-                converted.renameTo(fileToRename);
+            File fileToRename = new File(pptxParam.getOutputPathFile() + pptxParam.getFolderName()
+                    + SLASH + pptxParam.getOutputName() + PDF_EXTENSION);
+            converted.renameTo(fileToRename);
 
-                name = fileToRename.getName();
-            } else {
-                pptxParam.setOutputName(fileOriginalName.getName().replaceFirst(REGEX, REPLACE_REGEX));
-                name = pptxParam.getOutputName() + PDF_EXTENSION;
-            }
+            name = fileToRename.getName();
+        } else {
+            pptxParam.setOutputName(fileOriginalName.getName().replaceFirst(REGEX, REPLACE_REGEX));
+            name = pptxParam.getOutputName() + PDF_EXTENSION;
+        }
         return name;
     }
 
