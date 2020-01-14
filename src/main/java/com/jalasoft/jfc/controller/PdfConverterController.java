@@ -93,17 +93,17 @@ public class PdfConverterController {
 
         try {
             FileEntity fileEntity = new FileEntity();
-            String cleanMd5 = null;
+            String cleanMd5 = md5.trim();
 
-            if (fileRepository.findByMd5(md5) != null) {
-                pdfParam.setInputPathFile(fileRepository.findByMd5(md5).getFilePath());
+            if (fileRepository.findByMd5(cleanMd5) != null) {
+                pdfParam.setInputPathFile(fileRepository.findByMd5(cleanMd5).getFilePath());
             } else {
                 String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
                         getOriginalFilename(), file);
                 cleanMd5 = Md5Checksum.getMd5(fileUploadedPath, md5);
                 pdfParam.setInputPathFile(fileUploadedPath);
                 fileEntity.setFilePath(fileUploadedPath);
-                fileEntity.setMd5(md5);
+                fileEntity.setMd5(cleanMd5);
                 fileRepository.save(fileEntity);
             }
 

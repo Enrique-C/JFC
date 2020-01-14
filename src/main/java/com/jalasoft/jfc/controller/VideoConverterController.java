@@ -93,19 +93,20 @@ public class VideoConverterController {
 
         try {
             FileEntity fileEntity = new FileEntity();
-            String cleanMd5 = null;
-            if (fileRepository.findByMd5(md5) != null) {
-                videoParam.setInputPathFile(fileRepository.findByMd5(md5).getFilePath());
+            String cleanMd5 = md5.trim();
+            if (fileRepository.findByMd5(cleanMd5) != null) {
+                videoParam.setInputPathFile(fileRepository.findByMd5(cleanMd5).getFilePath());
             } else {
                 String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file
                         .getOriginalFilename(), file);
                 cleanMd5 = Md5Checksum.getMd5(fileUploadedPath, md5);
                 videoParam.setInputPathFile(fileUploadedPath);
                 fileEntity.setFilePath(fileUploadedPath);
-                fileEntity.setMd5(md5);
+                fileEntity.setMd5(cleanMd5);
                 fileRepository.save(fileEntity);
             }
 
+            videoParam.setMd5(cleanMd5);
             videoParam.setOutputPathFile(PathJfc.getOutputFilePath());
             videoParam.setOutputName(FileServiceController.setName(outputName, file));
             videoParam.setAspectRatio(aspectRatio);
@@ -117,7 +118,6 @@ public class VideoConverterController {
             videoParam.setThumbnail(isThumbnail);
             videoParam.isMetadata(isMetadata);
             videoParam.setVideoFormat(videoFormat);
-            videoParam.setFolderName(md5);
             videoParam.setFolderName(cleanMd5);
 
             fileResponse = videoConverter.convert(videoParam);

@@ -86,10 +86,10 @@ public class PptxConverterController {
 
         try {
             FileEntity fileEntity = new FileEntity();
-            String cleanMd5 = null;
+            String cleanMd5 = md5.trim();
 
-            if (fileRepository.findByMd5(md5) != null) {
-                pptxParam.setInputPathFile(fileRepository.findByMd5(md5).getFilePath());
+            if (fileRepository.findByMd5(cleanMd5) != null) {
+                pptxParam.setInputPathFile(fileRepository.findByMd5(cleanMd5).getFilePath());
             } else {
                 String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
                         getOriginalFilename(), file);
@@ -108,7 +108,7 @@ public class PptxConverterController {
             pptxParam.setPagesToConvertThumbnail(pagesToConvertThumbNail);
             pptxParam.setIsThumbnail(isThumbnail);
             pptxParam.isMetadata(isMetadata);
-            pptxParam.setFolderName(md5);
+            pptxParam.setFolderName(cleanMd5);
 
             fileResponse = PptxConverter.convert(pptxParam);
             LinkGenerator linkGenerator = new LinkGenerator();
@@ -172,26 +172,27 @@ public class PptxConverterController {
 
         try {
             FileEntity fileEntity = new FileEntity();
-            String cleanMd5 = null;
+            String cleanMd5 = md5.trim();
 
-            if (fileRepository.findByMd5(md5) != null) {
-                pptxParam.setInputPathFile(fileRepository.findByMd5(md5).getFilePath());
+            if (fileRepository.findByMd5(cleanMd5) != null) {
+                pptxParam.setInputPathFile(fileRepository.findByMd5(cleanMd5).getFilePath());
             } else {
                 String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
                         getOriginalFilename(), file);
                 cleanMd5 = Md5Checksum.getMd5(fileUploadedPath, md5);
                 pptxParam.setInputPathFile(fileUploadedPath);
                 fileEntity.setFilePath(fileUploadedPath);
-                fileEntity.setMd5(md5);
+                fileEntity.setMd5(cleanMd5);
                 fileRepository.save(fileEntity);
                 pptxParam.setInputPathFile(fileUploadedPath);
             }
             pptxParam.setFileFormat(imageFormat);
             pptxParam.setMd5(cleanMd5);
             pptxParam.setFolderName(cleanMd5);
-            pptxParam.setInputPathFile(cleanMd5);
             pptxParam.setOutputPathFile(PathJfc.getInputFilePath());
             pptxConverter.convert(pptxParam);
+
+            pdfParam.setInputPathFile(pptxParam.getInputPathFile());
             pdfParam.setOutputName(FileServiceController.setName(outputName, file));
             pdfParam.setImageFormat(imageFormat);
             pdfParam.setPagesToConvert(pagesToConvert);
