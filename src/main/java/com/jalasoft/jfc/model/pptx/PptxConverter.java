@@ -200,10 +200,10 @@ public class PptxConverter implements IConverter {
      */
     private String getOriginalName(PptxParam pptxParam) throws CommandValueException {
         File fileOriginalName = new File(pptxParam.getInputPathFile());
-        final String REGEX = "[.][^.]+$";
+        final String REGEX_REMOVE_EXTENSION = "[.][^.]+$";
         final String REGEX_SPECIAL_CHARACTERS = "[^a-zA-Z0-9.]";
         final String REPLACE_REGEX = "";
-        String name = fileOriginalName.getName().replaceFirst(REGEX, REPLACE_REGEX) + PDF_EXTENSION;
+        String name = fileOriginalName.getName().replaceFirst(REGEX_REMOVE_EXTENSION, REPLACE_REGEX) + PDF_EXTENSION;
 
         isNameOutputNull(pptxParam);
         pptxParam.setOutputName(pptxParam.getOutputName().replaceAll(REGEX_SPECIAL_CHARACTERS, REPLACE_REGEX));
@@ -218,7 +218,7 @@ public class PptxConverter implements IConverter {
 
             name = fileToRename.getName();
         } else {
-            pptxParam.setOutputName(fileOriginalName.getName().replaceFirst(REGEX, REPLACE_REGEX));
+            pptxParam.setOutputName(fileOriginalName.getName().replaceFirst(REGEX_REMOVE_EXTENSION, REPLACE_REGEX));
             name = pptxParam.getOutputName() + PDF_EXTENSION;
         }
         return name;
