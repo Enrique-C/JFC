@@ -204,8 +204,8 @@ public class PptxConverter implements IConverter {
         final String REPLACE_REGEX = "";
         String name = fileOriginalName.getName().replaceFirst(regex, REPLACE_REGEX) + PDF_EXTENSION;
 
-        try {
-            if (!pptxParam.getOutputName().isEmpty()) {
+
+            if (pptxParam.getOutputName() != null && !pptxParam.getOutputName().isEmpty()) {
                 File converted = new File(pptxParam.getOutputPathFile() + pptxParam.getFolderName() + SLASH
                         + name);
 
@@ -218,10 +218,6 @@ public class PptxConverter implements IConverter {
                 pptxParam.setOutputName(fileOriginalName.getName().replaceFirst(regex, REPLACE_REGEX));
                 name = pptxParam.getOutputName() + PDF_EXTENSION;
             }
-        } catch (NullPointerException ex) {
-            throw new CommandValueException(ErrorMessageJfc.OUTPUT_NAME_NULL.getErrorMessageJfc(), this.getClass()
-                    .getName());
-        }
         return name;
     }
 
