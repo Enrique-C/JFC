@@ -15,7 +15,6 @@ import com.jalasoft.jfc.model.audio.AudioParam;
 import com.jalasoft.jfc.model.entity.FileEntity;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ConvertException;
-import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.exception.Md5Exception;
 import com.jalasoft.jfc.model.repository.FileRepository;
 import com.jalasoft.jfc.model.result.ErrorResponse;
@@ -84,16 +83,15 @@ public class AudioConverterController {
         IConverter audioConverter = new AudioConverter();
 
         try {
-            String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file
-                    .getOriginalFilename(), file);
-
-            String cleanMd5 = Md5Checksum.getMd5(fileUploadedPath, md5);
-
             FileEntity fileEntity = new FileEntity();
+            String cleanMd5 = md5.trim();
 
             if (fileRepository.findByMd5(cleanMd5) != null) {
                 audioParam.setInputPathFile(fileRepository.findByMd5(cleanMd5).getFilePath());
             } else {
+                String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file
+                        .getOriginalFilename(), file);
+                cleanMd5 = Md5Checksum.getMd5(fileUploadedPath, cleanMd5);
                 audioParam.setInputPathFile(fileUploadedPath);
                 fileEntity.setFilePath(fileUploadedPath);
                 fileEntity.setMd5(cleanMd5);

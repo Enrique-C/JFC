@@ -1,9 +1,9 @@
 # JFC
-JFC converter allows to convert files from one format to another one. 
-###Getting Started
-At the beginning it is necessary download the project from [GitHub repository](https://github.com/Enrique-C/JFC.git)
+JFC converter allows to convert files from one format to another. 
+#### Getting Started
+At the beginning it is necessary to download the project from [GitHub repository](https://github.com/Enrique-C/JFC.git)
 
-####Prerequisites
+#### Prerequisites
 Windows Environment: Server 2019 Standard.
 
 * Intellij idea 2019.3 (Community Edition)
@@ -22,7 +22,7 @@ Windows Environment: Server 2019 Standard.
 
 #### Installing
 
-For starting to setup the environment.
+To start setting up the environment.
 * Turn off firewall.
 * Install Java.
 * Install Intellij idea.
@@ -31,7 +31,7 @@ For starting to setup the environment.
 * Install GhostScript.
 * Install LibreOffice in thirdparty project directory.
 
-### Post Installing
+#### After Installing
 
 * Setup MySql database management.
     * Execute xampp-control.exe as Admin user.
@@ -39,16 +39,17 @@ For starting to setup the environment.
     * Access to phpMyAdmin using a browser(chrome, firefox).
     * Create a new database called **jfc**.
 
-###Deployment
+### Deployment
 Add gradle dependencies in the project using **build.gradle**
 
-###Versioning
+### Versioning
 We use **git** for versioning. For the versions available, see the repository.
 
-###Authors
-Paolo Sandoval - Trainer
-
-AT-11 Students.
-
-###License
+### Collaborators
+* Paolo Sandoval - Trainer
+    * Juan Martinez
+    * Alan Escalera
+    * Enrique Carrizales
+    * Oscar Lopez
+### License
 This project is licensed under the Fundacion-jala License - see [Fundacion-jala](http://fundacion-jala.org)

@@ -13,7 +13,6 @@ import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.entity.FileEntity;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ConvertException;
-import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.exception.Md5Exception;
 import com.jalasoft.jfc.model.pdf.PdfConverter;
 import com.jalasoft.jfc.model.pdf.PdfParam;
@@ -40,8 +39,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-
-import java.io.IOException;
 
 /**
  * Manages PdfConverter Requests.
@@ -88,21 +85,20 @@ public class PptxConverterController {
         IConverter PptxConverter = new PptxConverter();
 
         try {
-            String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
-                    getOriginalFilename(), file);
-
-            String cleanMd5 = Md5Checksum.getMd5(fileUploadedPath, md5);
-
             FileEntity fileEntity = new FileEntity();
+            String cleanMd5 = md5.trim();
 
             if (fileRepository.findByMd5(cleanMd5) != null) {
                 pptxParam.setInputPathFile(fileRepository.findByMd5(cleanMd5).getFilePath());
-                } else {
-                    pptxParam.setInputPathFile(fileUploadedPath);
-                    fileEntity.setFilePath(fileUploadedPath);
-                    fileEntity.setMd5(cleanMd5);
-                    fileRepository.save(fileEntity);
-                }
+            } else {
+                String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
+                        getOriginalFilename(), file);
+                cleanMd5 = Md5Checksum.getMd5(fileUploadedPath, cleanMd5);
+                pptxParam.setInputPathFile(fileUploadedPath);
+                fileEntity.setFilePath(fileUploadedPath);
+                fileEntity.setMd5(cleanMd5);
+                fileRepository.save(fileEntity);
+            }
 
             pptxParam.setFileFormat(FILE_FORMAT);
             pptxParam.setMd5(cleanMd5);
@@ -175,16 +171,23 @@ public class PptxConverterController {
         IConverter pdfConverter = new PdfConverter();
 
         try {
-            String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
-                    getOriginalFilename(), file);
+            FileEntity fileEntity = new FileEntity();
+            String cleanMd5 = md5.trim();
 
-            String cleanMd5 = Md5Checksum.getMd5(fileUploadedPath, md5);
-
+            if (fileRepository.findByMd5(cleanMd5) != null) {
+                pptxParam.setInputPathFile(fileRepository.findByMd5(cleanMd5).getFilePath());
+            } else {
+                String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
+                        getOriginalFilename(), file);
+                cleanMd5 = Md5Checksum.getMd5(fileUploadedPath, cleanMd5);
+                pptxParam.setInputPathFile(fileUploadedPath);
+                fileEntity.setFilePath(fileUploadedPath);
+                fileEntity.setMd5(cleanMd5);
+                fileRepository.save(fileEntity);
+            }
             pptxParam.setFileFormat(imageFormat);
             pptxParam.setMd5(cleanMd5);
             pptxParam.setFolderName(cleanMd5);
-            pptxParam.setOutputName(outputName);
-            pptxParam.setInputPathFile(fileUploadedPath);
             pptxParam.setOutputPathFile(PathJfc.getInputFilePath());
             pptxConverter.convert(pptxParam);
 
