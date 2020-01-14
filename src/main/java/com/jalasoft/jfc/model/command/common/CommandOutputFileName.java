@@ -44,11 +44,10 @@ public class CommandOutputFileName implements ICommandStrategy {
     public String command() throws CommandValueException {
         String regexRule = "[^a-zA-Z0-9.]";
         String replaceValue = "";
-
+        outputName = outputName.replaceAll(regexRule, replaceValue);
             if (outputName.equals("_t") || outputName.isEmpty()) {
                 outputName = inputName;
             }
-            outputName = outputName.replaceAll(regexRule, replaceValue);
         return outputName;
     }
 }
