@@ -50,7 +50,7 @@ import java.util.List;
 public class ImageConverter implements IConverter {
 
     // Tag thumbnail.
-    final String THUMBNAIL_TAG = "thumb";
+    final String THUMBNAIL_TAG = "Thumb";
 
     // Absolute path of zip folder.
     String zipPath;
@@ -132,7 +132,7 @@ public class ImageConverter implements IConverter {
         commandImageList.add(new CommandImageRotate(imageParam.getDegreesToRotate()));
         commandImageList.add(new CommandImageResize(imageParam.getImageWidth(), imageParam.getImageHeight()));
         commandImageList.add(new CommandOutputFilePath(imageParam.getOutputPathFile(), imageParam.getFolderName()));
-        commandImageList.add(new CommandOutputFileName(imageParam.getOutputName(), imageParam.getOutputName()));
+        commandImageList.add(new CommandOutputFileName(imageParam.getOutputName(), imageParam.getInputName()));
         commandImageList.add(new CommandImageFormat(imageParam.getImageFormat()));
     }
 
@@ -148,7 +148,7 @@ public class ImageConverter implements IConverter {
         commandThumbnailList.add(new CommandInputFilePath(imageParam.getInputPathFile()));
         commandThumbnailList.add(new CommandThumbnail(imageParam.isThumbnail()));
         commandThumbnailList.add(new CommandOutputFilePath(imageParam.getOutputPathFile(), imageParam.getFolderName()));
-        commandThumbnailList.add(new CommandOutputFileName(THUMBNAIL_TAG, imageParam.getFolderName()));
+        commandThumbnailList.add(new CommandOutputFileName(THUMBNAIL_TAG, imageParam.getInputName()));
         commandThumbnailList.add(new CommandImageFormat(imageParam.getImageFormat()));
     }
 

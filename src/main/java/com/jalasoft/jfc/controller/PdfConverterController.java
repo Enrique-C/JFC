@@ -109,7 +109,8 @@ public class PdfConverterController {
 
             pdfParam.setMd5(cleanMd5);
             pdfParam.setOutputPathFile(PathJfc.getOutputFilePath());
-            pdfParam.setOutputName(FileServiceController.setName(outputName, file));
+            pdfParam.setInputName(FileServiceController.getName(file));
+            pdfParam.setOutputName(outputName);
             pdfParam.setImageFormat(imageFormat);
             pdfParam.setPagesToConvert(pagesToConvert);
             pdfParam.setThumbnail(isThumbnail);

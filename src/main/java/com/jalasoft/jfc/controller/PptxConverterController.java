@@ -103,7 +103,8 @@ public class PptxConverterController {
             pptxParam.setFileFormat(FILE_FORMAT);
             pptxParam.setMd5(cleanMd5);
             pptxParam.setOutputPathFile(PathJfc.getOutputFilePath());
-            pptxParam.setOutputName(FileServiceController.setName(outputName, file));
+            pptxParam.setInputName(FileServiceController.getName(file));
+            pptxParam.setOutputName(outputName);
             pptxParam.setThumbnailFormat(thumbnailFormat);
             pptxParam.setPagesToConvertThumbnail(pagesToConvertThumbNail);
             pptxParam.setIsThumbnail(isThumbnail);
@@ -188,13 +189,16 @@ public class PptxConverterController {
             pptxParam.setFileFormat(imageFormat);
             pptxParam.setMd5(cleanMd5);
             pptxParam.setFolderName(cleanMd5);
+            pptxParam.setInputName(FileServiceController.getName(file));
+            pptxParam.setOutputName(outputName);
             pptxParam.setOutputPathFile(PathJfc.getInputFilePath());
             pptxConverter.convert(pptxParam);
 
             pdfParam.setMd5(cleanMd5);
             pdfParam.setInputPathFile(pptxParam.getInputPathFile());
             pdfParam.setOutputPathFile(PathJfc.getOutputFilePath());
-            pdfParam.setOutputName(FileServiceController.setName(outputName, file));
+            pdfParam.setInputName(FileServiceController.getName(file));
+            pdfParam.setOutputName(outputName);
             pdfParam.setImageFormat(imageFormat);
             pdfParam.setPagesToConvert(pagesToConvert);
             pdfParam.setThumbnail(isThumbnail);

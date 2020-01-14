@@ -104,7 +104,8 @@ public class AudioConverterController {
             audioParam.setAudioChannel(audioChannel);
             audioParam.setAudioBitRate(audioBitRate);
             audioParam.setOutputPathFile(PathJfc.getOutputFilePath());
-            audioParam.setOutputName(FileServiceController.setName(outputName, file));
+            audioParam.setInputName(FileServiceController.getName(file));
+            audioParam.setOutputName(outputName);
             audioParam.isMetadata(isMetadata);
             audioParam.setFileFormat(audioFormat);
             audioParam.setFolderName(cleanMd5);
