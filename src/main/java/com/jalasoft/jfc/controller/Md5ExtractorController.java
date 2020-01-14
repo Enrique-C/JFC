@@ -37,7 +37,7 @@ import java.io.IOException;
  */
 @Api(value = "Md5ExtractorController", description = "REST API related to Extract Md5")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class Md5ExtractorController {
 
     /**
@@ -51,10 +51,9 @@ public class Md5ExtractorController {
     public ResponseEntity<String> extractMd5(@RequestParam("file") MultipartFile file) {
         final String EMPTY_VALUE = "";
         String md5String = EMPTY_VALUE;
-        PathJfc pathJfc = new PathJfc();
 
         try {
-            String fileUploaded = FileServiceController.writeFile(pathJfc.getInputFilePath() +
+            String fileUploaded = FileServiceController.writeFile(PathJfc.getInputFilePath() +
             file.getOriginalFilename(), file);
             md5String = Md5Checksum.getMd5(fileUploaded);
         } catch (Md5Exception | IOException ioe) {

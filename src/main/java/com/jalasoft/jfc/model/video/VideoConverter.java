@@ -127,12 +127,11 @@ public class VideoConverter implements IConverter {
             list.add(new CommandVideoFrameRate(videoParam.getFrameRate()));
             list.add(new CommandVideoBitRate(videoParam.getVideoBitRate()));
             list.add(new CommandOutputFilePath(videoParam.getOutputPathFile(), videoParam.getFolderName()));
-            list.add(new CommandOutputFileName(videoParam.getOutputName(), videoParam.getFolderName()));
+            list.add(new CommandOutputFileName(videoParam.getOutputName(), videoParam.getInputName()));
             list.add(new CommandVideoFormat(videoParam.getVideoFormat()));
             ContextStrategy contextStrategy = new ContextStrategy(list);
             String result = contextStrategy.buildCommand();
             return result;
-
         } catch (CommandValueException cve) {
             throw new CommandValueException(cve.getMessage(), this.getClass().getName());
         } catch (NullPointerException e) {
@@ -147,13 +146,14 @@ public class VideoConverter implements IConverter {
      */
     public String getThumbnail(Param param) throws CommandValueException {
         VideoParam videoParam = (VideoParam) param;
+        final String THUMBNAIL = "Thumb.gif";
         try {
             List<ICommandStrategy> list = new ArrayList<>();
             list.add(new CommandFFMpegPath());
             list.add(new CommandInputFilePath(videoParam.getInputPathFile()));
             list.add(new CommandVideoThumbNail(videoParam.getThumbnail()));
             list.add(new CommandOutputFilePath(videoParam.getOutputPathFile(), videoParam.getFolderName()));
-            list.add(new CommandOutputFileName("thumbnail.gif", videoParam.getFolderName()));
+            list.add(new CommandOutputFileName(THUMBNAIL, videoParam.getInputName()));
             ContextStrategy contextStrategy = new ContextStrategy(list);
             String result = contextStrategy.buildCommand();
             return result;
@@ -180,6 +180,5 @@ public class VideoConverter implements IConverter {
 
         zipPath = fileZip.getAbsolutePath();
         zip.zipFolderFile(files, fileZip);
-
     }
 }

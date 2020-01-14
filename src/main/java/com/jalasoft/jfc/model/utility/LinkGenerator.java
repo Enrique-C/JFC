@@ -47,7 +47,7 @@ public class LinkGenerator {
 
         // String of URL.
         String fileDownloadUri = UriComponentsBuilder.newInstance().scheme(uriInfo.getScheme()).
-                host(uriInfo.getHost()).port(uriInfo.getPort()).path("/api/download/").path(fileZipName).build().toString();
+                host(uriInfo.getHost()).port(uriInfo.getPort()).path("/api/v1/download/").path(fileZipName).build().toString();
         return fileDownloadUri;
     }
 }

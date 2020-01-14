@@ -50,7 +50,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Api(value = "AudioConverterController", description = "REST API related to AudioParam Entity")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class AudioConverterController {
 
     // Inject FileRepository.
@@ -105,7 +105,8 @@ public class AudioConverterController {
             audioParam.setAudioChannel(audioChannel);
             audioParam.setAudioBitRate(audioBitRate);
             audioParam.setOutputPathFile(PathJfc.getOutputFilePath());
-            audioParam.setOutputName(FileServiceController.setName(outputName, file));
+            audioParam.setInputName(FileServiceController.getName(file));
+            audioParam.setOutputName(outputName);
             audioParam.isMetadata(isMetadata);
             audioParam.setFileFormat(audioFormat);
             audioParam.setFolderName(cleanMd5);

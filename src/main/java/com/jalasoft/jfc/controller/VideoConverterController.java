@@ -52,7 +52,7 @@ import java.io.IOException;
  */
 @Api(value = "VideoConverterController", description = "REST API related to VideoParam Entity")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class VideoConverterController {
 
     // Inject FileRepository.
@@ -79,10 +79,10 @@ public class VideoConverterController {
             response = Response.class, authorizations = { @Authorization(value="JWT") })
     public ResponseEntity<Response> videoConverter(
             @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = " ") String md5,
-            @RequestParam String outputName, @RequestParam(defaultValue = "") String aspectRatio,
-            @RequestParam(defaultValue = "") String frameRate, @RequestParam(defaultValue = "0") int width,
-            @RequestParam(defaultValue = "0") int height, @RequestParam(defaultValue = "") String videoCodec,
-            @RequestParam(defaultValue = "") String videoBitRate, @RequestParam(defaultValue = "false")
+            @RequestParam(defaultValue = "output") String outputName, @RequestParam(defaultValue = " " ) String aspectRatio,
+            @RequestParam(defaultValue = " ") String frameRate, @RequestParam(defaultValue = "0") int width,
+            @RequestParam(defaultValue = "0") int height, @RequestParam(defaultValue = " ") String videoCodec,
+            @RequestParam(defaultValue = " ") String videoBitRate, @RequestParam(defaultValue = "false")
             boolean isThumbnail, @RequestParam(defaultValue = "false") boolean isMetadata, HttpServletRequest request,
             @RequestParam(defaultValue = ".avi") String videoFormat) {
 
@@ -109,7 +109,8 @@ public class VideoConverterController {
 
             videoParam.setMd5(cleanMd5);
             videoParam.setOutputPathFile(PathJfc.getOutputFilePath());
-            videoParam.setOutputName(FileServiceController.setName(outputName, file));
+            videoParam.setInputName(FileServiceController.getName(file));
+            videoParam.setOutputName(outputName);
             videoParam.setAspectRatio(aspectRatio);
             videoParam.setFrameRate(frameRate);
             videoParam.setWidth(width);
