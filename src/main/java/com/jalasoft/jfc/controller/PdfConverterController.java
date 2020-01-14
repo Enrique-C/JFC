@@ -52,7 +52,7 @@ import java.io.IOException;
  */
 @Api(value = "PdfConverterController", description = "REST API related to PdfParam Entity")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class PdfConverterController {
 
     // Inject FileRepository.

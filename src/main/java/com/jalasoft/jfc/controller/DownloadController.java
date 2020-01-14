@@ -38,7 +38,7 @@ import java.io.FileInputStream;
  */
 @Api(value = "DownloadController", description = "REST API to download zip file.")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class DownloadController {
 
     /**

@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Table;
 
 /**
  * Defines FileEntity.
@@ -21,6 +22,7 @@ import javax.persistence.GenerationType;
  * @author Oscar Lopez.
  */
 @Entity
+@Table(name = "fileupload")
 public class FileEntity {
 
     @Id
