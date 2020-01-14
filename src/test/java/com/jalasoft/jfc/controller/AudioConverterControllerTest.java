@@ -47,4 +47,40 @@ public class AudioConverterControllerTest {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(wContext).alwaysDo(MockMvcResultHandlers.print()).build();
         PathJfc pathJfc = new PathJfc();
     }
+
+    @Test
+    public void audioConverter_WhenFinishAConversion_Status200() throws Exception {
+        String srcFilePath = "src/test/resources/audio.wav";
+        String relativePath = "/api/v1/audioConverter/";
+        String md5Param = "md5";
+        String md5 = "2559480156e9cddf65ed3125521b9922";
+
+        File filePath = new File(srcFilePath);
+        FileInputStream input = new FileInputStream(filePath);
+
+        MockMultipartFile file = new MockMultipartFile("file", filePath.getName(),
+                null, IOUtils.toByteArray(input));
+
+        mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativePath).file(file)
+                .param(md5Param, md5))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void audioConverter_WhenMd5IsWrong_Status200() throws Exception {
+        String srcFilePath = "src/test/resources/audio.wav";
+        String relativePath = "/api/v1/audioConverter/";
+        String md5Param = "md5";
+        String md5 = "2559480156e9cddf65ed3125521b9922WRONG";
+
+        File filePath = new File(srcFilePath);
+        FileInputStream input = new FileInputStream(filePath);
+
+        MockMultipartFile file = new MockMultipartFile("file", filePath.getName(),
+                null, IOUtils.toByteArray(input));
+
+        mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativePath).file(file)
+                .param(md5Param, md5))
+                .andExpect(status().isNotAcceptable());
+    }
 }
