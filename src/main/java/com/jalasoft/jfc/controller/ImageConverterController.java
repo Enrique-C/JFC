@@ -11,7 +11,6 @@ package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.entity.FileEntity;
-import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.exception.Md5Exception;
 import com.jalasoft.jfc.model.repository.FileRepository;
 import com.jalasoft.jfc.model.result.MessageResponse;
@@ -41,8 +40,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-
-import java.io.IOException;
 
 /**
  * Manages ImageConverter Requests.
@@ -92,16 +89,14 @@ public class ImageConverterController {
         IConverter imageConverter = new ImageConverter();
 
         try {
-            String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
-                    getOriginalFilename(), file);
-
-            String cleanMd5 = Md5Checksum.getMd5(fileUploadedPath, md5);
-
             FileEntity fileEntity = new FileEntity();
-
+            String cleanMd5 = md5.trim();
             if (fileRepository.findByMd5(cleanMd5) != null) {
                 imageParam.setInputPathFile(fileRepository.findByMd5(cleanMd5).getFilePath());
             } else {
+                String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
+                        getOriginalFilename(), file);
+                cleanMd5 = Md5Checksum.getMd5(fileUploadedPath, md5);
                 imageParam.setInputPathFile(fileUploadedPath);
                 fileEntity.setFilePath(fileUploadedPath);
                 fileEntity.setMd5(cleanMd5);
@@ -109,7 +104,6 @@ public class ImageConverterController {
             }
 
             imageParam.setMd5(cleanMd5);
-            imageParam.setInputPathFile(fileUploadedPath);
             imageParam.setOutputPathFile(PathJfc.getOutputFilePath());
             imageParam.setImageFormat(imageFormat);
             imageParam.setOutputName(FileServiceController.setName(outputName, file));
