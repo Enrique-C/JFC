@@ -52,7 +52,7 @@ import java.io.IOException;
  */
 @Api(value = "VideoConverterController", description = "REST API related to VideoParam Entity")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class VideoConverterController {
 
     // Inject FileRepository.

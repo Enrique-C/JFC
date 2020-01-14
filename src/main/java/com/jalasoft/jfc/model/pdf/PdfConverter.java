@@ -140,6 +140,7 @@ public class PdfConverter implements IConverter {
      * @throws CommandValueException
      */
     public String generateThumbnail(PdfParam pdfParam) throws CommandValueException {
+        final String THUMBNAIL = "Thumb";
         commandsList = new ArrayList<>();
         commandsList.add(new CommandImageMagickPath());
         commandsList.add(new CommandImageConverter());
@@ -150,8 +151,8 @@ public class PdfConverter implements IConverter {
         commandsList.add(new CommandPagesToConvert(pdfParam.getPagesToConvert(), pdfParam.getQuantityOfPage()));
         commandsList.add(new CommandThumbnail(pdfParam.isThumbnail()));
         commandsList.add(new CommandOutputFilePath(pdfParam.getOutputPathFile(), pdfParam.getFolderName()));
-        commandsList.add(new CommandOutputFileName(pdfParam.getOutputName() + "_t",
-                pdfParam.getFolderName() + "_t"));
+        commandsList.add(new CommandOutputFileName(pdfParam.getOutputName() + THUMBNAIL,
+                pdfParam.getFolderName() + THUMBNAIL));
         commandsList.add(new CommandImageFormat(pdfParam.getImageFormat()));
         contextStrategy = new ContextStrategy(commandsList);
         String result = contextStrategy.buildCommand();

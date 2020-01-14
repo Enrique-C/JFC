@@ -49,7 +49,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Api(value = "AudioConverterController", description = "REST API related to AudioParam Entity")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class AudioConverterController {
 
     // Inject FileRepository.

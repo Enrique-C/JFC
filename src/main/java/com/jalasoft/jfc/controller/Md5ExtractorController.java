@@ -37,7 +37,7 @@ import java.io.IOException;
  */
 @Api(value = "Md5ExtractorController", description = "REST API related to Extract Md5")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class Md5ExtractorController {
 
     /**
@@ -48,7 +48,7 @@ public class Md5ExtractorController {
      */
     @PostMapping("/extractMd5")
     @ApiOperation(value = "File", notes = "Provides values for extracting Md5",  response = Response.class)
-    public ResponseEntity<String> extractMd5(@RequestParam("file") MultipartFile file) throws Md5Exception {
+    public ResponseEntity<String> extractMd5(@RequestParam("file") MultipartFile file) {
         final String EMPTY_VALUE = "";
         String md5String = EMPTY_VALUE;
         PathJfc pathJfc = new PathJfc();
@@ -58,8 +58,8 @@ public class Md5ExtractorController {
             file.getOriginalFilename(), file);
             md5String = Md5Checksum.getMd5(fileUploaded);
         } catch (Md5Exception | IOException ioe) {
-            return new ResponseEntity<String>(ioe.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(ioe.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<String>(md5String, HttpStatus.OK);
+        return new ResponseEntity<>(md5String, HttpStatus.OK);
     }
 }

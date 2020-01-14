@@ -50,7 +50,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Api(value = "ImageConverterController", description = "REST API related to ImageParam Entity")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class ImageConverterController {
 
     // Inject FileRepository.
