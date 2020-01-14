@@ -109,7 +109,8 @@ public class VideoConverterController {
 
             videoParam.setMd5(cleanMd5);
             videoParam.setOutputPathFile(PathJfc.getOutputFilePath());
-            videoParam.setOutputName(FileServiceController.setName(outputName, file));
+            videoParam.setInputName(FileServiceController.getName(file));
+            videoParam.setOutputName(outputName);
             videoParam.setAspectRatio(aspectRatio);
             videoParam.setFrameRate(frameRate);
             videoParam.setWidth(width);

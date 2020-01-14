@@ -112,7 +112,7 @@ public class PptxConverter implements IConverter {
      */
     private void isPdfConversion(PptxParam pptxParam) throws ZipJfcException, CommandValueException, ConvertException
             , IOException {
-        convertedName = getOriginalName(pptxParam);
+       setFileName(pptxParam);
         if (pptxParam.getFileFormat().equals(PDF_EXTENSION)) {
             isMetadataTrue(pptxParam);
             isThumbnail(pptxParam);
@@ -175,7 +175,7 @@ public class PptxConverter implements IConverter {
         commandsList.add(new CommandThumbnail(pptxParam.getIsThumbnail()));
         commandsList.add(new CommandOutputFilePath(pptxParam.getOutputPathFile(), pptxParam.getFolderName()));
         commandsList.add(new CommandOutputFileName(pptxParam.getOutputName() + THUMBNAIL_KEY,
-                pptxParam.getFolderName() + THUMBNAIL_KEY));
+                pptxParam.getInputName() + THUMBNAIL_KEY));
         commandsList.add(new CommandImageFormat(pptxParam.getThumbnailFormat()));
         contextStrategy = new ContextStrategy(commandsList);
         String result = contextStrategy.buildCommand();
@@ -198,30 +198,25 @@ public class PptxConverter implements IConverter {
      * @return original name with file extension.
      * @throws CommandValueException when there is an invalid command.
      */
-    private String getOriginalName(PptxParam pptxParam) throws CommandValueException {
-        File fileOriginalName = new File(pptxParam.getInputPathFile());
-        final String REGEX_REMOVE_EXTENSION = "[.][^.]+$";
+    private void setFileName(PptxParam pptxParam) throws CommandValueException {
         final String REGEX_SPECIAL_CHARACTERS = "[^a-zA-Z0-9.]";
         final String REGEX_REPLACE = "";
-        String name = fileOriginalName.getName().replaceFirst(REGEX_REMOVE_EXTENSION, REGEX_REPLACE) + PDF_EXTENSION;
 
         isNameOutputNull(pptxParam);
         pptxParam.setOutputName(pptxParam.getOutputName().replaceAll(REGEX_SPECIAL_CHARACTERS, REGEX_REPLACE));
         if (!pptxParam.getOutputName().isEmpty()) {
 
             File converted = new File(pptxParam.getOutputPathFile() + pptxParam.getFolderName() + SLASH
-                    + name);
+                    + pptxParam.getInputName() + PDF_EXTENSION);
 
             File fileToRename = new File(pptxParam.getOutputPathFile() + pptxParam.getFolderName()
                     + SLASH + pptxParam.getOutputName() + PDF_EXTENSION);
             converted.renameTo(fileToRename);
+            convertedName = pptxParam.getOutputName() + PDF_EXTENSION;
 
-            name = fileToRename.getName();
         } else {
-            pptxParam.setOutputName(fileOriginalName.getName().replaceFirst(REGEX_REMOVE_EXTENSION, REGEX_REPLACE));
-            name = pptxParam.getOutputName() + PDF_EXTENSION;
+            convertedName = pptxParam.getInputName() + PDF_EXTENSION;
         }
-        return name;
     }
 
     private void isNameOutputNull(PptxParam pptxParam) throws CommandValueException {

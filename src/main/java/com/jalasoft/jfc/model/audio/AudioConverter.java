@@ -113,7 +113,7 @@ public class AudioConverter implements IConverter {
         commandAudioList.add(new CommandAudioChannel(audioParam.getAudioChannel()));
         commandAudioList.add(new CommandAudioBitRate(audioParam.getFileFormat(), audioParam.getAudioBitRate(), audioParam.getAudioCodec()));
         commandAudioList.add(new CommandOutputFilePath(audioParam.getOutputPathFile(), audioParam.getFolderName()));
-        commandAudioList.add(new CommandOutputFileName(audioParam.getOutputName(), audioParam.getFolderName()));
+        commandAudioList.add(new CommandOutputFileName(audioParam.getOutputName(), audioParam.getInputName()));
         commandAudioList.add(new CommandAudioFormat(audioParam.getFileFormat()));
     }
 
