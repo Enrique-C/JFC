@@ -11,6 +11,7 @@ package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.Main;
 
+import com.jalasoft.jfc.model.utility.PathJfc;
 import org.apache.pdfbox.io.IOUtils;
 
 import org.junit.Before;
@@ -51,6 +52,7 @@ public class Md5ExtractorControllerTest {
     @Before
     public void setup() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(wContext).alwaysDo(MockMvcResultHandlers.print()).build();
+        PathJfc pathJfc = new PathJfc();
     }
 
     @Test
@@ -64,7 +66,7 @@ public class Md5ExtractorControllerTest {
         MockMultipartFile file = new MockMultipartFile("file", filePath.getName(),
         MediaType.APPLICATION_PDF_VALUE, IOUtils.toByteArray(input));
 
-        mockMvc.perform(MockMvcRequestBuilders.fileUpload("/api/extractMd5/").file(file)
+        mockMvc.perform(MockMvcRequestBuilders.fileUpload("/api/v1/extractMd5/").file(file)
         .characterEncoding("UTF-8")).andExpect(MockMvcResultMatchers.content().string(expected));
     }
 
@@ -78,7 +80,7 @@ public class Md5ExtractorControllerTest {
         MockMultipartFile file = new MockMultipartFile("file", null,
         MediaType.APPLICATION_PDF_VALUE, IOUtils.toByteArray(input));
 
-        mockMvc.perform(MockMvcRequestBuilders.fileUpload("/api/extractMd5/").file(file)
+        mockMvc.perform(MockMvcRequestBuilders.fileUpload("/api/v1/extractMd5/").file(file)
         .characterEncoding("UTF-8")).andExpect(badRequest);
     }
 }
