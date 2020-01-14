@@ -33,7 +33,7 @@ public class PptxConverterTest {
     @Test
     public void Convert_PptxTo_pdf() throws ZipJfcException, CommandValueException, ConvertException, IOException {
         PptxConverter pptxConverter = new PptxConverter();
-        PptxParam pptxParam = getParamsPptx();
+        PptxParam pptxParam = getParamsPptxToPdf();
 
         String zipPptx = pptxConverter.convert(pptxParam).getDownload();
         final int EMPTY_BYTES = 0;
@@ -44,13 +44,14 @@ public class PptxConverterTest {
         assertTrue(expected);
     }
 
-    private PptxParam getParamsPptx() {
+    private PptxParam getParamsPptxToPdf() {
         PathJfc pathJfc = new PathJfc();
 
         String fileUploadedPath = "src/test/resources/Designpatters.pptx";
 
         String md5 = "86f655c0e849a9220f3355db2dd1df63";
         String outputPath = "src/test/resources/";
+        String inputName = "Designpatters";
         String outputName = "pruebapptxtopdf";
         String fileFormat = ".pdf";
         String thumbnailFormat = ".png";
@@ -61,6 +62,7 @@ public class PptxConverterTest {
         pptxParam.setMd5(md5);
         pptxParam.setInputPathFile(fileUploadedPath);
         pptxParam.setOutputPathFile(outputPath);
+        pptxParam.setInputName(inputName);
         pptxParam.setFolderName(md5);
         pptxParam.setOutputName(outputName);
         pptxParam.setFileFormat(fileFormat);
