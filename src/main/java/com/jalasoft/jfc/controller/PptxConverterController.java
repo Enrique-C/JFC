@@ -93,7 +93,7 @@ public class PptxConverterController {
             } else {
                 String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
                         getOriginalFilename(), file);
-                cleanMd5 = Md5Checksum.getMd5(fileUploadedPath, md5);
+                cleanMd5 = Md5Checksum.getMd5(fileUploadedPath, cleanMd5);
                 pptxParam.setInputPathFile(fileUploadedPath);
                 fileEntity.setFilePath(fileUploadedPath);
                 fileEntity.setMd5(cleanMd5);
@@ -179,7 +179,7 @@ public class PptxConverterController {
             } else {
                 String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
                         getOriginalFilename(), file);
-                cleanMd5 = Md5Checksum.getMd5(fileUploadedPath, md5);
+                cleanMd5 = Md5Checksum.getMd5(fileUploadedPath, cleanMd5);
                 pptxParam.setInputPathFile(fileUploadedPath);
                 fileEntity.setFilePath(fileUploadedPath);
                 fileEntity.setMd5(cleanMd5);
