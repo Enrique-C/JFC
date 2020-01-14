@@ -11,10 +11,12 @@ package com.jalasoft.jfc.model.utility;
 
 import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.exception.Md5Exception;
+
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
