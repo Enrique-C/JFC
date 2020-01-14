@@ -127,9 +127,7 @@ public class PdfConverterController {
             fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
 
             return new ResponseEntity<>(fileResponse, HttpStatus.OK);
-        } catch (ConvertException ex) {
-            return new ResponseEntity<>(fileResponse, HttpStatus.OK);
-        } catch (Md5Exception ex) {
+        } catch (ConvertException | Md5Exception ex) {
             errorResponse.setName(pdfParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
             errorResponse.setError(ex.toString());

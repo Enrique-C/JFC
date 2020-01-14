@@ -190,9 +190,12 @@ public class PptxConverterController {
             pptxParam.setMd5(cleanMd5);
             pptxParam.setFolderName(cleanMd5);
             pptxParam.setOutputPathFile(PathJfc.getInputFilePath());
+            pptxParam.setOutputName(outputName);
             pptxConverter.convert(pptxParam);
 
+            pdfParam.setMd5(cleanMd5);
             pdfParam.setInputPathFile(pptxParam.getInputPathFile());
+            pdfParam.setOutputPathFile(PathJfc.getOutputFilePath());
             pdfParam.setOutputName(FileServiceController.setName(outputName, file));
             pdfParam.setImageFormat(imageFormat);
             pdfParam.setPagesToConvert(pagesToConvert);
@@ -202,6 +205,7 @@ public class PptxConverterController {
             pdfParam.setScale(scale);
             pdfParam.setHeight(height);
             pdfParam.setRotate(rotate);
+            pdfParam.setFolderName(cleanMd5);
 
             fileResponse = pdfConverter.convert(pdfParam);
             LinkGenerator linkGenerator = new LinkGenerator();
