@@ -184,13 +184,11 @@ public class PptxConverterController {
                 fileEntity.setFilePath(fileUploadedPath);
                 fileEntity.setMd5(cleanMd5);
                 fileRepository.save(fileEntity);
-                pptxParam.setInputPathFile(fileUploadedPath);
             }
             pptxParam.setFileFormat(imageFormat);
             pptxParam.setMd5(cleanMd5);
             pptxParam.setFolderName(cleanMd5);
             pptxParam.setOutputPathFile(PathJfc.getInputFilePath());
-            pptxParam.setOutputName(outputName);
             pptxConverter.convert(pptxParam);
 
             pdfParam.setMd5(cleanMd5);
