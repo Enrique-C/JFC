@@ -11,7 +11,6 @@ package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.entity.FileEntity;
-import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.exception.Md5Exception;
 import com.jalasoft.jfc.model.repository.FileRepository;
 import com.jalasoft.jfc.model.result.MessageResponse;
@@ -41,8 +40,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-
-import java.io.IOException;
 
 /**
  * Manages ImageConverter Requests.
@@ -93,19 +90,20 @@ public class ImageConverterController {
 
         try {
             FileEntity fileEntity = new FileEntity();
-
+            String cleanMd5 = null;
             if (fileRepository.findByMd5(md5) != null) {
                 imageParam.setInputPathFile(fileRepository.findByMd5(md5).getFilePath());
             } else {
                 String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
                         getOriginalFilename(), file);
+                cleanMd5 = Md5Checksum.getMd5(fileUploadedPath, md5);
                 imageParam.setInputPathFile(fileUploadedPath);
                 fileEntity.setFilePath(fileUploadedPath);
                 fileEntity.setMd5(md5);
                 fileRepository.save(fileEntity);
             }
 
-            imageParam.setMd5(md5);
+            imageParam.setMd5(cleanMd5);
             imageParam.setOutputPathFile(PathJfc.getOutputFilePath());
             imageParam.setImageFormat(imageFormat);
             imageParam.setOutputName(FileServiceController.setName(outputName, file));
@@ -115,7 +113,7 @@ public class ImageConverterController {
             imageParam.setImageWidth(ImageWidth);
             imageParam.setImageHeight(ImageHeight);
             imageParam.setDegreesToRotate(degreesToRotate);
-            imageParam.setFolderName(md5);
+            imageParam.setFolderName(cleanMd5);
 
             fileResponse = imageConverter.convert(imageParam);
             LinkGenerator linkGenerator = new LinkGenerator();
@@ -124,6 +122,11 @@ public class ImageConverterController {
             fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
 
             return new ResponseEntity<>(fileResponse, HttpStatus.CREATED);
+        } catch (ConvertException | Md5Exception ex) {
+            errorResponse.setName(outputName);
+            errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
+            errorResponse.setError(ex.toString());
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_ACCEPTABLE);
         } catch (CommandValueException cve) {
             errorResponse.setName(imageParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR400.getMessageResponse());

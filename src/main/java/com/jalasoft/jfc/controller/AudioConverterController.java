@@ -15,7 +15,6 @@ import com.jalasoft.jfc.model.audio.AudioParam;
 import com.jalasoft.jfc.model.entity.FileEntity;
 import com.jalasoft.jfc.model.exception.CommandValueException;
 import com.jalasoft.jfc.model.exception.ConvertException;
-import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.exception.Md5Exception;
 import com.jalasoft.jfc.model.repository.FileRepository;
 import com.jalasoft.jfc.model.result.ErrorResponse;
@@ -85,19 +84,20 @@ public class AudioConverterController {
 
         try {
             FileEntity fileEntity = new FileEntity();
-
+            String cleanMd5 = null;
             if (fileRepository.findByMd5(md5) != null) {
                 audioParam.setInputPathFile(fileRepository.findByMd5(md5).getFilePath());
             } else {
                 String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file
                         .getOriginalFilename(), file);
-                audioParam.setInputPathFile(fileUploadedPath);
-                fileEntity.setFilePath(fileUploadedPath);
+                cleanMd5 = Md5Checksum.getMd5(fileUploadedPath, md5);
+                audioParam.setInputPathFile(cleanMd5);
+                fileEntity.setFilePath(cleanMd5);
                 fileEntity.setMd5(md5);
                 fileRepository.save(fileEntity);
             }
 
-            audioParam.setMd5(md5);
+            audioParam.setMd5(cleanMd5);
             audioParam.setAudioCodec(audioCodec);
             audioParam.setAudioSampleRate(sampleRate);
             audioParam.setAudioChannel(audioChannel);
@@ -106,7 +106,7 @@ public class AudioConverterController {
             audioParam.setOutputName(FileServiceController.setName(outputName, file));
             audioParam.isMetadata(isMetadata);
             audioParam.setFileFormat(audioFormat);
-            audioParam.setFolderName(md5);
+            audioParam.setFolderName(cleanMd5);
 
             fileResponse = audioConverter.convert(audioParam);
             LinkGenerator linkGenerator = new LinkGenerator();
@@ -115,16 +115,21 @@ public class AudioConverterController {
             fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
 
             return new ResponseEntity<>(fileResponse, HttpStatus.OK);
+        } catch (ConvertException | Md5Exception ex) {
+            errorResponse.setName(ex.getMessage());
+            errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
+            errorResponse.setError(ex.toString());
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_ACCEPTABLE);
         } catch (CommandValueException cve) {
             errorResponse.setName(cve.getMessage());
             errorResponse.setStatus(MessageResponse.ERROR400.getMessageResponse());
             errorResponse.setError(cve.toString());
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-        }   catch (Exception ex) {
+        } catch (Exception ex) {
             errorResponse.setName(ex.getMessage());
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
             errorResponse.setError(ex.toString());
-            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
         }
     }
 }
