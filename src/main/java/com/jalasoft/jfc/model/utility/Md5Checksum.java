@@ -42,7 +42,7 @@ public class Md5Checksum {
         String checksum;
         try {
             checksum = DigestUtils.md5Hex(new FileInputStream(file));
-            if (checksum.equals(md5Client.trim())) {
+            if (checksum.equals(md5Client)) {
                 return checksum;
             }
             throw new Md5Exception(ErrorMessageJfc.MD5_ERROR.getErrorMessageJfc(), md5Client);
