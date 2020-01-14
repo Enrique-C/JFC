@@ -11,6 +11,7 @@ package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.Main;
 
+import com.jalasoft.jfc.model.utility.PathJfc;
 import org.apache.pdfbox.io.IOUtils;
 
 import org.junit.Before;
@@ -37,25 +38,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class AudioConverterControllerTest {
 
     private MockMvc mockMvc;
+
     @Autowired
     WebApplicationContext wContext;
 
     @Before
     public void setup() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(wContext).alwaysDo(MockMvcResultHandlers.print()).build();
-    }
-
-    @Test
-    public void audioConverter() throws Exception {
-        String srcFilePath = "src/test/resources/audio.wav";
-        File filePath = new File(srcFilePath);
-        FileInputStream input = new FileInputStream(filePath);
-
-        MockMultipartFile file = new MockMultipartFile("file", filePath.getName(),
-                null, IOUtils.toByteArray(input));
-
-        mockMvc.perform(MockMvcRequestBuilders.fileUpload("/api/audioConverter/").file(file)
-                .param("md5", "882559480156e9cddf65ed3125521b9922"))
-                .andExpect(status().isUnauthorized());
+        PathJfc pathJfc = new PathJfc();
     }
 }
