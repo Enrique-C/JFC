@@ -11,7 +11,6 @@ package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.IConverter;
 import com.jalasoft.jfc.model.entity.FileEntity;
-import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.exception.Md5Exception;
 import com.jalasoft.jfc.model.repository.FileRepository;
 import com.jalasoft.jfc.model.result.MessageResponse;
@@ -93,22 +92,21 @@ public class VideoConverterController {
         IConverter videoConverter = new VideoConverter();
 
         try {
-            String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file
-                    .getOriginalFilename(), file);
-
-            String cleanMd5 = Md5Checksum.getMd5(fileUploadedPath, md5);
-
             FileEntity fileEntity = new FileEntity();
+            String cleanMd5 = md5.trim();
             if (fileRepository.findByMd5(cleanMd5) != null) {
                 videoParam.setInputPathFile(fileRepository.findByMd5(cleanMd5).getFilePath());
             } else {
+                String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file
+                        .getOriginalFilename(), file);
+                cleanMd5 = Md5Checksum.getMd5(fileUploadedPath, md5);
                 videoParam.setInputPathFile(fileUploadedPath);
                 fileEntity.setFilePath(fileUploadedPath);
                 fileEntity.setMd5(cleanMd5);
                 fileRepository.save(fileEntity);
             }
+
             videoParam.setMd5(cleanMd5);
-            videoParam.setInputPathFile(fileUploadedPath);
             videoParam.setOutputPathFile(PathJfc.getOutputFilePath());
             videoParam.setOutputName(FileServiceController.setName(outputName, file));
             videoParam.setAspectRatio(aspectRatio);

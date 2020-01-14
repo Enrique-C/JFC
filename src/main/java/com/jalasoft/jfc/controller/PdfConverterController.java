@@ -10,7 +10,6 @@
 package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.model.entity.FileEntity;
-import com.jalasoft.jfc.model.exception.ErrorMessageJfc;
 import com.jalasoft.jfc.model.exception.Md5Exception;
 import com.jalasoft.jfc.model.repository.FileRepository;
 import com.jalasoft.jfc.model.result.MessageResponse;
@@ -93,21 +92,21 @@ public class PdfConverterController {
         IConverter pdfConverter = new PdfConverter();
 
         try {
-            String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
-                    getOriginalFilename(), file);
-
-            String cleanMd5 = Md5Checksum.getMd5(fileUploadedPath, md5);
-
             FileEntity fileEntity = new FileEntity();
+            String cleanMd5 = md5.trim();
 
             if (fileRepository.findByMd5(cleanMd5) != null) {
                 pdfParam.setInputPathFile(fileRepository.findByMd5(cleanMd5).getFilePath());
             } else {
+                String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
+                        getOriginalFilename(), file);
+                cleanMd5 = Md5Checksum.getMd5(fileUploadedPath, md5);
                 pdfParam.setInputPathFile(fileUploadedPath);
                 fileEntity.setFilePath(fileUploadedPath);
                 fileEntity.setMd5(cleanMd5);
                 fileRepository.save(fileEntity);
             }
+
             pdfParam.setMd5(cleanMd5);
             pdfParam.setOutputPathFile(PathJfc.getOutputFilePath());
             pdfParam.setOutputName(FileServiceController.setName(outputName, file));
@@ -137,6 +136,11 @@ public class PdfConverterController {
             errorResponse.setName(pdfParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR400.getMessageResponse());
             errorResponse.setError(cve.toString());
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        } catch (IOException ex) {
+            errorResponse.setName(pdfParam.getOutputName());
+            errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
+            errorResponse.setError(ex.toString());
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         } catch (Exception ex) {
             errorResponse.setName(pdfParam.getOutputName());
