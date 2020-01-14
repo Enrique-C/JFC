@@ -46,9 +46,9 @@ public class CommandOutputFileName implements ICommandStrategy {
         String replaceValue = "";
         final String THUMBNAIL = "Thumb";
         outputName = outputName.replaceAll(regexRule, replaceValue);
-            if (outputName.equals(THUMBNAIL) || outputName.isEmpty()) {
-                outputName = inputName;
-            }
+        if (outputName.equals(THUMBNAIL) || outputName.isEmpty()) {
+            outputName = inputName;
+        }
         return outputName;
     }
 }
