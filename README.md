@@ -1,7 +1,7 @@
 # JFC
-JFC converter allows to convert files from one format to another one. 
+JFC converter allows to convert files from one format to another. 
 #### Getting Started
-At the beginning it is necessary download the project from [GitHub repository](https://github.com/Enrique-C/JFC.git)
+At the beginning it is necessary to download the project from [GitHub repository](https://github.com/Enrique-C/JFC.git)
 
 #### Prerequisites
 Windows Environment: Server 2019 Standard.
@@ -22,7 +22,7 @@ Windows Environment: Server 2019 Standard.
 
 #### Installing
 
-For starting to setup the environment.
+To start setting up the environment.
 * Turn off firewall.
 * Install Java.
 * Install Intellij idea.
@@ -31,7 +31,7 @@ For starting to setup the environment.
 * Install GhostScript.
 * Install LibreOffice in thirdparty project directory.
 
-#### Post Installing
+#### After Installing
 
 * Setup MySql database management.
     * Execute xampp-control.exe as Admin user.
