@@ -132,7 +132,6 @@ public class VideoConverter implements IConverter {
             ContextStrategy contextStrategy = new ContextStrategy(list);
             String result = contextStrategy.buildCommand();
             return result;
-
         } catch (CommandValueException cve) {
             throw new CommandValueException(cve.getMessage(), this.getClass().getName());
         } catch (NullPointerException e) {
@@ -180,6 +179,5 @@ public class VideoConverter implements IConverter {
 
         zipPath = fileZip.getAbsolutePath();
         zip.zipFolderFile(files, fileZip);
-
     }
 }
