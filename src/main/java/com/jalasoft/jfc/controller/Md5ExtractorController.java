@@ -37,7 +37,7 @@ import java.io.IOException;
  */
 @Api(value = "Md5ExtractorController", description = "REST API related to Extract Md5")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class Md5ExtractorController {
 
     /**

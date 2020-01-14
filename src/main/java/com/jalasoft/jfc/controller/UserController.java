@@ -41,7 +41,7 @@ import java.util.List;
  */
 @Api(value = "UserController", description = "REST API related to User Entity")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class UserController {
 
     @Autowired
