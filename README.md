@@ -45,10 +45,11 @@ Add gradle dependencies in the project using **build.gradle**
 ### Versioning
 We use **git** for versioning. For the versions available, see the repository.
 
-### Authors
-Paolo Sandoval - Trainer
-
-AT-11 Students.
-
+### Collaborators
+* Paolo Sandoval - Trainer
+    * Juan Martinez
+    * Alan Escalera
+    * Enrique Carrizales
+    * Oscar Lopez
 ### License
 This project is licensed under the Fundacion-jala License - see [Fundacion-jala](http://fundacion-jala.org)
