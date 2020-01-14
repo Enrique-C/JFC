@@ -97,8 +97,6 @@ public class PptxConverterController {
 
             if (fileRepository.findByMd5(cleanMd5) != null) {
                 pptxParam.setInputPathFile(fileRepository.findByMd5(cleanMd5).getFilePath());
-
-                    pptxParam.setInputPathFile(fileRepository.findByMd5(cleanMd5).getFilePath());
                 } else {
                     pptxParam.setInputPathFile(fileUploadedPath);
                     fileEntity.setFilePath(fileUploadedPath);
