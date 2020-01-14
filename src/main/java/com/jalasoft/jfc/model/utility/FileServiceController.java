@@ -39,7 +39,6 @@ public class FileServiceController {
         final String REGEX_REMOVE_EXTENSION = "[.][^.]+$";
         final String REGEX_REPLACE = "";
         String nameFile = file.getOriginalFilename().replaceFirst(REGEX_REMOVE_EXTENSION, REGEX_REPLACE);
-
         return nameFile;
     }
 }
