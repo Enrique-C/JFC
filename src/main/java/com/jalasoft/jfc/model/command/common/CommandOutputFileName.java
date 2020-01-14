@@ -44,8 +44,9 @@ public class CommandOutputFileName implements ICommandStrategy {
     public String command() throws CommandValueException {
         String regexRule = "[^a-zA-Z0-9.]";
         String replaceValue = "";
+        final String THUMBNAIL = "Thumb";
         outputName = outputName.replaceAll(regexRule, replaceValue);
-            if (outputName.equals("_t") || outputName.isEmpty()) {
+            if (outputName.equals(THUMBNAIL) || outputName.isEmpty()) {
                 outputName = inputName;
             }
         return outputName;
