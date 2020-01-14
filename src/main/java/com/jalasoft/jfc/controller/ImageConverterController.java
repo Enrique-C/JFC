@@ -95,43 +95,41 @@ public class ImageConverterController {
             String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file.
                     getOriginalFilename(), file);
 
+            String cleanMd5 = Md5Checksum.getMd5(fileUploadedPath, md5);
+
             FileEntity fileEntity = new FileEntity();
 
-            if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
-                if (fileRepository.findByMd5(md5) != null) {
-                    imageParam.setInputPathFile(fileRepository.findByMd5(md5).getFilePath());
-                } else {
-                    imageParam.setInputPathFile(fileUploadedPath);
-                    fileEntity.setFilePath(fileUploadedPath);
-                    fileEntity.setMd5(md5);
-                    fileRepository.save(fileEntity);
-                }
-
-                imageParam.setMd5(md5);
-                imageParam.setOutputPathFile(PathJfc.getOutputFilePath());
-                imageParam.setImageFormat(imageFormat);
-                imageParam.setOutputName(FileServiceController.setName(outputName, file));
-                imageParam.isThumbnail(isThumbnail);
-                imageParam.isMetadata(isMetadata);
-                imageParam.isGrayscale(Grayscale);
-                imageParam.setImageWidth(ImageWidth);
-                imageParam.setImageHeight(ImageHeight);
-                imageParam.setDegreesToRotate(degreesToRotate);
-                imageParam.setFolderName(md5);
-
-                fileResponse = imageConverter.convert(imageParam);
-                LinkGenerator linkGenerator = new LinkGenerator();
-                fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
-                fileResponse.setName(imageParam.getFolderName());
-                fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
-
-                return new ResponseEntity<>(fileResponse, HttpStatus.CREATED);
+            if (fileRepository.findByMd5(cleanMd5) != null) {
+                imageParam.setInputPathFile(fileRepository.findByMd5(cleanMd5).getFilePath());
+            } else {
+                imageParam.setInputPathFile(fileUploadedPath);
+                fileEntity.setFilePath(fileUploadedPath);
+                fileEntity.setMd5(cleanMd5);
+                fileRepository.save(fileEntity);
             }
-            else {
-                throw new Md5Exception(ErrorMessageJfc.MD5_ERROR.getErrorMessageJfc(), imageParam.getMd5());
-            }
+
+            imageParam.setMd5(cleanMd5);
+            imageParam.setInputPathFile(fileUploadedPath);
+            imageParam.setOutputPathFile(PathJfc.getOutputFilePath());
+            imageParam.setImageFormat(imageFormat);
+            imageParam.setOutputName(FileServiceController.setName(outputName, file));
+            imageParam.isThumbnail(isThumbnail);
+            imageParam.isMetadata(isMetadata);
+            imageParam.isGrayscale(Grayscale);
+            imageParam.setImageWidth(ImageWidth);
+            imageParam.setImageHeight(ImageHeight);
+            imageParam.setDegreesToRotate(degreesToRotate);
+            imageParam.setFolderName(cleanMd5);
+
+            fileResponse = imageConverter.convert(imageParam);
+            LinkGenerator linkGenerator = new LinkGenerator();
+            fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
+            fileResponse.setName(imageParam.getFolderName());
+            fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
+
+            return new ResponseEntity<>(fileResponse, HttpStatus.CREATED);
         } catch (ConvertException | Md5Exception ex) {
-            errorResponse.setName(imageParam.getOutputName());
+            errorResponse.setName(outputName);
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
             errorResponse.setError(ex.toString());
             return new ResponseEntity<>(errorResponse, HttpStatus.NOT_ACCEPTABLE);

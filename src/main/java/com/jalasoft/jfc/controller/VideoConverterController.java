@@ -96,43 +96,39 @@ public class VideoConverterController {
             String fileUploadedPath = FileServiceController.writeFile(PathJfc.getInputFilePath() + file
                     .getOriginalFilename(), file);
 
+            String cleanMd5 = Md5Checksum.getMd5(fileUploadedPath, md5);
+
             FileEntity fileEntity = new FileEntity();
-
-            if (Md5Checksum.getMd5(fileUploadedPath, md5)) {
-                if (fileRepository.findByMd5(md5) != null) {
-                    videoParam.setInputPathFile(fileRepository.findByMd5(md5).getFilePath());
-                } else {
-                    videoParam.setInputPathFile(fileUploadedPath);
-                    fileEntity.setFilePath(fileUploadedPath);
-                    fileEntity.setMd5(md5);
-                    fileRepository.save(fileEntity);
-                }
-
-                videoParam.setMd5(md5);
-                videoParam.setOutputPathFile(PathJfc.getOutputFilePath());
-                videoParam.setOutputName(FileServiceController.setName(outputName, file));
-                videoParam.setAspectRatio(aspectRatio);
-                videoParam.setFrameRate(frameRate);
-                videoParam.setWidth(width);
-                videoParam.setHeight(height);
-                videoParam.setVideoCodec(videoCodec);
-                videoParam.setVideoBitRate(videoBitRate);
-                videoParam.setThumbnail(isThumbnail);
-                videoParam.isMetadata(isMetadata);
-                videoParam.setVideoFormat(videoFormat);
-                videoParam.setFolderName(md5);
-
-                fileResponse = videoConverter.convert(videoParam);
-                LinkGenerator linkGenerator = new LinkGenerator();
-                fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
-                fileResponse.setName(videoParam.getFolderName());
-                fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
-
-                return new ResponseEntity<>(fileResponse, HttpStatus.CREATED);
+            if (fileRepository.findByMd5(cleanMd5) != null) {
+                videoParam.setInputPathFile(fileRepository.findByMd5(cleanMd5).getFilePath());
+            } else {
+                videoParam.setInputPathFile(fileUploadedPath);
+                fileEntity.setFilePath(fileUploadedPath);
+                fileEntity.setMd5(cleanMd5);
+                fileRepository.save(fileEntity);
             }
-            else {
-                throw new Md5Exception(ErrorMessageJfc.MD5_ERROR.getErrorMessageJfc(), videoParam.getMd5());
-            }
+            videoParam.setMd5(cleanMd5);
+            videoParam.setInputPathFile(fileUploadedPath);
+            videoParam.setOutputPathFile(PathJfc.getOutputFilePath());
+            videoParam.setOutputName(FileServiceController.setName(outputName, file));
+            videoParam.setAspectRatio(aspectRatio);
+            videoParam.setFrameRate(frameRate);
+            videoParam.setWidth(width);
+            videoParam.setHeight(height);
+            videoParam.setVideoCodec(videoCodec);
+            videoParam.setVideoBitRate(videoBitRate);
+            videoParam.setThumbnail(isThumbnail);
+            videoParam.isMetadata(isMetadata);
+            videoParam.setVideoFormat(videoFormat);
+            videoParam.setFolderName(cleanMd5);
+
+            fileResponse = videoConverter.convert(videoParam);
+            LinkGenerator linkGenerator = new LinkGenerator();
+            fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
+            fileResponse.setName(videoParam.getFolderName());
+            fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
+
+            return new ResponseEntity<>(fileResponse, HttpStatus.CREATED);
         } catch (ConvertException ex) {
             errorResponse.setName(videoParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
@@ -149,7 +145,7 @@ public class VideoConverterController {
             errorResponse.setError(ex.toString());
             return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
         } catch (Md5Exception ex) {
-            errorResponse.setName(videoParam.getOutputName());
+            errorResponse.setName(outputName);
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
             errorResponse.setError(ex.toString());
             return new ResponseEntity<>(errorResponse, HttpStatus.NOT_ACCEPTABLE);
