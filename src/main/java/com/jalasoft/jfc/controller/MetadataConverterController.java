@@ -54,7 +54,7 @@ import java.io.IOException;
  */
 @Api(value = "MetadataConverterController", description = "REST API related to Metadata converter")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class MetadataConverterController {
 
     // Inject FileRepository.

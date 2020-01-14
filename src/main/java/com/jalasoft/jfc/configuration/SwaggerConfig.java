@@ -47,7 +47,7 @@ public class SwaggerConfig {
      */
     @Bean
     public Docket swaggerConfiguration() {
-        return new Docket(DocumentationType.SWAGGER_2).select().paths(PathSelectors.ant("/api/*"))
+        return new Docket(DocumentationType.SWAGGER_2).select().paths(PathSelectors.ant("/api/v1/*"))
                 .apis(RequestHandlerSelectors.basePackage("com.jalasoft.jfc.controller")).build().apiInfo(apiDetails()).
                 securitySchemes(Arrays.asList(apiKey())).securityContexts(Lists.newArrayList(securityContext()));
     }

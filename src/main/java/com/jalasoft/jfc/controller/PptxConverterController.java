@@ -49,7 +49,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Api(value = "PptxConverterController", description = "REST API related to PptxParam Entity")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class PptxConverterController {
 
     // Inject FileRepository.
