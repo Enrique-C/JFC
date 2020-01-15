@@ -55,7 +55,7 @@ public class PptxConverterControllerTest {
     }
 
     @Test
-    public void pttxConverterToPdf_WhenFinishAConversion_Status201() throws Exception {
+    public void pttxConverterToPdf_WhenFinishTheConversion_Status201() throws Exception {
         String srcFilePath = "src/test/resources/Designpatters.pptx";
         String relativeMappingPath = "/api/v1/pptxConverterToPdf/";
 
@@ -113,7 +113,47 @@ public class PptxConverterControllerTest {
     }
 
     @Test
-    public void pttxConverterToImage_WhenFinishAConversion_Status201() throws Exception {
+    public void pttxConverterToPdf_WhenMD5IsInvalid_Status406() throws Exception {
+        String srcFilePath = "src/test/resources/Designpatters.pptx";
+        String relativeMappingPath = "/api/v1/pptxConverterToPdf/";
+
+        String md5Param = "md5";
+        String md5 = "whioutmd5";
+        String outputNameParam = "outputName";
+        String outputName = "";
+
+        File filePath = new File(srcFilePath);
+        FileInputStream input = new FileInputStream(filePath);
+
+        MockMultipartFile file = new MockMultipartFile("file", filePath.getName(),
+                null, IOUtils.toByteArray(input));
+
+        mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativeMappingPath).file(file)
+                .param(outputNameParam, outputName).param(md5Param, md5)).andExpect(status().isNotAcceptable());
+    }
+
+    @Test
+    public void pttxConverterToPdf_WhenFileIsNotFound_Status404() throws Exception {
+        String srcFilePath = "src/test/resources/Designpatters.pptx";
+        String relativeMappingPath = "/api/v1/pptxConverterToPdf/";
+
+        String md5Param = "md5";
+        String md5 = "whioutmd5";
+        String outputNameParam = "outputName";
+        String outputName = "";
+
+        File filePath = new File(srcFilePath);
+        FileInputStream input = new FileInputStream(filePath);
+
+        MockMultipartFile file = new MockMultipartFile("file", null,
+                null, IOUtils.toByteArray(input));
+
+        mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativeMappingPath).file(file)
+                .param(outputNameParam, outputName).param(md5Param, md5)).andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void pttxConverterToImage_WhenFinishTheConversion_Status201() throws Exception {
         String srcFilePath = "src/test/resources/Designpatters.pptx";
         String relativeMappingPath = "/api/v1/pptxConverterToImage/";
 
@@ -139,5 +179,24 @@ public class PptxConverterControllerTest {
         .param(pagesToConvertParam, pagesToConvert).param(outputNameParam, outputName)
         .param(fileFormatParam, fileFormat).param(isThumbnailParam, isThumbnail)).andExpect(status()
         .isCreated());
+    }
+
+    @Test
+    public void pttxConverterToImage_WhenMD5IsInvalid_Status406() throws Exception {
+        String srcFilePath = "src/test/resources/Designpatters.pptx";
+        String relativeMappingPath = "/api/v1/pptxConverterToImage/";
+
+        String md5Param = "md5";
+        String md5 = "whioutmd5";
+        String outputNameParam = "outputName";
+        String outputName = "";
+        File filePath = new File(srcFilePath);
+        FileInputStream input = new FileInputStream(filePath);
+
+        MockMultipartFile file = new MockMultipartFile("file", filePath.getName(),
+                null, IOUtils.toByteArray(input));
+
+        mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativeMappingPath).file(file)
+                .param(outputNameParam, outputName).param(md5Param, md5)).andExpect(status().isNotAcceptable());
     }
 }
