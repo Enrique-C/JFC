@@ -41,8 +41,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 
-import java.io.IOException;
-
 /**
  * Manage PdfConverter Requests.
  *
@@ -87,7 +85,7 @@ public class PdfConverterController {
             int height, @RequestParam(defaultValue = "") String pagesToConvert, HttpServletRequest request) {
 
         PdfParam pdfParam = new PdfParam();
-        FileResponse fileResponse = new FileResponse();
+        FileResponse fileResponse;
         ErrorResponse errorResponse = new ErrorResponse();
         IConverter pdfConverter = new PdfConverter();
 
@@ -127,7 +125,7 @@ public class PdfConverterController {
             fileResponse.setName(pdfParam.getFolderName());
             fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
 
-            return new ResponseEntity<>(fileResponse, HttpStatus.OK);
+            return new ResponseEntity<>(fileResponse, HttpStatus.CREATED);
         } catch (ConvertException | Md5Exception ex) {
             errorResponse.setName(pdfParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
@@ -137,11 +135,6 @@ public class PdfConverterController {
             errorResponse.setName(pdfParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR400.getMessageResponse());
             errorResponse.setError(cve.toString());
-            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-        } catch (IOException ex) {
-            errorResponse.setName(pdfParam.getOutputName());
-            errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
-            errorResponse.setError(ex.toString());
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         } catch (Exception ex) {
             errorResponse.setName(pdfParam.getOutputName());

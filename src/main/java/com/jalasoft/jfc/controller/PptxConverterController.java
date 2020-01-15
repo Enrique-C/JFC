@@ -133,6 +133,8 @@ public class PptxConverterController {
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
             errorResponse.setError(ex.toString());
             return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+        } finally {
+            FolderRemover.removeFolder(pptxParam.getOutputPathFile() + pptxParam.getFolderName());
         }
     }
 
@@ -232,6 +234,8 @@ public class PptxConverterController {
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
             errorResponse.setError(ex.toString());
             return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+        } finally {
+            FolderRemover.removeFolder(pptxParam.getOutputPathFile() + pptxParam.getFolderName());
         }
     }
 }
