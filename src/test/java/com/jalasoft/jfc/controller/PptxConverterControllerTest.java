@@ -138,7 +138,7 @@ public class PptxConverterControllerTest {
         String relativeMappingPath = "/api/v1/pptxConverterToPdf/";
 
         String md5Param = "md5";
-        String md5 = "whioutmd5";
+        String md5 = "54654";
         String outputNameParam = "outputName";
         String outputName = "";
 
@@ -187,7 +187,7 @@ public class PptxConverterControllerTest {
         String relativeMappingPath = "/api/v1/pptxConverterToImage/";
 
         String md5Param = "md5";
-        String md5 = "86f655c0e849a9220f3355db2dd1df63";
+        String md5 = "invalidMd5";
         String outputNameParam = "outputName";
         String outputName = "";
         File filePath = new File(srcFilePath);
