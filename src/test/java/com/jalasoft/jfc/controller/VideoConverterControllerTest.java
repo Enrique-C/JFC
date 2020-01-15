@@ -11,6 +11,7 @@ package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.Main;
 
+import com.jalasoft.jfc.model.utility.PathJfc;
 import org.apache.pdfbox.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,10 +52,11 @@ public class VideoConverterControllerTest {
     @Before
     public void setup() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(wContext).alwaysDo(MockMvcResultHandlers.print()).build();
+        PathJfc pathJfc = new PathJfc();
     }
 
     @Test
-    public void videoConverter_WhenUploadFile_VideoConverted() throws Exception {
+    public void videoConverter_WhenUploadFile_Status201() throws Exception {
         String srcFilePath = "src/test/resources/grabacion.mp4";
         String mappingPath = "/api/v1/videoConverter/";
         String md5 = "c4d2c40bd1218da61651f28da6ad8838";
@@ -66,12 +68,12 @@ public class VideoConverterControllerTest {
                 MediaType.APPLICATION_OCTET_STREAM_VALUE, IOUtils.toByteArray(input));
 
         mockMvc.perform(MockMvcRequestBuilders.fileUpload(mappingPath).file(file)
-                .param("md5", md5))
-                .andExpect(status().isOk());
+                .param("md5", md5).characterEncoding("UTF-8"))
+                .andExpect(status().isCreated());
     }
 
     @Test
-    public void videoConverter_WhenFileIsUpload_Status404() throws Exception {
+    public void videoConverter_WhenFileOriginalFileNameIsNull_Status404() throws Exception {
         String srcFilePath = "src/test/resources/grabacion.mp4";
         String mappingPath = "/api/v1/videoConverter/";
 
@@ -83,5 +85,41 @@ public class VideoConverterControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.fileUpload(mappingPath).file(file))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void videoConverter_WhenFileIsUploadAndMd5IsWrong_Status406() throws Exception {
+        String srcFilePath = "src/test/resources/grabacion.mp4";
+        String mappingPath = "/api/v1/videoConverter/";
+        String md5 = "JAJAc4d2c40bd1218da61651f28da6ad8838";
+
+        File filePath = new File(srcFilePath);
+        FileInputStream input = new FileInputStream(filePath);
+
+        MockMultipartFile file = new MockMultipartFile("file", filePath.getName(),
+                MediaType.APPLICATION_OCTET_STREAM_VALUE, IOUtils.toByteArray(input));
+
+        mockMvc.perform(MockMvcRequestBuilders.fileUpload(mappingPath).file(file)
+                .param("md5", md5).characterEncoding("UTF-8"))
+                .andExpect(status().isNotAcceptable());
+    }
+
+    @Test
+    public void videoConverter_WhenFileIsUploadAndVideoFormatIsWrong_Status400() throws Exception {
+        String srcFilePath = "src/test/resources/grabacion.mp4";
+        String mappingPath = "/api/v1/videoConverter/";
+        String md5 = "c4d2c40bd1218da61651f28da6ad8838";
+        String videoFormat = ".txt";
+
+        File filePath = new File(srcFilePath);
+        FileInputStream input = new FileInputStream(filePath);
+
+        MockMultipartFile file = new MockMultipartFile("file", filePath.getName(),
+                MediaType.APPLICATION_OCTET_STREAM_VALUE, IOUtils.toByteArray(input));
+
+        mockMvc.perform(MockMvcRequestBuilders.fileUpload(mappingPath).file(file)
+                .param("md5", md5).characterEncoding("UTF-8")
+                .param("videoFormat", videoFormat))
+                .andExpect(status().isBadRequest());
     }
 }
