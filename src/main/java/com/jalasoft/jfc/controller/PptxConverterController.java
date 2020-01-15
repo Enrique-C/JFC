@@ -156,7 +156,7 @@ public class PptxConverterController {
     @PostMapping("/pptxConverterToImage")
     @ApiOperation(value = "pptx specifications", notes = "Provides values for converting pptx file to Image",
             response = Response.class, authorizations = { @Authorization(value="JWT") })
-    public ResponseEntity<Response> pdfConverter(
+    public ResponseEntity<Response> pptxConverterToImage(
             @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = "") String md5,
             @RequestParam String outputName, @RequestParam(defaultValue = "0") int rotate,
             @RequestParam(defaultValue = "%") String scale, @RequestParam(defaultValue = "false") boolean isThumbnail,
