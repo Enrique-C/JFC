@@ -9,11 +9,9 @@
 
 package com.jalasoft.jfc.controller;
 
-
 import com.jalasoft.jfc.Main;
-
-import com.jalasoft.jfc.model.utility.FileServiceController;
 import com.jalasoft.jfc.model.utility.PathJfc;
+
 import org.apache.pdfbox.io.IOUtils;
 
 import org.junit.Before;
@@ -25,10 +23,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -36,6 +32,7 @@ import java.io.File;
 import java.io.FileInputStream;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 /**
  * Tests Pptx converter controller.
  *
@@ -44,7 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author Alan Escalera.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes= Main.class)
+@SpringBootTest(classes = Main.class)
 public class PptxConverterControllerTest {
     private MockMvc mockMvc;
 
@@ -61,13 +58,15 @@ public class PptxConverterControllerTest {
     public void pttxConverterToPdf_WhenFinishAConversion_Status201() throws Exception {
         String srcFilePath = "src/test/resources/Designpatters.pptx";
         String relativeMappingPath = "/api/v1/pptxConverterToPdf/";
+
         String md5Param = "md5";
         String pagesToConvertThumbNailParam = "pagesToConvertThumbNail";
         String thumbnailFormatParam = "thumbnailFormat";
         String isThumbnailParam = "isThumbnail";
+        String outputNameParam = "outputName";
+
         String isThumbnail = "true";
         String thumbnailFormat = ".png";
-        String outputNameParam = "outputName";
         String outputName = "";
         String pagesToConvertThumbNail = "1-5";
         String md5 = "86f655c0e849a9220f3355db2dd1df63";
@@ -78,20 +77,47 @@ public class PptxConverterControllerTest {
         MockMultipartFile file = new MockMultipartFile("file", filePath.getName(),
                 null, IOUtils.toByteArray(input));
 
-        mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativeMappingPath).file(file)
-                .param(md5Param, md5)
-                .param(pagesToConvertThumbNailParam, pagesToConvertThumbNail)
-                .param(outputNameParam, outputName)
-                .param(thumbnailFormatParam, thumbnailFormat)
-                .param(isThumbnailParam, isThumbnail))
-                .andExpect(status().isCreated());
+        mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativeMappingPath).file(file).param(md5Param, md5)
+                .param(pagesToConvertThumbNailParam, pagesToConvertThumbNail).param(outputNameParam, outputName)
+                .param(thumbnailFormatParam, thumbnailFormat).param(isThumbnailParam, isThumbnail)).andExpect(status()
+                .isCreated());
+    }
+
+    @Test
+    public void pttxConverterToPdf_WhenFinishTheConversion_Status400() throws Exception {
+        String srcFilePath = "src/test/resources/Designpatters.pptx";
+        String relativeMappingPath = "/api/v1/pptxConverterToPdf/";
+
+        String md5Param = "md5";
+        String pagesToConvertThumbNailParam = "pagesToConvertThumbNail";
+        String thumbnailFormatParam = "thumbnailFormat";
+        String isThumbnailParam = "isThumbnail";
+        String outputNameParam = "outputName";
+
+        String isThumbnail = "true";
+        String thumbnailFormat = ".mp3";
+        String outputName = "";
+        String pagesToConvertThumbNail = "1-5";
+        String md5 = "86f655c0e849a9220f3355db2dd1df63";
+
+        File filePath = new File(srcFilePath);
+        FileInputStream input = new FileInputStream(filePath);
+
+        MockMultipartFile file = new MockMultipartFile("file", filePath.getName(),
+                null, IOUtils.toByteArray(input));
+
+        mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativeMappingPath).file(file).param(md5Param, md5)
+                .param(pagesToConvertThumbNailParam, pagesToConvertThumbNail).param(outputNameParam, outputName)
+                .param(thumbnailFormatParam, thumbnailFormat).param(isThumbnailParam, isThumbnail)).andExpect(status()
+                .isBadRequest());
     }
 
     @Test
     public void pttxConverterToImage_WhenFinishAConversion_Status201() throws Exception {
         String srcFilePath = "src/test/resources/Designpatters.pptx";
         String relativeMappingPath = "/api/v1/pptxConverterToImage/";
-        String  fileFormatParam = "imageFormat";
+
+        String fileFormatParam = "imageFormat";
         String md5Param = "md5";
         String isThumbnailParam = "isThumbnail";
         String outputNameParam = "outputName";
@@ -103,37 +129,17 @@ public class PptxConverterControllerTest {
         String md5 = "86f655c0e849a9220f3355db2dd1df63";
         String pagesToConvert = "1-3";
 
-       /* pptxParam.setFileFormat(imageFormat);
-        pptxParam.setMd5(cleanMd5);
-        pptxParam.setOutputName(outputName);
-
-      pdfParam.setMd5(cleanMd5);
-            pdfParam.setInputPathFile(pptxParam.getInputPathFile());
-            pdfParam.setOutputPathFile(PathJfc.getOutputFilePath());
-            pdfParam.setInputName(FileServiceController.getName(file));
-            pdfParam.setOutputName(outputName);
-            pdfParam.setImageFormat(imageFormat);
-            pdfParam.setPagesToConvert(pagesToConvert);
-            pdfParam.setThumbnail(isThumbnail);
-            pdfParam.isMetadata(isMetadata);
-            pdfParam.setWidth(width);
-            pdfParam.setScale(scale);
-            pdfParam.setHeight(height);
-            pdfParam.setRotate(rotate);
-            pdfParam.setFolderName(cleanMd5);*/
-
         File filePath = new File(srcFilePath);
         FileInputStream input = new FileInputStream(filePath);
 
         MockMultipartFile file = new MockMultipartFile("file", filePath.getName(),
                 null, IOUtils.toByteArray(input));
 
-        mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativeMappingPath).file(file)
-                .param(md5Param, md5)
-                .param(pagesToConvertParam, pagesToConvert)
-                .param(outputNameParam, outputName)
-                .param(fileFormatParam, fileFormat)
-                .param(isThumbnailParam, isThumbnail))
-                .andExpect(status().isCreated());
+        mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativeMappingPath).file(file).param(md5Param, md5)
+                .param(pagesToConvertParam, pagesToConvert).param(outputNameParam, outputName)
+                .param(fileFormatParam, fileFormat).param(isThumbnailParam, isThumbnail)).andExpect(status()
+                .isCreated());
     }
+
+
 }
