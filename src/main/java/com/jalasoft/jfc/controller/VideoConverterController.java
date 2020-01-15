@@ -79,7 +79,7 @@ public class VideoConverterController {
             response = Response.class, authorizations = { @Authorization(value="JWT") })
     public ResponseEntity<Response> videoConverter(
             @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = " ") String md5,
-            @RequestParam(defaultValue = "output") String outputName, @RequestParam(defaultValue = " " ) String aspectRatio,
+            @RequestParam(defaultValue = "output") String outputName, @RequestParam(defaultValue = " ") String aspectRatio,
             @RequestParam(defaultValue = " ") String frameRate, @RequestParam(defaultValue = "0") int width,
             @RequestParam(defaultValue = "0") int height, @RequestParam(defaultValue = " ") String videoCodec,
             @RequestParam(defaultValue = " ") String videoBitRate, @RequestParam(defaultValue = "false")
@@ -120,6 +120,7 @@ public class VideoConverterController {
             videoParam.isMetadata(isMetadata);
             videoParam.setVideoFormat(videoFormat);
             videoParam.setFolderName(cleanMd5);
+
 
             fileResponse = videoConverter.convert(videoParam);
             LinkGenerator linkGenerator = new LinkGenerator();
