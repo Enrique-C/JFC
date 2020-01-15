@@ -56,7 +56,7 @@ public class VideoConverterControllerTest {
     }
 
     @Test
-    public void videoConverter_WhenUploadFile_VideoConverted() throws Exception {
+    public void videoConverter_WhenUploadFile_Status201() throws Exception {
         String srcFilePath = "src/test/resources/grabacion.mp4";
         String mappingPath = "/api/v1/videoConverter/";
         String md5 = "c4d2c40bd1218da61651f28da6ad8838";
