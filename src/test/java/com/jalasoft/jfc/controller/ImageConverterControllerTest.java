@@ -71,7 +71,7 @@ public class ImageConverterControllerTest {
     }
 
     @Test
-    public void imageConverter_WhenFinishAConversion_Status200() throws Exception {
+    public void imageConverter_WhenFinishAConversion_Status201() throws Exception {
         String srcFilePath = "src/test/resources/fundacionjala.png";
         String relativeMappingPath = "/api/v1/imageConverter/";
 
@@ -86,7 +86,7 @@ public class ImageConverterControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativeMappingPath).file(file)
                 .param(md5Param, md5))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 
     @Test

@@ -74,7 +74,7 @@ public class AudioConverterControllerTest {
     }
 
     @Test
-    public void audioConverter_WhenFinishAConversion_Status200() throws Exception {
+    public void audioConverter_WhenFinishAConversion_Status201() throws Exception {
         String srcFilePath = "src/test/resources/audio.wav";
         String relativeMappingPath = "/api/v1/audioConverter/";
 
@@ -89,7 +89,7 @@ public class AudioConverterControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativeMappingPath).file(file)
                 .param(md5Param, md5))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 
     @Test
