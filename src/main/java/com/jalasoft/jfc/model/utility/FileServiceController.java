@@ -32,15 +32,13 @@ public class FileServiceController {
 
     /**
      * Assigns a new name if it changed.
-     * @param outputName receives the new name if it there is.
      * @param file receive the file uploaded.
      * @return Original name without special characters.
      */
-    public static String setName(String outputName, MultipartFile file) {
-        if (outputName.equals(null) || outputName.isEmpty()) {
-            outputName = file.getOriginalFilename();
-            outputName = outputName.replaceFirst("[.][^.]+$", "");
-        }
-        return outputName;
+    public static String getName(MultipartFile file) {
+        final String REGEX_REMOVE_EXTENSION = "[.][^.]+$";
+        final String REGEX_REPLACE = "";
+        String nameFile = file.getOriginalFilename().replaceFirst(REGEX_REMOVE_EXTENSION, REGEX_REPLACE);
+        return nameFile;
     }
 }

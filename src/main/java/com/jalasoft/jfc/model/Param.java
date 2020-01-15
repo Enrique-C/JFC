@@ -31,6 +31,9 @@ public class Param {
   // Name the file that will be converted.
   private String outputName;
 
+  // Name of the file uploaded.
+  private String inputName;
+
   // It is a Md5 code of a file.
   private String md5;
 
@@ -81,6 +84,14 @@ public class Param {
   }
 
   /**
+   * Gets inputFileName value.
+   * @return inputFileName String value.
+   */
+  public String getInputName() {
+    return inputName;
+  }
+
+  /**
    * Gets confirmation of a metadata.
    * @return boolean value.
    */
@@ -126,6 +137,14 @@ public class Param {
    */
   public void setOutputName(String outputName) {
     this.outputName = outputName;
+  }
+
+  /**
+   * Sets inputFileName value.
+   * @param inputName for setting this.outputFileName.
+   */
+  public void setInputName(String inputName) {
+    this.inputName = inputName;
   }
 
   /**

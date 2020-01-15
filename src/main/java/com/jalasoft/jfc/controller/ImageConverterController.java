@@ -87,7 +87,6 @@ public class ImageConverterController {
         ErrorResponse errorResponse = new ErrorResponse();
         ImageParam imageParam = new ImageParam();
         IConverter imageConverter = new ImageConverter();
-
         try {
             FileEntity fileEntity = new FileEntity();
             String cleanMd5 = md5.trim();
@@ -107,7 +106,8 @@ public class ImageConverterController {
             imageParam.setMd5(cleanMd5);
             imageParam.setOutputPathFile(PathJfc.getOutputFilePath());
             imageParam.setImageFormat(imageFormat);
-            imageParam.setOutputName(FileServiceController.setName(outputName, file));
+            imageParam.setInputName(FileServiceController.getName(file));
+            imageParam.setOutputName(outputName);
             imageParam.isThumbnail(isThumbnail);
             imageParam.isMetadata(isMetadata);
             imageParam.isGrayscale(Grayscale);
