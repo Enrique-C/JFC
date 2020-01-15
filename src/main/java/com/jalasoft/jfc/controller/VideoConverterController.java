@@ -128,7 +128,7 @@ public class VideoConverterController {
             fileResponse.setName(videoParam.getFolderName());
             fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
 
-            return new ResponseEntity<>(fileResponse, HttpStatus.CREATED);
+            return new ResponseEntity<>(fileResponse, HttpStatus.OK);
         } catch (ConvertException ex) {
             errorResponse.setName(videoParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
