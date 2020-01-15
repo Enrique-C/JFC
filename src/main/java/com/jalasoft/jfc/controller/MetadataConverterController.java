@@ -115,7 +115,7 @@ public class MetadataConverterController {
             errorResponse.setError(ioe.getMessage());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
             return new ResponseEntity<>(errorResponse, HttpStatus.NOT_ACCEPTABLE);
-        } catch ( Exception ioe) {
+        } catch (Exception ioe) {
             errorResponse.setName(this.getClass().getName());
             errorResponse.setError(ioe.getMessage());
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
