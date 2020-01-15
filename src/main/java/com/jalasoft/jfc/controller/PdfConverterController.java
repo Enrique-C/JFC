@@ -87,7 +87,7 @@ public class PdfConverterController {
             int height, @RequestParam(defaultValue = "") String pagesToConvert, HttpServletRequest request) {
 
         PdfParam pdfParam = new PdfParam();
-        FileResponse fileResponse = new FileResponse();
+        FileResponse fileResponse;
         ErrorResponse errorResponse = new ErrorResponse();
         IConverter pdfConverter = new PdfConverter();
 
@@ -127,7 +127,7 @@ public class PdfConverterController {
             fileResponse.setName(pdfParam.getFolderName());
             fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
 
-            return new ResponseEntity<>(fileResponse, HttpStatus.OK);
+            return new ResponseEntity<>(fileResponse, HttpStatus.CREATED);
         } catch (ConvertException | Md5Exception ex) {
             errorResponse.setName(pdfParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
