@@ -54,6 +54,7 @@ public class AudioConverterControllerTest {
     public void audioConverter_WhenNullMultipartFileNameIsUploaded_BadRequest() throws Exception {
         String srcFilePath = "src/test/resources/audio.wav";
         String relativeMappingPath = "/api/v1/audioConverter/";
+
         File filePath = new File(srcFilePath);
         FileInputStream input = new FileInputStream(filePath);
 
@@ -69,6 +70,7 @@ public class AudioConverterControllerTest {
     public void audioConverter_WhenFinishAConversion_Status200() throws Exception {
         String srcFilePath = "src/test/resources/audio.wav";
         String relativeMappingPath = "/api/v1/audioConverter/";
+
         String md5Param = "md5";
         String md5 = "2559480156e9cddf65ed3125521b9922";
 
@@ -84,9 +86,10 @@ public class AudioConverterControllerTest {
     }
 
     @Test
-    public void audioConverter_WhenAAudioParamIsNull_Status400() throws Exception {
+    public void audioConverter_WhenAudioSampleRateWasExceeded_Status400() throws Exception {
         String srcFilePath = "src/test/resources/audio.wav";
         String relativeMappingPath = "/api/v1/audioConverter/";
+
         String md5Param = "md5";
         String md5 = "2559480156e9cddf65ed3125521b9922";
         String audioSampleRateParam = "sampleRate";
@@ -104,9 +107,30 @@ public class AudioConverterControllerTest {
     }
 
     @Test
+    public void audioConverter_WhenFileCanNotBeFound_Status404() throws Exception {
+        String srcFilePath = "src/test/resources/audio.wav";
+        String relativeMappingPath = "/api/v1/audioConverter/";
+
+        String md5Param = "md5";
+        String md5 = "af738d53637a29f531fa0c2bf1eb1516WRONG";
+        String nameWrong = "none";
+
+        File filePath = new File(srcFilePath);
+        FileInputStream input = new FileInputStream(filePath);
+
+        MockMultipartFile file = new MockMultipartFile("file", null,
+                null, IOUtils.toByteArray(input));
+
+        mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativeMappingPath).file(file)
+                .param(md5Param, md5))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     public void audioConverter_WhenMd5IsWrong_Status406() throws Exception {
         String srcFilePath = "src/test/resources/audio.wav";
         String relativeMappingPath = "/api/v1/audioConverter/";
+
         String md5Param = "md5";
         String md5 = "2559480156e9cddf65ed3125521b9922WRONG";
 
