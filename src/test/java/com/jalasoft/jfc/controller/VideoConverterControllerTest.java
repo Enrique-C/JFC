@@ -67,7 +67,7 @@ public class VideoConverterControllerTest {
         MockMultipartFile file = new MockMultipartFile("file", filePath.getName(),
                 MediaType.APPLICATION_OCTET_STREAM_VALUE, IOUtils.toByteArray(input));
 
-        mockMvc.perform(MockMvcRequestBuilders.fileUpload("/api/v1/videoConverter/").file(file)
+        mockMvc.perform(MockMvcRequestBuilders.fileUpload(mappingPath).file(file)
                 .param("md5", md5).characterEncoding("UTF-8"))
                 .andExpect(status().isCreated());
     }
