@@ -43,7 +43,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes= Main.class)
 public class VideoConverterControllerTest {
 
-    // mockMvc variable.
     private MockMvc mockMvc;
 
     @Autowired
@@ -83,6 +82,6 @@ public class VideoConverterControllerTest {
                 MediaType.APPLICATION_OCTET_STREAM_VALUE, IOUtils.toByteArray(input));
 
         mockMvc.perform(MockMvcRequestBuilders.fileUpload(mappingPath).file(file))
-                .andExpect(status().is(404));
+                .andExpect(status().isNotFound());
     }
 }
