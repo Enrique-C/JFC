@@ -63,7 +63,7 @@ public class ImageConverterTest {
         imageConverter.convert(null);
     }
 
-    @Test(expected = ConvertException.class)
+    @Test(expected = CommandValueException.class)
     public void convert_ImageParamImageFormatEmpty_ConvertException() throws ConvertException, CommandValueException {
         ImageConverter imageConverter = new ImageConverter();
         ImageParam imageParam = generateOnlyImageJPG();
