@@ -48,7 +48,7 @@ public class CommandVideoAspectRatio implements ICommandStrategy {
     @Override
     public String command() throws CommandValueException {
         try {
-            if (commandValue.isEmpty()) {
+            if (commandValue.isEmpty() || commandValue.equals(" ")) {
                 return VideoCommand.EMPTY.getCommand();
             }
             else {
