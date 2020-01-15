@@ -69,7 +69,7 @@ public class PptxConverterControllerTest {
 
         String isThumbnail = "true";
         String thumbnailFormat = ".png";
-        String outputName = "";
+        String outputName = "testPptxToPDF";
         String pagesToConvertThumbNail = "1-5";
         String md5 = "86f655c0e849a9220f3355db2dd1df63";
 
@@ -98,7 +98,7 @@ public class PptxConverterControllerTest {
 
         String isThumbnail = "true";
         String thumbnailFormat = ".mp3";
-        String outputName = "";
+        String outputName = "testpptx";
         String pagesToConvertThumbNail = "1-5";
         String md5 = "86f655c0e849a9220f3355db2dd1df63";
 
@@ -141,8 +141,6 @@ public class PptxConverterControllerTest {
 
         String md5Param = "md5";
         String md5 = "54654";
-        String outputNameParam = "outputName";
-        String outputName = "";
 
         File filePath = new File(srcFilePath);
         FileInputStream input = new FileInputStream(filePath);
@@ -150,8 +148,8 @@ public class PptxConverterControllerTest {
         MockMultipartFile file = new MockMultipartFile("file", null,
                 null, IOUtils.toByteArray(input));
 
-        mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativeMappingPath).file(file)
-        .param(outputNameParam, outputName).param(md5Param, md5)).andExpect(status().isNotFound());
+        mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativeMappingPath).file(file).param(md5Param, md5))
+        .andExpect(status().isNotFound());
     }
 
     @Test
@@ -167,7 +165,7 @@ public class PptxConverterControllerTest {
 
         String fileFormat = ".png";
         String isThumbnail = "true";
-        String outputName = "";
+        String outputName = "testpptxtoimage";
         String md5 = "86f655c0e849a9220f3355db2dd1df63";
         String pagesToConvert = "1-3";
 
@@ -191,7 +189,7 @@ public class PptxConverterControllerTest {
         String md5Param = "md5";
         String md5 = "invalidMd5";
         String outputNameParam = "outputName";
-        String outputName = "";
+        String outputName = "testmd5";
         File filePath = new File(srcFilePath);
         FileInputStream input = new FileInputStream(filePath);
 
@@ -211,11 +209,9 @@ public class PptxConverterControllerTest {
         String pagesToConvertThumbNailParam = "pagesToConvertThumbNail";
         String imageFormatParam = "imageFormat";
         String isThumbnailParam = "isThumbnail";
-        String outputNameParam = "outputName";
 
         String isThumbnail = "true";
         String imageFormat = ".mp4";
-        String outputName = "";
         String pagesToConvertThumbNail = "1-5";
         String md5 = "86f655c0e849a9220f3355db2dd1df63";
 
@@ -226,9 +222,8 @@ public class PptxConverterControllerTest {
                 null, IOUtils.toByteArray(input));
 
         mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativeMappingPath).file(file).param(md5Param, md5)
-                .param(pagesToConvertThumbNailParam, pagesToConvertThumbNail).param(outputNameParam, outputName)
-                .param(imageFormatParam, imageFormat).param(isThumbnailParam, isThumbnail)).andExpect(status()
-                .isBadRequest());
+        .param(pagesToConvertThumbNailParam, pagesToConvertThumbNail).param(imageFormatParam, imageFormat)
+        .param(isThumbnailParam, isThumbnail)).andExpect(status().isBadRequest());
     }
 
     @Test
@@ -238,8 +233,7 @@ public class PptxConverterControllerTest {
 
         String md5Param = "md5";
         String md5 = "invalidmd5";
-        String outputNameParam = "outputName";
-        String outputName = "";
+
 
         File filePath = new File(srcFilePath);
         FileInputStream input = new FileInputStream(filePath);
@@ -247,7 +241,7 @@ public class PptxConverterControllerTest {
         MockMultipartFile file = new MockMultipartFile("file", null,
                 null, IOUtils.toByteArray(input));
 
-        mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativeMappingPath).file(file)
-                .param(outputNameParam, outputName).param(md5Param, md5)).andExpect(status().isNotFound());
+        mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativeMappingPath).file(file).param(md5Param, md5))
+        .andExpect(status().isNotFound());
     }
 }

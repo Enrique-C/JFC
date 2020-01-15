@@ -73,10 +73,10 @@ public class PptxConverterController {
             response = Response.class, authorizations = { @Authorization(value="JWT") })
     public ResponseEntity<Response> pptxConverterToPdf(
             @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = "") String md5,
-            @RequestParam String outputName, @RequestParam(defaultValue = "false") boolean isThumbnail,
-            @RequestParam(defaultValue = "false") boolean isMetadata, @RequestParam(defaultValue = ".jpg")
-            String thumbnailFormat, @RequestParam(defaultValue = "") String pagesToConvertThumbNail,
-            HttpServletRequest request) {
+            @RequestParam(defaultValue = "") String outputName, @RequestParam(defaultValue = "false")
+            boolean isThumbnail, @RequestParam(defaultValue = "false") boolean isMetadata, @RequestParam
+            (defaultValue = ".jpg") String thumbnailFormat, @RequestParam(defaultValue = "")
+            String pagesToConvertThumbNail, HttpServletRequest request) {
 
         PptxParam pptxParam = new PptxParam();
         final String FILE_FORMAT = ".pdf";
@@ -160,7 +160,7 @@ public class PptxConverterController {
             response = Response.class, authorizations = { @Authorization(value="JWT") })
     public ResponseEntity<Response> pptxConverterToImage(
             @RequestParam("file") MultipartFile file, @RequestParam(defaultValue = "") String md5,
-            @RequestParam String outputName, @RequestParam(defaultValue = "0") int rotate,
+            @RequestParam(defaultValue = "") String outputName, @RequestParam(defaultValue = "0") int rotate,
             @RequestParam(defaultValue = "%") String scale, @RequestParam(defaultValue = "false") boolean isThumbnail,
             @RequestParam(defaultValue = "false") boolean isMetadata, @RequestParam(defaultValue = ".png")
             String imageFormat, @RequestParam(defaultValue = "0") int width, @RequestParam(defaultValue = "0")
