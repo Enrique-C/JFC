@@ -122,7 +122,6 @@ public class VideoConverterController {
             videoParam.setVideoFormat(videoFormat);
             videoParam.setFolderName(cleanMd5);
 
-
             fileResponse = videoConverter.convert(videoParam);
             LinkGenerator linkGenerator = new LinkGenerator();
             fileResponse.setDownload(linkGenerator.linkGenerator(fileResponse.getDownload(), request));
