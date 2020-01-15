@@ -78,9 +78,9 @@ public class PptxConverterControllerTest {
                 null, IOUtils.toByteArray(input));
 
         mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativeMappingPath).file(file).param(md5Param, md5)
-                .param(pagesToConvertThumbNailParam, pagesToConvertThumbNail).param(outputNameParam, outputName)
-                .param(thumbnailFormatParam, thumbnailFormat).param(isThumbnailParam, isThumbnail)).andExpect(status()
-                .isCreated());
+        .param(pagesToConvertThumbNailParam, pagesToConvertThumbNail).param(outputNameParam, outputName)
+        .param(thumbnailFormatParam, thumbnailFormat).param(isThumbnailParam, isThumbnail)).andExpect(status()
+        .isCreated());
     }
 
     @Test
@@ -107,9 +107,9 @@ public class PptxConverterControllerTest {
                 null, IOUtils.toByteArray(input));
 
         mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativeMappingPath).file(file).param(md5Param, md5)
-                .param(pagesToConvertThumbNailParam, pagesToConvertThumbNail).param(outputNameParam, outputName)
-                .param(thumbnailFormatParam, thumbnailFormat).param(isThumbnailParam, isThumbnail)).andExpect(status()
-                .isBadRequest());
+        .param(pagesToConvertThumbNailParam, pagesToConvertThumbNail).param(outputNameParam, outputName)
+        .param(thumbnailFormatParam, thumbnailFormat).param(isThumbnailParam, isThumbnail)).andExpect(status()
+        .isBadRequest());
     }
 
     @Test
@@ -136,10 +136,8 @@ public class PptxConverterControllerTest {
                 null, IOUtils.toByteArray(input));
 
         mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativeMappingPath).file(file).param(md5Param, md5)
-                .param(pagesToConvertParam, pagesToConvert).param(outputNameParam, outputName)
-                .param(fileFormatParam, fileFormat).param(isThumbnailParam, isThumbnail)).andExpect(status()
-                .isCreated());
+        .param(pagesToConvertParam, pagesToConvert).param(outputNameParam, outputName)
+        .param(fileFormatParam, fileFormat).param(isThumbnailParam, isThumbnail)).andExpect(status()
+        .isCreated());
     }
-
-
 }
