@@ -10,14 +10,11 @@
 package com.jalasoft.jfc.controller;
 
 import com.jalasoft.jfc.Main;
-
 import com.jalasoft.jfc.model.utility.PathJfc;
 import org.apache.pdfbox.io.IOUtils;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
@@ -38,13 +35,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Test ImageConverterController class.
  *
- * @version 0.1 14 Jan 2020
+ * @version 0.1 15 Jan 2020
  *
  * @author EnriqueCarrizales
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes= Main.class)
-public class AudioConverterControllerTest {
+public class ImageConverterControllerTest {
 
     private MockMvc mockMvc;
 
@@ -58,9 +55,9 @@ public class AudioConverterControllerTest {
     }
 
     @Test
-    public void audioConverter_WhenNullMultipartFileNameIsUploaded_BadRequest() throws Exception {
-        String srcFilePath = "src/test/resources/audio.wav";
-        String relativeMappingPath = "/api/v1/audioConverter/";
+    public void imageConverter_WhenNullMultipartFileNameIsUploaded_BadRequest() throws Exception {
+        String srcFilePath = "src/test/resources/fundacionjala.png";
+        String relativeMappingPath = "/api/v1/imageConverter/";
 
         File filePath = new File(srcFilePath);
         FileInputStream input = new FileInputStream(filePath);
@@ -74,12 +71,12 @@ public class AudioConverterControllerTest {
     }
 
     @Test
-    public void audioConverter_WhenFinishAConversion_Status201() throws Exception {
-        String srcFilePath = "src/test/resources/audio.wav";
-        String relativeMappingPath = "/api/v1/audioConverter/";
+    public void imageConverter_WhenFinishAConversion_Status201() throws Exception {
+        String srcFilePath = "src/test/resources/fundacionjala.png";
+        String relativeMappingPath = "/api/v1/imageConverter/";
 
         String md5Param = "md5";
-        String md5 = "2559480156e9cddf65ed3125521b9922";
+        String md5 = "af738d53637a29f531fa0c2bf1eb1516";
 
         File filePath = new File(srcFilePath);
         FileInputStream input = new FileInputStream(filePath);
@@ -93,14 +90,14 @@ public class AudioConverterControllerTest {
     }
 
     @Test
-    public void audioConverter_WhenAudioSampleRateWasExceeded_Status400() throws Exception {
-        String srcFilePath = "src/test/resources/audio.wav";
-        String relativeMappingPath = "/api/v1/audioConverter/";
+    public void imageConverter_WhenImageFormatIsNotSupported_Status400() throws Exception {
+        String srcFilePath = "src/test/resources/fundacionjala.png";
+        String relativeMappingPath = "/api/v1/imageConverter/";
 
         String md5Param = "md5";
-        String md5 = "2559480156e9cddf65ed3125521b9922";
-        String audioSampleRateParam = "sampleRate";
-        String audiSampleRate = "55100";
+        String md5 = "af738d53637a29f531fa0c2bf1eb1516";
+        String imageFormatParam = "imageFormat";
+        String imageFormat = ".exe";
 
         File filePath = new File(srcFilePath);
         FileInputStream input = new FileInputStream(filePath);
@@ -109,14 +106,14 @@ public class AudioConverterControllerTest {
                 null, IOUtils.toByteArray(input));
 
         mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativeMappingPath).file(file)
-                .param(md5Param, md5).param(audioSampleRateParam, audiSampleRate))
+                .param(md5Param, md5).param(imageFormatParam, imageFormat))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
-    public void audioConverter_WhenFileCanNotBeFound_Status404() throws Exception {
-        String srcFilePath = "src/test/resources/audio.wav";
-        String relativeMappingPath = "/api/v1/audioConverter/";
+    public void imageConverter_WhenFileCanNotBeFound_Status404() throws Exception {
+        String srcFilePath = "src/test/resources/fundacionjala.png";
+        String relativeMappingPath = "/api/v1/imageConverter/";
 
         String md5Param = "md5";
         String md5 = "af738d53637a29f531fa0c2bf1eb1516WRONG";
@@ -134,12 +131,12 @@ public class AudioConverterControllerTest {
     }
 
     @Test
-    public void audioConverter_WhenMd5IsWrong_Status406() throws Exception {
-        String srcFilePath = "src/test/resources/audio.wav";
-        String relativeMappingPath = "/api/v1/audioConverter/";
+    public void imageConverter_WhenMd5IsWrong_Status406() throws Exception {
+        String srcFilePath = "src/test/resources/fundacionjala.png";
+        String relativeMappingPath = "/api/v1/imageConverter/";
 
         String md5Param = "md5";
-        String md5 = "2559480156e9cddf65ed3125521b9922WRONG";
+        String md5 = "af738d53637a29f531fa0c2bf1eb1516WRONG";
 
         File filePath = new File(srcFilePath);
         FileInputStream input = new FileInputStream(filePath);

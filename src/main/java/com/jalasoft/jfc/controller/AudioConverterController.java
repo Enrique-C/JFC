@@ -117,7 +117,7 @@ public class AudioConverterController {
             fileResponse.setName(audioParam.getFolderName());
             fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
 
-            return new ResponseEntity<>(fileResponse, HttpStatus.OK);
+            return new ResponseEntity<>(fileResponse, HttpStatus.CREATED);
         } catch (ConvertException | Md5Exception ex) {
             errorResponse.setName(ex.getMessage());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
