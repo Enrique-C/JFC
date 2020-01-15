@@ -43,7 +43,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 
 import java.io.File;
-import java.io.IOException;
 
 /**
  * Extracts metadata of an uploaded file.
@@ -64,6 +63,7 @@ public class MetadataConverterController {
     /**
      * Generates metadata from multipart file.
      * @param file is multipart value.
+     * @param md5 is md5 value.
      * @param request is client request value.
      * @return ResponseEntity<Response> for status code.
      */
@@ -71,30 +71,32 @@ public class MetadataConverterController {
     @ApiOperation(value = "File", notes = "Provides values for converting metadata",
             response = Response.class, authorizations = { @Authorization(value="JWT") })
     public ResponseEntity<Response> metadataConverter(
-            @RequestParam("file") MultipartFile file, HttpServletRequest request) throws Md5Exception {
-        FileResponse fileResponse = new FileResponse();
+            @RequestParam("file") MultipartFile file, @RequestParam String md5, HttpServletRequest request) throws Md5Exception {
+        FileResponse fileResponse;
         ErrorResponse errorResponse = new ErrorResponse();
-        PathJfc pathJfc = new PathJfc();
+        Param param = new Param();
+        String fileUploaded;
 
         try {
-            String fileUploaded = FileServiceController.writeFile(pathJfc.getInputFilePath() +
-            file.getOriginalFilename(), file);
-            Param param = new Param();
-
             FileEntity fileEntity = new FileEntity();
+            String cleanMd5 = md5.trim();
 
-            if (fileRepository.findByMd5(Md5Checksum.getMd5(fileUploaded)) != null) {
-                param.setInputPathFile(fileRepository.findByMd5(Md5Checksum.getMd5(fileUploaded)).getFilePath());
+            if (fileRepository.findByMd5(cleanMd5) != null) {
+                param.setInputPathFile(fileRepository.findByMd5(cleanMd5).getFilePath());
             } else {
+                fileUploaded = FileServiceController.writeFile(PathJfc.getInputFilePath() +
+                        file.getOriginalFilename(), file);
+                cleanMd5 = Md5Checksum.getMd5(fileUploaded, cleanMd5);
                 param.setInputPathFile(fileUploaded);
                 fileEntity.setFilePath(fileUploaded);
-                fileEntity.setMd5(Md5Checksum.getMd5(fileUploaded));
+                fileEntity.setMd5(cleanMd5);
                 fileRepository.save(fileEntity);
             }
 
-            param.setInputPathFile(fileUploaded);
+            param.setMd5(cleanMd5);
+            param.setInputPathFile(PathJfc.getInputFilePath());
             param.setOutputPathFile(PathJfc.getOutputFilePath());
-            param.setFolderName(Md5Checksum.getMd5(fileUploaded));
+            param.setFolderName(cleanMd5);
 
             MetadataConverter metadataConverter = new MetadataConverter();
             fileResponse = metadataConverter.convert(param);
@@ -108,22 +110,16 @@ public class MetadataConverterController {
             fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
 
             return new ResponseEntity<>(fileResponse, HttpStatus.CREATED);
-        } catch (IOException ioe) {
+        } catch (ConvertException | ZipJfcException | Md5Exception ioe) {
+            errorResponse.setName(this.getClass().getName());
+            errorResponse.setError(ioe.getMessage());
+            errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_ACCEPTABLE);
+        } catch (Exception ioe) {
             errorResponse.setName(this.getClass().getName());
             errorResponse.setError(ioe.getMessage());
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
             return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
-        } catch (ConvertException ioe) {
-            errorResponse.setName(this.getClass().getName());
-            errorResponse.setError(ioe.getMessage());
-            errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
-            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_ACCEPTABLE);
-        }
-        catch (ZipJfcException ioe) {
-            errorResponse.setName(this.getClass().getName());
-            errorResponse.setError(ioe.getMessage());
-            errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
-            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_ACCEPTABLE);
         }
     }
 

@@ -95,8 +95,10 @@ public class AudioConverter implements IConverter {
             fileResponse.setName(audioParam.getOutputName());
             fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
             fileResponse.setDownload(zipPath);
-        } catch (Exception e) {
-            throw new ConvertException("Error converting Audio: " + e.getMessage(), this.getClass().getName());
+        } catch (CommandValueException e) {
+            throw new CommandValueException("Error Audio command value: " + e.getMessage(), this.getClass().getName());
+        }   catch (Exception  e) {
+            throw new ConvertException("Error converting an audio file: " + e.getMessage(), this.getClass().getName());
         }
         return fileResponse;
     }
@@ -113,7 +115,7 @@ public class AudioConverter implements IConverter {
         commandAudioList.add(new CommandAudioChannel(audioParam.getAudioChannel()));
         commandAudioList.add(new CommandAudioBitRate(audioParam.getFileFormat(), audioParam.getAudioBitRate(), audioParam.getAudioCodec()));
         commandAudioList.add(new CommandOutputFilePath(audioParam.getOutputPathFile(), audioParam.getFolderName()));
-        commandAudioList.add(new CommandOutputFileName(audioParam.getOutputName(), audioParam.getFolderName()));
+        commandAudioList.add(new CommandOutputFileName(audioParam.getOutputName(), audioParam.getInputName()));
         commandAudioList.add(new CommandAudioFormat(audioParam.getFileFormat()));
     }
 
