@@ -23,8 +23,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -49,9 +51,24 @@ public class AudioConverterControllerTest {
     }
 
     @Test
+    public void audioConverter_WhenNullMultipartFileNameIsUploaded_BadRequest() throws Exception {
+        String srcFilePath = "src/test/resources/audio.wav";
+        String relativeMappingPath = "/api/v1/audioConverter/";
+        File filePath = new File(srcFilePath);
+        FileInputStream input = new FileInputStream(filePath);
+
+        ResultMatcher badRequest = MockMvcResultMatchers.status().isBadRequest();
+        MockMultipartFile file = new MockMultipartFile("file", null,
+                null, IOUtils.toByteArray(input));
+
+        mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativeMappingPath).file(file))
+                .andExpect(badRequest);
+    }
+
+    @Test
     public void audioConverter_WhenFinishAConversion_Status200() throws Exception {
         String srcFilePath = "src/test/resources/audio.wav";
-        String relativePath = "/api/v1/audioConverter/";
+        String relativeMappingPath = "/api/v1/audioConverter/";
         String md5Param = "md5";
         String md5 = "2559480156e9cddf65ed3125521b9922";
 
@@ -61,7 +78,7 @@ public class AudioConverterControllerTest {
         MockMultipartFile file = new MockMultipartFile("file", filePath.getName(),
                 null, IOUtils.toByteArray(input));
 
-        mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativePath).file(file)
+        mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativeMappingPath).file(file)
                 .param(md5Param, md5))
                 .andExpect(status().isOk());
     }
@@ -69,7 +86,7 @@ public class AudioConverterControllerTest {
     @Test
     public void audioConverter_WhenAAudioParamIsNull_Status400() throws Exception {
         String srcFilePath = "src/test/resources/audio.wav";
-        String relativePath = "/api/v1/audioConverter/";
+        String relativeMappingPath = "/api/v1/audioConverter/";
         String md5Param = "md5";
         String md5 = "2559480156e9cddf65ed3125521b9922";
         String audioSampleRateParam = "sampleRate";
@@ -81,7 +98,7 @@ public class AudioConverterControllerTest {
         MockMultipartFile file = new MockMultipartFile("file", filePath.getName(),
                 null, IOUtils.toByteArray(input));
 
-        mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativePath).file(file)
+        mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativeMappingPath).file(file)
                 .param(md5Param, md5).param(audioSampleRateParam, audiSampleRate))
                 .andExpect(status().isBadRequest());
     }
@@ -89,7 +106,7 @@ public class AudioConverterControllerTest {
     @Test
     public void audioConverter_WhenMd5IsWrong_Status406() throws Exception {
         String srcFilePath = "src/test/resources/audio.wav";
-        String relativePath = "/api/v1/audioConverter/";
+        String relativeMappingPath = "/api/v1/audioConverter/";
         String md5Param = "md5";
         String md5 = "2559480156e9cddf65ed3125521b9922WRONG";
 
@@ -99,7 +116,7 @@ public class AudioConverterControllerTest {
         MockMultipartFile file = new MockMultipartFile("file", filePath.getName(),
                 null, IOUtils.toByteArray(input));
 
-        mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativePath).file(file)
+        mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativeMappingPath).file(file)
                 .param(md5Param, md5))
                 .andExpect(status().isNotAcceptable());
     }
