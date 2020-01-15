@@ -34,7 +34,7 @@ public class CommandVideoBitRate implements ICommandStrategy {
     public String command() throws CommandValueException {
         try {
             int MINIMUM_VALUE = 200;
-            if (commandValue.isEmpty()) {
+            if (commandValue.isEmpty() || Integer.parseInt(commandValue) <= MINIMUM_VALUE || commandValue.equals(this.SPACE)) {
                 return VideoCommand.EMPTY.getCommand();
             }
             else {

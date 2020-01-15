@@ -39,7 +39,7 @@ public class CommandVideoCodec implements ICommandStrategy {
     @Override
     public String command() throws CommandValueException {
         try {
-            if (commandValue.isEmpty()) {
+            if (commandValue.isEmpty() || commandValue.equals(this.SPACE)) {
                 return VideoCommand.EMPTY.getCommand();
             }
             else {

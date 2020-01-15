@@ -117,6 +117,7 @@ public class VideoConverter implements IConverter {
      */
     public String videoConvert(Param param) throws CommandValueException {
         VideoParam videoParam = (VideoParam)param;
+
         try {
             List<ICommandStrategy> list = new ArrayList<>();
             list.add(new CommandFFMpegPath());
