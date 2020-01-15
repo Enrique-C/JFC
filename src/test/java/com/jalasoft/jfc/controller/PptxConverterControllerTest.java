@@ -129,7 +129,7 @@ public class PptxConverterControllerTest {
                 null, IOUtils.toByteArray(input));
 
         mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativeMappingPath).file(file)
-                .param(outputNameParam, outputName).param(md5Param, md5)).andExpect(status().isNotAcceptable());
+        .param(outputNameParam, outputName).param(md5Param, md5)).andExpect(status().isNotAcceptable());
     }
 
     @Test
@@ -149,7 +149,7 @@ public class PptxConverterControllerTest {
                 null, IOUtils.toByteArray(input));
 
         mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativeMappingPath).file(file)
-                .param(outputNameParam, outputName).param(md5Param, md5)).andExpect(status().isNotFound());
+        .param(outputNameParam, outputName).param(md5Param, md5)).andExpect(status().isNotFound());
     }
 
     @Test
@@ -197,6 +197,6 @@ public class PptxConverterControllerTest {
                 null, IOUtils.toByteArray(input));
 
         mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativeMappingPath).file(file)
-                .param(outputNameParam, outputName).param(md5Param, md5)).andExpect(status().isNotAcceptable());
+        .param(outputNameParam, outputName).param(md5Param, md5)).andExpect(status().isNotAcceptable());
     }
 }
