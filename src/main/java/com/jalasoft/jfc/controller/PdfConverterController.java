@@ -138,11 +138,6 @@ public class PdfConverterController {
             errorResponse.setStatus(MessageResponse.ERROR400.getMessageResponse());
             errorResponse.setError(cve.toString());
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-        } catch (IOException ex) {
-            errorResponse.setName(pdfParam.getOutputName());
-            errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
-            errorResponse.setError(ex.toString());
-            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         } catch (Exception ex) {
             errorResponse.setName(pdfParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR404.getMessageResponse());
