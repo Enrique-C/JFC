@@ -28,6 +28,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import javax.print.attribute.standard.MediaTray;
+import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
 
@@ -187,7 +189,7 @@ public class PptxConverterControllerTest {
         String relativeMappingPath = "/api/v1/pptxConverterToImage/";
 
         String md5Param = "md5";
-        String md5 = "86f655c0e849a9220f3355db2dd1df63";
+        String md5 = "md5invalid";
         String outputNameParam = "outputName";
         String outputName = "";
         File filePath = new File(srcFilePath);
@@ -198,5 +200,54 @@ public class PptxConverterControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativeMappingPath).file(file)
         .param(outputNameParam, outputName).param(md5Param, md5)).andExpect(status().isNotAcceptable());
+    }
+
+    @Test
+    public void pttxConverterToImage_WhenFinishTheConversion_Status400() throws Exception {
+        String srcFilePath = "src/test/resources/Designpatters.pptx";
+        String relativeMappingPath = "/api/v1/pptxConverterToImage/";
+
+        String md5Param = "md5";
+        String pagesToConvertThumbNailParam = "pagesToConvertThumbNail";
+        String imageFormatParam = "imageFormat";
+        String isThumbnailParam = "isThumbnail";
+        String outputNameParam = "outputName";
+
+        String isThumbnail = "true";
+        String imageFormat = ".mp4";
+        String outputName = "";
+        String pagesToConvertThumbNail = "1-5";
+        String md5 = "86f655c0e849a9220f3355db2dd1df63";
+
+        File filePath = new File(srcFilePath);
+        FileInputStream input = new FileInputStream(filePath);
+
+        MockMultipartFile file = new MockMultipartFile("file", filePath.getName(),
+                null, IOUtils.toByteArray(input));
+
+        mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativeMappingPath).file(file).param(md5Param, md5)
+                .param(pagesToConvertThumbNailParam, pagesToConvertThumbNail).param(outputNameParam, outputName)
+                .param(imageFormatParam, imageFormat).param(isThumbnailParam, isThumbnail)).andExpect(status()
+                .isBadRequest());
+    }
+
+    @Test
+    public void pttxConverterToImage_WhenFileIsNotFound_Status404() throws Exception {
+        String srcFilePath = "src/test/resources/Designpatters.pptx";
+        String relativeMappingPath = "/api/v1/pptxConverterToPdf/";
+
+        String md5Param = "md5";
+        String md5 = "invalidmd5";
+        String outputNameParam = "outputName";
+        String outputName = "";
+
+        File filePath = new File(srcFilePath);
+        FileInputStream input = new FileInputStream(filePath);
+
+        MockMultipartFile file = new MockMultipartFile("file", null,
+                null, IOUtils.toByteArray(input));
+
+        mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativeMappingPath).file(file)
+                .param(outputNameParam, outputName).param(md5Param, md5)).andExpect(status().isNotFound());
     }
 }
