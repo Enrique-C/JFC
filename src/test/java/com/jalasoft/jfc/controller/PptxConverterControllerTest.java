@@ -234,7 +234,6 @@ public class PptxConverterControllerTest {
         String md5Param = "md5";
         String md5 = "invalidmd5";
 
-
         File filePath = new File(srcFilePath);
         FileInputStream input = new FileInputStream(filePath);
 
