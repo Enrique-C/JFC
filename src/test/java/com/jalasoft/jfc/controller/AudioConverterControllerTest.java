@@ -67,7 +67,27 @@ public class AudioConverterControllerTest {
     }
 
     @Test
-    public void audioConverter_WhenMd5IsWrong_Status200() throws Exception {
+    public void audioConverter_WhenAAudioParamIsNull_Status400() throws Exception {
+        String srcFilePath = "src/test/resources/audio.wav";
+        String relativePath = "/api/v1/audioConverter/";
+        String md5Param = "md5";
+        String md5 = "2559480156e9cddf65ed3125521b9922";
+        String audioSampleRateParam = "sampleRate";
+        String audiSampleRate = "55100";
+
+        File filePath = new File(srcFilePath);
+        FileInputStream input = new FileInputStream(filePath);
+
+        MockMultipartFile file = new MockMultipartFile("file", filePath.getName(),
+                null, IOUtils.toByteArray(input));
+
+        mockMvc.perform(MockMvcRequestBuilders.fileUpload(relativePath).file(file)
+                .param(md5Param, md5).param(audioSampleRateParam, audiSampleRate))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void audioConverter_WhenMd5IsWrong_Status406() throws Exception {
         String srcFilePath = "src/test/resources/audio.wav";
         String relativePath = "/api/v1/audioConverter/";
         String md5Param = "md5";

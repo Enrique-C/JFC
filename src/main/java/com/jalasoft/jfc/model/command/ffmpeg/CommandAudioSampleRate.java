@@ -49,7 +49,7 @@ public class CommandAudioSampleRate implements ICommandStrategy {
         if (audioSampleRate == 0) {
             audioSampleRate = DEFAULT;
         }
-        if (audioSampleRate < DEFAULT) {
+        if (audioSampleRate > DEFAULT) {
             throw new CommandValueException(ErrorMessageJfc.SAMPLE_RATE_EXCEEDED.getErrorMessageJfc() + ": "
                     + audioSampleRate, this.getClass().getName());
         }
