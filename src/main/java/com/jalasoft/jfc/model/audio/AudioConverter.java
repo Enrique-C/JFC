@@ -95,8 +95,10 @@ public class AudioConverter implements IConverter {
             fileResponse.setName(audioParam.getOutputName());
             fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
             fileResponse.setDownload(zipPath);
-        } catch (Exception e) {
-            throw new ConvertException("Error converting Audio: " + e.getMessage(), this.getClass().getName());
+        } catch (CommandValueException e) {
+            throw new CommandValueException("Error Audio command value: " + e.getMessage(), this.getClass().getName());
+        }   catch (Exception  e) {
+            throw new ConvertException("Error converting an audio file: " + e.getMessage(), this.getClass().getName());
         }
         return fileResponse;
     }

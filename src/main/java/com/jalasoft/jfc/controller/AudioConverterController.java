@@ -28,6 +28,7 @@ import com.jalasoft.jfc.model.utility.PathJfc;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -69,7 +70,7 @@ public class AudioConverterController {
      */
     @PostMapping("/audioConverter")
     @ApiOperation(value = "Audio specifications", notes = "Provides values for converting Audio file to other one",
-            response = Response.class)
+            response = Response.class, authorizations = { @Authorization(value="JWT") })
     public ResponseEntity<Response> audioConverter(
             @RequestParam("file")MultipartFile file, @RequestParam String md5,
             @RequestParam(defaultValue = " ") String outputName, @RequestParam(defaultValue = " ") String audioCodec,

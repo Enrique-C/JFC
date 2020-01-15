@@ -80,7 +80,7 @@ public class AudioConverterTest {
         audioConverter.convert(null);
     }
 
-    @Test(expected = ConvertException.class)
+    @Test(expected = CommandValueException.class)
     public void convert_AudioParamAudioFormatEmpty_ConvertException() throws ConvertException, CommandValueException, IOException, ZipJfcException {
         AudioConverter audioConverter = new AudioConverter();
         AudioParam audioParam = generateOnlyAudioWAV();
