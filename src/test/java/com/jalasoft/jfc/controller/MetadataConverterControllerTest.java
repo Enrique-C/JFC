@@ -27,7 +27,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -35,6 +34,7 @@ import java.io.File;
 import java.io.FileInputStream;
 
 import static org.junit.Assert.assertTrue;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Tests metadata converter controller.
@@ -56,10 +56,11 @@ public class MetadataConverterControllerTest {
     @Before
     public void setup() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(wContext).alwaysDo(MockMvcResultHandlers.print()).build();
+        PathJfc pathJfc = new PathJfc();
     }
 
     @Test
-    public void metadataConverter_uploadMultipartFile_GetItsMetadata() throws Exception {
+    public void metadataConverter_uploadMultipartFile_getItsMetadata() throws Exception {
         final int EMPTY_BYTES = 22;
         String srcFilePath = "src/test/resources/pdf.pdf";
         File filePath = new File(srcFilePath);
@@ -69,8 +70,9 @@ public class MetadataConverterControllerTest {
         MockMultipartFile file = new MockMultipartFile("file", filePath.getName(),
                 MediaType.APPLICATION_PDF_VALUE, IOUtils.toByteArray(input));
 
-        mockMvc.perform(MockMvcRequestBuilders.fileUpload("/metadataConverter/").file(file)
-        .characterEncoding("UTF-8")).andExpect(MockMvcResultMatchers.status().is(200)).andReturn();
+        mockMvc.perform(MockMvcRequestBuilders.fileUpload("/api/v1/metadataConverter/").file(file)
+        .param("md5","8bd6509aba6eafe623392995b08c7047").characterEncoding("UTF-8"))
+        .andExpect(status().is(201)).andReturn();
 
         File zipFile = new File(PathJfc.getPublicFilePath() + "/" + expectedFileName);
         boolean expected = zipFile.exists() && zipFile.getTotalSpace() > EMPTY_BYTES;
@@ -80,7 +82,7 @@ public class MetadataConverterControllerTest {
     }
 
     @Test
-    public void extract_NullMultipartFileName_BadRequest() throws Exception {
+    public void metadataConverter_nullMultipartFileNameAndMd5ValueEmpty_notFound() throws Exception {
         String srcFilePath = "src/test/resources/pdf.pdf";
         File filePath = new File(srcFilePath);
         FileInputStream input = new FileInputStream(filePath);
@@ -88,7 +90,36 @@ public class MetadataConverterControllerTest {
         MockMultipartFile file = new MockMultipartFile("file", null,
         MediaType.APPLICATION_PDF_VALUE, IOUtils.toByteArray(input));
 
-        mockMvc.perform(MockMvcRequestBuilders.fileUpload("/metadataConverter/").file(file)
-        .characterEncoding("UTF-8")).andExpect(MockMvcResultMatchers.status().is(400)).andReturn();
+        mockMvc.perform(MockMvcRequestBuilders.fileUpload("/api/v1/metadataConverter/").file(file)
+        .param("md5","  ").characterEncoding("UTF-8"))
+        .andExpect(status().is(404)).andReturn();
+    }
+
+    @Test
+    public void metadataConverter_emptyMultipartFileNameAndMd5ValueEmpty_notFound() throws Exception {
+        String srcFilePath = "src/test/resources/pdf.pdf";
+        File filePath = new File(srcFilePath);
+        FileInputStream input = new FileInputStream(filePath);
+
+        MockMultipartFile file = new MockMultipartFile("file", " ",
+                MediaType.IMAGE_JPEG_VALUE, IOUtils.toByteArray(input));
+
+        mockMvc.perform(MockMvcRequestBuilders.fileUpload("/api/v1/metadataConverter/").file(file)
+        .param("md5","  ").characterEncoding("UTF-8"))
+        .andExpect(status().is(404)).andReturn();
+    }
+
+    @Test
+    public void metadataConverter_Md5ValueEmpty_notAcceptable() throws Exception {
+        String srcFilePath = "src/test/resources/pdf.pdf";
+        File filePath = new File(srcFilePath);
+        FileInputStream input = new FileInputStream(filePath);
+
+        MockMultipartFile file = new MockMultipartFile("file", "pdf.pdf",
+                MediaType.IMAGE_JPEG_VALUE, IOUtils.toByteArray(input));
+
+        mockMvc.perform(MockMvcRequestBuilders.fileUpload("/api/v1/metadataConverter/").file(file)
+                .param("md5","  ").characterEncoding("UTF-8"))
+                .andExpect(status().isNotAcceptable());
     }
 }
