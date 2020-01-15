@@ -15,6 +15,7 @@ import com.jalasoft.jfc.model.exception.ZipJfcException;
 import com.jalasoft.jfc.model.pdf.PdfConverter;
 import com.jalasoft.jfc.model.pdf.PdfParam;
 import com.jalasoft.jfc.model.utility.FileServiceController;
+import com.jalasoft.jfc.model.utility.FolderRemover;
 import com.jalasoft.jfc.model.utility.PathJfc;
 
 import org.junit.Test;
@@ -47,6 +48,14 @@ public class PptxConverterTest {
         assertTrue(expected);
     }
 
+    @Test(expected = ConvertException.class)
+    public void Convert_WhenPptxParamIsNull_ConvertException() throws ZipJfcException, CommandValueException, ConvertException, IOException {
+        PptxConverter pptxConverter = new PptxConverter();
+        PptxParam pptxParam = null;
+        PdfConverter pdfConverter = new PdfConverter();
+        String zipPdfFile = pdfConverter.convert(pptxParam).getDownload();
+    }
+
     @Test
     public void Convert_PptxTo_image() throws ZipJfcException, CommandValueException, ConvertException, IOException {
         PptxConverter pptxConverter = new PptxConverter();
@@ -64,6 +73,13 @@ public class PptxConverterTest {
         assertTrue(expected);
     }
 
+    @Test(expected = CommandValueException.class)
+    public void Convert_WhenOuputNameIsNull_CommandValueException() throws ZipJfcException, CommandValueException, ConvertException, IOException {
+        PptxConverter pptxConverter = new PptxConverter();
+        PptxParam pptxParam = getParamsPptxToPdfWithOutputNameNull();
+        String zipPptx = pptxConverter.convert(pptxParam).getDownload();
+    }
+
     private PptxParam getParamsPptxToPdf() {
         PathJfc pathJfc = new PathJfc();
 
@@ -73,6 +89,36 @@ public class PptxConverterTest {
         String outputPath = "src/test/resources/";
         String inputName = "Designpatters";
         String outputName = "pruebapptxtopdf";
+        String fileFormat = ".pdf";
+        String thumbnailFormat = ".png";
+        String pages = "";
+        boolean thumbnail = true;
+        PptxParam pptxParam = new PptxParam();
+
+        pptxParam.setMd5(md5);
+        pptxParam.setInputPathFile(fileUploadedPath);
+        pptxParam.setOutputPathFile(outputPath);
+        pptxParam.setInputName(inputName);
+        pptxParam.setFolderName(md5);
+        pptxParam.setOutputName(outputName);
+        pptxParam.setFileFormat(fileFormat);
+        pptxParam.setPagesToConvertThumbnail(pages);
+        pptxParam.setIsThumbnail(thumbnail);
+        pptxParam.setThumbnailFormat(thumbnailFormat);
+        pptxParam.isMetadata(true);
+
+        return pptxParam;
+    }
+
+    private PptxParam getParamsPptxToPdfWithOutputNameNull() {
+        PathJfc pathJfc = new PathJfc();
+
+        String fileUploadedPath = "src/test/resources/Designpatters.pptx";
+
+        String md5 = "86f655c0e849a9220f3355db2dd1df63";
+        String outputPath = "src/test/resources/";
+        String inputName = "Designpatters";
+        String outputName = null;
         String fileFormat = ".pdf";
         String thumbnailFormat = ".png";
         String pages = "";
