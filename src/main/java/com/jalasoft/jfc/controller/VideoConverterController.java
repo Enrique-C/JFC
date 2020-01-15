@@ -108,8 +108,8 @@ public class VideoConverterController {
             }
 
             videoParam.setMd5(cleanMd5);
-            videoParam.setOutputPathFile(PathJfc.getOutputFilePath());
             videoParam.setInputName(FileServiceController.getName(file));
+            videoParam.setOutputPathFile(PathJfc.getOutputFilePath());
             videoParam.setOutputName(outputName);
             videoParam.setAspectRatio(aspectRatio);
             videoParam.setFrameRate(frameRate);
@@ -128,7 +128,7 @@ public class VideoConverterController {
             fileResponse.setName(videoParam.getFolderName());
             fileResponse.setStatus(MessageResponse.SUCCESS200.getMessageResponse());
 
-            return new ResponseEntity<>(fileResponse, HttpStatus.OK);
+            return new ResponseEntity<>(fileResponse, HttpStatus.CREATED);
         } catch (ConvertException ex) {
             errorResponse.setName(videoParam.getOutputName());
             errorResponse.setStatus(MessageResponse.ERROR406.getMessageResponse());
