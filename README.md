@@ -37,7 +37,7 @@ To start setting up the environment.
     * Execute xampp-control.exe as Admin user.
     * Start MySql and Apache.
     * Access to phpMyAdmin using a browser(chrome, firefox).
-    * Create a new database called **jfc**.
+    * To create database, tables and admin user, execute the sql script[jfc.documents.jfc.sql].
 
 ### Deployment
 Add gradle dependencies in the project using **build.gradle**
