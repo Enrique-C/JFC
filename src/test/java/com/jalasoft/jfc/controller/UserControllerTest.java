@@ -52,7 +52,7 @@ public class UserControllerTest {
         String userName = "userName";
         String password = "password";
 
-        String userNameValue = "juan";
+        String userNameValue = "control";
         String passwordValue = "Control123";
 
         mockMvc.perform(post("/api/v1/login/").param(userName, userNameValue).param(password, passwordValue)
@@ -73,12 +73,13 @@ public class UserControllerTest {
 
     @Test
     public void addUser_validUserValues_isCreated201() throws Exception {
+
         String userName = "userName";
         String password = "password";
         String rol = "rol";
         String email = "email";
 
-        String userNameValue = "control1";
+        String userNameValue = "newUser";
         String passwordValue = "Control123";
         String rolValue = "admin";
         String emailValue = "control@abc.com";
@@ -94,7 +95,7 @@ public class UserControllerTest {
         String rol = "rol";
         String email = "email";
 
-        String userNameValue = "Control";
+        String userNameValue = "control";
         String passwordValue = "Control123";
         String rolValue = "admin";
         String emailValue = "control@abc.com";
@@ -112,9 +113,9 @@ public class UserControllerTest {
         String rol = "rol";
         String email = "email";
 
-        int idValue = 4;
-        String userNameValue = "updateControl";
-        String passwordValue = "updateControl123";
+        int idValue = 11;
+        String userNameValue = "updateControl1";
+        String passwordValue = "updateControl123A";
         String rolValue = "superAdmin";
         String emailValue = "updatecontrol@abc.com";
 
@@ -168,11 +169,12 @@ public class UserControllerTest {
 
     @Test
     public void deleteById_whenIsSentAnValidUserId_isMovedPermanetly301() throws Exception {
-        String id = "id";
-        int idValue = 5;
+        int idValue = 20;
+        String idDelete = "id";
 
-        mockMvc.perform(delete("/api/v1/deleteById/").param(id, String.valueOf(idValue))
+        mockMvc.perform(delete("/api/v1/deleteById/").param(idDelete, String.valueOf(idValue))
         .characterEncoding("UTF-8")).andExpect(status().isMovedPermanently());
+
     }
 
     @Test

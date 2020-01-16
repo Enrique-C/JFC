@@ -81,7 +81,7 @@ public class UserController {
             response = Response.class, authorizations = { @Authorization(value="JWT") })
     public ResponseEntity<?> addUser(@RequestParam String userName, @RequestParam String
              password, @RequestParam String rol, @RequestParam String email) {
-        UserEntity userEntity = userRepository.login(userName, password);
+        UserEntity userEntity = userRepository.verifyUserName(userName);
         if (userEntity == null) {
             userEntity = new UserEntity();
             userEntity.setUser(userName);
