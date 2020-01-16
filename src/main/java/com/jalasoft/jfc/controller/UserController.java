@@ -65,7 +65,7 @@ public class UserController {
             userRepository.save(userEntity);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(token);
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(HttpStatus.BAD_REQUEST);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(HttpStatus.UNAUTHORIZED);
     }
 
     /**
@@ -81,16 +81,16 @@ public class UserController {
             response = Response.class, authorizations = { @Authorization(value="JWT") })
     public ResponseEntity<?> addUser(@RequestParam String userName, @RequestParam String
              password, @RequestParam String rol, @RequestParam String email) {
-        UserEntity userEntity = new UserEntity();
-
-        try {
+        UserEntity userEntity = userRepository.login(userName, password);
+        if (userEntity == null) {
+            userEntity = new UserEntity();
             userEntity.setUser(userName);
             userEntity.setPassword(password);
             userEntity.setRol(rol);
             userEntity.setEmail(email);
             userRepository.save(userEntity);
             return new ResponseEntity<Object>(userEntity, HttpStatus.CREATED);
-        } catch (Exception ex) {
+        } else {
             return new ResponseEntity<Object>(userEntity, HttpStatus.NOT_ACCEPTABLE);
         }
     }
@@ -129,7 +129,7 @@ public class UserController {
     @GetMapping("/findById")
     @ApiOperation(value = "User Id", notes = "Provides user values by Id",
             response = Response.class, authorizations = { @Authorization(value="JWT") })
-    public ResponseEntity<?> findUserById(@RequestParam("Id") int id) {
+    public ResponseEntity<?> findUserById(@RequestParam("id") int id) {
         UserEntity userEntity = userRepository.findOne(id);
 
         if (userEntity != null) {
@@ -150,7 +150,7 @@ public class UserController {
         try {
             return new ResponseEntity<>((List<?>) userRepository.findAll(), HttpStatus.OK);
         } catch (Exception ex) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
 
@@ -162,13 +162,13 @@ public class UserController {
     @DeleteMapping("/deleteById")
     @ApiOperation(value = "Authorization", notes = "Delete user values by Id",
             response = Response.class, authorizations = { @Authorization(value="JWT") })
-    public ResponseEntity<?> deleteById(@RequestParam("Id") int id) {
+    public ResponseEntity<?> deleteById(@RequestParam("id") int id) {
         UserEntity userEntity = userRepository.findOne(id);
 
         if (userEntity != null) {
             userRepository.delete(id);
             return new ResponseEntity<>(userEntity, HttpStatus.MOVED_PERMANENTLY);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
     }
 }
