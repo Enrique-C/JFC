@@ -25,4 +25,7 @@ public interface UserRepository extends CrudRepository<UserEntity, Integer> {
 
     @Query("SELECT u FROM UserEntity u WHERE u.userName = :userName AND u.password = :password")
     UserEntity login(@Param("userName") String userName, @Param("password") String password);
+
+    @Query("SELECT u FROM UserEntity u WHERE u.userName = :userName")
+    UserEntity verifyUserName(@Param("userName") String userName);
 }
