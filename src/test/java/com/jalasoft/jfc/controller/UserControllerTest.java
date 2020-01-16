@@ -68,7 +68,7 @@ public class UserControllerTest {
         String passwordValue = "invalidPassword";
 
         mockMvc.perform(post("/api/v1/login/").param(userName, userNameValue).param(password, passwordValue)
-                .characterEncoding("UTF-8")).andExpect(status().isUnauthorized());
+        .characterEncoding("UTF-8")).andExpect(status().isUnauthorized());
     }
 
     @Test
@@ -174,7 +174,6 @@ public class UserControllerTest {
 
         mockMvc.perform(delete("/api/v1/deleteById/").param(idDelete, String.valueOf(idValue))
         .characterEncoding("UTF-8")).andExpect(status().isMovedPermanently());
-
     }
 
     @Test
