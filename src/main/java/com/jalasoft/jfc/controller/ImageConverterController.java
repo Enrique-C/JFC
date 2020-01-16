@@ -76,12 +76,12 @@ public class ImageConverterController {
     @ApiOperation(value = "Image specifications", notes = "Provides values for converting Image file to other one",
             response = Response.class, authorizations = { @Authorization(value="JWT") })
     public ResponseEntity<Response> imageConverter(
-            @RequestParam("file") MultipartFile file, @RequestParam String md5, @RequestParam String outputName,
-            @RequestParam(defaultValue = ".png") String imageFormat, @RequestParam(defaultValue = "false")
-            boolean isThumbnail, @RequestParam(defaultValue = "false") boolean isMetadata,
-            @RequestParam(defaultValue = "false") boolean Grayscale, @RequestParam(defaultValue = "0") int ImageWidth,
-            @RequestParam(defaultValue = "0") int ImageHeight, @RequestParam(defaultValue = "0")
-            float degreesToRotate, HttpServletRequest request) {
+            @RequestParam("file") MultipartFile file, @RequestParam String md5, @RequestParam(defaultValue = " ")
+            String outputName, @RequestParam(defaultValue = ".png") String imageFormat,
+            @RequestParam(defaultValue = "false") boolean isThumbnail, @RequestParam(defaultValue = "false")
+            boolean isMetadata, @RequestParam(defaultValue = "false") boolean Grayscale,
+            @RequestParam(defaultValue = "0") int ImageWidth, @RequestParam(defaultValue = "0") int ImageHeight,
+            @RequestParam(defaultValue = "0") float degreesToRotate, HttpServletRequest request) {
 
         FileResponse fileResponse;
         ErrorResponse errorResponse = new ErrorResponse();

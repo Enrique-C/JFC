@@ -221,6 +221,7 @@ public class PptxConverter implements IConverter {
 
     private void isNameOutputNull(PptxParam pptxParam) throws CommandValueException {
         if(pptxParam.getOutputName() == null){
+            FolderRemover.removeFolder(pptxParam.getOutputPathFile() + pptxParam.getFolderName());
             throw new CommandValueException(ErrorMessageJfc.OUTPUT_NAME_NULL.getErrorMessageJfc(), this.getClass()
                     .getName());
         }
